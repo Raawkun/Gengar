@@ -98,6 +98,10 @@ class On_Edit(commands.Cog):
                             elif before.interaction:
                                 ref_msg = before.interaction.user
                                 sender = ref_msg
+                             if "caught a" and "_fossil" in _embed.description:
+                                fossil = _embed.description.split("retrieved a <:"
+                                fossil = fossil.split(":")
+                                await after.reply(f"``;res ex {fossil}``")
                             if raremon in Rare_Spawns or data[0] in Listener.exclusives:
                                 #print("Theres a rare spawn.")
                                 description_text = " "
@@ -113,6 +117,7 @@ class On_Edit(commands.Cog):
                                         author = sender.display_name+" just reeled in a:"
                                     else:
                                         author = sender.display_name+" just caught a:"
+                                
 
                                 if "broke out" in _embed.description:
                                     #print(f"Something broke out; {data[1]}")
