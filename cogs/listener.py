@@ -894,7 +894,7 @@ class Listener(commands.Cog):
                                 minutes = int(minutes.split(" M")[0])*60
                                 #print(minutes)
                                 seconds = msg.split("M ")[1]
-                                seconds = int(seconds.split(" S")[0])
+                                seconds = int(seconds.split(" S")[0])-5
                                 #print(seconds)
                                 waiter = hours+minutes+seconds
                                 #print(waiter)
