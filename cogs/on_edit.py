@@ -99,7 +99,7 @@ class On_Edit(commands.Cog):
                                 ref_msg = before.interaction.user
                                 sender = ref_msg
                             if "caught a" and "_fossil" in _embed.description:
-                                fossil = _embed.description.split("retrieved a <:")[0]
+                                fossil = _embed.description.split("retrieved a <:")[1]
                                 fossil = fossil.split(":")[0]
                                 await after.reply(f"``;res ex {fossil}``")
                             if raremon in Rare_Spawns or data[0] in Listener.exclusives:
