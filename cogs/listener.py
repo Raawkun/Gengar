@@ -777,7 +777,6 @@ class Listener(commands.Cog):
                                     else:
                                         desc=f'{rem_emotes["remind"]} - <@{sender.id}> {rem_emotes["poketoy"]}'
                                     await message.channel.send(desc)
-                            else: return
                             if databaserep[0][2] == 1:
                                 # boost = "boost expired!"
                                 # hey = "Hey, your"
@@ -799,7 +798,6 @@ class Listener(commands.Cog):
                                     else:
                                         desc=f'{rem_emotes["remind"]} - <@{sender.id}> {rem_emotes["honey"]}'
                                     await message.channel.send(desc)
-                            else: return
 
                     
                         await asyncio.sleep(8.8)
