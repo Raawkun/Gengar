@@ -209,14 +209,15 @@ class Modules(commands.Cog):
                         self.db.commit()
                 #CoinCatch &
                 #PokeCaught
-                if "caught a" in emb.description:
-                    self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught+1 WHERE Date = '{date}'")
-                    self.db.commit()
-                    if "pokecoins" in emb.footer.text.lower():
-                        coins = emb.footer.text.split("You earned ")[1]
-                        coins = int((coins.split(" ")[0]).replace(",",""))
-                        self.db.execute(f"UPDATE DailyStats SET CoinCatch = CoinCatch + {coins} WHERE Date = '{date}'")
+                if emb.description:
+                    if "caught a" in emb.description:
+                        self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught+1 WHERE Date = '{date}'")
                         self.db.commit()
+                        if "pokecoins" in emb.footer.text.lower():
+                            coins = emb.footer.text.split("You earned ")[1]
+                            coins = int((coins.split(" ")[0]).replace(",",""))
+                            self.db.execute(f"UPDATE DailyStats SET CoinCatch = CoinCatch + {coins} WHERE Date = '{date}'")
+                            self.db.commit()
                 #CoinMarket
                 if emb.title:
                     if "from all your offers" in emb.title:
