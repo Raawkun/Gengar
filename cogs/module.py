@@ -192,7 +192,7 @@ class Modules(commands.Cog):
                 coins = message.content.split("PokeCoins earned: <:PokeCoin:666879070650236928> ")[1]
                 coins = int(coins.split()[0].replace(",",""))
                 self.db.execute(f"UPDATE DailyStats SET CoinWorldBoss + CoinWorldBoss + {coins} WHERE Date = '{date}'")
-            if len(message.embeds>0):
+            if (len(message.embeds)>0):
                 emb = message.embed[0]
                 #TotalBattle
                 if "battle starts in" in emb.footer.text.lower():
