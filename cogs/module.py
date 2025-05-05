@@ -187,7 +187,7 @@ class Modules(commands.Cog):
                 self.db.execute(f"UPDATE DailyStats SET BattleWon = BattleWon+1,CoinBattle = CoinBattle + {coins} WHERE Date = '{date}'")
                 self.db.commit()
             #CoinRelease
-            elif "released " and "earning <" in message.content.lower() or "released " and "earned" in message.content.lower():
+            elif ("released " and "earning <" in message.content.lower()) or ("released " and "earned" in message.content.lower()):
                 coins = message.content.split("!")[0]
                 coins = coins.split("<:PokeCoin:666879070650236928> **")[1]
                 coins = coins.split("**")[0]
