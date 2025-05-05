@@ -106,12 +106,12 @@ class Modules(commands.Cog):
     async def averagetimer(self):
         while True:
             cet = pytz.timezone('CET')
-            now = datetime.datetime.now(cet)
+            now = datetime.now(cet)
             days_until_monday = (7-now.weekday())%7
             if days_until_monday == 0 and now.hour >= 14:
                 days_until_monday = 7 
-            next_monday = now + datetime.timedelta(days=days_until_monday)
-            next_monday_at_2pm = cet.localize(datetime.datetime(next_monday.year, next_monday.month, next_monday.day, 14, 0, 0))
+            next_monday = now + timedelta(days=days_until_monday)
+            next_monday_at_2pm = cet.localize(datetime(next_monday.year, next_monday.month, next_monday.day, 14, 0, 0))
             #next_monday_at_2pm = now + datetime.timedelta(seconds=20)
             time_until = next_monday_at_2pm-now
             print(f"Setting a LB Timer for {time_until.total_seconds()} seconds.")
