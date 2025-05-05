@@ -201,29 +201,32 @@ class Modules(commands.Cog):
                 self.db.commit()
             if (len(message.embeds)>0):
                 emb = message.embeds[0]
+                if emb.footer:
                 #TotalBattle
-                if "battle starts in" in emb.footer.text.lower():
-                    self.db.execute(f"UPDATE DailyStats SET TotalBattle = TotalBattle + 1 WHERE Date = '{date}'")
-                    self.db.commit()
+                    if "battle starts in" in emb.footer.text.lower():
+                        self.db.execute(f"UPDATE DailyStats SET TotalBattle = TotalBattle + 1 WHERE Date = '{date}'")
+                        self.db.commit()
                 #CoinCatch &
                 #PokeCaught
                 if "caught a" in emb.description:
                     self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught+1 WHERE Date = '{date}'")
                     self.db.commit()
                     if "pokecoins" in emb.footer.text.lower():
-                        coins = emb.footer.split("You earned ")[1]
+                        coins = emb.footer.text.split("You earned ")[1]
                         coins = int((coins.split(" ")[0]).replace(",",""))
                         self.db.execute(f"UPDATE DailyStats SET CoinCatch = CoinCatch + {coins} WHERE Date = '{date}'")
                         self.db.commit()
                 #CoinMarket
-                if "from all your offers" in emb.title:
-                    coins = int(emb.title.split("**")[1].replace(",",""))
-                    self.db.execute(f"UPDATE DailyStats SET CoinMarket = CoinMarket + {coins} WHERE Date = '{date}'")
-                    self.db.commit()
+                if emb.title:
+                    if "from all your offers" in emb.title:
+                        coins = int(emb.title.split("**")[1].replace(",",""))
+                        self.db.execute(f"UPDATE DailyStats SET CoinMarket = CoinMarket + {coins} WHERE Date = '{date}'")
+                        self.db.commit()
+                if emb.author.name:
                 #EggHatch
-                if "hatched an Egg" in emb.author.name:
-                    self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
-                    self.db.commit()
+                    if "hatched an Egg" in emb.author.name:
+                        self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
+                        self.db.commit()
             
 
 
