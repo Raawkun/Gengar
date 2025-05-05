@@ -158,7 +158,7 @@ class Modules(commands.Cog):
     async def dailycheck(self,message):
         if message.guild.id == 825813023716540426: #paralympic
             est = ZoneInfo("America/New_York")
-            now = datetime(est)
+            now = datetime.now(est)
             date = str(f"{now.day}.{now.month}.{now.year}")
             #IconDrop
             if "you've unlocked" and " trainer icon" in message.content.lower():
