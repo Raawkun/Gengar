@@ -163,16 +163,20 @@ class Modules(commands.Cog):
             #IconDrop
             if "you've unlocked" and " trainer icon" in message.content.lower():
                 self.db.execute(f"UPDATE DailyStats SET Icons = Icons + 1 WHERE Date = '{date}'")
+                self.db.commit()
             #PokeCaught from Explore
             if "you just caught a " in message.content.lower():
                 self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught + 1 WHERE Date = '{date}'")
+                self.db.commit()
             #PokeSeen (Should also work for explore?)
             if "found a " in message.content.lower():
                 self.db.execute(f"UPDATE DailyStats SET PokeSeen = PokeSeen + 1 WHERE Date = '{date}'")
+                self.db.commit()
             #CoinCatch from Explore
             elif "explore session has ended" in message.content.lower():
                 coins = int(message.content.split("Coins earned: <:PokeCoin:666879070650236928> ")[1].replace(",",""))
                 self.db.execute(f"UPDATE DailyStats SET CoinCatch = CoinCatch + {coins} WHERE Date = '{date}'")
+                self.db.commit()
             #BattleWon &
             #CoinBattle
             elif "won the battle" in message.content:
@@ -180,6 +184,7 @@ class Modules(commands.Cog):
                 gth = len(coins)-1
                 coins = int(coins.split(" ")[gth].replace(",",""))
                 self.db.execute(f"UPDATE DailyStats SET BattleWon = BattleWon+1,CoinBattle = CoinBattle + {coins} WHERE Date = '{date}'")
+                self.db.commit()
             #CoinRelease
             elif "released " and "earning <" in message.content.lower():
                 coins = message.content.split("!")[0]
@@ -187,34 +192,40 @@ class Modules(commands.Cog):
                 gth = len(coins)-1
                 coins = int(coins[gth].replace(",",""))
                 self.db.execute(f"UPDATE DailyStats SET CoinRelease = CoinRelease + {coins} WHERE Date = '{date}'")
+                self.db.commit()
             #CoinWorldBoss
             elif "you placed " and " players in dmg!" in message.content.lower():
                 coins = message.content.split("PokeCoins earned: <:PokeCoin:666879070650236928> ")[1]
                 coins = int(coins.split()[0].replace(",",""))
                 self.db.execute(f"UPDATE DailyStats SET CoinWorldBoss + CoinWorldBoss + {coins} WHERE Date = '{date}'")
+                self.db.commit()
             if (len(message.embeds)>0):
-                emb = message.embed[0]
+                emb = message.embeds[0]
                 #TotalBattle
                 if "battle starts in" in emb.footer.text.lower():
                     self.db.execute(f"UPDATE DailyStats SET TotalBattle = TotalBattle + 1 WHERE Date = '{date}'")
+                    self.db.commit()
                 #CoinCatch &
                 #PokeCaught
                 if "caught a" in emb.description:
                     self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught+1 WHERE Date = '{date}'")
+                    self.db.commit()
                     if "pokecoins" in emb.footer.lower():
                         coins = emb.footer.split("You earned ")[1]
                         coins = int((coins.split(" ")[0]).replace(",",""))
                         self.db.execute(f"UPDATE DailyStats SET CoinCatch = CoinCatch + {coins} WHERE Date = '{date}'")
+                        self.db.commit()
                 #CoinMarket
                 if "from all your offers" in emb.title.lower():
                     coins = int(emb.title.split("**")[1].replace(",",""))
                     self.db.execute(f"UPDATE DailyStats SET CoinMarket = CoinMarket + {coins} WHERE Date = '{date}'")
+                    self.db.commit()
                 #EggHatch
                 if "hatched an Egg" in emb.author.name:
                     self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
+                    self.db.commit()
             
 
-            self.db.commit()
 
 
 
