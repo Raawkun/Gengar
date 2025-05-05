@@ -1,11 +1,11 @@
 import asyncio
-import datetime
+from datetime import datetime, timedelta
 import os
 import disnake
 from disnake.ext import commands
 import sqlite3
 from sqlite3 import connect
-
+from zoneinfo import ZoneInfo
 import pytz
 from  utility.rarity_db import poke_rarity, embed_color
 from utility.embed import Custom_embed, Auction_embed
@@ -118,7 +118,107 @@ class Modules(commands.Cog):
             await asyncio.sleep(time_until.total_seconds())
             await asyncio.create_task(Modules.resetaverage(self))
 
-    
+    async def dailyreset(self):
+        while True:
+            est = ZoneInfo("America/New_York")
+            now = datetime.now(est)
+            now = datetime(now.year, now.month,now.day,now.hour,now.minute,now.second)
+            date = str(f"{now.day}.{now.month}.{now.year}")
+            reset_time = datetime(now.year,now.month,now.day,0,0,0)
+            if now >= reset_time:
+                check = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
+                check = check.fetchone()
+                if check is None:
+                    self.db.execute(f"INSERT INTO DailyStats VALUES ('{date}',0,0,0,0,0,0,0,0,0,0,0,0,0)")
+                    self.db.commit()
+                reset_time += timedelta(days=1)
+            
+            sleep_duration = (reset_time - now).total_seconds()
+            print(f"Sleep duration until next Daily Stat Reset: {sleep_duration / 3600} hours.")
+            await asyncio.sleep(sleep_duration)
+
+            para = 825813023716540426
+            channel = 1063926051861971015 #MeowHelper-Daily-Stats in Paralympic
+            channel = self.client.get_channel(channel)
+            guild = channel.guild
+            coin = "<:pokecoin:835054000063381516>"
+            embed = disnake.Embed(title="Daily Server Stats",description=f"The daily server stats for {guild.name}.",timestamp=int(now.timestamp()),color=disnake.Color.blurple)
+            row = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
+            
+            embed.add_field(name="**Coins**",value=f"Total: {(row[1]+row[2]+row[3]+row[4]+row[5]):,} {coin}\nFrom Catches: {row[1]:,} {coin}\nFrom Battles: {row[2]:,} {coin}\nFrom Market: {row[3]:,} {coin}\nFrom Releasing: {row[4]:,} {coin}\nFrom World Boss: {row[5]:,} {coin}",inline=True)
+            embed.add_field(name="**Pokémon",value=f"Pokémon Seen: {row[6]:,} Pokémon\nPokémon Caught: {row[7]:,} Pokémon",inline=True)
+            embed.add_field(name="**Battles**",value=f"Total Battles: {row[10]:,} Battles\nBattles Won: {row[11]:,} Battles\nIcon Drops: {row[12]:,} Icons",inline=True)
+            embed.add_field(name="**Eggs**",value=f"Eggs Hatched: {row[13]:,} Eggs")
+            embed.set_author(f"{date}")
+            embed.set_footer(f"Provided by Mega Gengar. | Daily Stats getting reset at 12pm EST.")
+            await channel.send(embed=embed)
+
+            await asyncio.sleep(3600)
+
+    async def dailycheck(self,message):
+        if message.guild.id == 825813023716540426: #paralympic
+            est = ZoneInfo("America/New_York")
+            now = datetime(est)
+            date = str(f"{now.day}.{now.month}.{now.year}")
+            #IconDrop
+            if "you've unlocked" and " trainer icon" in message.content.lower():
+                self.db.execute(f"UPDATE DailyStats SET Icons = Icons + 1 WHERE Date = '{date}'")
+            #PokeCaught from Explore
+            if "you just caught a " in message.content.lower():
+                self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught + 1 WHERE Date = '{date}'")
+            #PokeSeen (Should also work for explore?)
+            if "found a " in message.content.lower():
+                self.db.execute(f"UPDATE DailyStats SET PokeSeen = PokeSeen + 1 WHERE Date = '{date}'")
+            #CoinCatch from Explore
+            elif "explore session has ended" in message.content.lower():
+                coins = int(message.content.split("Coins earned: <:PokeCoin:666879070650236928> ")[1].replace(",",""))
+                self.db.execute(f"UPDATE DailyStats SET CoinCatch = CoinCatch + {coins} WHERE Date = '{date}'")
+            #BattleWon &
+            #CoinBattle
+            elif "won the battle" in message.content:
+                coins = message.content.lower().split(" pokecoins")[0]
+                gth = len(coins)-1
+                coins = int(coins.split(" ")[gth].replace(",",""))
+                self.db.execute(f"UPDATE DailyStats SET BattleWon = BattleWon+1,CoinBattle = CoinBattle + {coins} WHERE Date = '{date}'")
+            #CoinRelease
+            elif "released " and "earning <" in message.content.lower():
+                coins = message.content.split("!")[0]
+                coins = coins.split("**")
+                gth = len(coins)-1
+                coins = int(coins[gth].replace(",",""))
+                self.db.execute(f"UPDATE DailyStats SET CoinRelease = CoinRelease + {coins} WHERE Date = '{date}'")
+            #CoinWorldBoss
+            elif "you placed " and " players in dmg!" in message.content.lower():
+                coins = message.content.split("PokeCoins earned: <:PokeCoin:666879070650236928> ")[1]
+                coins = int(coins.split()[0].replace(",",""))
+                self.db.execute(f"UPDATE DailyStats SET CoinWorldBoss + CoinWorldBoss + {coins} WHERE Date = '{date}'")
+            if len(message.embeds>0):
+                emb = message.embed[0]
+                #TotalBattle
+                if "battle starts in" in emb.footer.text.lower():
+                    self.db.execute(f"UPDATE DailyStats SET TotalBattle = TotalBattle + 1 WHERE Date = '{date}'")
+                #CoinCatch &
+                #PokeCaught
+                if "caught a" in emb.description:
+                    self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught+1 WHERE Date = '{date}'")
+                    if "pokecoins" in emb.footer.lower():
+                        coins = emb.footer.split("You earned ")[1]
+                        coins = int((coins.split(" ")[0]).replace(",",""))
+                        self.db.execute(f"UPDATE DailyStats SET CoinCatch = CoinCatch + {coins} WHERE Date = '{date}'")
+                #CoinMarket
+                if "from all your offers" in emb.title.lower():
+                    coins = int(emb.title.split("**")[1].replace(",",""))
+                    self.db.execute(f"UPDATE DailyStats SET CoinMarket = CoinMarket + {coins} WHERE Date = '{date}'")
+                #EggHatch
+                if "hatched an Egg" in emb.author.name:
+                    self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
+            
+
+            self.db.commit()
+
+
+
+
  
 def setup(client):
     client.add_cog(Modules(client))

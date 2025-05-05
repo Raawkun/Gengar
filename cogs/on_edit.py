@@ -98,6 +98,8 @@ class On_Edit(commands.Cog):
                             elif before.interaction:
                                 ref_msg = before.interaction.user
                                 sender = ref_msg
+                            if "caught a" in _embed.description and "pokecoins" in _embed.footer.lower():
+                                asyncio.create_task(Modules.dailycheck(self,after))
                             if "caught a" and "_fossil" in _embed.description:
                                 fossil = _embed.description.split("retrieved a <:")[1]
                                 fossil = fossil.split(":")[0]
@@ -148,11 +150,14 @@ class On_Edit(commands.Cog):
                         else:
                             sender = "A User"
                         #print("Theres a pokemon")
+                        asyncio.create_task(Modules.dailycheck(self,before))
                         monrare = before.content.split("found a ")[1]
                         monname = monrare.split("**")[1]
                         monnumber = monrare.split(":")[3]
                         monrare = monrare.split(":")[1]
-                        print(f'{monnumber}'", "f'{monrare}'", "f'{monname}')
+                        #print(f'{monnumber}'", "f'{monrare}'", "f'{monname}')
+                        if "caught a " in after.content:
+                            asyncio.create_task(Modules.dailycheck(self, after))
                         #Rare_Spawns = ["Event", "Legendary", "Shiny", "Rare", "SuperRare","Golden","Uncommon"]
                         if monrare in Rare_Spawns:
                             monnumber = int(monnumber)
@@ -173,7 +178,6 @@ class On_Edit(commands.Cog):
                                     embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                                     anno = await announce.send(embed=embed)
                                     
-                                print("Explore: Caught it!")
                             elif "broke out" in after.content:
                                 if receiver_channel > 0:
                                     raremon = poke_rarity[(data[14])]
@@ -184,7 +188,6 @@ class On_Edit(commands.Cog):
                                     embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                                     anno = await announce.send(embed=embed)
                                     
-                                print("Explore: Broke out")
                             elif "ran away" in after.content:
                                 if receiver_channel > 0:
                                     raremon = poke_rarity[(data[14])]
@@ -195,7 +198,6 @@ class On_Edit(commands.Cog):
                                     embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                                     anno = await announce.send(embed=embed)
                                     
-                                print("Explore: Ran away")
 
 
 

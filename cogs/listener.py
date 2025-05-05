@@ -177,6 +177,7 @@ class Listener(commands.Cog):
         await asyncio.create_task(self.load_excl())
         asyncio.create_task(self.dawndusk())
         asyncio.create_task(self._changelog())
+        asyncio.create_task(Modules.dailyreset(self))
         asyncio.create_task(Modules.averagetimer(self))
         reminders = self.db.execute(f'SELECT * FROM Toggle WHERE QuestTime >= 1 ORDER BY QuestTime ASC')
         reminders = reminders.fetchall()
@@ -324,6 +325,8 @@ class Listener(commands.Cog):
         #Open to every Channel!
         if message.content == "^-^":
             await message.channel.send("https://media.tenor.com/LC5ripTgbHkAAAAC/kyogre-kyogresmile.gif")
+        if message.content == "^O^":
+            await message.channel.send("https://tenor.com/view/star-wars-the-last-jedi-gif-10571657")
 
         if message.content.lower() == "stfu":
             await message.reply("No u.",allowed_mentions = disnake.AllowedMentions(replied_user=False))
@@ -346,7 +349,7 @@ class Listener(commands.Cog):
                 id = message.content.split("<@")[1]
                 id = id.split(">")[0]
                 desc = f"Hi <@{id}>! Congrats on joining this awesome clan!\nI'm {self.client.user.display_name} and here to help you to grind as easy & efficient as possible!\nYou may know bots like MeowHelper from other servers - don't worry, I'm way more reliable!\n\n"
-                desc += f"My main work here is to remind you when your PokéMeow command cooldowns are done - and I can either remind with or without pings.\nIf you want to know more about my functions and command, check out ``mInfo``or </info:1177325264351543447>.\n\n"
+                desc += f"My main work here is to remind you when your PokéMeow command cooldowns are done - and I can either remind with or without pings.\nIf you want to know more about my functions and command, check out ``mInfo`` or </info:1177325264351543447>.\n\n"
                 desc += f"Have a good time here! <:GengarHeart:1153729922620215349>"
                 emb = await Auction_embed(self.client, title="Welcome!", description=desc).setup_embed()
                 await message.channel.send(embed=emb)
@@ -394,8 +397,13 @@ class Listener(commands.Cog):
                 if item == self.promo_item:
                     await message.reply(f"Oh wow - looks like you've found a promo item! Congratulations!")
             if "won the battle!" in message.content.lower():
+                asyncio.create_task(Modules.dailycheck(self, message))
                 if self.promo_item in message.content.lower():
                     await message.reply(f"Oh wow - looks like you've found a promo item! Congratulations!")
+            if "released" and "earned " in message.content.lower():
+                asyncio.create_task(Modules.dailycheck(self,message))
+            if "you placed " and " players in dmg!" in message.content.lower():
+                asyncio.create_task(Modules.dailycheck(self, message))
             if "used a code to claim" in message.content:
                 monname = message.content.split("**")[1]
                 print(monname)
@@ -435,6 +443,7 @@ class Listener(commands.Cog):
                         await message.channel.send(desc)
                     
             if "s trainer icon!" in message.content:
+                asyncio.create_task(Modules.dailycheck(self, message))
                 iconname = message.content.split("unlocked ")[1]
                 icon = iconname.split(":")[2]
                 icon = icon.split(">")[0]
@@ -709,6 +718,7 @@ class Listener(commands.Cog):
   
                 if "found a wild" in message.content:
                     log_channel = self.client.get_channel(log_channel)
+                    asyncio.create_task(Modules.dailycheck(self, message))
                     if (len(message.embeds) > 0):
                         #Check if reaction or interaction
                         
@@ -982,6 +992,7 @@ class Listener(commands.Cog):
                                     await conn.ensure_closed()
                                 await self.load_excl()
                     if "battle starts in" in _embed.footer.text.lower():
+                        asyncio.create_task(Modules.dailycheck(self,message))
                         #print("Aha, battling.")
                         if "xmas steven** to a battle" in _embed.description.lower():
                             asyncio.create_task(Modules.adamannpc(self, message))
@@ -1067,6 +1078,7 @@ class Listener(commands.Cog):
                                 await message.reply(f"</egg use-incubator:1015311084594405485>")
                             else:
                                 await message.reply(f"</egg hold:1015311084594405485>")
+                        asyncio.create_task(Modules.dailycheck(self, message))
                         data_egg = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
                         data_egg = data_egg.fetchone()
                         sender = ref_msg.author
