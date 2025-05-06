@@ -403,6 +403,7 @@ class Listener(commands.Cog):
             if "released" and "earned" in message.content.lower():
                 asyncio.create_task(Modules.dailycheck(self,message))
             if "you placed " and " players in dmg!" in message.content.lower():
+                print("Calculating WB coins...")
                 asyncio.create_task(Modules.dailycheck(self, message))
             if "used a code to claim" in message.content:
                 monname = message.content.split("**")[1]
