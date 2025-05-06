@@ -1149,6 +1149,10 @@ class Listener(commands.Cog):
                                 embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                                 await announce_channel.send(embed=embed)
                     if "PokeMeow Swaps" in _embed.author.name:
+                        if message.reference:
+                            ref_msg = await message.channel.fetch_message(message.reference.message_id)
+                        elif message.interaction:
+                            ref_msg = message.interaction
                         data_sw = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
                         data_sw = data_sw.fetchone()
                         sender = ref_msg.author.display_name
