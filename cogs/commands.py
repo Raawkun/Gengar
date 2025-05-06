@@ -126,9 +126,8 @@ class Coms(commands.Cog):
         msg = " ".join(args)
         await user.send(msg)
         
-    @commands.check(Basic_checker().check_management)
     @commands.command()
-    async def daily(self, ctx):
+    async def dailystats(self, ctx):
         est = ZoneInfo("America/New_York")
         now = datetime.datetime.now(est)
         date = str(f"{now.day}.{now.month}.{now.year}")
