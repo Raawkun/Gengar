@@ -209,7 +209,7 @@ class Modules(commands.Cog):
                 self.db.execute(f"UPDATE DailyStats SET CoinRelease = CoinRelease + {coins} WHERE Date = '{date}'")
                 self.db.commit()
             #CoinWorldBoss
-            elif "you placed " and " players in dmg!" in message.content.lower():
+            elif "here are your rewards for the " in message.content.lower():
                 coins = message.content.split("PokeCoins earned: <:PokeCoin:666879070650236928> ")[1]
                 coins = int(coins.split()[0].replace(",",""))
                 print(f"Worldboss coins: {coins}")
