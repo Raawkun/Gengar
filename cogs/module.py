@@ -124,7 +124,7 @@ class Modules(commands.Cog):
             now = datetime.now(est)
             now = datetime(now.year, now.month,now.day,now.hour,now.minute,now.second)
             date = str(f"{now.day}.{now.month}.{now.year}")
-            reset_time = datetime(now.year,now.month,now.day,0,29,0)
+            reset_time = datetime(now.year,now.month,now.day,0,33,0)
             if now >= reset_time:
                 check = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
                 check = check.fetchone()
@@ -150,7 +150,7 @@ class Modules(commands.Cog):
             embed.add_field(name="**Pokémon",value=f"Pokémon Seen: {row[6]:,} Pokémon\nPokémon Caught: {row[7]:,} Pokémon",inline=True)
             embed.add_field(name="**Battles**",value=f"Total Battles: {row[10]:,} Battles\nBattles Won: {row[11]:,} Battles\nIcon Drops: {row[12]:,} Icons",inline=True)
             embed.add_field(name="**Eggs**",value=f"Eggs Hatched: {row[13]:,} Eggs")
-            embed.set_author(f"{date}")
+            embed.set_author(name=f"{date}")
             embed.set_footer(f"Provided by Mega Gengar. | Daily Stats getting reset at 12pm EST.")
             await channel.send(embed=embed)
 
