@@ -153,7 +153,7 @@ class Modules(commands.Cog):
             row = row.fetchone()
             
             embed.add_field(name="**Coins**",value=f"Total: {(row[1]+row[2]+row[3]+row[4]+row[5]):,} {coin}\nFrom Catches: {row[1]:,} {coin}\nFrom Battles: {row[2]:,} {coin}\nFrom Market: {row[3]:,} {coin}\nFrom Releasing: {row[4]:,} {coin}\nFrom World Boss: {row[5]:,} {coin}",inline=True)
-            embed.add_field(name="**Pokémon",value=f"Pokémon Seen: {row[6]:,} Pokémon\nPokémon Caught: {row[7]:,} Pokémon",inline=True)
+            embed.add_field(name="**Pokémon**",value=f"Pokémon Seen: {row[6]:,} Pokémon\nPokémon Caught: {row[7]:,} Pokémon",inline=True)
             embed.add_field(name="**Battles**",value=f"Total Battles: {row[10]:,} Battles\nBattles Won: {row[11]:,} Battles\nIcon Drops: {row[12]:,} Icons",inline=True)
             embed.add_field(name="**Eggs**",value=f"Eggs Hatched: {row[13]:,} Eggs")
             embed.set_author(name=f"{date_yst}")
@@ -205,6 +205,7 @@ class Modules(commands.Cog):
             elif "you placed " and " players in dmg!" in message.content.lower():
                 coins = message.content.split("PokeCoins earned: <:PokeCoin:666879070650236928> ")[1]
                 coins = int(coins.split()[0].replace(",",""))
+                print(f"Worldboss coins: {coins}")
                 self.db.execute(f"UPDATE DailyStats SET CoinWorldBoss + CoinWorldBoss + {coins} WHERE Date = '{date}'")
                 self.db.commit()
             if (len(message.embeds)>0):
