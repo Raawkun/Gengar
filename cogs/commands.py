@@ -10,6 +10,7 @@ from disnake import Message, Option, OptionChoice, OptionType, ApplicationComman
 import json
 import datetime
 import time
+from zoneinfo import ZoneInfo
 from utility.all_checks import Basic_checker
 from utility.embed import Custom_embed, Auction_embed
 from utility.rarity_db import counts, countnumber, min_increase
@@ -18,6 +19,7 @@ from utility.id_lists import unpinnables
 from googlesearch import search
 from PIL import Image, ImageDraw, ImageSequence
 from io import BytesIO
+from cogs.module import Modules
 import imageio
 import aiohttp
 from cogs.listener import Listener
@@ -123,6 +125,15 @@ class Coms(commands.Cog):
         user = ctx.guild.get_member(userid)
         msg = " ".join(args)
         await user.send(msg)
+        
+    @commands.check(Basic_checker().check_management)
+    @commands.command()
+    async def daily(self, ctx):
+        est = ZoneInfo("America/New_York")
+        now = datetime.datetime.now(est)
+        date = str(f"{now.day}.{now.month}.{now.year}")
+        
+        # PLACEHOLDER FIR COPY
         
     @commands.check(Basic_checker().check_management)
     @commands.command()
