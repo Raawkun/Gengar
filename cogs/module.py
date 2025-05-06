@@ -190,12 +190,16 @@ class Modules(commands.Cog):
             #BattleWon &
             #CoinBattle
             elif "won the battle" in message.content:
-                coins = message.content.lower().split(" pokecoins")[0]
-                coins = coins.split(" ")
-                gth = len(coins)-1
-                coins = int(coins[gth].replace(",",""))
-                self.db.execute(f"UPDATE DailyStats SET BattleWon = BattleWon+1,CoinBattle = CoinBattle + {coins} WHERE Date = '{date}'")
-                self.db.commit()
+                try:
+                    coins = message.content.lower().split(" pokecoins")[0]
+                    coins = coins.split(" ")
+                    gth = len(coins)-1
+                    coins = int(coins[gth].replace(",",""))
+                    self.db.execute(f"UPDATE DailyStats SET BattleWon = BattleWon+1,CoinBattle = CoinBattle + {coins} WHERE Date = '{date}'")
+                    self.db.commit()
+                except:
+                    print(f"There was a battling-error for the Daily Stats.")
+                    print(f"In the channel: {message.channel.name}, MSG ID: {message.id}")
             #CoinRelease
             elif "released " in message.content.lower():
                 coins = message.content.split("!")[0]
