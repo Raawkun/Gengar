@@ -135,8 +135,11 @@ class Modules(commands.Cog):
                 if check is None:
                     self.db.execute(f"INSERT INTO DailyStats VALUES ('{date}',0,0,0,0,0,0,0,0,0,0,0,0,0)")
                     self.db.commit()
-                self.db.execute(f"INSERT INTO DailyStats VALUES ('{date_tmr}',0,0,0,0,0,0,0,0,0,0,0,0,0)")
-                self.db.commit()
+                check = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date_tmr}'")
+                check = check.fetchone()
+                if check is None:
+                    self.db.execute(f"INSERT INTO DailyStats VALUES ('{date_tmr}',0,0,0,0,0,0,0,0,0,0,0,0,0)")
+                    self.db.commit()
                 reset_time += timedelta(days=1)
             
             sleep_duration = (reset_time - now).total_seconds()
