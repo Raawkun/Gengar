@@ -209,7 +209,7 @@ class Modules(commands.Cog):
                 coins = message.content.split("PokeCoins earned: <:PokeCoin:666879070650236928> ")[1]
                 coins = int(coins.split()[0].replace(",",""))
                 print(f"Worldboss coins: {coins}")
-                self.db.execute(f"UPDATE DailyStats SET CoinWorldBoss + CoinWorldBoss + {coins} WHERE Date = '{date}'")
+                self.db.execute(f"UPDATE DailyStats SET CoinWorldBoss = CoinWorldBoss + {coins} WHERE Date = '{date}'")
                 self.db.commit()
             if (len(message.embeds)>0):
                 emb = message.embeds[0]
