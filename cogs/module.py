@@ -124,7 +124,7 @@ class Modules(commands.Cog):
             now = datetime.now(est)
             now = datetime(now.year, now.month,now.day,now.hour,now.minute,now.second)
             date = str(f"{now.day}.{now.month}.{now.year}")
-            reset_time = datetime(now.year,now.month,now.day,0,10,0)
+            reset_time = datetime(now.year,now.month,now.day,0,20,0)
             if now >= reset_time:
                 check = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
                 check = check.fetchone()
@@ -142,7 +142,7 @@ class Modules(commands.Cog):
             channel = self.client.get_channel(channel)
             guild = channel.guild
             coin = "<:pokecoin:835054000063381516>"
-            embed = disnake.Embed(title="Daily Server Stats",description=f"The daily server stats for {guild.name}.",color=disnake.Color.blurple)
+            embed = disnake.Embed(title="Daily Server Stats",description=f"The daily server stats for {guild.name}.",color=disnake.Color.blurple())
             row = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
             
             embed.add_field(name="**Coins**",value=f"Total: {(row[1]+row[2]+row[3]+row[4]+row[5]):,} {coin}\nFrom Catches: {row[1]:,} {coin}\nFrom Battles: {row[2]:,} {coin}\nFrom Market: {row[3]:,} {coin}\nFrom Releasing: {row[4]:,} {coin}\nFrom World Boss: {row[5]:,} {coin}",inline=True)
