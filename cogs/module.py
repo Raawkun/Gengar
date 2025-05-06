@@ -192,7 +192,9 @@ class Modules(commands.Cog):
             elif "won the battle" in message.content:
                 coins = message.content.lower().split(" pokecoins")[0]
                 coins = coins.split(" ")
+                print(coins)
                 gth = len(coins)
+                print(gth)
                 coins = int(coins[gth].replace(",",""))
                 self.db.execute(f"UPDATE DailyStats SET BattleWon = BattleWon+1,CoinBattle = CoinBattle + {coins} WHERE Date = '{date}'")
                 self.db.commit()
