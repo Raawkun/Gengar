@@ -149,7 +149,7 @@ class Modules(commands.Cog):
             guild = channel.guild
             coin = "<:pokecoin:835054000063381516>"
             embed = disnake.Embed(title="Daily Server Stats",description=f"The daily server stats for {guild.name}.",color=disnake.Color.blurple())
-            row = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
+            row = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date_yst}'")
             row = row.fetchone()
             
             embed.add_field(name="**Coins**",value=f"Total: {(row[1]+row[2]+row[3]+row[4]+row[5]):,} {coin}\nFrom Catches: {row[1]:,} {coin}\nFrom Battles: {row[2]:,} {coin}\nFrom Market: {row[3]:,} {coin}\nFrom Releasing: {row[4]:,} {coin}\nFrom World Boss: {row[5]:,} {coin}",inline=True)
