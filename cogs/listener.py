@@ -400,7 +400,7 @@ class Listener(commands.Cog):
                 asyncio.create_task(Modules.dailycheck(self, message))
                 if self.promo_item in message.content.lower():
                     await message.reply(f"Oh wow - looks like you've found a promo item! Congratulations!")
-            if "released" and "earned" in message.content.lower():
+            if "** released " in message.content.lower():
                 asyncio.create_task(Modules.dailycheck(self,message))
             if "here are your rewards for the " in message.content.lower():
                 print("Calculating WB coins...")
