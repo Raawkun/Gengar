@@ -643,71 +643,71 @@ class Listener(commands.Cog):
                                     eventshiny = eventshiny.replace(",", "")
                                     eventshiny = int(eventshiny)
                                     i+=1
-                                    print(eventshiny)
+                                    #print(eventshiny)
                                     fullodds = field.value.split(" • ")[i]
                                     fullodds = fullodds.split("\n")[1]
                                     fullodds = fullodds.replace(",", "")
                                     i+=1
                                     fullodds = int(fullodds)
-                                    print(fullodds)
+                                    #print(fullodds)
                                     legendary = field.value.split(" • ")[i]
                                     legendary = legendary.split("\n")[1]
                                     legendary = legendary.replace(",", "")
                                     i+=1
                                     legendary = int(legendary)
-                                    print(legendary)
+                                    #print(legendary)
                                     item = field.value.split(" • ")[i]
                                     item = item.split("\n")[1]
                                     item = item.replace(",", "")
                                     i+=1
                                     item = int(item)
-                                    print(fullodds)
+                                    #print(fullodds)
                                     fgolden = field.value.split(" • ")[i]
                                     fgolden = fgolden.split("\n")[1]
                                     fgolden = fgolden.replace(",", "")
                                     i+=1
                                     fgolden = int(fgolden)
-                                    print(fgolden)
+                                    #print(fgolden)
                                     fshiny = field.value.split(" • ")[i]
                                     fshiny = fshiny.split("\n")[1]
                                     fshiny = fshiny.replace(",", "")
                                     i+=1
                                     fshiny = int(fshiny)
-                                    print(fshiny)
+                                    #print(fshiny)
                                     flegend= field.value.split(" • ")[i]
                                     flegend = flegend.split("\n")[1]
                                     flegend = flegend.replace(",", "")
                                     i+=1
                                     flegend = int(flegend)
-                                    print(flegend)
+                                    #print(flegend)
                                     egolden = field.value.split(" • ")[i]
                                     egolden = egolden.split("\n")[1]
                                     egolden = egolden.replace(",", "")
                                     i+=1
                                     egolden = int(egolden)
-                                    print(egolden)
+                                    #print(egolden)
                                     eshiny = field.value.split(" • ")[i]
                                     eshiny = eshiny.split("\n")[1]
                                     eshiny = eshiny.replace(",", "")
                                     i+=1
                                     eshiny = int(eshiny)
-                                    print(eshiny)
+                                    #print(eshiny)
                                     elegend = field.value.split(" • ")[i]
                                     elegend = elegend.split("\n")[1]
                                     elegend = elegend.replace(",", "")
                                     i+=1
                                     elegend = int(elegend)
-                                    print(elegend)
+                                    #print(elegend)
                                     icon = field.value.split(" • ")[i]
                                     icon = icon.split("\n")[1]
                                     icon = icon.replace(",", "")
                                     i+=1
                                     icon = int(icon)
-                                    print(icon)
+                                    #print(icon)
                                     data = self.db.execute(f'SELECT * FROM Counter WHERE User_ID = ({sender.id})')
                                     data = data.fetchall()
                                     if data:
-                                        print("Fetched it?")
+                                        #print("Fetched it?")
                                         self.db.execute(f'UPDATE Counter SET event = ({eventshiny}), fullodd = {fullodds}, legendary = {legendary}, item = {item}, goldenfish = {fgolden}, shinyfish = {fshiny}, legendaryfish = {flegend}, goldenexp = {egolden}, shinyexp = {eshiny}, legendaryexp = {elegend}, icon = {icon} WHERE User_ID = ({sender.id})')
                                         self.db.commit()
                                     else:

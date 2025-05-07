@@ -128,21 +128,25 @@ class Coms(commands.Cog):
         
     @commands.command()
     async def dailystats(self, ctx):
-        est = ZoneInfo("America/New_York")
-        now = datetime.datetime.now(est)
-        date = str(f"{now.day}.{now.month}.{now.year}")
-        coin = "<:pokecoin:835054000063381516>"
-        embed = disnake.Embed(title="Daily Server Stats",description=f"The daily server stats for {ctx.guild.name}.",color=disnake.Color.blurple())
-        row = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
-        row = row.fetchone()
-            
-        embed.add_field(name="**Coins**",value=f"Total: {(row[1]+row[2]+row[3]+row[4]+row[5]):,} {coin}\nFrom Catches: {row[1]:,} {coin}\nFrom Battles: {row[2]:,} {coin}\nFrom Market: {row[3]:,} {coin}\nFrom Releasing: {row[4]:,} {coin}\nFrom World Boss: {row[5]:,} {coin}",inline=True)
-        embed.add_field(name="**Pokémon**",value=f"Pokémon Seen: {row[6]:,} Pokémon\nPokémon Caught: {row[7]:,} Pokémon",inline=True)
-        embed.add_field(name="**Battles**",value=f"Total Battles: {row[10]:,} Battles\nBattles Won: {row[11]:,} Battles\nIcon Drops: {row[12]:,} Icons",inline=True)
-        embed.add_field(name="**Eggs**",value=f"Eggs Hatched: {row[13]:,} Eggs")
-        embed.set_author(name=f"{date}")
-        embed.set_footer(text=f"Provided by Mega Gengar. | Daily Stats getting reset at 12pm EST.")
-        await ctx.reply(embed=embed)
+        try:
+            print("Daily Stats command")
+            est = ZoneInfo("America/New_York")
+            now = datetime.datetime.now(est)
+            date = str(f"{now.day}.{now.month}.{now.year}")
+            coin = "<:pokecoin:835054000063381516>"
+            embed = disnake.Embed(title="Daily Server Stats",description=f"The daily server stats for {ctx.guild.name}.",color=disnake.Color.blurple())
+            row = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
+            row = row.fetchone()
+                
+            embed.add_field(name="**Coins**",value=f"Total: {(row[1]+row[2]+row[3]+row[4]+row[5]):,} {coin}\nFrom Catches: {row[1]:,} {coin}\nFrom Battles: {row[2]:,} {coin}\nFrom Market: {row[3]:,} {coin}\nFrom Releasing: {row[4]:,} {coin}\nFrom World Boss: {row[5]:,} {coin}",inline=True)
+            embed.add_field(name="**Pokémon**",value=f"Pokémon Seen: {row[6]:,} Pokémon\nPokémon Caught: {row[7]:,} Pokémon",inline=True)
+            embed.add_field(name="**Battles**",value=f"Total Battles: {row[10]:,} Battles\nBattles Won: {row[11]:,} Battles\nIcon Drops: {row[12]:,} Icons",inline=True)
+            embed.add_field(name="**Eggs**",value=f"Eggs Hatched: {row[13]:,} Eggs")
+            embed.set_author(name=f"{date}")
+            embed.set_footer(text=f"Provided by Mega Gengar. | Daily Stats getting reset at 12pm EST.")
+            await ctx.reply(embed=embed)
+        except Exception as e:
+            print(e)
         
     @commands.check(Basic_checker().check_management)
     @commands.command()
