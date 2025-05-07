@@ -14,6 +14,7 @@ from utility.drop_chance import drop_pos, rare_calc, ball_used_low, ball_used_hi
 import random
 from utility.all_checks import Basic_checker
 import pandas
+import aiosqlite
 import openpyxl
 
 class Modules(commands.Cog):
@@ -245,7 +246,77 @@ class Modules(commands.Cog):
                         self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
                         self.db.commit()
             
+    # BIGGEST FISH / KARP EVENT
+    async def fisheventcheck(self,message,sender):
+        if message.guild.id == 825813023716540426:
+            check = self.db.execute(f"SELECT * FROM Events WHERE EventName = 'BiggestFish'")
+            check = check.fetchone()
+            if check[1] == 1:
+                for role in sender.roles:
+                    if role.id == 837611415070048277:
+                        asyncio.create_task(Modules.biggestfish(self, message,sender))
 
+    async def biggestfish(self, message,sender):
+        rand = random.randint(1,500)
+        rand2 = random.random()
+        rand3 = random.randint(0,200)
+        size = int((rand*rand2)+rand3)
+        if size < 100:
+            jk = f"Wow! {size/100}m! That's a tiny <:129:1210417260196270213> Magikarp!"
+        elif size >= 100 and size < 300:
+            jk = f"Neat! {size/100}m! That's a pretty decent size for a <:129:1210417260196270213> Magikarp!"
+        elif size >= 300 and size < 500:
+            jk = f"Look at that! {size/100}m! That's a pretty, pretty big <:129:1210417260196270213> Magikarp!"
+        elif size >= 500:
+            jk = f"... what?! {size/100}m!!! How is a <:129:1210417260196270213> Magikarp that big even possible?!"
+        
+        check = self.db.execute(f"SELECT * FROM BiggestFish WHERE User_ID = {sender.id}")
+        check = check.fetchone()
+        if check is None:
+            self.db.execute(f"INSERT INTO BiggestFish VALUES ({sender.id},1,{size})")
+            self.db.commit()
+        else:
+            if (float(check[2])/100)>(float(size)/100):
+                self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1 WHERE User_ID = {sender.id}")
+                self.db.commit()
+                appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {check[2]}m"
+            else:
+                self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1, Size = {size} WHERE User_ID = {sender.id}")
+                self.db.commit()
+                appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {size}m, former personal highscore was {check[2]}m."
+
+        await message.reply(f"{sender.mention} - {jk}\n{appending}")
+
+    async def fishend(self):
+        results = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC")
+        results = results.fetchall()
+        events = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
+        events = events.fetchone()
+        table = ""
+        i = 0
+        while i < 10:
+            table += f"<@{results[i][0]}>  |  {results[i][1]}  |  {float(results[i][2])/100}m"
+            i += 1
+        
+        emb = disnake.Embed(title="Biggest Karp Leaderboard", description=f"Here are the results for the Event which started at <t:{events[3]}:f>.",color=disnake.Color.dark_gold())
+        emb.add_field(name="Top 10:",value=f"•  Username  |  Catch Amount  |  Size  •\n{table}")
+        emb.set_footer(text="Provided by Mega Gengar.")
+        channel = self.client.get_channel(825958388349272106) #Bot-Testing
+        await channel.send(embed=emb)
+
+        async with aiosqlite.connect("database.db") as db:
+            async with db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC") as cursor:
+                cols = [column[0] for column in cursor.description]
+                rows = await cursor.fetchall()
+                df = pandas.DataFrame(rows, columns = cols)
+                df.to_excel("biggestfish.xlsx", index=False)
+                if channel:
+                    await channel.send("Here is the exported table for the last Big Fish Event:",file=disnake.File("biggestfish.xlsx"))
+                os.remove("biggestfish.xlsx")
+                self.db.execute(f"DELETE FROM BiggestFish")
+                self.db.commit()
+                self.db.execute(f"UPDATE Events SET Active = 0, Runtime = 0, Start_Stamp = 0 WHERE Name = 'BiggestFish'")
+                self.db.commit()
 
 
 

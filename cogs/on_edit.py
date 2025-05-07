@@ -98,13 +98,16 @@ class On_Edit(commands.Cog):
                             elif before.interaction:
                                 ref_msg = before.interaction.user
                                 sender = ref_msg
-                            if "caught a" in _embed.description and "pokecoins" in _embed.footer.text.lower():
-                                asyncio.create_task(Modules.dailycheck(self,after))
-                                asyncio.create_task(Modules.averagecoins(self,after))
-                            if "caught a" and "_fossil" in _embed.description:
-                                fossil = _embed.description.split("retrieved a <:")[1]
-                                fossil = fossil.split(":")[0]
-                                await after.reply(f"``;res ex {fossil}``")
+                            if "caught a" in _embed.description:
+                                if "pokecoins" in _embed.footer.text.lower():
+                                    asyncio.create_task(Modules.dailycheck(self,after))
+                                    asyncio.create_task(Modules.averagecoins(self,after))
+                                if data[0] == 129:
+                                    asyncio.create_task(Modules.fisheventcheck(self, after,sender))
+                                if "_fossil" in _embed.description:
+                                    fossil = _embed.description.split("retrieved a <:")[1]
+                                    fossil = fossil.split(":")[0]
+                                    await after.reply(f"``;res ex {fossil}``")
                             if raremon in Rare_Spawns or data[0] in Listener.exclusives:
                                 #print("Theres a rare spawn.")
                                 description_text = " "

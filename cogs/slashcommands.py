@@ -8,6 +8,7 @@ from utility.embed import Custom_embed, Auction_embed
 from utility.all_checks import Basic_checker
 from utility.rarity_db import counts, countnumber
 from utility.info_dict import embed_color,cmds,functions,info
+from cogs.module import Modules
 
 class SlashComs(commands.Cog):
 
@@ -125,7 +126,29 @@ class SlashComs(commands.Cog):
     async def _faq(self, ctx):
         await ctx.send("The FAQ Channel is here: <#1161686361091350608>",ephemeral=True)
         
-    
+    @commands.check(Basic_checker().check_admin)
+    @commands.slash_command(name="event",description="Admin only. Used to activate Gengar controlled events.",
+                            options={Option(name="name", description="Which event to activate.", choices=[OptionChoice("Biggest Fish / Karp","bigfish")],required=True),Option(name="mode",description="To either start or stop an event.",choices=[OptionChoice("Start","start"),OptionChoice("End","end")], required=True),Option(name="duration",description="Event runtime in days",required=True,type=int)})
+    async def _event(self, ctx, name = None, mode = None,duration = None):
+        if name == "bigfish":
+            check = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
+            check = check.fetchone()
+            if check[1] == 1:
+                if mode == "start":
+                    runtime = check[2]*24*60*60
+                    end_time = check[3]+runtime
+                    await ctx.send(f"The event 'Biggest Fish / Karp' is already running. Please wait for it to be done at <t:{end_time}:f> to activate it again or use 'mode -> end' to end it now.")
+                elif mode == "end":
+                    await ctx.send(f"Alrighty, you've ended the currently running 'Biggest Fish' Event. Gonna send the results asap!")
+                    asyncio.create_task(Modules.fishend(self))
+            else:
+                runtime = duration*24*60*60
+                now = datetime.datetime.now().timestamp()
+                end_time = int(now)+runtime
+                self.db.execute(f"UPDATE Events SET Active = 1, Runtime = {runtime}, Start_Stamp = {int(now)} WHERE Name = 'BiggestFish'")
+                self.db.commit()
+                await ctx.send(f"Congratulations! You've activated a funny round of 'Biggest Fish / Karp' for the server! This event will run until: <t:{end_time}:f>")
+
     @commands.check(Basic_checker().check_admin)
     @commands.slash_command(name="setup", description="First setup of the bot (can be changed later too ofc).", 
                             options=[Option(name="mode", description="What you want to set up.", choices=[OptionChoice("Gengar Changelog","chlo"), OptionChoice("Meow Rare Spawn","rasp")], required=False),
