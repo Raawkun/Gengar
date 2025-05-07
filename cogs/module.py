@@ -249,7 +249,7 @@ class Modules(commands.Cog):
     # BIGGEST FISH / KARP EVENT
     async def fisheventcheck(self,message,sender):
         if message.guild.id == 825813023716540426:
-            check = self.db.execute(f"SELECT * FROM Events WHERE EventName = 'BiggestFish'")
+            check = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
             check = check.fetchone()
             if check[1] == 1:
                 for role in sender.roles:
