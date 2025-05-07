@@ -1149,22 +1149,25 @@ class Listener(commands.Cog):
                                 embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                                 await announce_channel.send(embed=embed)
                     if "PokeMeow Swaps" in _embed.author.name:
-                        if message.reference:
-                            ref_msg = await message.channel.fetch_message(message.reference.message_id)
-                        elif message.interaction:
-                            ref_msg = message.interaction
-                        data_sw = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
-                        data_sw = data_sw.fetchone()
-                        sender = ref_msg.author.display_name
-                        raremon = poke_rarity[(data_sw[14])]
-                        #Rare_Spawned = ["Event", "Shiny", "Legendary", "SuperRare", "Rare", "Uncommon", "Common","Golden"]
-                        description_text = f"Original message: [Click here]({message.jump_url})\n"
-                        if data_sw[14] in Rare_Spawned:
-                            embed = disnake.Embed(title=raremon+" **"+data_sw[1]+"** \nDex: #"+str(data_sw[0]), color=color,description=description_text)
-                            embed.set_author(name=(sender+" just swapped for a:"),icon_url="https://cdn.discordapp.com/emojis/869901886080315392.webp?size=96&quality=lossless")
-                            embed.set_image(_embed.image.url)
-                            embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                            await announce_channel.send(embed=embed)
+                        try:
+                            if message.reference:
+                                ref_msg = await message.channel.fetch_message(message.reference.message_id)
+                            elif message.interaction:
+                                ref_msg = message.interaction
+                            data_sw = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
+                            data_sw = data_sw.fetchone()
+                            sender = ref_msg.author.display_name
+                            raremon = poke_rarity[(data_sw[14])]
+                            #Rare_Spawned = ["Event", "Shiny", "Legendary", "SuperRare", "Rare", "Uncommon", "Common","Golden"]
+                            description_text = f"Original message: [Click here]({message.jump_url})\n"
+                            if data_sw[14] in Rare_Spawned:
+                                embed = disnake.Embed(title=raremon+" **"+data_sw[1]+"** \nDex: #"+str(data_sw[0]), color=color,description=description_text)
+                                embed.set_author(name=(sender+" just swapped for a:"),icon_url="https://cdn.discordapp.com/emojis/869901886080315392.webp?size=96&quality=lossless")
+                                embed.set_image(_embed.image.url)
+                                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
+                                await announce_channel.send(embed=embed)
+                        except Exception as e:
+                            print(f"Swap Error: {message.channel.name}\n{sender} - {message.jump_url}\n{e}")
                 if _embed.description:
                     if message.reference:
                         ref_msg = await message.channel.fetch_message(message.reference.message_id)
