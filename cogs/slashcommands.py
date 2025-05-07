@@ -130,7 +130,7 @@ class SlashComs(commands.Cog):
     @commands.slash_command(name="event",description="Admin only. Used to activate Gengar controlled events.",
                             options=[Option(name="name", description="Which event to activate.", choices=[OptionChoice("Biggest Fish / Karp","bigfish")],required=True),
                                      Option(name="mode",description="To either start or stop an event.",choices=[OptionChoice("Start","start"),OptionChoice("End","end")], required=True),
-                                     Option(name="duration",description="Event runtime in days",required=True,type=int)])
+                                     Option(name="duration",description="Event runtime in days",required=True)])
     async def _event(self, ctx, name = None, mode = None,duration = None):
         if name == "bigfish":
             check = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
