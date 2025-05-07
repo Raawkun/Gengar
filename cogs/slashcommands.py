@@ -144,7 +144,7 @@ class SlashComs(commands.Cog):
                     await ctx.send(f"Alrighty, you've ended the currently running 'Biggest Fish' Event. Gonna send the results asap!")
                     asyncio.create_task(Modules.fishend(self))
             else:
-                runtime = duration*24*60*60
+                runtime = int(duration)*24*60*60
                 now = datetime.datetime.now().timestamp()
                 end_time = int(now)+runtime
                 self.db.execute(f"UPDATE Events SET Active = 1, Runtime = {runtime}, Start_Stamp = {int(now)} WHERE Name = 'BiggestFish'")
