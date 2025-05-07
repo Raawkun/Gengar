@@ -100,6 +100,7 @@ class On_Edit(commands.Cog):
                                 sender = ref_msg
                             if "caught a" in _embed.description and "pokecoins" in _embed.footer.text.lower():
                                 asyncio.create_task(Modules.dailycheck(self,after))
+                                asyncio.create_task(Modules.averagecoins(self,after))
                             if "caught a" and "_fossil" in _embed.description:
                                 fossil = _embed.description.split("retrieved a <:")[1]
                                 fossil = fossil.split(":")[0]

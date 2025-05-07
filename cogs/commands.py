@@ -132,7 +132,7 @@ class Coms(commands.Cog):
         now = datetime.datetime.now(est)
         date = str(f"{now.day}.{now.month}.{now.year}")
         coin = "<:pokecoin:835054000063381516>"
-        embed = disnake.Embed(title="Daily Server Stats",description=f"The daily server stats for {guild.name}.",color=disnake.Color.blurple())
+        embed = disnake.Embed(title="Daily Server Stats",description=f"The daily server stats for {ctx.guild.name}.",color=disnake.Color.blurple())
         row = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
         row = row.fetchone()
             
