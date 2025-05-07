@@ -397,14 +397,14 @@ class Listener(commands.Cog):
                 if item == self.promo_item:
                     await message.reply(f"Oh wow - looks like you've found a promo item! Congratulations!")
             if "won the battle!" in message.content.lower():
-                asyncio.create_task(Modules.dailycheck(self, message))
+                if "pokecoins" in message.content.lower():
+                    asyncio.create_task(Modules.dailycheck(self, message))
                 if self.promo_item in message.content.lower():
                     await message.reply(f"Oh wow - looks like you've found a promo item! Congratulations!")
             if "** released " in message.content.lower():
                 asyncio.create_task(Modules.dailycheck(self,message))
             if "here are your rewards for the " in message.content.lower():
-                print("Calculating WB coins...")
-                await asyncio.create_task(Modules.dailycheck(self, message))
+                asyncio.create_task(Modules.dailycheck(self, message))
             if "used a code to claim" in message.content:
                 monname = message.content.split("**")[1]
                 print(monname)
