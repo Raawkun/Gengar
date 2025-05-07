@@ -128,7 +128,7 @@ class Modules(commands.Cog):
             date = str(f"{now.day}.{now.month}.{now.year}")
             date_yst = str(f"{yesterday.day}.{yesterday.month}.{yesterday.year}")
             date_tmr = str(f"{tomorrow.day}.{tomorrow.month}.{tomorrow.year}")
-            reset_time = datetime(now.year,now.month,now.day,0,0,0)
+            reset_time = datetime(now.year,now.month,now.day,1,25,50)
             if now >= reset_time:
                 check = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
                 check = check.fetchone()
