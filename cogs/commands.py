@@ -127,7 +127,7 @@ class Coms(commands.Cog):
         await user.send(msg)
         
     @commands.command()
-    async def dailystats(self, ctx):
+    async def dailystatssss(self, ctx):
         try:
             print("Daily Stats command")
             est = ZoneInfo("America/New_York")
