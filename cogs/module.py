@@ -275,15 +275,16 @@ class Modules(commands.Cog):
         if check is None:
             self.db.execute(f"INSERT INTO BiggestFish VALUES ({sender.id},1,{size})")
             self.db.commit()
+            appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {size/100}m"
         else:
             if (float(check[2])/100)>(float(size)/100):
                 self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1 WHERE User_ID = {sender.id}")
                 self.db.commit()
-                appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {check[2]}m"
+                appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {check[2]/100}m"
             else:
                 self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1, Size = {size} WHERE User_ID = {sender.id}")
                 self.db.commit()
-                appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {size}m, former personal highscore was {check[2]}m."
+                appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {size/100}m, former personal highscore was {check[2]/100}m."
 
         await message.reply(f"{sender.mention} - {jk}\n{appending}")
 
