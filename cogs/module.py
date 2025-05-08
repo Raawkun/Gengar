@@ -129,7 +129,7 @@ class Modules(commands.Cog):
             date = str(f"{now.day}.{now.month}.{now.year}")
             date_yst = str(f"{yesterday.day}.{yesterday.month}.{yesterday.year}")
             date_tmr = str(f"{tomorrow.day}.{tomorrow.month}.{tomorrow.year}")
-            reset_time = datetime(now.year,now.month,now.day,0,0,50)
+            reset_time = datetime(now.year,now.month,now.day,2,40,50)
             if now >= reset_time:
                 check = self.db.execute(f"SELECT * FROM DailyStats WHERE Date = '{date}'")
                 check = check.fetchone()
@@ -147,6 +147,12 @@ class Modules(commands.Cog):
             print(f"Sleep duration until next Daily Stat Reset: {sleep_duration / 3600} hours.")
             await asyncio.sleep(sleep_duration)
 
+            est = ZoneInfo("America/New_York")
+            now = datetime.now(est)
+            yesterday = now-timedelta(days=1)
+            date = str(f"{now.day}.{now.month}.{now.year}")
+            date_yst = str(f"{yesterday.day}.{yesterday.month}.{yesterday.year}")
+            
             para = 825813023716540426
             channel = 1063926051861971015 #MeowHelper-Daily-Stats in Paralympic
             channel = self.client.get_channel(channel)
