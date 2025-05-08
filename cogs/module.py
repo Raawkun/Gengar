@@ -244,9 +244,9 @@ class Modules(commands.Cog):
                 #CoinMarket
                 if emb.title:
                     if "from all of your offers" in emb.title:
-                        print("Still calculating...")
+                        #print("Still calculating...")
                         coins = int(emb.title.split("**")[1].replace(",",""))
-                        print(f"Market coins: {coins}")
+                        #print(f"Market coins: {coins}")
                         self.db.execute(f"UPDATE DailyStats SET CoinMarket = CoinMarket + {coins} WHERE Date = '{date}'")
                         self.db.commit()
                 if emb.author.name:
