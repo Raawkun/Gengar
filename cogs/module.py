@@ -184,21 +184,16 @@ class Modules(commands.Cog):
             #PokeCaught from Explore
             if "you just caught a " in message.content.lower():
                 print("Explore catch")
-                self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught + 1 WHERE Date = '{date}'")
+                coins = int(message.content.lower().split("you earned")[1].split("> ")[1].split["!"][0].replace(",",""))
+                self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught + 1, CoinCatch = CoinCatch+{coins} WHERE Date = '{date}'")
                 self.db.commit()
             #PokeSeen (Should also work for explore?)
             if "found a " in message.content.lower():
                 self.db.execute(f"UPDATE DailyStats SET PokeSeen = PokeSeen + 1 WHERE Date = '{date}'")
                 self.db.commit()
-            #CoinCatch from Explore
-            elif "explore session has ended" in message.content.lower():
-                coins = int(message.content.split("Coins earned: <:PokeCoin:666879070650236928> ")[1].replace(",",""))
-                print(f"Explore coins: {coins}")
-                self.db.execute(f"UPDATE DailyStats SET CoinCatch = CoinCatch + {coins} WHERE Date = '{date}'")
-                self.db.commit()
             #BattleWon &
             #CoinBattle
-            elif "won the battle" in message.content:
+            if "won the battle" in message.content:
                 try:
                     coins = message.content.lower().split(" pokecoins")[0]
                     coins = coins.split(" ")
@@ -210,7 +205,7 @@ class Modules(commands.Cog):
                     print(f"There was a battling-error for the Daily Stats.")
                     print(f"In the channel: {message.channel.name}, MSG ID: {message.id}")
             #CoinRelease
-            elif "released " in message.content.lower():
+            if "released " in message.content.lower():
                 coins = message.content.split("!")[0]
                 coins = coins.split("<:PokeCoin:666879070650236928> **")[1]
                 coins = coins.split("**")[0]
@@ -219,7 +214,7 @@ class Modules(commands.Cog):
                 self.db.execute(f"UPDATE DailyStats SET CoinRelease = CoinRelease + {coins} WHERE Date = '{date}'")
                 self.db.commit()
             #CoinWorldBoss
-            elif "here are your rewards for the " in message.content.lower():
+            if "here are your rewards for the " in message.content.lower():
                 coins = message.content.split("PokeCoins earned: <:PokeCoin:666879070650236928> ")[1]
                 coins = int(coins.split()[0].replace(",",""))
                 print(f"Worldboss coins: {coins}")

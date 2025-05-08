@@ -873,6 +873,8 @@ class Listener(commands.Cog):
                                 desc = f'{rem_emotes["remind"]} - <@{sender.id}> {rem_emotes["swap"]}'
                             await message.channel.send(desc)
                 if _embed.title:
+                    if "from all your offers" in _embed.title:
+                        asyncio.create_task(Modules.dailycheck(self, message))
                     if "quests for rewards!" in _embed.title:
                         #print("Quest screen from "+sender.display_name)
                         datarem = self.db.execute(f'SELECT * FROM Toggle WHERE User_ID = {sender.id}')
