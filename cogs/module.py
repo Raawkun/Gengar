@@ -183,7 +183,7 @@ class Modules(commands.Cog):
                 self.db.commit()
             #PokeCaught from Explore
             if "you just caught a " in message.content.lower():
-                coins = message.content.split("you earned")[1]
+                coins = message.content.split("You earned")[1]
                 coins = coins.split("> ")[1]
                 coins = int(coins.split["!"][0].replace(",",""))
                 print(f"Explore catch; {coins}")

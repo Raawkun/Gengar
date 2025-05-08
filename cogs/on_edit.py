@@ -164,6 +164,7 @@ class On_Edit(commands.Cog):
                         monrare = monrare.split(":")[1]
                         #print(f'{monnumber}'", "f'{monrare}'", "f'{monname}')
                         if "caught a " in after.content:
+                            print("Calculate catch")
                             asyncio.create_task(Modules.dailycheck(self, after))
                         #Rare_Spawns = ["Event", "Legendary", "Shiny", "Rare", "SuperRare","Golden","Uncommon"]
                         if monrare in Rare_Spawns:
