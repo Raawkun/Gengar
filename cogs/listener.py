@@ -1080,10 +1080,13 @@ class Listener(commands.Cog):
                             else:
                                 await message.reply(f"</egg hold:1015311084594405485>")
                         asyncio.create_task(Modules.dailycheck(self, message))
-                        data_egg = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
-                        data_egg = data_egg.fetchone()
-                        sender = ref_msg.author
-                        raremon = poke_rarity[(data_egg[14])]
+                        try:
+                            data_egg = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
+                            data_egg = data_egg.fetchone()
+                            sender = ref_msg.author
+                            raremon = poke_rarity[(data_egg[14])]
+                        except Exception as e:
+                            print(f"Egg Error: {message.channel.name}\n{message.author.display_name} - {message.jump_url}\n{e}")
                         description_text = f"Original message: [Click here]({message.jump_url})\n"
                         #print(Rare_Spawned)
                         #Rare_Spawned = ["Golden","Event", "Legendary", "Shiny", "Rare", "SuperRare"]
