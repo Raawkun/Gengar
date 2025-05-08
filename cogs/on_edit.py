@@ -97,7 +97,7 @@ class On_Edit(commands.Cog):
                                 sender = ref_msg.author
                             elif before.interaction:
                                 ref_msg = before.interaction.user
-                                sender = ref_msg
+                                sender = ref_msg.author
                             if "caught a" in _embed.description:
                                 if "pokecoins" in _embed.footer.text.lower():
                                     asyncio.create_task(Modules.dailycheck(self,after))
