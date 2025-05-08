@@ -146,9 +146,6 @@ class On_Edit(commands.Cog):
 
             if ":map: Map:" in before.content:
                 if "steps today:" in after.content.lower():
-                    if "session has ended!" in after.content.lower():
-                        print("Session end")
-                        asyncio.create_task(Modules.dailycheck(self, after))
                     #print("Someone is stepping.")
                     if "found a " in before.content:
                         if before.reference:
@@ -164,7 +161,7 @@ class On_Edit(commands.Cog):
                         monrare = monrare.split(":")[1]
                         #print(f'{monnumber}'", "f'{monrare}'", "f'{monname}')
                         if "caught a " in after.content:
-                            print("Calculate catch")
+                            #print("Calculate catch")
                             asyncio.create_task(Modules.dailycheck(self, after))
                         #Rare_Spawns = ["Event", "Legendary", "Shiny", "Rare", "SuperRare","Golden","Uncommon"]
                         if monrare in Rare_Spawns:
