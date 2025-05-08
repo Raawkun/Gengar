@@ -147,6 +147,7 @@ class On_Edit(commands.Cog):
             if ":map: Map:" in before.content:
                 if "steps today:" in after.content.lower():
                     if "session has ended!" in after.content.lower():
+                        print("Session end")
                         asyncio.create_task(Modules.dailycheck(self, after))
                     #print("Someone is stepping.")
                     if "found a " in before.content:
