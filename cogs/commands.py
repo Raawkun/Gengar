@@ -20,8 +20,7 @@ from googlesearch import search
 from PIL import Image, ImageDraw, ImageSequence
 from io import BytesIO
 from cogs.module import Modules
-import imageio
-import aiohttp
+import imageio, subprocess, aiohttp
 from cogs.listener import Listener
 
 # Zeichen zum Kopieren: [ ] { }
@@ -145,7 +144,24 @@ class Coms(commands.Cog):
             timeing = int(check[3])+int(check[2])
             jk += f"\nThe event will run until <t:{timeing}:f>"
             await ctx.reply(jk)
-            
+    
+    @commands.is_owner()
+    @commands.command()
+    async def reload(self, ctx, extension:str):
+        try:
+            result = subprocess.run(["git", "pull"],capture_output=True,text = True)
+            git_output = result.stdout or result.stderr
+
+            self.client.reload_extension(extension)
+            await ctx.send(f"Reloaded `{extension}` sucessfully.\n```{git_output}```")
+        except commands.ExtensionNotLoaded:
+            try:
+                self.client.load_extension(extension)
+                await ctx.send(f"Loaded `{extension}` (cause it was not loaded before).\n```{git_output}```")
+            except Exception as e:
+                await ctx.send(f"Failed to load `{extension}`: {e}\n```{git_output}```")
+        except Exception as e:
+            await ctx.send(f"Error reloading `{extension}`.\n```{git_output}```")
         
     @commands.command(aliases=[("daily")])
     async def dailystats(self, ctx):
