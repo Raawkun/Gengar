@@ -2,7 +2,7 @@ from sqlite3 import connect
 import disnake
 from disnake.ext import commands
 from disnake import Message, Option, OptionChoice, OptionType, ApplicationCommandInteraction
-import asyncio
+import asyncio, zoneinfo
 import datetime
 from utility.embed import Custom_embed, Auction_embed
 from utility.all_checks import Basic_checker
@@ -145,9 +145,13 @@ class SlashComs(commands.Cog):
                     asyncio.create_task(Modules.fishend(self))
             else:
                 runtime = int(duration)*24*60*60
+                cet = zoneinfo.ZoneInfo("Europe/Berlin")
+                end = datetime.timedelta(days=duration)
+                ending = datetime.datetime.now(cet)
+                ending = datetime.datetime(ending.year,ending.month,ending.day,14,0,0)+end
                 now = datetime.datetime.now().timestamp()
-                end_time = int(now)+runtime
-                self.db.execute(f"UPDATE Events SET Active = 1, Runtime = {runtime}, Start_Stamp = {int(now)} WHERE Name = 'BiggestFish'")
+                end_time = ending.timestamp()
+                self.db.execute(f"UPDATE Events SET Active = 1, Runtime = {runtime}, Start_Stamp = {int(now)}, End_Stamp = {int(end_time)} WHERE Name = 'BiggestFish'")
                 self.db.commit()
                 await ctx.send(f"Congratulations! You've activated a funny round of 'Biggest Fish / Karp' for the server! This event will run until: <t:{end_time}:f>")
 
