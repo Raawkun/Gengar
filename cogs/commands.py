@@ -147,8 +147,8 @@ class Coms(commands.Cog):
             await ctx.reply(jk)
             
         
-    @commands.command()
-    async def dailystatssss(self, ctx):
+    @commands.command(aliases=[("daily")])
+    async def dailystats(self, ctx):
         try:
             print("Daily Stats command")
             est = ZoneInfo("America/New_York")
