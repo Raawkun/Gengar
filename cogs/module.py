@@ -187,7 +187,7 @@ class Modules(commands.Cog):
                 coins = coins.split("> ")[1]
                 coins = coins.split("!")[0]
                 coins = int(coins.replace(",",""))
-                print(f"Explore catch; {coins}")
+                #print(f"Explore catch; {coins}")
                 self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught + 1, CoinCatch = CoinCatch+{coins} WHERE Date = '{date}'")
                 self.db.commit()
             #PokeSeen (Should also work for explore?)
