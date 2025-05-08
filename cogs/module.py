@@ -243,7 +243,7 @@ class Modules(commands.Cog):
                             self.db.commit()
                 #CoinMarket
                 if emb.title:
-                    if "from all your offers" in emb.title:
+                    if "from all of your offers" in emb.title:
                         print("Still calculating...")
                         coins = int(emb.title.split("**")[1].replace(",",""))
                         print(f"Market coins: {coins}")
