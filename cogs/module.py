@@ -184,11 +184,8 @@ class Modules(commands.Cog):
             #PokeCaught from Explore
             if "you just caught a " in message.content.lower():
                 coins = message.content.split("You earned")[1]
-                print(coins)
                 coins = coins.split("> ")[1]
-                print(coins)
-                coins = coins.split["!"][0]
-                print(coins)
+                coins = coins.split)"!"][0]
                 coins = int(coins.replace(",",""))
                 print(f"Explore catch; {coins}")
                 self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught + 1, CoinCatch = CoinCatch+{coins} WHERE Date = '{date}'")
