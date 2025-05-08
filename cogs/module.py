@@ -183,6 +183,7 @@ class Modules(commands.Cog):
                 self.db.commit()
             #PokeCaught from Explore
             if "you just caught a " in message.content.lower():
+                print("Explore catch")
                 self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught + 1 WHERE Date = '{date}'")
                 self.db.commit()
             #PokeSeen (Should also work for explore?)
@@ -192,6 +193,7 @@ class Modules(commands.Cog):
             #CoinCatch from Explore
             elif "explore session has ended" in message.content.lower():
                 coins = int(message.content.split("Coins earned: <:PokeCoin:666879070650236928> ")[1].replace(",",""))
+                print(f"Explore coins: {coins}")
                 self.db.execute(f"UPDATE DailyStats SET CoinCatch = CoinCatch + {coins} WHERE Date = '{date}'")
                 self.db.commit()
             #BattleWon &
@@ -213,6 +215,7 @@ class Modules(commands.Cog):
                 coins = coins.split("<:PokeCoin:666879070650236928> **")[1]
                 coins = coins.split("**")[0]
                 coins = int(coins.replace(",",""))
+                print(f"Release coins: {coins}")
                 self.db.execute(f"UPDATE DailyStats SET CoinRelease = CoinRelease + {coins} WHERE Date = '{date}'")
                 self.db.commit()
             #CoinWorldBoss
@@ -244,6 +247,7 @@ class Modules(commands.Cog):
                 if emb.title:
                     if "from all your offers" in emb.title:
                         coins = int(emb.title.split("**")[1].replace(",",""))
+                        print(f"Market coins: {coins}")
                         self.db.execute(f"UPDATE DailyStats SET CoinMarket = CoinMarket + {coins} WHERE Date = '{date}'")
                         self.db.commit()
                 if emb.author.name:
