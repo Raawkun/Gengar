@@ -185,7 +185,8 @@ class Modules(commands.Cog):
             if "you just caught a " in message.content.lower():
                 coins = message.content.split("You earned")[1]
                 coins = coins.split("> ")[1]
-                coins = int(coins.split["!"][0].replace(",",""))
+                coins = coins.split["!"][0]
+                coins = int(coins.replace(",",""))
                 print(f"Explore catch; {coins}")
                 self.db.execute(f"UPDATE DailyStats SET PokeCaught = PokeCaught + 1, CoinCatch = CoinCatch+{coins} WHERE Date = '{date}'")
                 self.db.commit()
