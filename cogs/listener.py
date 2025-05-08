@@ -535,6 +535,8 @@ class Listener(commands.Cog):
                 #print(_embed.author.name)
                 Rare_Spawned = ["Event", "Legendary", "Shiny", "Golden"]
                 if _embed.title:
+                    print(_embed)
+                    print(_embed.title)
                     if "from all your offers" in _embed.title:
                         print("Market calculate")
                         asyncio.create_task(Modules.dailycheck(self, message))
