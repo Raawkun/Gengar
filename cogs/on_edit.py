@@ -96,8 +96,8 @@ class On_Edit(commands.Cog):
                                 ref_msg = await before.channel.fetch_message(before.reference.message_id)
                                 sender = ref_msg.author
                             elif before.interaction:
-                                ref_msg = before.interaction.user
-                                sender = ref_msg.author
+                                ref_msg = before.interaction.author
+                                sender = ref_msg
                             if "caught a" in _embed.description:
                                 if "pokecoins" in _embed.footer.text.lower():
                                     asyncio.create_task(Modules.dailycheck(self,after))
