@@ -136,7 +136,7 @@ class Coms(commands.Cog):
             table = self.db.execute(f"SELECT * FROM {check[0]} ORDER BY Size DESC")
             table = table.fetchall()
             i = 0
-            jk = f"You're currently not present in the Event Leaderboard")
+            jk = f"You're currently not present in the Event Leaderboard"
             for row in table:
                 if row[0] == ctx.author.id:
                     jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m."
