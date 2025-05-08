@@ -125,6 +125,25 @@ class Coms(commands.Cog):
         user = ctx.guild.get_member(userid)
         msg = " ".join(args)
         await user.send(msg)
+    
+    @commands.command()
+    async def event(self, ctx):
+        check = self.db.execute(f"SELECT * FROM Events WHERE Active = 1")
+        check = check.fetchone()
+        if check is None:
+            await ctx.reply(f"There's currently no Mega Gengar event active.")
+        else:
+            table = self.db.execute(f"SELECT * FROM {check[0]} ORDER BY Size DESC")
+            table = table.fetchall()
+            i = 0
+            jk = f"You're currently not present in the Event Leaderboard")
+            for row in table:
+                if row[0] == ctx.author.id:
+                    jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m."
+                else:
+                    i += 1
+            await ctx.reply(jk)
+            
         
     @commands.command()
     async def dailystatssss(self, ctx):
