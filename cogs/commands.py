@@ -142,6 +142,8 @@ class Coms(commands.Cog):
                     jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m."
                 else:
                     i += 1
+            timeing = int(check[3])+(int(check[2]*24*60*60)
+            jk += f"\nThe event will run until <t:{timeing}:f>"
             await ctx.reply(jk)
             
         
