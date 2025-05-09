@@ -255,6 +255,12 @@ class Modules(commands.Cog):
                         self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
                         self.db.commit()
             
+    def generate_size():
+        mu=5, sigma=1.5, min_size=1, max_size=700
+        size = np.random.normal(mu, sigma)
+        size = max(min_size, min(max_size, size))  # Clamp to range
+        return round(size, 2)
+        
     # BIGGEST FISH / KARP EVENT
     async def fisheventcheck(self,message,sender):
         if message.guild.id == 825813023716540426:
@@ -270,6 +276,7 @@ class Modules(commands.Cog):
         rand2 = random.random()
         rand3 = random.randint(0,200)
         size = int((rand*rand2)+rand3)
+        size = await asyncio.create_task(Modules.generate_size())
         if size < 100:
             jk = f"Wow! {size/100}m! That's a tiny <:129:1210417260196270213> Magikarp!"
         elif size >= 100 and size < 300:
