@@ -266,10 +266,13 @@ class Modules(commands.Cog):
         if message.guild.id == 825813023716540426:
             check = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
             check = check.fetchone()
-            if check[1] == 1:
-                for role in sender.roles:
-                    if role.id == 837611415070048277:
-                        asyncio.create_task(Modules.biggestfish(self, message,sender))
+            try:
+                if check[1] == 1:
+                    for role in sender.roles:
+                        if role.id == 837611415070048277:
+                            asyncio.create_task(Modules.biggestfish(self, message,sender))
+            except Exception as e:
+                print(f"Fish event check error: {sender} - {message.jump_url}\n{e}")
 
     async def biggestfish(self, message,sender):
         rand = random.randint(1,500)
