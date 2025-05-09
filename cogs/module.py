@@ -256,7 +256,10 @@ class Modules(commands.Cog):
                         self.db.commit()
             
     def generate_size():
-        mu=5, sigma=1.5, min_size=1, max_size=700
+        mu=5
+        sigma=1.5
+        min_size=1
+        max_size=700
         size = np.random.normal(mu, sigma)
         size = max(min_size, min(max_size, size))  # Clamp to range
         return round(size, 2)
