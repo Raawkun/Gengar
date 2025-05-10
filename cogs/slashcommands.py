@@ -150,7 +150,7 @@ class SlashComs(commands.Cog):
                 ending = datetime.datetime.now(cet)
                 ending = datetime.datetime(ending.year,ending.month,ending.day,14,0,0)+end
                 now = datetime.datetime.now().timestamp()
-                end_time = ending.timestamp()
+                end_time = int(ending.timestamp())
                 self.db.execute(f"UPDATE Events SET Active = 1, Runtime = {runtime}, Start_Stamp = {int(now)}, End_Stamp = {int(end_time)} WHERE Name = 'BiggestFish'")
                 self.db.commit()
                 await ctx.send(f"Congratulations! You've activated a funny round of 'Biggest Fish / Karp' for the server! This event will run until: <t:{end_time}:f>")
