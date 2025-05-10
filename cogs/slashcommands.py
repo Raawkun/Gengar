@@ -144,13 +144,13 @@ class SlashComs(commands.Cog):
                     await ctx.send(f"Alrighty, you've ended the currently running 'Biggest Fish' Event. Gonna send the results asap!")
                     asyncio.create_task(Modules.fishend(self))
             else:
-                runtime = int(duration)*24*60*60
                 cet = zoneinfo.ZoneInfo("Europe/Berlin")
                 end = datetime.timedelta(days=int(duration))
                 ending = datetime.datetime.now(cet)
                 ending = datetime.datetime(ending.year,ending.month,ending.day,14,0,0)+end
-                now = datetime.datetime.now().timestamp()
+                now = int(datetime.datetime.now().timestamp())
                 end_time = int(ending.timestamp())
+                runtime = end_time-now
                 self.db.execute(f"UPDATE Events SET Active = 1, Runtime = {runtime}, Start_Stamp = {int(now)}, End_Stamp = {int(end_time)} WHERE Name = 'BiggestFish'")
                 self.db.commit()
                 await ctx.send(f"Congratulations! You've activated a funny round of 'Biggest Fish / Karp' for the server! This event will run until: <t:{end_time}:f>")
