@@ -296,7 +296,7 @@ class Modules(commands.Cog):
         rand2 = random.random()
         rand3 = random.randint(0,200)
         size = int((rand*rand2)+rand3)
-        size = await asyncio.create_task(Modules.generate_size())
+        size = await Modules.generate_size()
         if size < 100:
             jk = f"Wow! {size/100}m! That's a tiny <:129:1210417260196270213> Magikarp!"
         elif size >= 100 and size < 300:
