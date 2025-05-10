@@ -137,7 +137,7 @@ class SlashComs(commands.Cog):
             check = check.fetchone()
             if check[1] == 1:
                 if mode == "start":
-                    runtime = check[2]*24*60*60
+                    runtime = check[2]
                     end_time = check[3]+runtime
                     await ctx.send(f"The event 'Biggest Fish / Karp' is already running. Please wait for it to be done at <t:{end_time}:f> to activate it again or use 'mode -> end' to end it now.")
                 elif mode == "end":
@@ -146,7 +146,7 @@ class SlashComs(commands.Cog):
             else:
                 runtime = int(duration)*24*60*60
                 cet = zoneinfo.ZoneInfo("Europe/Berlin")
-                end = datetime.timedelta(days=duration)
+                end = datetime.timedelta(days=int(duration))
                 ending = datetime.datetime.now(cet)
                 ending = datetime.datetime(ending.year,ending.month,ending.day,14,0,0)+end
                 now = datetime.datetime.now().timestamp()
