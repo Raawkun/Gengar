@@ -256,13 +256,27 @@ class Modules(commands.Cog):
                         self.db.commit()
             
     def generate_size():
-        mu=5
-        sigma=1.5
-        min_size=1
-        max_size=700
-        size = np.random.normal(mu, sigma)
-        size = max(min_size, min(max_size, size))  # Clamp to range
-        return round(size, 2)
+        x_min = 1
+        x_max = 700
+        output_min = 1
+        output_max = 700
+    
+        mu = 0.5           # Center of the bump in normalized range (i.e., x ≈ 350)
+        sigma_ratio = 0.15 # Controls how wide the bump is (lower = sharper)
+    
+        # Pick random x in full range
+        x = random.uniform(x_min, x_max)
+    
+        # Normalize x to [0, 1]
+        norm_x = (x - x_min) / (x_max - x_min)
+    
+        # Apply Gaussian function
+        exponent = -((norm_x - mu) ** 2) / (2 * sigma_ratio ** 2)
+        gauss = math.exp(exponent)
+    
+        # Scale output to desired range and round to int
+        output = output_min + (output_max - output_min) * gauss
+        return round(output)
         
     # BIGGEST FISH / KARP EVENT
     async def fisheventcheck(self,message,sender):
