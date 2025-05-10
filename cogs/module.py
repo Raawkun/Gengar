@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import os
 import disnake
 from disnake.ext import commands
-import sqlite3
+import sqlite3, math
 from sqlite3 import connect
 from zoneinfo import ZoneInfo
 import pytz
