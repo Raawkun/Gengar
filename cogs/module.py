@@ -334,7 +334,7 @@ class Modules(commands.Cog):
         i = 0
         while i < len(results):
             if i < 10:
-                table += f"<@{results[i][0]}>  |  {results[i][1]}  |  {float(results[i][2])/100}m"
+                table += f"<@{results[i][0]}>  |  {results[i][1]}  |  {float(results[i][2])/100}m\n"
             i += 1
         
         emb = disnake.Embed(title="Biggest Karp Leaderboard", description=f"Here are the results for the Event which started at <t:{events[3]}:f>.",color=disnake.Color.dark_gold())
