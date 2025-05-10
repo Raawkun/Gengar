@@ -327,12 +327,14 @@ class Modules(commands.Cog):
     async def fishend(self):
         results = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC")
         results = results.fetchall()
+        print(results)
         events = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
         events = events.fetchone()
         table = ""
         i = 0
-        while i < 10:
-            table += f"<@{results[i][0]}>  |  {results[i][1]}  |  {float(results[i][2])/100}m"
+        while i < len(results):
+            if i < 10
+                table += f"<@{results[i][0]}>  |  {results[i][1]}  |  {float(results[i][2])/100}m"
             i += 1
         
         emb = disnake.Embed(title="Biggest Karp Leaderboard", description=f"Here are the results for the Event which started at <t:{events[3]}:f>.",color=disnake.Color.dark_gold())
