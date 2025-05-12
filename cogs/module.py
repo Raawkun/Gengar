@@ -262,7 +262,7 @@ class Modules(commands.Cog):
         output_max = 700
     
         mu = 0.28          # Center of the bump in normalized range (i.e., x ≈ 350)
-        sigma_ratio = 0.18 # Controls how wide the bump is (lower = sharper)
+        sigma_ratio = 0.12 # Controls how wide the bump is (lower = sharper)
     
         # Pick random x in full range
         x = random.uniform(x_min, x_max)
