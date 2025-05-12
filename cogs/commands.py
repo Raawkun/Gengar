@@ -164,7 +164,7 @@ class Coms(commands.Cog):
         except Exception as e:
             await ctx.send(f"Error reloading `{extension}`.\n```{git_output}```")
         
-    @commands.check(Basic_checker.check_management())
+    @commands.check(Basic_checker.check_management)
     @commands.command(aliases=[("daily")])
     async def dailystats(self, ctx):
         try:
