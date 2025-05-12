@@ -260,7 +260,6 @@ class Listener(commands.Cog):
         if id == 825813023716540426: #Paralympic
             desc= f"Welcome to ᵖᵃʳᵃˡʸᵐᵖᶤᶜˢ <@{member.id}>.\nTo get full access to the server, get verified in <#998249646923202610>!\n"
             desc += f"If you are here to join the clan, then please post your `;stats` in <#825836268332122122> and make sure you read the pins in there for clan requirements.\n"
-            desc += f"If you're a member of a partnered clan, please head to <#825836268332122122> and use ``;clan``.\n"
             desc += f"Have a read of <#885070641638825984> for information on the server including the rules.\n"
             desc += f"Happy hunting!"
             channel = self.client.get_channel(825836238951022602)
