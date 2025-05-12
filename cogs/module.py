@@ -261,8 +261,8 @@ class Modules(commands.Cog):
         output_min = 1
         output_max = 700
     
-        mu = 0.5           # Center of the bump in normalized range (i.e., x ≈ 350)
-        sigma_ratio = 0.15 # Controls how wide the bump is (lower = sharper)
+        mu = 0.28          # Center of the bump in normalized range (i.e., x ≈ 350)
+        sigma_ratio = 0.18 # Controls how wide the bump is (lower = sharper)
     
         # Pick random x in full range
         x = random.uniform(x_min, x_max)
@@ -309,15 +309,20 @@ class Modules(commands.Cog):
         check = self.db.execute(f"SELECT * FROM BiggestFish WHERE User_ID = {sender.id}")
         check = check.fetchone()
         if check is None:
-            self.db.execute(f"INSERT INTO BiggestFish VALUES ({sender.id},1,{size})")
+            self.db.execute(f"INSERT INTO BiggestFish VALUES ({sender.id},1,{size},{size})")
             self.db.commit()
             appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {size/100}m"
         else:
-            if (float(check[2])/100)>(float(size)/100):
-                self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1 WHERE User_ID = {sender.id}")
-                self.db.commit()
-                appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {check[2]/100}m"
-            else:
+            if (float(check[2])/100)>(float(size)/100): #New size smaller biggest fish
+                if (float(size)/100)>(float(check[3])/100): #Bigger than smallet
+                    self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1 WHERE User_ID = {sender.id}")
+                    self.db.commit()
+                    appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {check[2]/100}m"
+                else: #Smaller than smallest
+                    self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1, Smallest = {size} WHERE User_ID = {sender.id}")
+                    self.db.commit()
+                    appending = f"That's your smallest  <:129:1210417260196270213> Magikarp so far: {size/100}, former personal smallest was {check[3]/100}m."
+            else: #Bigger than biggest
                 self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1, Size = {size} WHERE User_ID = {sender.id}")
                 self.db.commit()
                 appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {size/100}m, former personal highscore was {check[2]/100}m."
@@ -327,7 +332,7 @@ class Modules(commands.Cog):
     async def fishend(self):
         results = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC")
         results = results.fetchall()
-        print(results)
+        #print(results)
         events = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
         events = events.fetchone()
         table = ""
@@ -338,7 +343,11 @@ class Modules(commands.Cog):
             i += 1
         
         emb = disnake.Embed(title="Biggest Karp Leaderboard", description=f"Here are the results for the Event which started at <t:{events[3]}:f>.",color=disnake.Color.dark_gold())
-        emb.add_field(name="Top 10:",value=f"•  Username  |  Catch Amount  |  Size  •\n{table}")
+        emb.add_field(name="Top 10:",value=f"•  Username  |  Catch Amount  |  Size  •\n{table}",inline=True)
+        smallest = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Smallest ASC")
+        smallest = smallest.fetchall()
+        small = f"<@{smallest[0][0]}>  |  {smallest[0][3]/100}m"
+        emb.add_field(name="Smallest  <:129:1210417260196270213> Karp caught:",value=small,inline=True)
         emb.set_footer(text="Provided by Mega Gengar.")
         channel = self.client.get_channel(825958388349272106) #Bot-Testing
         await channel.send(embed=emb)
