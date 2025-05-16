@@ -130,7 +130,7 @@ class SlashComs(commands.Cog):
     @commands.slash_command(name="event",description="Admin only. Used to activate Gengar controlled events.",
                             options=[Option(name="name", description="Which event to activate.", choices=[OptionChoice("Biggest Fish / Karp","bigfish")],required=True),
                                      Option(name="mode",description="To either start or stop an event.",choices=[OptionChoice("Start","start"),OptionChoice("End","end")], required=True),
-                                     Option(name="duration",description="Event runtime in days",required=True)])
+                                     Option(name="duration",description="Event runtime in days",required=False)])
     async def _event(self, ctx, name = None, mode = None,duration = None):
         if name == "bigfish":
             check = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
@@ -144,6 +144,8 @@ class SlashComs(commands.Cog):
                     await ctx.send(f"Alrighty, you've ended the currently running 'Biggest Fish' Event. Gonna send the results asap!")
                     asyncio.create_task(Modules.fishend(self))
             else:
+                if duration == None:
+                    duration = 7
                 cet = zoneinfo.ZoneInfo("Europe/Berlin")
                 end = datetime.timedelta(days=int(duration))
                 ending = datetime.datetime.now(cet)
