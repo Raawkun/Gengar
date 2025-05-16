@@ -381,7 +381,7 @@ class Modules(commands.Cog):
         elif message.interaction:
             ref_msg = message.interaction.author
             sender = ref_msg
-        id = message.split("you obtained a <:")[1]
+        id = message.content.split("you obtained a <:")[1]
         id = int(id.split(":")[0])
         data = self.db.execute(f"SELECT * FROM Dex WHERE DexID = {id}")
         data = data.fetchone()
