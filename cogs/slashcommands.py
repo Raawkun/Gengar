@@ -156,7 +156,7 @@ class SlashComs(commands.Cog):
                 self.db.execute(f"UPDATE Events SET Active = 1, Runtime = {runtime}, Start_Stamp = {int(now)}, End_Stamp = {int(end_time)} WHERE Name = 'BiggestFish'")
                 self.db.commit()
                 await ctx.send(f"Congratulations! You've activated a funny round of 'Biggest Fish / Karp' for the server! This event will run until: <t:{end_time}:f>")
-                asyncio.create_task(Modules.fishend(self))
+                asyncio.create_task(Modules.fishtimer(self))
 
     @commands.check(Basic_checker().check_admin)
     @commands.slash_command(name="setup", description="First setup of the bot (can be changed later too ofc).", 

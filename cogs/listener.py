@@ -180,7 +180,7 @@ class Listener(commands.Cog):
         asyncio.create_task(self._changelog())
         asyncio.create_task(Modules.dailyreset(self))
         asyncio.create_task(Modules.averagetimer(self))
-        asyncio.create_task(Modules.fishend(self))
+        asyncio.create_task(Modules.fishtimer(self))
         reminders = self.db.execute(f'SELECT * FROM Toggle WHERE QuestTime >= 1 ORDER BY QuestTime ASC')
         reminders = reminders.fetchall()
         #print(reminders)
