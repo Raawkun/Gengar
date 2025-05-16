@@ -180,6 +180,7 @@ class Listener(commands.Cog):
         asyncio.create_task(self._changelog())
         asyncio.create_task(Modules.dailyreset(self))
         asyncio.create_task(Modules.averagetimer(self))
+        asyncio.create_task(Modules.fishend(self))
         reminders = self.db.execute(f'SELECT * FROM Toggle WHERE QuestTime >= 1 ORDER BY QuestTime ASC')
         reminders = reminders.fetchall()
         #print(reminders)
@@ -215,7 +216,6 @@ class Listener(commands.Cog):
             elif waiter < current_time:
                 self.db.execute(f'UPDATE Toggle SET Channel = 0, QuestTime = 0, Timer = 0 WHERE User_ID = {userid}')
                 self.db.commit()
-        asyncio.create_task(Modules.fishend(self))
         print("Time do to ghost stuff!")
 
     @commands.Cog.listener()
