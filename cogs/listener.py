@@ -215,6 +215,7 @@ class Listener(commands.Cog):
             elif waiter < current_time:
                 self.db.execute(f'UPDATE Toggle SET Channel = 0, QuestTime = 0, Timer = 0 WHERE User_ID = {userid}')
                 self.db.commit()
+        asyncio.create_task(Modules.fishend(self))
         print("Time do to ghost stuff!")
 
     @commands.Cog.listener()
