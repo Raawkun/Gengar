@@ -16,6 +16,7 @@ import aiomysql
 import datetime
 from utility.embed import Custom_embed, Auction_embed
 from cogs.module import Modules
+from cogs.resuming import Resuming
 from utility.db_config import db_config
 
 # Zeichen zum Kopieren: [ ] { }
@@ -215,6 +216,13 @@ class Listener(commands.Cog):
                 self.db.execute(f'UPDATE Toggle SET Channel = 0, QuestTime = 0, Timer = 0 WHERE User_ID = {userid}')
                 self.db.commit()
         print("Time do to ghost stuff!")
+
+    @commands.Cog.listener()
+    async def on_resumed(self):
+        print("Bot reconnected! Reloadsing cogs...")
+        await Resuming.cancel_user_tasks()
+        await Listener.on_ready()
+
             
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
