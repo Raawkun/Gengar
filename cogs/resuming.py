@@ -23,8 +23,7 @@ class Resuming(commands.Cog):
 
             # Filter 2: Ignore internal library tasks
             if any("disnake" in frame.f_globals.get("__name__", "") or
-                "discord" in frame.f_globals.get("__name__", "") or
-                "asyncio" in frame.f_globals.get("__name__", "")
+                "discord" in frame.f_globals.get("__name__", "")
                 for frame in stack):
                 continue
 
