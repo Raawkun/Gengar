@@ -221,7 +221,7 @@ class Listener(commands.Cog):
     async def on_resumed(self):
         print("Bot reconnected! Reloadsing cogs...")
         await Resuming.cancel_user_tasks()
-        await Listener.on_ready()
+        await Listener.on_ready(self)
 
             
     @commands.Cog.listener()
