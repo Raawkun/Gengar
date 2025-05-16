@@ -367,6 +367,7 @@ class Modules(commands.Cog):
                 self.db.commit()
 
     async def rare_spawn(self, message):
+        print("Checking the WB message")
         current_time = datetime.datetime.utcnow()
         timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
         receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
