@@ -379,12 +379,15 @@ class Coms(commands.Cog):
             channel = ctx.channel
         else:
             channel = await ctx.get_channel(channel)
-        if overseen == None:
+        if id == None:
             if ctx.reference == True:
                 id = ctx.reference.id
             else:
                 await ctx.reply("Please reply to a message.")
         overseen = await channel.fetch_message(id)
+        print(overseen)
+        print("...")
+        print(overseen.content)
         if overseen:
             Rare_Spawns = ["Event", "Legendary", "Shiny","Golden"]
             if "you obtained a" in overseen.content.lower():
