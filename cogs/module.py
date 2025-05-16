@@ -7,6 +7,7 @@ import sqlite3, math
 from sqlite3 import connect
 from zoneinfo import ZoneInfo
 import pytz
+import numpy
 from  utility.rarity_db import poke_rarity, embed_color
 from utility.embed import Custom_embed, Auction_embed
 from utility.info_dict import cmds,functions
@@ -276,7 +277,11 @@ class Modules(commands.Cog):
     
         # Scale output to desired range and round to int
         output = output_min + (output_max - output_min) * gauss
-        return round(output)
+        while True:
+            xy = numpy.random.normal(loc=200, scale=70)
+            if 1 <= xy <= 700:
+                print(xy)
+                return round(output)
         
     # BIGGEST FISH / KARP EVENT
     async def fisheventcheck(self,message,sender):
