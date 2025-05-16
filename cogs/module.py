@@ -323,9 +323,9 @@ class Modules(commands.Cog):
             now = int(datetime.utcnow().timestamp())
             waiter = end-now
             print(f"Active Fishing Event found; gonna end in {waiter/60} minutes.")
-            asyncio.sleep(waiter)
+            await asyncio.sleep(waiter)
             asyncio.create_task(Modules.fishend(self))
-            
+
 
 
     async def fishend(self):
