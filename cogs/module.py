@@ -257,31 +257,11 @@ class Modules(commands.Cog):
                         self.db.commit()
             
     def generate_size():
-        x_min = 1
-        x_max = 700
-        output_min = 1
-        output_max = 700
-    
-        mu = 0.28          # Center of the bump in normalized range (i.e., x ≈ 350)
-        sigma_ratio = 0.2 # Controls how wide the bump is (lower = sharper)
-    
-        # Pick random x in full range
-        x = random.uniform(x_min, x_max)
-    
-        # Normalize x to [0, 1]
-        norm_x = (x - x_min) / (x_max - x_min)
-    
-        # Apply Gaussian function
-        exponent = -((norm_x - mu) ** 2) / (2 * sigma_ratio ** 2)
-        gauss = math.exp(exponent)
-    
-        # Scale output to desired range and round to int
-        output = output_min + (output_max - output_min) * gauss
         while True:
             xy = numpy.random.normal(loc=200, scale=70)
             if 1 <= xy <= 700:
                 print(xy)
-                return round(output)
+                return round(xy)
         
     # BIGGEST FISH / KARP EVENT
     async def fisheventcheck(self,message,sender):
@@ -334,6 +314,19 @@ class Modules(commands.Cog):
                 appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {size/100}m, former personal highscore was {check[2]/100}m."
 
         await message.reply(f"{sender.mention} - {jk}\n{appending}")
+
+    async def fishtimer(self):
+        data = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
+        data = data.fetchone()
+        if data[1] == 1:
+            end = data[4]
+            now = int(datetime.utcnow().timestamp())
+            waiter = end-now
+            print(f"Active Fishing Event found; gonna end in {waiter/60} minutes.")
+            asyncio.sleep(waiter)
+            asyncio.create_task(Modules.fishend(self))
+            
+
 
     async def fishend(self):
         results = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC")
