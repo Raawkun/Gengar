@@ -391,7 +391,7 @@ class Modules(commands.Cog):
             color = disnake.Color.red()
         author_icon = "https://cdn.discordapp.com/emojis/1372953699852357665.webp?"
         raremon = poke_rarity[(data[14])]
-        description_text += f"Original message: [Click here]({message.jump_url})\n"
+        description_text = f"Original message: [Click here]({message.jump_url})\n"
         embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=color,description=description_text)
         embed.set_author(name=f"{sender.display_name} got this from a World Boss:", icon_url=author_icon)
         embed.set_image(data[15])
