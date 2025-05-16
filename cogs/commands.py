@@ -369,7 +369,7 @@ class Coms(commands.Cog):
                 message = ref_msg
                 await message.unpin()
 
-    @commands.check(Basic_checker().check_management())
+    @commands.check(Basic_checker().check_management)
     @commands.command()
     async def rare(self, ctx, id: int, channel: id = None):
         receiver_channel = 825950637958234133
