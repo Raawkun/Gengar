@@ -388,6 +388,7 @@ class Coms(commands.Cog):
         if overseen:
             Rare_Spawns = ["Event", "Legendary", "Shiny","Golden"]
             if "you obtained a" in overseen.content.lower():
+                print("World Boss rare spawn")
                 asyncio.create_task(Modules.rare_spawn(self, overseen))
             if "from completing challenge" in overseen.content:
                     if overseen.reference:
