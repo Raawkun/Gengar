@@ -369,7 +369,7 @@ class Coms(commands.Cog):
                 message = ref_msg
                 await message.unpin()
 
-    @commands.check(Basic_checker().check_management)
+    @commands.check(Basic_checker().check_management())
     @commands.command()
     async def rare(self, ctx, id: int, channel: id = None):
         receiver_channel = 825950637958234133
@@ -381,6 +381,8 @@ class Coms(commands.Cog):
         overseen = await channel.fetch_message(id)
         if overseen:
             Rare_Spawns = ["Event", "Legendary", "Shiny","Golden"]
+            if "you obtained a" in overseen.content.lower():
+                asyncio.create_task(Modules.rare_spawn(self, overseen))
             if "from completing challenge" in overseen.content:
                     if overseen.reference:
                         ref_msg = await overseen.channel.fetch_message(overseen.reference.message_id)
