@@ -404,6 +404,8 @@ class Listener(commands.Cog):
                 asyncio.create_task(Modules.dailycheck(self,message))
             if "here are your rewards for the " in message.content.lower():
                 asyncio.create_task(Modules.dailycheck(self, message))
+                if "you obtained a" in message.content.lower():
+                    asyncio.create_task(Modules.rare_spawn(self, message))
             if "used a code to claim" in message.content:
                 monname = message.content.split("**")[1]
                 print(monname)
