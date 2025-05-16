@@ -375,13 +375,16 @@ class Coms(commands.Cog):
         print("Rare check...")
         receiver_channel = 825950637958234133
         announce = self.client.get_channel(receiver_channel)
+        print(announce.name)
         if channel == None:
             channel = ctx.channel
         else:
             channel = await ctx.get_channel(channel)
+        print(channel.name)
         if id == None:
             if ctx.reference == True:
                 id = ctx.reference.id
+                print(id)
             else:
                 await ctx.reply("Please reply to a message.")
         overseen = await channel.fetch_message(id)
