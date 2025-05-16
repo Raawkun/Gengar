@@ -371,13 +371,19 @@ class Coms(commands.Cog):
 
     @commands.check(Basic_checker().check_management)
     @commands.command()
-    async def rare(self, ctx, id: int, channel: id = None):
+    async def rare(self, ctx, id: int = None, channel: id = None):
+        print("Rare check...")
         receiver_channel = 825950637958234133
         announce = self.client.get_channel(receiver_channel)
         if channel == None:
             channel = ctx.channel
         else:
             channel = await ctx.get_channel(channel)
+        if overseen == None:
+            if ctx.reference == True:
+                id = ctx.reference.id
+            else:
+                await ctx.reply("Please reply to a message.")
         overseen = await channel.fetch_message(id)
         if overseen:
             Rare_Spawns = ["Event", "Legendary", "Shiny","Golden"]
