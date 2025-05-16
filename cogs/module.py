@@ -286,6 +286,7 @@ class Modules(commands.Cog):
     # BIGGEST FISH / KARP EVENT
     async def fisheventcheck(self,message,sender):
         if message.guild.id == 825813023716540426:
+            sender = message.guild.fetch_member(sender.id)
             check = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
             check = check.fetchone()
             try:
