@@ -382,7 +382,7 @@ class Coms(commands.Cog):
             channel = await ctx.get_channel(channel)
         print(channel.name)
         if id == None:
-            if ctx.reference == True:
+            if ctx.reference:
                 id = ctx.reference.id
                 print(id)
             else:
