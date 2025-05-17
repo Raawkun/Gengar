@@ -12,25 +12,22 @@ class Resuming(commands.Cog):
     
     async def cancel_user_tasks():
         current = asyncio.current_task()
+        print(asyncio.all_tasks())
         for task in asyncio.all_tasks():
             if task is current:
                 continue  # Don't cancel yourself
-
-            # Filter 1: Task must have a stack trace (i.e., it's running Python code)
-            stack = task.get_stack()
-            if not stack:
-                continue
+            coro = task.get_coro()
+            mod = coro.__module__
+            
 
             # Filter 2: Ignore internal library tasks
-            if any("disnake" in frame.f_globals.get("__name__", "") or
-                "discord" in frame.f_globals.get("__name__", "")
-                for frame in stack):
+            if mod.startswith("disnake") or mod.startswith("asyncio"):
                 continue
 
             # Optional Filter 3: If you know your tasks share a module or name pattern
             if not any("my_module" in frame.f_globals.get("__name__", "") for frame in stack):
                 continue
-
+            print(f"🧹 Cancelling task: {coro.__name__} from {mod}")
             # Cancel the task
             task.cancel()
             try:
