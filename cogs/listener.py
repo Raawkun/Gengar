@@ -38,6 +38,7 @@ class Listener(commands.Cog):
         await errcha.send(embed=_emb)
     promo_item = "none"
     exclusives = []
+    active_tasks = set()
 
     
     async def get_db_connection(self):
@@ -94,6 +95,7 @@ class Listener(commands.Cog):
                 wait_sec = (next-now).total_seconds()
             print(f"Next stone coming in {wait_sec/60} minutes.")
             await asyncio.sleep(wait_sec)
+            
             
             
         
@@ -173,7 +175,11 @@ class Listener(commands.Cog):
 ⣿⡿⠛⠿⠟⠉⠉⠉⠸⠋⠀⠻⡿⣿⣿⣿⣿⠻⠇⠀⠀⠈⠀⠀⠈⠉⢸⠃
 ⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠈⢿⢻⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
-        await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="the changelog."))
+        await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="you."))
+        path = os.path.dirname(os.path.abspath(__file__))
+        fp = os.path.join(path, ".flag_file")
+        if os.path.exists(fp):
+            os.remove(fp)
         await asyncio.create_task(self.load_promo())
         await asyncio.create_task(self.load_excl())
         asyncio.create_task(self.dawndusk())
@@ -221,8 +227,11 @@ class Listener(commands.Cog):
     @commands.Cog.listener()
     async def on_resumed(self):
         print("Bot reconnected! Reloadsing cogs...")
-        await Resuming.cancel_user_tasks()
-        await Listener.on_ready(self)
+        path = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(path, ".flag_file"), "w") as f:
+            f.write("Auto-created")
+        #await Resuming.cancel_user_tasks()
+        #await Listener.on_ready(self)
 
             
     @commands.Cog.listener()
