@@ -1373,7 +1373,7 @@ class Listener(commands.Cog):
                         print(e)
                 
                     try:
-                        if "version" in _embed.description:
+                        if "variant" in _embed.description:
                             _embed=message.embeds[0]
                             dex=_embed.author.name.split("#")[1]
                             #print(dex)
