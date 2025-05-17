@@ -177,7 +177,7 @@ class Listener(commands.Cog):
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
         await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="you."))
         path = os.path.dirname(os.path.abspath(__file__))
-        fp = os.path.join(path, ".flag_file")
+        fp = os.path.join(path, "resume.txt")
         if os.path.exists(fp):
             os.remove(fp)
         await asyncio.create_task(self.load_promo())
@@ -228,7 +228,7 @@ class Listener(commands.Cog):
     async def on_resumed(self):
         print("Bot reconnected! Reloadsing cogs...")
         path = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(path, ".flag_file"), "w") as f:
+        with open(os.path.join(path, "resume.txt"), "w") as f:
             f.write("Auto-created")
         #await Resuming.cancel_user_tasks()
         #await Listener.on_ready(self)
