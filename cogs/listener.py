@@ -42,7 +42,7 @@ class Listener(commands.Cog):
         return await aiomysql.connect(host=db_config["host"],user=db_config["user"],password=db_config["password"],db=db_config["db"])
     
     async def load_promo(self):
-        conn = await self.get_db_connection()
+        conn = await Listener.get_db_connection(self)
         async with conn.cursor() as cursor:
             await cursor.execute("SELECT Current_Item FROM Stuff")
             #print("We're in")
@@ -53,7 +53,7 @@ class Listener(commands.Cog):
         print(f"Loaded promo item: {self.promo_item}")
         
     async def load_excl(self):
-        conn = await self.get_db_connection()
+        conn = await Listener.get_db_connection(self)
         async with conn.cursor() as cursor:
             await cursor.execute("SELECT ID FROM Exclusives")
             result = await cursor.fetchall()
