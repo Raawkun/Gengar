@@ -5,7 +5,6 @@ from disnake.ext import commands
 import asyncio
 import re
 import pytz
-import main
 from sqlite3 import connect
 from main import client
 from utility.rarity_db import poke_rarity, chambers
@@ -16,6 +15,7 @@ import aiomysql
 import datetime
 from utility.embed import Custom_embed, Auction_embed
 from cogs.module import Modules
+from cogs.reminder import Reminders
 from cogs.resuming import Resuming
 from utility.db_config import db_config
 
@@ -70,31 +70,30 @@ class Listener(commands.Cog):
     async def dawndusk(self):
         rem_channel = self.client.get_channel(827306503866155008)
         east = pytz.timezone("America/New_York")
+        now = datetime.datetime.now(east)
+    
         while True:
-            now = datetime.datetime.now(east)
-        
-            c_6am = now.replace(hour=6, minute=0)
-            c_6pm = now.replace(hour=18, minute=0)
-            if now == c_6am or now == c_6pm:
-                desc = f"<@&1338742032809590786>\nIts time! Go get your stones!"
-                if now == c_6am:
-                    desc += f"\nCurrent Stone: <:dawn_stone:1339193944575053865> Dawn Stone"
-                else:
-                    desc += f"\nCurrent Stone: <:dusk_stone:1339193992176472267> Dusk Stone"
-                await rem_channel.send(desc)
-                wait_sec = 12*60*60
+            c_6am = now.replace(hour=6, minute=0,second=0)
+            c_6pm = now.replace(hour=18, minute=0,second=0)
+            if now < c_6am:
+                next = c_6am
+                name = 'Dawn'
+                desc = f"<@&1338742032809590786>\nIts time! Go get your stones!\nCurrent Stone: <:dawn_stone:1339193944575053865> Dawn Stone"
+            elif now < c_6pm:
+                next = c_6pm
+                name = 'Dusk'
+                desc = f"<@&1338742032809590786>\nIts time! Go get your stones!\nCurrent Stone: <:dusk_stone:1339193992176472267> Dusk Stone"
             else:
-                c_6am = now.replace(hour=6, minute=0,second=0)
-                c_6pm = now.replace(hour=18, minute=0,second=0)
-                if now < c_6am:
-                    next = c_6am
-                elif now < c_6pm:
-                    next = c_6pm
-                else:
-                    next = c_6am + datetime.timedelta(days=1)
-                wait_sec = (next-now).total_seconds()
-            print(f"Next stone coming in {wait_sec/60} minutes.")
+                next = c_6am + datetime.timedelta(days=1)
+                name = 'Dawn'
+                desc = f"<@&1338742032809590786>\nIts time! Go get your stones!\nCurrent Stone: <:dawn_stone:1339193944575053865> Dawn Stone"
+            wait_sec = (next-now).total_seconds()
+            self.db.execute(f"INSERT INTO Timers VALUES ('{name}'),1,827306503866155008,{int(next.timestamp())}")
+            self.db.commit()
             await asyncio.sleep(wait_sec)
+            self.db.execute(f"DELETE FROM Timers WHERE '{name}' = Name")
+            self.db.commit()
+            await rem_channel.send(desc)
             
             
             
@@ -107,7 +106,7 @@ class Listener(commands.Cog):
         await asyncio.sleep(waiter)
         #print("slept enough.")
         if link == 0:
-            link = ";quest"
+            link = "``;quest``"
         else:
             link = f'</quest info:1015311085517156475>'
         if emote == 1:
@@ -182,51 +181,17 @@ class Listener(commands.Cog):
             os.remove(fp)
         await asyncio.create_task(self.load_promo())
         await asyncio.create_task(self.load_excl())
-        asyncio.create_task(self.dawndusk())
+        Reminders.create_tracked_task(self.dawndusk())
         asyncio.create_task(self._changelog())
-        asyncio.create_task(Modules.dailyreset(self))
-        asyncio.create_task(Modules.averagetimer(self))
-        asyncio.create_task(Modules.fishtimer(self))
-        reminders = self.db.execute(f'SELECT * FROM Toggle WHERE QuestTime >= 1 ORDER BY QuestTime ASC')
-        reminders = reminders.fetchall()
-        #print(reminders)
-        for row in reminders:
-            channelid = row[8]
-            self.db.execute(f'UPDATE Toggle SET Timer = 0 WHERE Channel = {channelid}')
-            self.db.commit()
-            #print(row[9])
-            #print("theres at least one row")
-            #print(channelid)
-            current_time = datetime.datetime.timestamp(datetime.datetime.now())
-            #print(current_time)
-            waiter = row[7]
-            #print(waiter)
-            userid = row[1]
-            if waiter > current_time:
-                waiter = waiter-current_time
-                #print(waiter)
-                if row[14] == 1:
-                    reminder = 1
-                else:
-                    reminder = 0
-                if row[6] == 1:
-                    emote = 0
-                else:
-                    emote = 1
-                if row[5] == 0:
-                    link = 0
-                else:
-                    link = 1
-                
-                await asyncio.create_task(self._quest_reminder(channelid, userid, waiter, reminder, link, emote))
-            elif waiter < current_time:
-                self.db.execute(f'UPDATE Toggle SET Channel = 0, QuestTime = 0, Timer = 0 WHERE User_ID = {userid}')
-                self.db.commit()
+        Reminders.create_tracked_task(Modules.dailyreset(self))
+        Reminders.create_tracked_task(Modules.averagetimer(self))
+        Reminders.create_tracked_task(Modules.fishtimer(self))
+        Reminders.create_tracked_task(Reminders.load_reminder(self))
         print("Time do to ghost stuff!")
 
     @commands.Cog.listener()
     async def on_resumed(self):
-        print("Bot reconnected! Reloadsing cogs...")
+        print("Bot reconnected! Reloading cogs...")
         path = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(path, "resume.txt"), "w") as f:
             f.write("Auto-created")
@@ -920,30 +885,22 @@ class Listener(commands.Cog):
                                 await message.channel.send(desc)
                         if _embed.footer:
                             if "Next quest in" in _embed.footer.text:
-                                #print("Oh, a quest?")
-                                msg = _embed.footer.text
-                                msg = msg.split(": ")[1]
-                                #print(msg)
-                                hours = int(msg.split(" H")[0])*60*60
-                                #print(hours)
-                                minutes = msg.split("H ")[1]
-                                minutes = int(minutes.split(" M")[0])*60
-                                #print(minutes)
-                                seconds = msg.split("M ")[1]
-                                seconds = int(seconds.split(" S")[0])-5
-                                #print(seconds)
-                                waiter = hours+minutes+seconds
-                                #print(waiter)
                                 datarem = self.db.execute(f'SELECT * FROM Toggle WHERE User_ID = {sender.id}')
                                 datarem = datarem.fetchone()
                                 if datarem[14] != 0:
                                     if datarem[7] != 0:
-                                        #print("Already a timer running")
+                                        
                                         return
                                     else:
-                                        #print("Oh, a new timer")
-                                        q_time = int(datetime.datetime.timestamp(datetime.datetime.now()))-8
-                                        #print(q_time)
+                                        msg = _embed.footer.text
+                                        msg = msg.split(": ")[1]
+                                        hours = int(msg.split(" H")[0])*60*60
+                                        minutes = msg.split("H ")[1]
+                                        minutes = int(minutes.split(" M")[0])*60
+                                        seconds = msg.split("M ")[1]
+                                        seconds = int(seconds.split(" S")[0])-2
+                                        waiter = hours+minutes+seconds
+                                        q_time = int(datetime.datetime.timestamp(datetime.datetime.now()))-6
                                         q_time = q_time+waiter
                                         channelid = message.channel.id
                                         self.db.execute(f'UPDATE Toggle SET QuestTime = {q_time}, Channel = {channelid} WHERE User_ID = {sender.id}')
@@ -971,7 +928,7 @@ class Listener(commands.Cog):
                                                 await message.channel.send(desc, allowed_mentions= disnake.AllowedMentions(users=False))
                                             elif datarem[14] == 2:
                                                 await message.channel.send(desc)
-                                            await asyncio.create_task(self._quest_reminder(channelid, sender.id, waiter,remind, link, emote))
+                                            Reminders.create_tracked_task(self._quest_reminder(channelid, sender.id, waiter,remind, link, emote))
                         
                 if _embed.author.name:
                     if "catchbot" in _embed.author.name.lower():
@@ -1001,7 +958,7 @@ class Listener(commands.Cog):
                     if "current event ends: " in _embed.footer.text.lower():
                         for field in _embed.fields:
                             if "event-exclusives" in field.name.lower():
-                                print(field)
+                                #print(field)
                                 mons = field.value.split("\n")
                                 names = {}
                                 for entry in mons:

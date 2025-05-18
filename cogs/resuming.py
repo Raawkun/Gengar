@@ -2,6 +2,7 @@ import disnake, asyncio
 from disnake.ext import commands
 import sqlite3, math
 from sqlite3 import connect
+from reminder import Reminders
 
 class Resuming(commands.Cog):
 
@@ -10,30 +11,15 @@ class Resuming(commands.Cog):
         self.client = client
         self.db = connect("database.db")
     
-    async def cancel_user_tasks():
-        current = asyncio.current_task()
-        print(asyncio.all_tasks())
-        for task in asyncio.all_tasks():
-            if task is current:
-                continue  # Don't cancel yourself
-            coro = task.get_coro()
-            mod = coro.__module__
-            
-
-            # Filter 2: Ignore internal library tasks
-            if mod.startswith("disnake") or mod.startswith("asyncio"):
-                continue
-
-            # Optional Filter 3: If you know your tasks share a module or name pattern
-            if not any("my_module" in frame.f_globals.get("__name__", "") for frame in stack):
-                continue
-            print(f"🧹 Cancelling task: {coro.__name__} from {mod}")
-            # Cancel the task
+    async def cancel_all_tracked_tasks():
+        for task in list(Reminders.bg_tasks):
             task.cancel()
             try:
                 await task
             except asyncio.CancelledError:
-                print(f"Cancelled: {task.get_coro().__name__}")
+                print(f"✅ Cancelled: {task.get_coro().__name__}")
+        Reminders.bg_tasks.clear()
+
 
 
 
