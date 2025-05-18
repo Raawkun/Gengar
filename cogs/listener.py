@@ -1224,7 +1224,7 @@ class Listener(commands.Cog):
                         sender = ref_msg.author
                 if _embed.description:
                     try:
-                        if "version" in _embed.description:
+                        if "variant" in _embed.description:
                             #print("Version in it")
                             dex=_embed.author.name.split(" #")[1]
                             #print(dex)
