@@ -40,7 +40,7 @@ class Reminders(commands.Cog):
                 else:
                     link = 1
                 
-                await asyncio.create_task(self._quest_reminder(channelid, userid, waiter, reminder, link, emote))
+                await asyncio.create_task(Reminders._quest_reminder(channelid, userid, waiter, reminder, link, emote))
             elif waiter < current_time:
                 self.db.execute(f'UPDATE Toggle SET Channel = 0, QuestTime = 0, Timer = 0 WHERE User_ID = {userid}')
                 self.db.commit()
