@@ -2,7 +2,7 @@ import disnake, asyncio
 from disnake.ext import commands
 import sqlite3, math
 from sqlite3 import connect
-from reminder import Reminders
+from cogs.reminder import Reminders
 
 class Resuming(commands.Cog):
 
