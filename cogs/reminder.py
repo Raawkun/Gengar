@@ -3,7 +3,7 @@ from disnake.ext import commands
 from sqlite3 import connect
 from datetime import datetime, timedelta
 import asyncio
-from listener import Listener
+from cogs.listener import Listener
 
 class Reminders(commands.Cog):
 
