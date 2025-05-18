@@ -472,7 +472,7 @@ class Coms(commands.Cog):
                     except Exception as e:
                         print(f"Rare Cmd_2: {e}")
                 else:
-                    await ctx.send(f'{data[0][1]} is not rare enough to be posted. If you think this is wrong, ping Blue Flame.')
+                    await ctx.send(f'{data[0]} is not rare enough to be posted. If you think this is wrong, ping Blue Flame.')
 
             elif "'s trainer icon!" in overseen.content:
                 print(overseen.content)
