@@ -376,19 +376,11 @@ class Coms(commands.Cog):
 
     @commands.check(Basic_checker().check_management)
     @commands.command()
-    async def rare(self, ctx, id: int = None, channel = None):
+    async def rare(self, ctx, id: int = None):
         print("Rare check...")
         receiver_channel = 825950637958234133
         announce = self.client.get_channel(receiver_channel)
         print(announce.name)
-        if channel == None:
-            channel = ctx.channel
-        elif '#' in channel:
-            channel = int(channel.split("#")[1])
-            channel = await ctx.get_channel(channel)
-        else:
-            channel = await ctx.get_channel(channel)
-        print(channel.name)
         if id == None:
             if ctx.reference:
                 id = ctx.reference.id
