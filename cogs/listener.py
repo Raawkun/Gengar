@@ -146,10 +146,10 @@ class Listener(commands.Cog):
         fp = os.path.join(path, "resume.txt")
         if os.path.exists(fp):
             os.remove(fp)
-        await asyncio.create_task(self.load_promo())
-        await asyncio.create_task(self.load_excl())
+        Reminders.create_tracked_task(self.load_promo())
+        Reminders.create_tracked_task(self.load_excl())
         Reminders.create_tracked_task(self.dawndusk())
-        asyncio.create_task(self._changelog())
+        Reminders.create_tracked_task(self._changelog())
         Reminders.create_tracked_task(Modules.dailyreset(self))
         Reminders.create_tracked_task(Modules.averagetimer(self))
         Reminders.create_tracked_task(Modules.fishtimer(self))
