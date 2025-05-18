@@ -168,7 +168,7 @@ class Listener(commands.Cog):
         path = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(path, "resume.txt"), "w") as f:
             f.write("Auto-created")
-        await Resuming.cancel_user_tasks()
+        await Resuming.cancel_all_tracked_tasks()
         await Listener.on_ready(self)
 
             
