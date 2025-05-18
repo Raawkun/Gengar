@@ -85,7 +85,7 @@ class Listener(commands.Cog):
                 name = 'Dawn'
                 desc = f"<@&1338742032809590786>\nIts time! Go get your stones!\nCurrent Stone: <:dawn_stone:1339193944575053865> Dawn Stone"
             wait_sec = (next-now).total_seconds()
-            self.db.execute(f"INSERT INTO Timers VALUES ('{name}'),1,827306503866155008,{int(next.timestamp())}")
+            self.db.execute(f"INSERT INTO Timers VALUES ('{name}',1,827306503866155008,{int(next.timestamp())})")
             self.db.commit()
             await asyncio.sleep(wait_sec)
             self.db.execute(f"DELETE FROM Timers WHERE '{name}' = Name")
