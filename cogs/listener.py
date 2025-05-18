@@ -1,15 +1,12 @@
 import os
-import random
 import disnake
 from disnake.ext import commands
 import asyncio
 import re
 import pytz
 from sqlite3 import connect
-from main import client
 from utility.rarity_db import poke_rarity, chambers
 from utility.egglist import eggexcl
-from utility.drop_chance import drop_pos, buyin
 from utility.info_dict import rem_emotes, emote_list, embed_color
 import aiomysql
 import datetime
