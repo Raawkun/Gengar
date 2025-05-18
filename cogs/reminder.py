@@ -21,7 +21,7 @@ class Reminders(commands.Cog):
             channelid = row[8]
             self.db.execute(f'UPDATE Toggle SET Timer = 0 WHERE Channel = {channelid}')
             self.db.commit()
-            current_time = datetime.datetime.timestamp(datetime.datetime.now())
+            current_time = datetime.timestamp(datetime.now())
             waiter = row[7]
             userid = row[1]
             if waiter > current_time:
