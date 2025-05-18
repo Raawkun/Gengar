@@ -149,10 +149,7 @@ class Coms(commands.Cog):
     @commands.is_owner()
     @commands.command()
     async def reboot(self, ctx):
-        try:
-            await Listener.on_resumed(self)
-        except Exception as e:
-            print(e)
+        await Listener.on_resumed(self)
     
     @commands.is_owner()
     @commands.command()
