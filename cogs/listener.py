@@ -92,30 +92,6 @@ class Listener(commands.Cog):
             self.db.commit()
             await rem_channel.send(desc)
             
-            
-            
-        
-    async def _quest_reminder(self,channelid, user_id, waiter,reminder, link, emote):
-        print(f"quest_reminder started for {user_id} waiting for {waiter} seconds.")
-        channel = self.client.get_channel(channelid)
-        self.db.execute(f'UPDATE Toggle SET Timer = 1 WHERE User_ID = {user_id}')
-        self.db.commit()
-        await asyncio.sleep(waiter)
-        #print("slept enough.")
-        if link == 0:
-            link = "``;quest``"
-        else:
-            link = f'</quest info:1015311085517156475>'
-        if emote == 1:
-            if link == 0:
-                link = ""
-            desc = f'{rem_emotes["remind"]} - <@{user_id}> {rem_emotes["next"]}{rem_emotes["quest"]} {link}'
-        else:
-            desc = f'{rem_emotes["remind"]} - <@{user_id}>, your next {link} is ready!'
-        if reminder == 1:
-            await channel.send(desc)
-        self.db.execute(f'UPDATE Toggle SET QuestTime = 0, Channel = 0, Timer = 0 WHERE User_ID = {user_id}')
-        self.db.commit()
 
     
     async def _changelog(self):
@@ -925,7 +901,7 @@ class Listener(commands.Cog):
                                                 await message.channel.send(desc, allowed_mentions= disnake.AllowedMentions(users=False))
                                             elif datarem[14] == 2:
                                                 await message.channel.send(desc)
-                                            Reminders.create_tracked_task(self._quest_reminder(channelid, sender.id, waiter,remind, link, emote))
+                                            Reminders.create_tracked_task(Reminders._quest_reminder(channelid, sender.id, waiter,remind, link, emote))
                         
                 if _embed.author.name:
                     if "catchbot" in _embed.author.name.lower():
