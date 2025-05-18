@@ -320,7 +320,7 @@ class Modules(commands.Cog):
         data = data.fetchone()
         if data[1] == 1:
             end = data[4]
-            now = int(datetime.utcnow().timestamp())
+            now = int(datetime.now().timestamp())
             waiter = end-now
             print(f"Active Fishing Event found; gonna end in {waiter/60} minutes.")
             await asyncio.sleep(waiter)
