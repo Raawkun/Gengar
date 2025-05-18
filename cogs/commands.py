@@ -145,6 +145,14 @@ class Coms(commands.Cog):
                 timeing = int(check[3])+int(check[2])
                 jk += f"\nThe event will run until <t:{timeing}:f>"
                 await ctx.reply(jk)
+
+    @commands.is_owner()
+    @commands.command()
+    async def reboot(self, ctx):
+        try:
+            Listener.on_resumed(self)
+        except Exception as e:
+            print(e)
     
     @commands.is_owner()
     @commands.command()
