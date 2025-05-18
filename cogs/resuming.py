@@ -18,6 +18,8 @@ class Resuming(commands.Cog):
                 await task
             except asyncio.CancelledError:
                 print(f"✅ Cancelled: {task.get_coro().__name__}")
+            except Exception as e:
+                print(e)
         Reminders.bg_tasks.clear()
 
 
