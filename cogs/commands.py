@@ -151,7 +151,7 @@ class Coms(commands.Cog):
                             embed.set_thumbnail(url=pic)
                             jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
                             jk = ""
-                            await ctx.reply(embed=emb)
+                            await ctx.reply(emb=emb)
                             return
                         except Exception as e:
                             print(e)
