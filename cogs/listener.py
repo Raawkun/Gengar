@@ -161,7 +161,7 @@ class Listener(commands.Cog):
         import traceback
         tb = "".join(traceback.format_exception(type(error), error, error.__traceback__))
         message = f"❌ **Error in `{context}`**\n```py\n{tb[-1900:]}```"  # Discord message limit
-        channel = bot.get_channel(ERROR_LOG_CHANNEL_ID) or await bot.fetch_channel(ERROR_LOG_CHANNEL_ID)
+        channel = bot.get_channel(1210143608355823647) or await bot.fetch_channel(1210143608355823647)
         await channel.send(message)
 
     @commands.Cog.listener()
