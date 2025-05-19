@@ -158,11 +158,14 @@ class Listener(commands.Cog):
 
     @commands.Cog.listener()
     async def on_resumed(self):
-        print("Bot reconnected! Reloading tasks...")
-        
-        await Resuming.cancel_all_tracked_tasks()
-        print("Canceled it all...")
-        await Listener.on_ready(self)
+        try:
+            print("Bot reconnected! Reloading tasks...")
+            
+            await Resuming.cancel_all_tracked_tasks()
+            print("Canceled it all...")
+            await Listener.on_ready(self)
+        except Exception as e:
+            print(f"There was an error handling the reconnection...\n{e}")
 
             
     @commands.Cog.listener()
