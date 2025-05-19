@@ -58,11 +58,11 @@ class Listener(commands.Cog):
             await cursor.execute("SELECT ID FROM Exclusives")
             result = await cursor.fetchall()
             await conn.ensure_closed()
-        if len(self.exclusives)>0:
-            self.exclusives.clear()
+        if len(Listener.exclusives)>0:
+            Listener.exclusives.clear()
         for entry in result:
-            self.exclusives.append(entry[0])
-        print(f"Loaded exclusives: {self.exclusives}")
+            Listener.exclusives.append(entry[0])
+        print(f"Loaded exclusives: {Listener.exclusives}")
     
     async def dawndusk(self):
         rem_channel = self.client.get_channel(827306503866155008)
