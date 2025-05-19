@@ -156,20 +156,28 @@ class Listener(commands.Cog):
         Reminders.create_tracked_task(Modules.fishtimer(self))
         Reminders.create_tracked_task(Reminders.load_reminder(self))
         print("Time do to ghost stuff!")
+        
+    async def logerror(error: Exception, context: str = "Unspecified"):
+        import traceback
+        tb = "".join(traceback.format_exception(type(error), error, error.__traceback__))
+        message = f"❌ **Error in `{context}`**\n```py\n{tb[-1900:]}```"  # Discord message limit
+        channel = bot.get_channel(ERROR_LOG_CHANNEL_ID) or await bot.fetch_channel(ERROR_LOG_CHANNEL_ID)
+        await channel.send(message)
 
     @commands.Cog.listener()
     async def on_resumed(self):
         print("Bot reconnected! Reloading tasks...")
-        try:
-            me = self.client.get_user(352224989367369729)
-            await me.send(f"Lost connection. Attempting to reconnect now.\n{list(Reminders.bg_tasks)}")
+        try:  
             await Resuming.cancel_all_tracked_tasks()
             print("Canceled it all...")
+        except Exception as e:
+            await Listener.logerror(self, e, context="cancel_all_tracked_tasks() in on_resumed()")
+            return
+        try:
             await Listener.on_ready(self)
         except Exception as e:
             print(f"There was an error handling the reconnection...\n{e}")
-            me = self.client.get_user(352224989367369729)
-            await me.send(f"There was an error handling the reconnection...\n{e}")
+            await Listener.logerror(self, e, context="on_ready() in on_resumed()") 
 
             
     @commands.Cog.listener()
