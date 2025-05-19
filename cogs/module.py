@@ -301,15 +301,15 @@ class Modules(commands.Cog):
         else:
             if (float(check[2])/100)>(float(size)/100): #New size smaller biggest fish
                 if (float(size)/100)>(float(check[3])/100): #Bigger than smallet
-                    self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1, Avg = Avg + {size) WHERE User_ID = {sender.id}")
+                    self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1, Avg = Avg + {size} WHERE User_ID = {sender.id}")
                     self.db.commit()
                     appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {check[2]/100}m"
                 else: #Smaller than smallest
-                    self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1, Smallest = {size}, Avg = Avg + {size) WHERE User_ID = {sender.id}")
+                    self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1, Smallest = {size}, Avg = Avg + {size} WHERE User_ID = {sender.id}")
                     self.db.commit()
                     appending = f"That's your smallest  <:129:1210417260196270213> Magikarp so far: {size/100}, former personal smallest was {check[3]/100}m."
             else: #Bigger than biggest
-                self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1, Size = {size}, Avg = Avg + {size) WHERE User_ID = {sender.id}")
+                self.db.execute(f"UPDATE BiggestFish SET Amount = Amount + 1, Size = {size}, Avg = Avg + {size} WHERE User_ID = {sender.id}")
                 self.db.commit()
                 appending = f"Your biggest <:129:1210417260196270213> Magikarp so far: {size/100}m, former personal highscore was {check[2]/100}m."
 
