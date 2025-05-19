@@ -85,6 +85,7 @@ class Listener(commands.Cog):
             print(f"Next Stone in {wait_sec/60} minutes.")
             await asyncio.sleep(wait_sec)
             await rem_channel.send(desc)
+            await asyncio.sleep(300)
             
 
     
