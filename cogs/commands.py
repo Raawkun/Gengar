@@ -150,6 +150,7 @@ class Coms(commands.Cog):
                             emb.add_field(name=f"Smallest Catch:",value=f"{row[3]/100}m")
                             emb.set_thumbnail(url=pic)
                             #jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
+                            timeing = int(check[3])+int(check[2])
                             jk += f"The event will run until <t:{timeing}:f>"
                             await ctx.reply(jk,embed=emb)
                             return
