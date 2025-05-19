@@ -23,13 +23,19 @@ class SlashComs(commands.Cog):
         _emb.add_field(name="Error:",value=error)
         errcha = self.client.get_channel(1210143608355823647)
         await errcha.send(embed=_emb)
-
+    
+    @commands.is_owner()
     @commands.slash_command(
-            name="test",
-            description="Just getting a badge!!")
+            name="test", description="You wont be able to use it.",
+            options=[
+            Option(name="cmd", description="Prompt a cmd line", required=True)
     async def _test(self, ctx):
-            await ctx.response.defer()
-            await ctx.send(f"Now I have my badge!!!")
+        try:
+            self.db.execute(f"{cmd}")
+            self.db.commit()
+            await ctx.send(f"Sucessfully done: {cmd}",ephemeral=True)
+        except Exception as e:
+            await ctx.send(f"Got an error performing '{cmd}':\n{e},ephemeral=True)
 
     @commands.check(Basic_checker.check_if_it_is_me)
     @commands.slash_command(
