@@ -149,7 +149,7 @@ class Coms(commands.Cog):
                             emb.add_field(name=f"Biggest Catch:",value=f"{row[2]/100}m")
                             emb.add_field(name=f"Smallest Catch:",value=f"{row[3]/100}m")
                             emb.add_field(name="Total Catches:", value=row[1])
-                            emb.add_field(name="Average Size:",value=f"{(row[4]/row[1])/100}m")
+                            emb.add_field(name="Average Size:",value=f"{int(row[4]/row[1])/100}m")
                             emb.set_thumbnail(url=pic)
                             #jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
                             timeing = int(check[3])+int(check[2])
