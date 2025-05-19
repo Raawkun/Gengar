@@ -29,7 +29,7 @@ class SlashComs(commands.Cog):
             name="test", description="You wont be able to use it.",
             options=[
             Option(name="cmd", description="Prompt a cmd line", required=True)])
-    async def _test(self, ctx):
+    async def _test(self, ctx, cmd):
         try:
             self.db.execute(f"{cmd}")
             self.db.commit()
