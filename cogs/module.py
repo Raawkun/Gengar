@@ -271,9 +271,9 @@ class Modules(commands.Cog):
             check = check.fetchone()
             try:
                 if check[1] == 1:
-                    for role in sender.roles:
-                        if role.id == 837611415070048277:
-                            asyncio.create_task(Modules.biggestfish(self, message,sender))
+                    #for role in sender.roles:
+                        #if role.id == 837611415070048277:
+                    asyncio.create_task(Modules.biggestfish(self, message,sender))
             except Exception as e:
                 print(f"Fish event check error: {sender} - {message.jump_url}\n{e}")
 
