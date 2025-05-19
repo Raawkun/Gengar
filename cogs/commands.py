@@ -143,7 +143,7 @@ class Coms(commands.Cog):
                             pic = self.db.execute(f"SELECT Img_Url FROM Dex WHERE DexID = 129")
                             pic = pic.fetchone()
                             pic = pic[0]
-                            emb = await disnake.Embed(
+                            emb = disnake.Embed(
                             title=f"Karp Fishing Event", color=disnake.Color.teal())
                             emb.add_field(name=f"Current Place:", value=f"{i+1}")
                             emb.add_field(name=f"Biggest Catch:",value=f"{row[2]/100}m")
