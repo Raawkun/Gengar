@@ -398,6 +398,7 @@ class Coms(commands.Cog):
         print("Rare check...")
         receiver_channel = 825950637958234133
         announce = self.client.get_channel(receiver_channel)
+        channel = ctx.channel.id
         print(announce.name)
         if id == None:
             if ctx.reference:

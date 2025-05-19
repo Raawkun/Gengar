@@ -157,11 +157,11 @@ class Listener(commands.Cog):
         Reminders.create_tracked_task(Reminders.load_reminder(self))
         print("Time do to ghost stuff!")
         
-    async def logerror(error: Exception, context: str = "Unspecified"):
+    async def logerror(self, error: Exception, context: str = "Unspecified"):
         import traceback
         tb = "".join(traceback.format_exception(type(error), error, error.__traceback__))
         message = f"❌ **Error in `{context}`**\n```py\n{tb[-1900:]}```"  # Discord message limit
-        channel = bot.get_channel(1210143608355823647) or await bot.fetch_channel(1210143608355823647)
+        channel = self.client.get_channel(1210143608355823647) or await self.client.fetch_channel(1210143608355823647)
         await channel.send(message)
 
     @commands.Cog.listener()
