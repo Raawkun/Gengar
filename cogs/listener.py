@@ -159,11 +159,10 @@ class Listener(commands.Cog):
 
     @commands.Cog.listener()
     async def on_resumed(self):
+        print("Bot reconnected! Reloading tasks...")
         try:
             me = self.client.get_user(352224989367369729)
             await me.send(f"Lost connection. Attempting to reconnect now.\n{list(Reminders.bg_tasks)}")
-            print("Bot reconnected! Reloading tasks...")
-            
             await Resuming.cancel_all_tracked_tasks()
             print("Canceled it all...")
             await Listener.on_ready(self)
