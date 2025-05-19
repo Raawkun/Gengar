@@ -139,7 +139,19 @@ class Coms(commands.Cog):
                 jk = f"You're currently not present in the Event Leaderboard. Try to catch some more!"
                 for row in table:
                     if row[0] == ctx.author.id:
+                        pic = self.db.execute(f"SELECT Img_Url FROM Dex WHERE DexID = 129")
+                        pic = pic.fetchone()
+                        pic = pic[0]
+                        emb = await disnake.Embed(
+                        title=f"Karp Fishing Event", color=disnake.Color.cyan())
+                        emb.add_field(name=f"Current Place:", value=f"{i+1}")
+                        emb.add_field(name=f"Biggest Catch:",value=(f"{row[2]/100}m")
+                        emb.add_field(name=f"Smallest Catch:",value=f"{row[3]/100}m")
+                        embed.set_thumbnail(url=pic)
                         jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
+                        jk = ""
+                        await ctx.reply(embed=emb)
+                        exit
                     else:
                         i += 1
                 timeing = int(check[3])+int(check[2])
