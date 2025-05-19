@@ -159,6 +159,8 @@ class Listener(commands.Cog):
     @commands.Cog.listener()
     async def on_resumed(self):
         try:
+            me = self.client.get_user(352224989367369729)
+            await me.send(f"Lost connection. Attempting to reconnect now.\n{list(Resuming.bg_tasks())")
             print("Bot reconnected! Reloading tasks...")
             
             await Resuming.cancel_all_tracked_tasks()
@@ -166,6 +168,8 @@ class Listener(commands.Cog):
             await Listener.on_ready(self)
         except Exception as e:
             print(f"There was an error handling the reconnection...\n{e}")
+            me = self.client.get_user(352224989367369729)
+            await me.send(f"There was an error handling the reconnection...\n{e}")
 
             
     @commands.Cog.listener()
