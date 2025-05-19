@@ -35,7 +35,7 @@ class SlashComs(commands.Cog):
             self.db.commit()
             await ctx.send(f"Sucessfully done: {cmd}",ephemeral=True)
         except Exception as e:
-            await ctx.send(f"Got an error performing '{cmd}':\n{e},ephemeral=True)
+            await ctx.send(f"Got an error performing '{cmd}':\n{e}",ephemeral=True)
 
     @commands.check(Basic_checker.check_if_it_is_me)
     @commands.slash_command(
