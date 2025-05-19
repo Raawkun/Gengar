@@ -67,9 +67,9 @@ class Listener(commands.Cog):
     async def dawndusk(self):
         rem_channel = self.client.get_channel(827306503866155008)
         east = pytz.timezone("America/New_York")
-        now = datetime.datetime.now(east)
     
         while True:
+            now = datetime.datetime.now(east)
             c_6am = now.replace(hour=6, minute=0,second=0)
             c_6pm = now.replace(hour=18, minute=0,second=0)
             if now < c_6am:
