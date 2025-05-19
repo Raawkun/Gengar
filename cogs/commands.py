@@ -144,7 +144,7 @@ class Coms(commands.Cog):
                             pic = pic.fetchone()
                             pic = pic[0]
                             emb = await disnake.Embed(
-                            title=f"Karp Fishing Event", color=disnake.Color.cyan())
+                            title=f"Karp Fishing Event", color=disnake.Color.teal())
                             emb.add_field(name=f"Current Place:", value=f"{i+1}")
                             emb.add_field(name=f"Biggest Catch:",value=f"{row[2]/100}m")
                             emb.add_field(name=f"Smallest Catch:",value=f"{row[3]/100}m")
@@ -152,7 +152,7 @@ class Coms(commands.Cog):
                             jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
                             jk = ""
                             await ctx.reply(embed=emb)
-                            continue
+                            return
                         except Exception as e:
                             print(e)
                     else:
