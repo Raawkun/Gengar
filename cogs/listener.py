@@ -158,11 +158,10 @@ class Listener(commands.Cog):
 
     @commands.Cog.listener()
     async def on_resumed(self):
-        print("Bot reconnected! Reloading cogs...")
-        path = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(path, "resume.txt"), "w") as f:
-            f.write("Auto-created")
+        print("Bot reconnected! Reloading tasks...")
+        
         await Resuming.cancel_all_tracked_tasks()
+        print("Canceled it all...")
         await Listener.on_ready(self)
 
             
