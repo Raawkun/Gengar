@@ -179,6 +179,13 @@ class Listener(commands.Cog):
             print(f"There was an error handling the reconnection...\n{e}")
             await Listener.logerror(self, e, context="on_ready() in on_resumed()") 
 
+    @commands.Cog.listener()
+    async def on_disconnect(self):
+        try:
+            await Resuming.cancel_all_tracked_tasks()
+            print("Lost connection...")
+        except Exception as e:
+            await Listener.logerror(self, e, context="on_disconnect()")
             
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
