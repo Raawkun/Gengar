@@ -485,7 +485,7 @@ class Coms(commands.Cog):
                 else:
                     await ctx.send(f'{data[0]} is not rare enough to be posted. If you think this is wrong, ping Blue Flame.')
 
-            elif "'s trainer icon!" in overseen.content:
+            elif " trainer icon!" in overseen.content:
                 print(overseen.content)
                 current_time = overseen.created_at
                 timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
