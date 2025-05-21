@@ -124,6 +124,21 @@ class Coms(commands.Cog):
         user = ctx.guild.get_member(userid)
         msg = " ".join(args)
         await user.send(msg)
+        
+    @commands.command()
+    async def generate(self, ctx, amount: int = None):
+        if amount == None:
+            amount = 50
+        i = 0
+        li = set()
+        for i < amount:
+            number = asyncio.create_Task(Modules.generate_size())
+            li.append(int(number)/100)
+        li.sort()
+        await ctx.reply(li)
+            
+        
+
     
     @commands.command()
     async def event(self, ctx):
