@@ -183,7 +183,7 @@ class Listener(commands.Cog):
     async def on_disconnect(self):
         try:
             await Resuming.cancel_all_tracked_tasks()
-            print("Lost connection...")
+            print("⚠️⚠️Lost connection...⚠️⚠️")
         except Exception as e:
             await Listener.logerror(self, e, context="on_disconnect()")
             
