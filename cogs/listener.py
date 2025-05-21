@@ -415,7 +415,7 @@ class Listener(commands.Cog):
                     else:
                         await message.channel.send(desc)
                     
-            if "s trainer icon!" in message.content:
+            if "s** trainer icon!" in message.content:
                 asyncio.create_task(Modules.dailycheck(self, message))
                 iconname = message.content.split("unlocked ")[1]
                 icon = iconname.split(":")[2]
