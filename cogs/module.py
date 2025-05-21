@@ -260,7 +260,7 @@ class Modules(commands.Cog):
         while True:
             xy = numpy.random.normal(loc=200, scale=70)
             if 1 <= xy <= 700:
-                print(xy)
+                #print(xy)
                 return round(xy)
         
     # BIGGEST FISH / KARP EVENT
