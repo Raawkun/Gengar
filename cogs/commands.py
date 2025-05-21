@@ -131,7 +131,8 @@ class Coms(commands.Cog):
             amount = 50
         i = 0
         li = set()
-        for i < amount:
+        while i < amount:
+            i += 1
             number = asyncio.create_Task(Modules.generate_size())
             li.append(int(number)/100)
         li.sort()
