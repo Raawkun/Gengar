@@ -262,6 +262,22 @@ class Modules(commands.Cog):
             if 1 <= xy <= 700:
                 #print(xy)
                 return round(xy)
+    async def eventchecker(self,message,sender):
+        if message.guild.id == 825813023716540426:
+            sender = await message.guild.fetch_member(sender.id)
+            check = self.db.execute(f"SELECT * FROM Events WHERE Active = 1")
+            check = check.fetchone()
+            if check[0] == 'BiggestFish':
+                asyncio.create_task(Modules.biggestfish(self, message, sender))
+            elif check[0] == 'TypeHunt':
+                asyncio.create_task(Modules.typehunt(self, message. sender))
+                
+    async def typehunt(self, message, sender):
+        emb = message.embeds[0]
+        data = self.execute(f"SELECT * FROM Dex WHERE Img_Url = '{emb.image.url}'")
+        data = data.fetchone()
+        ev = self.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
+        ev = ev.fetchone()
         
     # BIGGEST FISH / KARP EVENT
     async def fisheventcheck(self,message,sender):
