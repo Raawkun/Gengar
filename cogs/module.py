@@ -290,9 +290,9 @@ class Modules(commands.Cog):
                 
     async def typehunt(self, message, sender):
         emb = message.embeds[0]
-        data = self.execute(f"SELECT * FROM Dex WHERE Img_Url = '{emb.image.url}'")
+        data = self.db.execute(f"SELECT * FROM Dex WHERE Img_Url = '{emb.image.url}'")
         data = data.fetchone()
-        ev = self.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
+        ev = self.db.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
         ev = ev.fetchone()
         points = th_points[f'{data[14]}']
         check = self.db.execute(f"SELECT * FROM TypeHunt WHERE User_ID = {sender.id}")
