@@ -31,9 +31,10 @@ class Modules(commands.Cog):
         data = data.fetchone()
         if data[1] == 1:
             Modules.hunted_type = f"{data[5]}"
-            print(f"There's a TypeHunt active, the type is: {data[5]}")
-        else:
-            print(f"No type loaded. If thats an error, its your fault.")
+            Modules.showtype(self)
+
+    async def showtype(self):
+        print(Modules.typehunt)
         
     async def adamannpc(self, message):
         if message.reference:
