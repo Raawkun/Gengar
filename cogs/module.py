@@ -31,7 +31,7 @@ class Modules(commands.Cog):
         data = data.fetchone()
         if data[1] == 1:
             Modules.hunted_type = f"{data[5]}"
-            Modules.showtype(self)
+            await Modules.showtype(self)
 
     async def showtype(self):
         print(Modules.typehunt)
