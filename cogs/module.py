@@ -282,7 +282,6 @@ class Modules(commands.Cog):
             if check[0] == 'BiggestFish':
                 asyncio.create_task(Modules.biggestfish(self, message, sender))
             elif check[0] == 'TypeHunt':
-                print("TyPeHuNt")
                 for role in sender.roles:
                         if role.id == 837611415070048277:
                             print("Correct role")
@@ -304,7 +303,7 @@ class Modules(commands.Cog):
             self.db.execute(f"UPDATE TypeHunt SET Amount = Amount + 1, Points = Points + {points} WHERE User_ID = {sender.id}")
             self.db.commit()
             points = points + check[2]
-        appending = f"{type_emotes[ev[5]]} You earned {th_points[data[14]]} for your catch!\nYou now have {points} points!"
+        appending = f"{type_emotes[ev[5]]} You earned {th_points[data[14]]} points for your catch!\nYou now have {points} points!"
         embe = disnake.Embed(title="Gengars Type Hunt", description=appending,color=type_colors[ev[5]])
         embe.set_thumbnail(url=data[15])
         await message.reply(embed=embe)
