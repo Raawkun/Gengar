@@ -186,7 +186,7 @@ class Coms(commands.Cog):
                         try:
                             print("row")
                             pic = check[5]
-                            col = type_colors[pic]
+                            col = type_emotes[pic]
                             pic = pic.split("type:")[1]
                             pic = pic.split(">")[0]
                             pic = f'https://cdn.discordapp.com/emojis/{pic}.webp?size=240'
