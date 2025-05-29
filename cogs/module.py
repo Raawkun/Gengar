@@ -281,8 +281,10 @@ class Modules(commands.Cog):
             if check[0] == 'BiggestFish':
                 asyncio.create_task(Modules.biggestfish(self, message, sender))
             elif check[0] == 'TypeHunt':
+                print("TyPeHuNt")
                 for role in sender.roles:
                         if role.id == 837611415070048277:
+                            print("Correct role")
                             asyncio.create_task(Modules.typehunt(self, message, sender))
                 
     async def typehunt(self, message, sender):
