@@ -6,7 +6,7 @@ import asyncio, zoneinfo
 import datetime
 from utility.embed import Custom_embed, Auction_embed
 from utility.all_checks import Basic_checker
-from utility.rarity_db import counts, countnumber
+from utility.rarity_db import counts, countnumber, type_emotes
 from utility.info_dict import embed_color,cmds,functions,info
 from cogs.module import Modules
 
@@ -190,9 +190,9 @@ class SlashComs(commands.Cog):
                     now = int(datetime.datetime.now().timestamp())
                     end_time = int(ending.timestamp())
                     runtime = end_time-now
-                    self.db.execute(f"UPDATE Events SET Active = 1, Runtime = {runtime}, Start_Stamp = {int(now)}, End_Stamp = {int(end_time)} WHERE Name = 'BiggestFish'")
+                    self.db.execute(f"UPDATE Events SET Active = 1, Runtime = {runtime}, Start_Stamp = {int(now)}, End_Stamp = {int(end_time)}, Additional = '{type}type' WHERE Name = 'TypeHunt'")
                     self.db.commit()
-                    await ctx.send(f"Congratulations! You've activated a funny round of 'Biggest Fish / Karp' for the server! This event will run until: <t:{end_time}:f>")
+                    await ctx.send(f"Congratulations! You've activated a funny round of 'TypeHunt' - hunting {type_emotes[f'{type}type']} - for the server! This event will run until: <t:{end_time}:f>")
                     asyncio.create_task(Modules.fishtimer(self))
 
 
