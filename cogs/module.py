@@ -30,11 +30,11 @@ class Modules(commands.Cog):
         data = self.db.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
         data = data.fetchone()
         if data[1] == 1:
-            Modules.hunted_type = f"{data[5]}"
+            self.hunted_type = f"{data[5]}"
             await Modules.showtype(self)
 
     async def showtype(self):
-        print(Modules.hunted_type)
+        print(self.hunted_type)
         
     async def adamannpc(self, message):
         if message.reference:
