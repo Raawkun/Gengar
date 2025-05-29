@@ -13,7 +13,7 @@ import time
 from zoneinfo import ZoneInfo
 from utility.all_checks import Basic_checker
 from utility.embed import Custom_embed, Auction_embed
-from utility.rarity_db import counts, countnumber, min_increase
+from utility.rarity_db import counts, countnumber, min_increase,type_colors,type_emotes
 from utility.rarity_db import poke_rarity, embed_color, chambers, thresholds
 from utility.id_lists import unpinnables
 from googlesearch import search
@@ -176,9 +176,37 @@ class Coms(commands.Cog):
                             print(e)
                     else:
                         i += 1
-                timeing = int(check[3])+int(check[2])
-                jk += f"\nThe event will run until <t:{timeing}:f>"
-                await ctx.reply(jk)
+            elif check[0] == 'TypeHunt':
+                table = self.db.execute(f"SELECT * FROM {check[0]} ORDER BY Points DESC")
+                table = table.fetchall()
+                i = 0
+                jk = f"You're currently not present in the Event Leaderboard. Try to catch some more!"
+                for row in table:
+                    if row[0] == ctx.author.id:
+                        try:
+                            pic = check[5]
+                            col = type_colors[f'{pic}']
+                            pic = pic.split("type:")[1]
+                            pic = pic.split(">")[0]
+                            pic = f'https://cdn.discordapp.com/emojis/{pic}.webp?size=240'
+                            emb = disnake.Embed(
+                            title=f"Type Hunt Event", color=disnake.Color.teal())
+                            emb.add_field(name=f"Current Place:", value=f"{i+1}")
+                            emb.add_field(name=f"Points",value=f"{row[2]/100}m")
+                            emb.add_field(name="Total Catches:", value=row[1])
+                            emb.set_thumbnail(url=pic)
+                            #jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
+                            timeing = int(check[3])+int(check[2])
+                            jk = f"The event will run until <t:{timeing}:f>"
+                            await ctx.reply(jk,embed=emb)
+                            return
+                        except Exception as e:
+                            print(e)
+                    else:
+                        i += 1
+            timeing = int(check[3])+int(check[2])
+            jk += f"\nThe event will run until <t:{timeing}:f>"
+            await ctx.reply(jk)
 
     @commands.is_owner()
     @commands.command()
