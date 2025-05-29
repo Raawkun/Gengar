@@ -104,7 +104,7 @@ class On_Edit(commands.Cog):
                                     asyncio.create_task(Modules.averagecoins(self,after))
                                 if data[0] == 129:
                                     asyncio.create_task(Modules.fisheventcheck(self, after,sender))
-                                if Modules.hunted_type != None:
+                                if Modules.hunted_type is not None:
                                     print(Modules.hunted_type)
                                     if data[2] == Modules.hunted_type or data[3] == Modules.hunted_type:
                                         print(f"{data[2]} {data[3]}")
