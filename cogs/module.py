@@ -305,7 +305,7 @@ class Modules(commands.Cog):
             self.db.commit()
             points = points + check[2]
         appending = f"{type_emotes[ev[5]]} You earned {th_points[data[14]]} for your catch!\nYou now have {points} points!"
-        embe = disnake.Embed(title="Gengars Type Hunt", description=appending,color=type_colors[data[14]])
+        embe = disnake.Embed(title="Gengars Type Hunt", description=appending,color=type_colors[ev[5]])
         embe.set_thumbnail(url=data[15])
         await message.reply(embed=embe)
 
