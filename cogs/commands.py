@@ -190,7 +190,7 @@ class Coms(commands.Cog):
                             pic = pic.split(">")[0]
                             pic = f'https://cdn.discordapp.com/emojis/{pic}.webp?size=240'
                             emb = disnake.Embed(
-                            title=f"Type Hunt Event", color=type_colors[check[5])
+                            title=f"Type Hunt Event", color=type_colors[check[5]])
                             emb.add_field(name=f"Current Place:", value=f"{i+1}")
                             emb.add_field(name=f"Points",value=row[2])
                             emb.add_field(name="Total Catches:", value=row[1])
