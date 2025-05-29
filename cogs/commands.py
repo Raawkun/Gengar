@@ -152,7 +152,7 @@ class Coms(commands.Cog):
                 table = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC")
                 table = table.fetchall()
                 i = 0
-                jk = f"You're currently not present in the Event Leaderboard. Try to catch some more!"
+                jk = f"You're currently not present in the Biggest Karp Event Leaderboard. Try to catch some more!"
                 for row in table:
                     if row[0] == ctx.author.id:
                         try:
@@ -180,20 +180,25 @@ class Coms(commands.Cog):
                 table = self.db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC")
                 table = table.fetchall()
                 i = 0
-                jk = f"You're currently not present in the Event Leaderboard. Try to catch some more!"
+                jk = f"You're currently not present in the Type Hunt Event Leaderboard. Try to catch some more!"
                 for row in table:
                     if row[0] == ctx.author.id:
                         try:
+                            print("row")
                             pic = check[5]
                             col = type_colors[pic]
                             pic = pic.split("type:")[1]
                             pic = pic.split(">")[0]
                             pic = f'https://cdn.discordapp.com/emojis/{pic}.webp?size=240'
+                            print("pic")
                             emb = disnake.Embed(
                             title=f"Type Hunt Event", color=type_colors[check[5]])
                             emb.add_field(name=f"Current Place:", value=f"{i+1}")
+                            print("place")
                             emb.add_field(name=f"Points",value=row[2])
+                            print("points")
                             emb.add_field(name="Total Catches:", value=row[1])
+                            print("catches")
                             emb.set_thumbnail(url=pic)
                             #jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
                             timeing = int(check[3])+int(check[2])
