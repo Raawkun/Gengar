@@ -105,7 +105,7 @@ class On_Edit(commands.Cog):
                                 if data[0] == 129:
                                     asyncio.create_task(Modules.fisheventcheck(self, after,sender))
                                 types =(data[2], data[3])
-                                ev = self.db.execute(f"SELECT Additional FROM Events WHERE Name = 'TypeHunt")
+                                ev = self.db.execute(f"SELECT Additional FROM Events WHERE Name = 'TypeHunt'")
                                 ev = ev.fetchone()
                                 if ev[0] in types:
                                     print(f"{data[2]} {data[3]}")
