@@ -364,8 +364,7 @@ class Modules(commands.Cog):
         data = data.fetchone()
         if data == None:
             print("No Gengar event active.")
-            exit
-        if data[1] == 1:
+        elif data[1] == 1:
             end = data[4]
             now = int(datetime.now().timestamp())
             waiter = end-now
