@@ -34,7 +34,7 @@ class Modules(commands.Cog):
             await Modules.showtype(self)
 
     async def showtype(self):
-        print(Modules.typehunt)
+        print(Modules.hunted_type)
         
     async def adamannpc(self, message):
         if message.reference:
