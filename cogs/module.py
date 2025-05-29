@@ -8,15 +8,16 @@ from sqlite3 import connect
 from zoneinfo import ZoneInfo
 import pytz
 import numpy
-from  utility.rarity_db import poke_rarity, embed_color
+from  utility.rarity_db import poke_rarity, embed_color, type_emotes, type_colors
 from utility.embed import Custom_embed, Auction_embed
 from utility.info_dict import cmds,functions
-from utility.drop_chance import drop_pos, rare_calc, ball_used_low, ball_used_high
+from utility.drop_chance import th_points
 import random
 from utility.all_checks import Basic_checker
 import pandas
 import aiosqlite
 import openpyxl
+from cogs.listener import Listener
 
 class Modules(commands.Cog):
 
@@ -270,7 +271,9 @@ class Modules(commands.Cog):
             if check[0] == 'BiggestFish':
                 asyncio.create_task(Modules.biggestfish(self, message, sender))
             elif check[0] == 'TypeHunt':
-                asyncio.create_task(Modules.typehunt(self, message. sender))
+                for role in sender.roles:
+                        if role.id == 837611415070048277:
+                            asyncio.create_task(Modules.typehunt(self, message, sender))
                 
     async def typehunt(self, message, sender):
         emb = message.embeds[0]
@@ -278,6 +281,21 @@ class Modules(commands.Cog):
         data = data.fetchone()
         ev = self.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
         ev = ev.fetchone()
+        points = th_points[f'{data[14]}']
+        check = self.db.execute(f"SELECT * FROM TypeHunt WHERE User_ID = {sender.id}")
+        check = check.fetchone()
+        if check is None:
+            self.db.execute(f"INSERT INTO TypeHunt VALUES ({sender.id},1,{points}")
+            self.db.commit()
+        else:
+            self.db.execute(f"UPDATE TypeHunt SET Amount = Amount + 1, Points = Points + {points} WHERE User_ID = {sender.id}")
+            self.db.commit()
+            points = points + check[2]
+        appending = f"{type_emotes[f'{Listener.hunted_type}']} You earned {th_points[f'{data[14]}']} for your catch!\nYou now have {points} points!"
+        embe = disnake.Embed(title="Gengars Type Hunt", description=appending,color=type_colors[f'{data[14]}'])
+        embe.set_thumbnail(url=data[15])
+        await message.reply(embed=embe)
+
         
     # BIGGEST FISH / KARP EVENT
     async def fisheventcheck(self,message,sender):
@@ -332,17 +350,48 @@ class Modules(commands.Cog):
         await message.reply(f"{sender.mention} - {jk}\n{appending}")
 
     async def fishtimer(self):
-        data = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
+        data = self.db.execute(f"SELECT * FROM Events WHERE Active = 1")
         data = data.fetchone()
         if data[1] == 1:
             end = data[4]
             now = int(datetime.now().timestamp())
             waiter = end-now
-            print(f"Active Fishing Event found; gonna end in {waiter/60} minutes.")
+            print(f"Active {data[0]} Event found; gonna end in {waiter/60} minutes.")
             await asyncio.sleep(waiter)
-            asyncio.create_task(Modules.fishend(self))
+            if data[0] == 'BiggestFish':
+                asyncio.create_task(Modules.fishend(self))
+            elif data[0] == 'TypeHunt':
+                asyncio.create_task(Modules.typeend(self))
 
-
+    async def typeend(self):
+        results = self.db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC")
+        results = results.fetchall()
+        events = self.db.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
+        events = events.fetchone()
+        table = ""
+        i = 0
+        while i < len(results):
+            if i<10:
+                table += f"<@{results[i][0]}>  |  {results[i][1]}  |  {(results[i][2])}\n"
+            i += 1
+        emb = disnake.Embed(title="Type Hunt Leaderboard", description=f"Here are the results for the Event which started at <t:{events[3]}:f>.",color=type_colors[f'{events[5]}'])
+        emb.add_field(name="Top 10:",value=f"•  Username  |  Catch Amount  |  Points  •\n{table}",inline=True)
+        emb.set_footer(text="Provided by Mega Gengar.")
+        channel = self.client.get_channel(825958388349272106) #Bot-Testing
+        await channel.send(embed=emb)
+        async with aiosqlite.connect("database.db") as db:
+            async with db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC") as cursor:
+                cols = [column[0] for column in cursor.description]
+                rows = await cursor.fetchall()
+                df = pandas.DataFrame(rows, columns = cols)
+                df.to_excel("typehunt.xlsx", index=False)
+                if channel:
+                    await channel.send("Here is the exported table for the last TypeHunt Event:",file=disnake.File("typehunt.xlsx"))
+                os.remove("typehunt.xlsx")
+                self.db.execute(f"DELETE FROM TypeHunt")
+                self.db.commit()
+                self.db.execute(f"UPDATE Events SET Active = 0, Runtime = 0, Start_Stamp = 0 WHERE Name = 'TypeHunt'")
+                self.db.commit()
 
     async def fishend(self):
         results = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC")

@@ -134,10 +134,11 @@ class SlashComs(commands.Cog):
         
     @commands.check(Basic_checker().check_admin)
     @commands.slash_command(name="event",description="Admin only. Used to activate Gengar controlled events.",
-                            options=[Option(name="name", description="Which event to activate.", choices=[OptionChoice("Biggest Fish / Karp","bigfish")],required=True),
+                            options=[Option(name="name", description="Which event to activate.", choices=[OptionChoice("Biggest Fish / Karp","bigfish"),OptionChoice("TypeHunt","typehunt")],required=True),
                                      Option(name="mode",description="To either start or stop an event.",choices=[OptionChoice("Start","start"),OptionChoice("End","end")], required=True),
-                                     Option(name="duration",description="Event runtime in days",required=False)])
-    async def _event(self, ctx, name = None, mode = None,duration = None):
+                                     Option(name="duration",description="Event runtime in days",required=False),
+                                     Option(name="type",description="Only for TypeHunts",required=False)])
+    async def _event(self, ctx, name = None, mode = None,duration = None,type=None):
         if name == "bigfish":
             check = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
             check = check.fetchone()
@@ -163,6 +164,37 @@ class SlashComs(commands.Cog):
                 self.db.commit()
                 await ctx.send(f"Congratulations! You've activated a funny round of 'Biggest Fish / Karp' for the server! This event will run until: <t:{end_time}:f>")
                 asyncio.create_task(Modules.fishtimer(self))
+        elif name == "typehunt":
+            types = ["fire","water","rock","ground","flying","fairy","psychic","electric","normal","ghost","dark","steel","grass","bug","fighting","ice"]
+            if (type == None) or (type not in types):
+                await ctx.send("Please insert a valid Pokémon type!")
+            else:
+                print(type)
+                check = self.db.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
+                check = check.fetchone()
+                if check[1] == 1:
+                    if mode == "start":
+                        runtime = check[2]
+                        end_time = check[3]+runtime
+                        await ctx.send(f"The event 'TypeHunt' is already running. Please wait for it to be done at <t:{end_time}:f> to activate it again or use 'mode -> end' to end it now.")
+                    elif mode == "end":
+                        await ctx.send(f"Alrighty, you've ended the currently running 'Type Hunt' Event. Gonna send the results asap!")
+                        asyncio.create_task(Modules.fishend(self))
+                else:
+                    if duration == None:
+                        duration = 7
+                    cet = zoneinfo.ZoneInfo("Europe/Berlin")
+                    end = datetime.timedelta(days=int(duration))
+                    ending = datetime.datetime.now(cet)
+                    ending = datetime.datetime(ending.year,ending.month,ending.day,14,0,0)+end
+                    now = int(datetime.datetime.now().timestamp())
+                    end_time = int(ending.timestamp())
+                    runtime = end_time-now
+                    self.db.execute(f"UPDATE Events SET Active = 1, Runtime = {runtime}, Start_Stamp = {int(now)}, End_Stamp = {int(end_time)} WHERE Name = 'BiggestFish'")
+                    self.db.commit()
+                    await ctx.send(f"Congratulations! You've activated a funny round of 'Biggest Fish / Karp' for the server! This event will run until: <t:{end_time}:f>")
+                    asyncio.create_task(Modules.fishtimer(self))
+
 
     @commands.check(Basic_checker().check_admin)
     @commands.slash_command(name="setup", description="First setup of the bot (can be changed later too ofc).", 

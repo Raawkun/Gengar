@@ -104,6 +104,9 @@ class On_Edit(commands.Cog):
                                     asyncio.create_task(Modules.averagecoins(self,after))
                                 if data[0] == 129:
                                     asyncio.create_task(Modules.fisheventcheck(self, after,sender))
+                                if Listener.hunted_type != None:
+                                    if data[2] == Listener.hunted_type or data[3] == Listener.hunted_type:
+                                        asyncio.create_task(Modules.eventchecker(self, after,sender))
                                 if "_fossil" in _embed.description:
                                     fossil = _embed.description.split("retrieved a <:")[1]
                                     fossil = fossil.split(":")[0]

@@ -4,3 +4,4 @@ ball_used_low = {"Pokeball" : 1.2, "Greatball" : 1.5, "Ultraball" : 2.3, "Premie
 ball_used_high = {"Pokeball" : 4.5, "Greatball" : 3.2, "Ultraball" : 2.3, "Premierball" : 1.5, "Diveball" : 2.3, "Masterball" : 1.2}
 buyin = 100000
 standard_rate = 0.2
+th_points = {"Common" : 1, "Uncommon" : 2, "Rare" : 3, "SuperRare" : 5, "Legendary" : 10, "Shiny" : 20,"Golden" : 30}
