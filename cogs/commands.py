@@ -186,13 +186,10 @@ class Coms(commands.Cog):
                         try:
                             print(check)
                             pic = check[5]
-                            print(pic)
+                            pic = type_emotes[pic]
                             pic = pic.split("type:")[1]
-                            print(pic)
                             pic = pic.split(">")[0]
-                            print(pic)
                             pic = f'https://cdn.discordapp.com/emojis/{pic}.webp?size=240'
-                            print("pic")
                             emb = disnake.Embed(
                             title=f"Type Hunt Event", color=type_colors[check[5]])
                             emb.add_field(name=f"Current Place:", value=f"{i+1}")
