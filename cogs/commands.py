@@ -184,11 +184,13 @@ class Coms(commands.Cog):
                 for row in table:
                     if row[0] == ctx.author.id:
                         try:
-                            print("row")
+                            print(check)
                             pic = check[5]
-                            col = type_emotes[pic]
+                            print(pic)
                             pic = pic.split("type:")[1]
+                            print(pic)
                             pic = pic.split(">")[0]
+                            print(pic)
                             pic = f'https://cdn.discordapp.com/emojis/{pic}.webp?size=240'
                             print("pic")
                             emb = disnake.Embed(
