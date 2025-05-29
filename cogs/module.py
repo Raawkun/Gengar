@@ -362,6 +362,9 @@ class Modules(commands.Cog):
     async def fishtimer(self):
         data = self.db.execute(f"SELECT * FROM Events WHERE Active = 1")
         data = data.fetchone()
+        if data == None:
+            print("No Gengar event active.")
+            exit
         if data[1] == 1:
             end = data[4]
             now = int(datetime.now().timestamp())
