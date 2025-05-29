@@ -106,6 +106,7 @@ class On_Edit(commands.Cog):
                                     asyncio.create_task(Modules.fisheventcheck(self, after,sender))
                                 if Modules.hunted_type != None:
                                     if data[2] == Modules.hunted_type or data[3] == Modules.hunted_type:
+                                        print(f"{data[2]} {data[3]} - {Modules.hunted_type}")
                                         asyncio.create_task(Modules.eventchecker(self, after,sender))
                                 if "_fossil" in _embed.description:
                                     fossil = _embed.description.split("retrieved a <:")[1]
