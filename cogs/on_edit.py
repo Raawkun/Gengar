@@ -104,7 +104,8 @@ class On_Edit(commands.Cog):
                                     asyncio.create_task(Modules.averagecoins(self,after))
                                 if data[0] == 129:
                                     asyncio.create_task(Modules.fisheventcheck(self, after,sender))
-                                if Modules.hunted_type == data[2] or Modules.hunted_type == data[3]:
+                                types =(data[2], data[3])
+                                if Modules.hunted_type in types:
                                     print(f"{data[2]} {data[3]}")
                                     asyncio.create_task(Modules.eventchecker(self, after,sender))
                                 if "_fossil" in _embed.description:
