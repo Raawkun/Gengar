@@ -284,7 +284,7 @@ class Modules(commands.Cog):
             elif check[0] == 'TypeHunt':
                 for role in sender.roles:
                         if role.id == 837611415070048277:
-                            print("Correct role")
+                            #print("Correct role")
                             asyncio.create_task(Modules.typehunt(self, message, sender))
                 
     async def typehunt(self, message, sender):
