@@ -298,7 +298,7 @@ class Modules(commands.Cog):
         check = self.db.execute(f"SELECT * FROM TypeHunt WHERE User_ID = {sender.id}")
         check = check.fetchone()
         if check is None:
-            self.db.execute(f"INSERT INTO TypeHunt VALUES ({sender.id},1,{points}")
+            self.db.execute(f"INSERT INTO TypeHunt VALUES ({sender.id},1,{points})")
             self.db.commit()
         else:
             self.db.execute(f"UPDATE TypeHunt SET Amount = Amount + 1, Points = Points + {points} WHERE User_ID = {sender.id}")
