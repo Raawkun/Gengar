@@ -36,7 +36,6 @@ class Listener(commands.Cog):
     promo_item = "none"
     exclusives = []
     active_tasks = set()
-    hunted_type = None
 
     
     async def get_db_connection(self):
@@ -64,13 +63,6 @@ class Listener(commands.Cog):
         for entry in result:
             Listener.exclusives.append(entry[0])
         print(f"Loaded exclusives: {Listener.exclusives}")
-        data = self.db.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
-        data = data.fetchone()
-        if data[1] == 1:
-            Listener.hunted_type = f"{data[5]}"
-            print(f"There's a TypeHunt active, the type is: {data[5]}")
-        else:
-            print(f"No type loaded. If thats an error, its your fault.")
     
     async def dawndusk(self):
         rem_channel = self.client.get_channel(827306503866155008)
@@ -163,6 +155,7 @@ class Listener(commands.Cog):
         Reminders.create_tracked_task(Modules.averagetimer(self))
         Reminders.create_tracked_task(Modules.fishtimer(self))
         Reminders.create_tracked_task(Reminders.load_reminder(self))
+        Reminders.create_tracked_task(Modules.load_type(self))
         print("Time do to ghost stuff!")
         
     async def logerror(self, error: Exception, context: str = "Unspecified"):

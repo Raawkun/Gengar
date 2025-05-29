@@ -17,13 +17,23 @@ from utility.all_checks import Basic_checker
 import pandas
 import aiosqlite
 import openpyxl
-from cogs.listener import Listener
 
 class Modules(commands.Cog):
 
     def __init__(self, client):
         self.client = client
         self.db = connect("database.db")
+
+    hunted_type = ""
+
+    async def load_type(self):
+        data = self.db.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
+        data = data.fetchone()
+        if data[1] == 1:
+            Modules.hunted_type = f"{data[5]}"
+            print(f"There's a TypeHunt active, the type is: {data[5]}")
+        else:
+            print(f"No type loaded. If thats an error, its your fault.")
         
     async def adamannpc(self, message):
         if message.reference:
@@ -291,7 +301,7 @@ class Modules(commands.Cog):
             self.db.execute(f"UPDATE TypeHunt SET Amount = Amount + 1, Points = Points + {points} WHERE User_ID = {sender.id}")
             self.db.commit()
             points = points + check[2]
-        appending = f"{type_emotes[f'{Listener.hunted_type}']} You earned {th_points[f'{data[14]}']} for your catch!\nYou now have {points} points!"
+        appending = f"{type_emotes[f'{Modules.hunted_type}']} You earned {th_points[f'{data[14]}']} for your catch!\nYou now have {points} points!"
         embe = disnake.Embed(title="Gengars Type Hunt", description=appending,color=type_colors[f'{data[14]}'])
         embe.set_thumbnail(url=data[15])
         await message.reply(embed=embe)
