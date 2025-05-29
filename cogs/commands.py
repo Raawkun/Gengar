@@ -149,7 +149,7 @@ class Coms(commands.Cog):
             await ctx.reply(f"There's currently no Mega Gengar event active.")
         else:
             if check[0] == 'BiggestFish':
-                table = self.db.execute(f"SELECT * FROM {check[0]} ORDER BY Size DESC")
+                table = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC")
                 table = table.fetchall()
                 i = 0
                 jk = f"You're currently not present in the Event Leaderboard. Try to catch some more!"
@@ -177,7 +177,7 @@ class Coms(commands.Cog):
                     else:
                         i += 1
             elif check[0] == 'TypeHunt':
-                table = self.db.execute(f"SELECT * FROM {check[0]} ORDER BY Points DESC")
+                table = self.db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC")
                 table = table.fetchall()
                 i = 0
                 jk = f"You're currently not present in the Event Leaderboard. Try to catch some more!"
