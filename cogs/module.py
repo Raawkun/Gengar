@@ -199,10 +199,8 @@ class Modules(commands.Cog):
                 coins = message.content.split("PokeCoin")[1]
                 coins = coins.split("**")[1].replace(",","")
                 coins = int(coins)
-                self.db.execute(f"UPDATE DailyStats SET CoinOther = CoinOther + coins WHERE Date = '{date}'")
+                self.db.execute(f"UPDATE DailyStats SET CoinOther = CoinOther + {coins} WHERE Date = '{date}'")
                 self.db.commit()
-            #Quests
-            #Daily
             #PokeCaught from Explore
             if "you just caught a " in message.content.lower():
                 coins = message.content.split("You earned")[1]
@@ -215,6 +213,14 @@ class Modules(commands.Cog):
             #PokeSeen (Should also work for explore?)
             if "found a " in message.content.lower():
                 self.db.execute(f"UPDATE DailyStats SET PokeSeen = PokeSeen + 1 WHERE Date = '{date}'")
+                self.db.commit()
+            #Quests
+            if "completed the quest" in message.content.lower():
+                coins = message.content.lower().split("and received")[1]
+                coins = coins.split("PokeCoin")[1]
+                coins = coins.split("**")[1].replace(",","")
+                coins = int(coins)
+                self.db.execute(f"UPDATE DailyStats SET CoinOther = CoinOther + {coins} WHERE Date = '{date}'")
                 self.db.commit()
             #BattleWon &
             #CoinBattle
@@ -263,6 +269,13 @@ class Modules(commands.Cog):
                             coins = int((coins.split(" ")[0]).replace(",",""))
                             self.db.execute(f"UPDATE DailyStats SET CoinCatch = CoinCatch + {coins} WHERE Date = '{date}'")
                             self.db.commit()
+                #Boxes (Rb,+)
+                    if "opened " in emb.description:
+                        coins = emb.description.split("PokeCoin")[1]
+                        coins = coins.split("**")[1].replace(",","")
+                        coins = int(coins)
+                        self.db.execute(f"UPDATE DailyStats SET CoinOther = CoinOther + {coins} WHERE Date = '{date}'")
+                        self.db.commit()
                 #CoinMarket
                 if emb.title:
                     if "from all of your offers" in emb.title:
