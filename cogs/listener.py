@@ -463,6 +463,12 @@ class Listener(commands.Cog):
                     print(f"No valid Chamber, its too easy: {e}")
             if message.content:
                 #print("Aha, some content")
+                #Lootboxes
+                if "opened " in message.content.lower():
+                    asyncio.create_task(Modules.dailycheck(self, message))
+                #Quests
+                if "completed the quest" in message.content.lower():
+                    asyncio.create_task(Modules.dailycheck(self, message))
                 if "your catch bot" in message.content.lower():
                     #print("Aha, catchbotting in message")
                     await asyncio.sleep(8)
@@ -1093,6 +1099,7 @@ class Listener(commands.Cog):
                     if "opened " in _embed.author.name:
                         if _embed.image:
                             #print("Theres a spawn")
+                            asyncio.create_task(Modules.dailycheck(self, message))
                             data_box = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
                             data_box = data_box.fetchall()
                             sender = ref_msg.author.display_name
