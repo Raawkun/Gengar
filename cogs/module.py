@@ -215,8 +215,8 @@ class Modules(commands.Cog):
                 self.db.execute(f"UPDATE DailyStats SET PokeSeen = PokeSeen + 1 WHERE Date = '{date}'")
                 self.db.commit()
             #Quests
-            if "completed the quest" in message.content.lower():
-                coins = message.content.lower().split("and received")[1]
+            if "completed the quest" in message.content:
+                coins = message.content.split("and received")[1]
                 coins = coins.split("PokeCoin")[1]
                 coins = coins.split("**")[1].replace(",","")
                 coins = int(coins)
