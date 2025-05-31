@@ -195,7 +195,7 @@ class Modules(commands.Cog):
                 self.db.execute(f"UPDATE DailyStats SET Icons = Icons + 1 WHERE Date = '{date}'")
                 self.db.commit()
             #Lootbox
-            if "opened " and ":lootbox:" in message.content:
+            if "opened " in message.content and ":lootbox:" in message.content:
                 try:
                     coins = message.content.split("PokeCoin")[1]
                     coins = coins.split("**")[1].replace(",","")
