@@ -194,6 +194,15 @@ class Modules(commands.Cog):
             if "you've unlocked" and " trainer icon" in message.content.lower():
                 self.db.execute(f"UPDATE DailyStats SET Icons = Icons + 1 WHERE Date = '{date}'")
                 self.db.commit()
+            #Lootbox
+            if "opened " and ":lootbox:" in message.content.lower():
+                coins = message.content.split("PokeCoin")[1]
+                coins = coins.split("**")[1].replace(",","")
+                coins = int(coins)
+                self.db.execute(f"UPDATE DailyStats SET CoinOther = CoinOther + coins WHERE Date = '{date}'")
+                self.db.commit()
+            #Quests
+            #Daily
             #PokeCaught from Explore
             if "you just caught a " in message.content.lower():
                 coins = message.content.split("You earned")[1]
