@@ -279,6 +279,16 @@ class Modules(commands.Cog):
                         coins = int(coins)
                         self.db.execute(f"UPDATE DailyStats SET CoinOther = CoinOther + {coins} WHERE Date = '{date}'")
                         self.db.commit()
+                    if "Here are your daily" in emb.description:
+                        coins = emb.description.split(" are your daily **")[1]
+                        coins = coins.split(" ")[0].replace(",","")
+                        coins = int(coins)
+                        if "as a Patreon bonus" in emb.description:
+                            coyns = emb.description.split("You received <:PokeCoin:666879070650236928> **")[1]
+                            coyns = coyns.split(" ")[0].replace(",","")
+                            coins = int(coyns)+coins
+                        self.db.execute(f"UPDATE DailyStats SET CoinOther = CoinOther + {coins} WHERE Date = '{date}'")
+                        self.db.commit()
                 #CoinMarket
                 if emb.title:
                     if "from all of your offers" in emb.title:
