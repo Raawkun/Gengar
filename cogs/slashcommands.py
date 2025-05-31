@@ -165,6 +165,8 @@ class SlashComs(commands.Cog):
                 await ctx.send(f"Congratulations! You've activated a funny round of 'Biggest Fish / Karp' for the server! This event will run until: <t:{end_time}:f>")
                 asyncio.create_task(Modules.fishtimer(self))
         elif name == "typehunt":
+            if mode == "end":
+                type = "fire"
             types = ["fire","water","rock","ground","flying","fairy","psychic","electric","normal","ghost","dark","steel","grass","bug","fighting","ice"]
             if (type == None) or (type not in types):
                 await ctx.send("Please insert a valid Pokémon type!")
@@ -179,7 +181,7 @@ class SlashComs(commands.Cog):
                         await ctx.send(f"The event 'TypeHunt' is already running. Please wait for it to be done at <t:{end_time}:f> to activate it again or use 'mode -> end' to end it now.")
                     elif mode == "end":
                         await ctx.send(f"Alrighty, you've ended the currently running 'Type Hunt' Event. Gonna send the results asap!")
-                        asyncio.create_task(Modules.fishend(self))
+                        asyncio.create_task(Modules.typeend(self))
                 else:
                     if duration == None:
                         duration = 7
