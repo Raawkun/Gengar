@@ -820,6 +820,8 @@ class Listener(commands.Cog):
                             else:
                                 await message.channel.send(desc, allowed_mentions = disnake.AllowedMentions(users = False))
                 if _embed.description:
+                    if "Here are your daily " in _embed.description:
+                        asyncio.create_task(Modules.dailycheck(self, message))
                     if "cast a" in _embed.description:
                         await asyncio.sleep(24.2)
                         datarem = self.db.execute(f'SELECT * FROM Toggle WHERE User_ID = {sender.id}')
