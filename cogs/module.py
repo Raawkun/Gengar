@@ -391,7 +391,7 @@ class Modules(commands.Cog):
             if i<10:
                 table += f"<@{results[i][0]}>  |  {results[i][1]}  |  {(results[i][2])}\n"
             i += 1
-        emb = disnake.Embed(title="Type Hunt Leaderboard", description=f"Here are the results for the Event which started at <t:{events[3]}:f>.",color=type_colors[f'{events[5]}'])
+        emb = disnake.Embed(title="Type Hunt Leaderboard", description=f"Here are the results for the {type_emotes[events[5]]} Hunt Event which started at <t:{events[3]}:f>.",color=type_colors[f'{events[5]}'])
         emb.add_field(name="Top 10:",value=f"•  Username  |  Catch Amount  |  Points  •\n{table}",inline=True)
         emb.set_footer(text="Provided by Mega Gengar.")
         channel = self.client.get_channel(825958388349272106) #Bot-Testing
