@@ -57,11 +57,11 @@ class Rare_spawns(commands.Cog):
 
     async def one_egg(self, message):
         try:
-            print(message.content)
+            #print(message.content)
             mons = message.content.split("** just hatched a ")[1]
-            print(mons)
+            #print(mons)
             mons = mons.split("**")[1]
-            print(mons)
+            #print(mons)
             data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{mons}'")
             data = data.fetchone()
             if data[14] in Rare_spawns.Rare_Spawned or str(data[0]) in eggexcl:
