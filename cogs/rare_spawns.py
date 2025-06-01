@@ -216,5 +216,5 @@ class Rare_spawns(commands.Cog):
         pass
 
 
-    def setup(client):
-        client.add_cog(Rare_spawns(client))
+def setup(client):
+    client.add_cog(Rare_spawns(client))
