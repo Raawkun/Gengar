@@ -78,10 +78,10 @@ class Rare_spawns(commands.Cog):
             mons = mons.split("- ")
             #print(mons)
             mons = mons[1:]
-            print(mons)
+            #print(mons)
             for entry in mons:
                 matches = re.findall(r"\*\*(.+?)\*\*", entry)
-                print(matches)
+                #print(matches)
                 data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{matches[0]}'")
                 data = data.fetchone()
                 if data[14] in Rare_spawns.Rare_Spawned or str(data[0]) in eggexcl:
