@@ -30,7 +30,7 @@ class Rare_spawns(commands.Cog):
         elif message.interaction:
             ref_msg = message.interaction.author
             sender = ref_msg
-        _embed = message.embed[0]
+        _embed = message.embeds[0]
         receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
         receiver_channel = receiver_channel.fetchone()
         if receiver_channel > 0:
