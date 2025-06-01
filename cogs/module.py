@@ -226,7 +226,7 @@ class Modules(commands.Cog):
                 #print("-------")
                 if "PokeCoin" in coins:
                     coins = coins.split("PokeCoin")[1]
-                    print(coins)
+                    #print(coins)
                     coins = coins.split("**")[1].replace(",","")
                     coins = int(coins)
                     self.db.execute(f"UPDATE DailyStats SET CoinOther = CoinOther + {coins} WHERE Date = '{date}'")
