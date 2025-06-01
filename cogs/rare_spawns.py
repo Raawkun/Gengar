@@ -50,7 +50,7 @@ class Rare_spawns(commands.Cog):
             print(str(data[0]))
             embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=color,description=description_text)
             embed.set_author(name=(sender.display_name+" just hatched an exclusive:"),icon_url="https://cdn.discordapp.com/emojis/689325070015135745.gif?size=96&quality=lossless")
-            embed.set_image(_embed.image.url)
+            embed.set_image(data[15])
             embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
             await receiver_channel.send(embed=embed)
             emoji = '🔔'
