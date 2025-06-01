@@ -72,9 +72,9 @@ class Rare_spawns(commands.Cog):
     async def multi_egg(self, message):
         try:
             mons = message.content.split("*You have ")[0]
-            print(mons)
+            #print(mons)
             mons = mons.split("- ")
-            print(mons)
+            #print(mons)
             mons = mons[1:]
             print(mons)
             for entry in mons:
