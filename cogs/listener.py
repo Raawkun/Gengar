@@ -468,6 +468,7 @@ class Listener(commands.Cog):
                             desc = f'{rem_emotes["remind"]} - <@{sender.id}> {rem_emotes["egg"]}'
                         await message.channel.send(desc)           
             if (len(message.embeds) > 0):
+                log_channel = 1164544776985653319
                 _embed = message.embeds[0]
                 color = _embed.color
                 #print(_embed.author.name)
