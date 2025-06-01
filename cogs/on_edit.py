@@ -137,7 +137,8 @@ class On_Edit(commands.Cog):
                         #print(f'{monnumber}'", "f'{monrare}'", "f'{monname}')
                         if "caught a " in after.content:
                             asyncio.create_task(Modules.dailycheck(self, after))
-                            mon = after.content.split("!")[0]
+                            mon = after.content.split("just caught")[1]
+                            mon = mon.split("!")[0]
                             mon = mon.split("**")
                             print(mon)
                             gth = len(mon)-1
