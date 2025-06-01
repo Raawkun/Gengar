@@ -445,7 +445,7 @@ class Coms(commands.Cog):
     @commands.command()
     async def rare(self, ctx, id: int = None):
         print("Rare check...")
-        channel = ctx.channel.id
+        channel = self.client.get_channel(ctx.channel.id)
         if id == None:
             if ctx.reference:
                 id = ctx.reference.id
