@@ -33,8 +33,8 @@ class Rare_spawns(commands.Cog):
         _embed = message.embeds[0]
         receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
         receiver_channel = receiver_channel.fetchone()
-        if receiver_channel > 0:
-            receiver_channel = self.client.get_channel(int(receiver_channel))
+        if int(receiver_channel[4]) > 0:
+            receiver_channel = self.client.get_channel(int(receiver_channel[4]))
         try:
             raremon = poke_rarity[(data[14])]
         except Exception as e:
