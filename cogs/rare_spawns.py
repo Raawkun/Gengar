@@ -78,7 +78,7 @@ class Rare_spawns(commands.Cog):
             mons = mons[1:]
             print(mons)
             for entry in mons:
-                matches = re.findall(r"\*\*(.+?)\*\*", mons)
+                matches = re.findall(r"\*\*(.+?)\*\*", entry)
                 print(matches)
                 data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{matches[0]}'")
                 data = data.fetchone()
