@@ -139,8 +139,10 @@ class On_Edit(commands.Cog):
                             asyncio.create_task(Modules.dailycheck(self, after))
                             mon = after.content.split("!")[0]
                             mon = mon.split("**")
+                            print(mon)
                             gth = len(mon)-1
                             mon = mon[gth]
+                            print(mon)
                             data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{mon}'")
                             data = data.fetchone()
                             #print("Calculate catch")
