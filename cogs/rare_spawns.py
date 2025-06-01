@@ -57,6 +57,7 @@ class Rare_spawns(commands.Cog):
 
     async def one_egg(self, message):
         try:
+            print(message.content)
             mons = message.content.split("*just hatched a *")[1]
             print(mons)
             mons = mons.split("**")[1]
