@@ -2,11 +2,13 @@ import disnake
 from disnake.ext import commands
 from sqlite3 import connect
 from datetime import datetime
-from utility.rarity_db import poke_rarity, embed_color
+from utility.rarity_db import poke_rarity, embed_color, chambers
 from utility.egglist import eggexcl
 import re
 import asyncio
 from zoneinfo import ZoneInfo
+from cogs.module import Modules
+from utility.embed import Custom_embed
 
 class Rare_spawns(commands.Cog):
 
@@ -179,7 +181,35 @@ class Rare_spawns(commands.Cog):
                 anno = await receiver_channel.send(embed=embed)
 
     async def icon_spawn(self, message):
-        pass
+        log_channel = 1164544776985653319
+        log_chn = self.client.get_channel(log_channel)
+        receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
+        receiver_channel = receiver_channel.fetchone()
+        receiver_channel = int(receiver_channel[4])
+        if receiver_channel > 0:
+            receiver_channel = self.client.get_channel(int(receiver_channel))
+        asyncio.create_task(Modules.dailycheck(self, message))
+        iconname = message.content.split("unlocked ")[1]
+        icon = iconname.split(":")[2]
+        icon = icon.split(">")[0]
+        iconname = iconname.split(":")[1]
+        iconname = iconname.replace("_"," ")
+        iconname = iconname.title()
+        authorid = message.content.split("@")[1]
+        authorid = int(authorid.split(">")[0])
+        user = self.client.get_user(authorid)
+        thumburl = "https://cdn.discordapp.com/emojis/"
+        icon = str(icon)
+        thumburl = thumburl+icon
+        thumburl = thumburl+".webp?size=96&quality=lossless"
+        print(thumburl)
+        desc_text = f"Original message: [Click here]({message.jump_url})\n"
+        embed = await Custom_embed(self.client,thumb=thumburl,description="**"+iconname+"** was viciously defeated and dropped their icon.\n"+desc_text).setup_embed()
+        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
+        embed.set_author(name=f'{self.client.get_user(authorid).display_name}'" just found a new icon!", icon_url="https://cdn.discordapp.com/emojis/766701189260771359.webp?size=96&quality=lossless")
+        await receiver_channel.send(embed=embed)
+        await log_chn.send(user.name+" found an icon")
+        await log_chn.send("Its "+iconname)
 
     async def wb_spawn(self, message):
         #print("Checking the WB message")
@@ -215,10 +245,102 @@ class Rare_spawns(commands.Cog):
         return
 
     async def gold_spawn(self, message):
-        pass
+        receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
+        receiver_channel = receiver_channel.fetchone()
+        receiver_channel = int(receiver_channel[4])
+        if receiver_channel > 0:
+            receiver_channel = self.client.get_channel(int(receiver_channel))
+        if message.reference:
+            ref_msg = await message.channel.fetch_message(message.reference.message_id)
+            sender = ref_msg.author
+        elif message.interaction:
+            ref_msg = message.interaction.author
+            sender = ref_msg
+        _embed = message.embeds[0]
+        data_pr = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
+        data_pr = data_pr.fetchall()
+        logging = 1083131761451606096
+        logging = self.client.get_channel(logging)
+        try:
+            await logging.send(embed=message.embed)
+        except:
+            logging.send("NO message to log")
+        try:
+            await logging.send(_embed.description)
+        except:
+            logging.send("How's there no description???")
+        #print(data_pr[0][14])
+        raremon = poke_rarity[(data_pr[0][14])]
+        description_text = f"Original message: [Click here]({message.jump_url})\n"
+        embed = disnake.Embed(title=raremon+" **"+data_pr[0][1]+"** \nDex: #"+str(data_pr[0][0]), color=_embed.color,description=description_text)
+        embed.set_author(name=(f'{sender.display_name}'+" just claimed a:"),icon_url="https://cdn.discordapp.com/emojis/676623920711073793.webp?size=96&quality=lossless")
+        embed.set_image(_embed.image.url)
+        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
+        await receiver_channel.send(embed=embed)
 
     async def box_spawn(self, message):
         pass
+
+    async def chamber_claim(self, message):
+        receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
+        receiver_channel = receiver_channel.fetchone()
+        receiver_channel = int(receiver_channel[4])
+        if receiver_channel > 0:
+            receiver_channel = self.client.get_channel(int(receiver_channel))
+        if message.reference:
+            ref_msg = await message.channel.fetch_message(message.reference.message_id)
+            sender = ref_msg.author
+        elif message.interaction:
+            ref_msg = message.interaction.author
+            sender = ref_msg
+        nite = message.content.split("<:")[1]
+        item = nite.split(":")[0]
+        try:
+            if chambers[item]:
+                print(f'{item}, {chambers[item]}')
+                number = nite.split(":")[1]
+                number = number.split(">")[0]
+                dex = self.db.execute(f'SELECT * FROM Dex WHERE DexID = {chambers[item]}')
+                dex = dex.fetchone()
+                print(dex[1])
+                current_time = message.created_at
+                timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
+                description_text = f"Original message: [Click here]({message.jump_url})\n"
+                embed = disnake.Embed(title=f"{sender.display_name} was able to claim a **{item.capitalize()}**",description=description_text)
+                embed.set_author(name=(f'{sender.display_name}'+" won in a megachamber!"),icon_url=f"https://cdn.discordapp.com/emojis/{number}.webp?size=96&quality=lossless")
+                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
+                embed.set_image(dex[15])
+                await receiver_channel.send(embed=embed)
+        except Exception as e:
+            print(f"No valid Chamber, its too easy: {e}")
+
+    async def code_claim(self, message):
+        receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
+        receiver_channel = receiver_channel.fetchone()
+        receiver_channel = int(receiver_channel[4])
+        if receiver_channel > 0:
+            receiver_channel = self.client.get_channel(int(receiver_channel))
+        if message.reference:
+            ref_msg = await message.channel.fetch_message(message.reference.message_id)
+            sender = ref_msg.author
+        elif message.interaction:
+            sender = message.interaction.author
+        monname = message.content.split("**")[1]
+        monname = monname+" "
+        data = self.db.execute(f'SELECT * FROM Dex WHERE Name LIKE "{monname}"')
+        data = data.fetchall()
+        #print(data)
+        url = data[0][15]
+        #print(url)
+        monname = data[0][1]
+        print(monname)
+        current_time = message.created_at
+        timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
+        description_text = f"Original message: [Click here]({message.jump_url})\n"
+        embed = await Custom_embed(self.client,thumb=url,description=sender.display_name+" just claimed a **"+monname+"** from a code.\n"+description_text).setup_embed()
+        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
+        embed.set_author(name=f'{sender.display_name}'" just redeemed a code!", icon_url="https://cdn.discordapp.com/emojis/671852541729832964.webp?size=240&quality=lossless")
+        await receiver_channel.send(embed=embed)
 
 
 def setup(client):

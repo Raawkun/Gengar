@@ -349,7 +349,6 @@ class Listener(commands.Cog):
         receiver_channel = receiver_channel.fetchone()
         #print(receiver_channel)
         receiver_channel = int(receiver_channel[4])
-        log_channel = 1164544776985653319
         if message.author.id == meow:
             if message.reference:
                 ref_msg = await message.channel.fetch_message(message.reference.message_id)
@@ -357,7 +356,6 @@ class Listener(commands.Cog):
             elif message.interaction:
                 sender = message.interaction.author
             announce_channel = self.client.get_channel(receiver_channel)
-            log_chn = self.client.get_channel(log_channel)
             if ", your egg is ready to hatch" in message.content.lower():
                 if "incubator" in message.content.lower():
                     await message.reply(f"</egg hatch-incubator:1015311084594405485>")
@@ -418,50 +416,10 @@ class Listener(commands.Cog):
                         await message.channel.send(desc)
                     
             if "s** trainer icon!" in message.content:
-                asyncio.create_task(Modules.dailycheck(self, message))
-                iconname = message.content.split("unlocked ")[1]
-                icon = iconname.split(":")[2]
-                icon = icon.split(">")[0]
-                iconname = iconname.split(":")[1]
-                iconname = iconname.replace("_"," ")
-                iconname = iconname.title()
-                authorid = message.content.split("@")[1]
-                authorid = int(authorid.split(">")[0])
-                user = self.client.get_user(authorid)
-                thumburl = "https://cdn.discordapp.com/emojis/"
-                icon = str(icon)
-                thumburl = thumburl+icon
-                thumburl = thumburl+".webp?size=96&quality=lossless"
-                print(thumburl)
-                desc_text = f"Original message: [Click here]({message.jump_url})\n"
-                embed = await Custom_embed(self.client,thumb=thumburl,description="**"+iconname+"** was viciously defeated and dropped their icon.\n"+desc_text).setup_embed()
-                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                embed.set_author(name=f'{self.client.get_user(authorid).display_name}'" just found a new icon!", icon_url="https://cdn.discordapp.com/emojis/766701189260771359.webp?size=96&quality=lossless")
-                await announce_channel.send(embed=embed)
-                await log_chn.send(user.name+" found an icon")
-                await log_chn.send("Its "+iconname)
+                asyncio.create_task(Rare_spawns.icon_spawn(self, message))
             if "from completing challenge" in message.content:
                 print(f'{sender.display_name} won a chamber.')
-                nite = message.content.split("<:")[1]
-                item = nite.split(":")[0]
-                try:
-                    if chambers[item]:
-                        print(f'{item}, {chambers[item]}')
-                        number = nite.split(":")[1]
-                        number = number.split(">")[0]
-                        dex = self.db.execute(f'SELECT * FROM Dex WHERE DexID = {chambers[item]}')
-                        dex = dex.fetchone()
-                        print(dex[1])
-                        current_time = message.created_at
-                        timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-                        description_text = f"Original message: [Click here]({message.jump_url})\n"
-                        embed = disnake.Embed(title=f"{sender.display_name} was able to claim a **{item.capitalize()}**",description=description_text)
-                        embed.set_author(name=(f'{sender.display_name}'+" won in a megachamber!"),icon_url=f"https://cdn.discordapp.com/emojis/{number}.webp?size=96&quality=lossless")
-                        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                        embed.set_image(dex[15])
-                        await announce_channel.send(embed=embed)
-                except Exception as e:
-                    print(f"No valid Chamber, its too easy: {e}")
+                asyncio.create_task(Rare_spawns.chamber_claim(self, message))
             if message.content:
                 #print("Aha, some content")
                 #Lootboxes
@@ -1143,26 +1101,7 @@ class Listener(commands.Cog):
                     elif message.interaction:
                         ref_msg = message.interaction
                     if "claimed a <:Golden" in _embed.description:
-                        data_pr = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
-                        data_pr = data_pr.fetchall()
-                        logging = 1083131761451606096
-                        logging = self.client.get_channel(logging)
-                        try:
-                            await logging.send(embed=message.embed)
-                        except:
-                            logging.send("NO message to log")
-                        try:
-                            await logging.send(_embed.description)
-                        except:
-                            logging.send("How's there no description???")
-                        #print(data_pr[0][14])
-                        raremon = poke_rarity[(data_pr[0][14])]
-                        description_text = f"Original message: [Click here]({message.jump_url})\n"
-                        embed = disnake.Embed(title=raremon+" **"+data_pr[0][1]+"** \nDex: #"+str(data_pr[0][0]), color=color,description=description_text)
-                        embed.set_author(name=(f'{sender.display_name}'+" just claimed a:"),icon_url="https://cdn.discordapp.com/emojis/676623920711073793.webp?size=96&quality=lossless")
-                        embed.set_image(_embed.image.url)
-                        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                        await announce_channel.send(embed=embed)
+                        asyncio.create_task(Rare_spawns.gold_spawn(self, message))
                     if "returned with" in _embed.description:
                         # await message.channel.send(_embed.description)
                         description_text = f"Original message: [Click here]({message.jump_url})\n"

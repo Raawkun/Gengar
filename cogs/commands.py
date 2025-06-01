@@ -22,6 +22,7 @@ from io import BytesIO
 from cogs.module import Modules
 import imageio, subprocess, aiohttp
 from cogs.listener import Listener
+from cogs.rare_spawns import Rare_spawns
 
 # Zeichen zum Kopieren: [ ] { }
 
@@ -444,10 +445,7 @@ class Coms(commands.Cog):
     @commands.command()
     async def rare(self, ctx, id: int = None):
         print("Rare check...")
-        receiver_channel = 825950637958234133
-        announce = self.client.get_channel(receiver_channel)
         channel = ctx.channel.id
-        print(announce.name)
         if id == None:
             if ctx.reference:
                 id = ctx.reference.id
@@ -462,130 +460,42 @@ class Coms(commands.Cog):
             Rare_Spawns = ["Event", "Legendary", "Shiny","Golden"]
             if "you obtained a" in overseen.content.lower():
                 print("World Boss rare spawn")
-                asyncio.create_task(Modules.rare_spawn(self, overseen))
+                asyncio.create_task(Rare_spawns.wb_spawn(self, overseen))
             if "from completing challenge" in overseen.content:
-                    if overseen.reference:
-                        ref_msg = await overseen.channel.fetch_message(overseen.reference.message_id)
-                        sender = ref_msg.author
-                    elif overseen.interaction:
-                        sender = overseen.interaction.author
-                    print(f'{sender.display_name} won a chamber.')
-                    nite = overseen.content.split("<:")[1]
-                    item = nite.split(":")[0]
-                    print(f'{item}, {chambers[item]}')
-                    number = nite.split(":")[1]
-                    number = number.split(">")[0]
-                    dex = self.db.execute(f'SELECT * FROM Dex WHERE DexID = {chambers[item]}')
-                    dex = dex.fetchone()
-                    print(dex[1])
-                    current_time = overseen.created_at
-                    timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-                    description_text = f"Original message: [Click here]({overseen.jump_url})\n"
-                    embed = disnake.Embed(title=f"{sender.display_name} was able to claim a **{item.capitalize()}**",description=description_text)
-                    embed.set_author(name=(f'{sender.display_name}'+" won in a megachamber!"),icon_url=f"https://cdn.discordapp.com/emojis/{number}.webp?size=96&quality=lossless")
-                    embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                    embed.set_image(dex[15])
-                    await announce.send(embed=embed)
+                asyncio.create_task(Rare_spawns.chamber_claim(self, overseen))
+            if "just hatched ..." in overseen.content:
+                asyncio.create_task(Rare_spawns.multi_egg(self, overseen))
+            if "just hatched a " in overseen.content:
+                asyncio.create_task(Rare_spawns.one_egg(self, overseen))
             if len(overseen.embeds) > 0:
                 _embed = overseen.embeds[0]
-                if overseen.reference:
-                    ref_msg = await overseen.channel.fetch_message(overseen.reference.message_id)
-                    sender = ref_msg.author
-                elif overseen.interaction:
-                    sender = overseen.interaction.author
-                user = sender
-                try:
-                    data = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
-                    data = data.fetchone()
-                    #print(data)
-                    raremon = data[14]
-                    #print(raremon)
-                    ball = _embed.description.split(" with a")[1]
-                    ball = ball.split("!")[0]
-                    ball = ball.split(" ")[1]
-                    #print(ball)
-                    #print(_embed.color)
-                    color = str(_embed.color)
-                    #print(color)
-                except Exception as e:
-                    print(f"Rare Cmd_1: {e}")
-                if raremon in Rare_Spawns or data[0] in Listener.exclusives:
+                if "claimed a <:Golden" in _embed.description:
+                    asyncio.create_task(Rare_spawns.gold_spawn(self, overseen))
+                if "pokemon roll" in _embed.footer.text.lower():
                     try:
-                        raremon = poke_rarity[(data[14])]
-                        current_time = overseen.created_at
-                        timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-                        #print(timestamp)
-                        description_text = f"Original message: [Click here]({overseen.jump_url})\n"
-                        embed = await Custom_embed(self.client, title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]),description=description_text,colour=_embed.color).setup_embed()
-                        if "broke out" in _embed.description:
-                            embed.set_author(name=f"{user.display_name} almost caught a:", icon_url=_embed.author.icon_url)
-                        elif "ran away" in _embed.description:
-                            embed.set_author(name=f"{user.display_name} was too slow for a:", icon_url=_embed.author.icon_url)
-                        elif "caught a" in _embed.description:
-                            embed.set_author(name=f"{user.display_name} just caught a:", icon_url=_embed.author.icon_url)
-                        embed.set_image(_embed.image.url)
-                        embed.set_thumbnail(url=None)
-                        embed.set_footer(text=f'{self.client.user.display_name} | at UTC {timestamp}', icon_url=f'{self.client.user.avatar}')
-                        await announce.send(embed=embed)
-                        await ctx.send("Check <#825950637958234133>",embed=embed)
-                    except Exception as e:
-                        print(f"Rare Cmd_2: {e}")
-                else:
-                    await ctx.send(f'{data[0]} is not rare enough to be posted. If you think this is wrong, ping Blue Flame.')
+                        data = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
+                        data = data.fetchone()
+                        raremon = data[14]
+                    except:
+                        try:
+                            name = _embed.description.split("**")[1]
+                            data = self.db.execute(f'SELECT * FROM Dex WHERE Name = "{name}"')
+                            data = data.fetchone()
+                            raremon = data[14]
+                        except:
+                            await overseen.channel.send("It seems this Pokémon is not in my database - could you please add it with checking its ``/pokedex entry``?")
+                            return
+                
+                    if raremon in Rare_Spawns or data[0] in Listener.exclusives:
+                        asyncio.create_task(Rare_spawns.poke_spawn(self, overseen, data))
+                    else:
+                        await ctx.send(f'{data[0]} is not rare enough to be posted. If you think this is wrong, ping Blue Flame.')
 
             elif " trainer icon!" in overseen.content:
-                print(overseen.content)
-                current_time = overseen.created_at
-                timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-                iconname = overseen.content.split("unlocked ")[1]
-                icon = iconname.split(":")[2]
-                icon = icon.split(">")[0]
-                print(icon)
-                iconname = iconname.split(":")[1]
-                print(iconname)
-                iconname = iconname.replace("_"," ")
-                iconname = iconname.title()
-                print(iconname)
-                authorid = overseen.content.split("@")[1]
-                authorid = int(authorid.split(">")[0])
-                user = self.client.get_user(authorid)
-                thumburl = "https://cdn.discordapp.com/emojis/"
-                icon = str(icon)
-                thumburl = thumburl+icon
-                thumburl = thumburl+".webp?size=96&quality=lossless"
-                print(thumburl)
-                current_time = overseen.created_at
-                timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-                description_text = f"Original message: [Click here]({overseen.jump_url})\n"
-                embed = await Custom_embed(self.client,description="**"+iconname+"** was viciously defeated and dropped their icon.\n"+description_text,thumb=thumburl).setup_embed()
-                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                embed.set_author(name=f'{self.client.get_user(authorid).display_name}'" just found a new icon!", icon_url="https://cdn.discordapp.com/emojis/766701189260771359.webp?size=96&quality=lossless")
-                await announce.send(embed=embed)
+                asyncio.create_task(Rare_spawns.icon_spawn(self, overseen))
 
             elif "used a code to claim" in overseen.content:
-                if overseen.reference:
-                    ref_msg = await overseen.channel.fetch_message(overseen.reference.message_id)
-                    sender = ref_msg.author
-                elif overseen.interaction:
-                    sender = overseen.interaction.author
-                monname = overseen.content.split("**")[1]
-                monname = monname+" "
-                await ctx.send('``'+monname+'``')
-                print(monname)
-                data = self.db.execute(f'SELECT * FROM Dex WHERE Name LIKE "{monname}"')
-                data = data.fetchall()
-                #print(data)
-                url = data[0][15]
-                #print(url)
-                monname = data[0][1]
-                print(monname)
-                current_time = overseen.created_at
-                timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-                description_text = f"Original message: [Click here]({overseen.jump_url})\n"
-                embed = await Custom_embed(self.client,thumb=url,description=sender.display_name+" just claimed a **"+monname+"** from a code.\n"+description_text).setup_embed()
-                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                embed.set_author(name=f'{sender.display_name}'" just redeemed a code!", icon_url="https://cdn.discordapp.com/emojis/671852541729832964.webp?size=240&quality=lossless")
-                await announce.send(embed=embed)
+                asyncio.create_task(Rare_spawns.code_claim(self, overseen))
 
         else:
             await ctx.send("Please reply to a message.")
