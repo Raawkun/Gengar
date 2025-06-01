@@ -77,10 +77,10 @@ class Rare_spawns(commands.Cog):
             print(mons)
             mons = mons[1:]
             print(mons)
-            matches = re.findall(r"\*\*(.+?)\*\*", mons)
-            print(matches)
             for entry in mons:
-                data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{matches}'")
+                matches = re.findall(r"\*\*(.+?)\*\*", mons)
+                print(matches)
+                data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{matches[0]}'")
                 data = data.fetchone()
                 if data[14] in Rare_spawns.Rare_Spawned or str(data[0]) in eggexcl:
                     asyncio.create_task(Rare_spawns.egg_spawn(self, message, data))
