@@ -223,7 +223,7 @@ class Modules(commands.Cog):
                 print("-------")
                 coins = message.content.split("and received")[1]
                 print(coins)
-                (print"-------")
+                print("-------")
                 coins = coins.split("PokeCoin")[1]
                 print(coins)
                 coins = coins.split("**")[1].replace(",","")
