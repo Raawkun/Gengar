@@ -314,13 +314,14 @@ class Modules(commands.Cog):
             sender = await message.guild.fetch_member(sender.id)
             check = self.db.execute(f"SELECT * FROM Events WHERE Active = 1")
             check = check.fetchone()
-            if check[0] == 'BiggestFish':
-                asyncio.create_task(Modules.biggestfish(self, message, sender))
-            elif check[0] == 'TypeHunt':
-                for role in sender.roles:
-                        if role.id == 837611415070048277:
-                            #print("Correct role")
-                            asyncio.create_task(Modules.typehunt(self, message, sender))
+            if check != None:
+                if check[0] == 'BiggestFish':
+                    asyncio.create_task(Modules.biggestfish(self, message, sender))
+                elif check[0] == 'TypeHunt':
+                    for role in sender.roles:
+                            if role.id == 837611415070048277:
+                                #print("Correct role")
+                                asyncio.create_task(Modules.typehunt(self, message, sender))
                 
     async def typehunt(self, message, sender):
         emb = message.embeds[0]

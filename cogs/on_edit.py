@@ -140,7 +140,6 @@ class On_Edit(commands.Cog):
                             mon = after.content.split("just caught")[1]
                             mon = mon.split("!")[0]
                             mon = mon.split("**")[1]
-                            print(mon)
                             data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{mon}'")
                             data = data.fetchone()
                             #print("Calculate catch")
