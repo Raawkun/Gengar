@@ -14,6 +14,7 @@ from utility.embed import Custom_embed, Auction_embed
 from cogs.module import Modules
 from cogs.reminder import Reminders
 from cogs.resuming import Resuming
+from cogs.rare_spawns import Rare_spawns
 from utility.db_config import db_config
 
 # Zeichen zum Kopieren: [ ] { }
@@ -377,7 +378,7 @@ class Listener(commands.Cog):
             if "here are your rewards for the " in message.content.lower():
                 asyncio.create_task(Modules.dailycheck(self, message))
                 if "you obtained a" in message.content.lower():
-                    asyncio.create_task(Modules.rare_spawn(self, message))
+                    asyncio.create_task(Rare_spawns.wb_spawn(self, message))
             if "used a code to claim" in message.content:
                 monname = message.content.split("**")[1]
                 print(monname)
@@ -1049,36 +1050,21 @@ class Listener(commands.Cog):
                         if message.reference:
                             ref_msg = await message.channel.fetch_message(message.reference.message_id)
                             if "incubator" in ref_msg.content:
-                                await message.reply(f"</egg use-incubator:1015311084594405485>")
+                                await message.reply(f"</egg use-incubator:1015311084594405485> ``;egg use i all``")
                             else:
                                 await message.reply(f"</egg hold:1015311084594405485>")
                         elif message.interaction:
                             ref_msg = message.interaction
                             if "incubator" in ref_msg.name:
-                                await message.reply(f"</egg use-incubator:1015311084594405485>")
+                                await message.reply(f"</egg use-incubator:1015311084594405485> ``;egg use i all''")
                             else:
                                 await message.reply(f"</egg hold:1015311084594405485>")
-                        asyncio.create_task(Modules.dailycheck(self, message))
-                        try:
-                            data_egg = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
-                            data_egg = data_egg.fetchone()
-                            sender = ref_msg.author
-                            raremon = poke_rarity[(data_egg[14])]
-                        except Exception as e:
-                            print(f"Egg Error: {message.channel.name}\n{message.author.display_name} - {message.jump_url}\n{e}")
-                        description_text = f"Original message: [Click here]({message.jump_url})\n"
-                        #print(Rare_Spawned)
-                        #Rare_Spawned = ["Golden","Event", "Legendary", "Shiny", "Rare", "SuperRare"]
-                        if data_egg[14] in Rare_Spawned or str(data_egg[0]) in eggexcl:
-                            print("Its in the one list!")
-                            print(str(data_egg[0]))
-                            embed = disnake.Embed(title=raremon+" **"+data_egg[1]+"** \nDex: #"+str(data_egg[0]), color=color,description=description_text)
-                            embed.set_author(name=(sender.display_name+" just hatched an exclusive:"),icon_url="https://cdn.discordapp.com/emojis/689325070015135745.gif?size=96&quality=lossless")
-                            embed.set_image(_embed.image.url)
-                            embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                            await announce_channel.send(embed=embed)
+                        if "just hatched ..." in message.content:
+                            asyncio.create_task(Rare_spawns.multi_egg(self, message))
+                        if "just hatched a " in message.content:
+                            asyncio.create_task(Rare_spawns.one_egg(self, message))
 
-                        await asyncio.sleep(5)
+                        await asyncio.sleep(4)
                         datarem = self.db.execute(f'SELECT * FROM Toggle WHERE User_ID = {sender.id}')
                         datarem = datarem.fetchone()
                         if datarem[15] == 1:

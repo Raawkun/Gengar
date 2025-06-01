@@ -16,7 +16,6 @@ import random
 from utility.all_checks import Basic_checker
 import pandas
 import aiosqlite
-import openpyxl
 
 class Modules(commands.Cog):
 
@@ -303,11 +302,6 @@ class Modules(commands.Cog):
                         #print(f"Market coins: {coins}")
                         self.db.execute(f"UPDATE DailyStats SET CoinMarket = CoinMarket + {coins} WHERE Date = '{date}'")
                         self.db.commit()
-                if emb.author.name:
-                #EggHatch
-                    if "hatched an Egg" in emb.author.name:
-                        self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
-                        self.db.commit()
             
     def generate_size():
         while True:
@@ -487,38 +481,6 @@ class Modules(commands.Cog):
                 self.db.commit()
                 self.db.execute(f"UPDATE Events SET Active = 0, Runtime = 0, Start_Stamp = 0 WHERE Name = 'BiggestFish'")
                 self.db.commit()
-
-    async def rare_spawn(self, message):
-        print("Checking the WB message")
-        current_time = datetime.utcnow()
-        timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-        receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
-        receiver_channel = receiver_channel.fetchone()
-        receiver_channel = int(receiver_channel[4])
-        if receiver_channel > 0:
-            announce = self.client.get_channel(int(receiver_channel))
-        if message.reference:
-            ref_msg = await message.channel.fetch_message(message.reference.message_id)
-            sender = ref_msg.author
-        elif message.interaction:
-            ref_msg = message.interaction.author
-            sender = ref_msg
-        id = message.content.split("You obtained a <:")[1]
-        id = int(id.split(":")[0])
-        data = self.db.execute(f"SELECT * FROM Dex WHERE DexID = {id}")
-        data = data.fetchone()
-        if (data[14] == "shinygigantamax") or (data[14] == "shiny"):
-            color = disnake.Color.fuchsia()
-        else:
-            color = disnake.Color.red()
-        author_icon = "https://cdn.discordapp.com/emojis/1372953699852357665.webp?"
-        raremon = poke_rarity[(data[14])]
-        description_text = f"Original message: [Click here]({message.jump_url})\n"
-        embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=color,description=description_text)
-        embed.set_author(name=f"{sender.display_name} got this from a World Boss:", icon_url=author_icon)
-        embed.set_image(data[15])
-        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-        await announce.send(embed=embed)
 
  
 def setup(client):

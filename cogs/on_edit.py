@@ -13,6 +13,7 @@ from cogs.safari_event import SafariEvent
 import random
 from utility.all_checks import Basic_checker
 from cogs.listener import Listener
+from cogs.rare_spawns import Rare_spawns
 
 class On_Edit(commands.Cog):
 
@@ -22,6 +23,7 @@ class On_Edit(commands.Cog):
 
     current_time = datetime.datetime.utcnow()
     timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
+    Rare_Spawns = ["Event", "Legendary", "Shiny","Golden"]
 
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
@@ -42,13 +44,12 @@ class On_Edit(commands.Cog):
                 return
             if before.pinned == after.pinned:
                 ##### Rare Spawn #####
-                Rare_Spawns = ["Event", "Legendary", "Shiny","Golden"]
                 #Rare_Spawns = ["Event", "Legendary", "Shiny", "Rare", "SuperRare","Golden"]
                 if (len(before.embeds) > 0):
                     #print("Edit with Embed")
                     befembed = before.embeds[0]
                     if "may continue playing" in after.content.lower():
-                        emoji = "<:GengarClap:1338134716397916233>"
+                        emoji = "<a:GengarClapping:1378680505775558708>"
                         await after.add_reaction(emoji)
                         return
                     if (len(after.embeds) > 0):
@@ -114,41 +115,9 @@ class On_Edit(commands.Cog):
                                     fossil = _embed.description.split("retrieved a <:")[1]
                                     fossil = fossil.split(":")[0]
                                     await after.reply(f"``;res ex {fossil}``")
-                            if raremon in Rare_Spawns or data[0] in Listener.exclusives:
+                            if raremon in self.Rare_Spawns or data[0] in Listener.exclusives:
                                 #print("Theres a rare spawn.")
-                                description_text = " "
-                                if "caught a" in _embed.description:
-                                    #print(f"Something got caught; {data[1]}")
-                                    if "retrieved a" in _embed.description:
-                                        #Rare_Spawns = ["Event", "Legendary", "Shiny", "Rare","Common", "Uncommon", "SuperRare","Golden"]
-                                        item = _embed.description.split("retrieved")[1]
-                                        item = item.split("**")[1]
-                                        #print(item)
-                                        description_text = f"<:held_item:1213754494266122280> **It held onto a {item}**.\n"
-                                    if "token" in _embed.footer.text:
-                                        author = sender.display_name+" just reeled in a:"
-                                    else:
-                                        author = sender.display_name+" just caught a:"
-                                
-
-                                if "broke out" in _embed.description:
-                                    #print(f"Something broke out; {data[1]}")
-                                    author = sender.display_name+" almost caught a:"
-                                    
-                                                    
-                                if "ran away" in _embed.description:
-                                    #print(f"Something ran away; {data[1]}")
-                                    author = sender.display_name+" was too slow for:"
-                                raremon = poke_rarity[(data[14])]
-                                description_text += f"Original message: [Click here]({before.jump_url})\n"
-                                embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=color,description=description_text)
-                                embed.set_author(name=author, icon_url=_embed.author.icon_url)
-                                embed.set_image(_embed.image.url)
-                                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                                await announce.send(embed=embed)
-                                emoji = '🔔'
-                                await after.add_reaction(emoji)
-                                return
+                                asyncio.create_task(Rare_spawns.poke_spawn(self, after, data))
 
             if ":map: Map:" in before.content:
                 if "steps today:" in after.content.lower():
@@ -161,53 +130,23 @@ class On_Edit(commands.Cog):
                             sender = "A User"
                         #print("Theres a pokemon")
                         asyncio.create_task(Modules.dailycheck(self,before))
-                        monrare = before.content.split("found a ")[1]
-                        monname = monrare.split("**")[1]
-                        monnumber = monrare.split(":")[3]
-                        monrare = monrare.split(":")[1]
+                        # monrare = before.content.split("found a ")[1]
+                        # monname = monrare.split("**")[1]
+                        # monnumber = monrare.split(":")[3]
+                        # monrare = monrare.split(":")[1]
                         #print(f'{monnumber}'", "f'{monrare}'", "f'{monname}')
                         if "caught a " in after.content:
-                            #print("Calculate catch")
                             asyncio.create_task(Modules.dailycheck(self, after))
-                        #Rare_Spawns = ["Event", "Legendary", "Shiny", "Rare", "SuperRare","Golden","Uncommon"]
-                        if monrare in Rare_Spawns:
-                            monnumber = int(monnumber)
-                            if monrare == "Shiny":
-                                monnumber += 1000
-                            if monrare == "Golden":
-                                monnumber += 9000
-                            monnumber = str(monnumber)
-                            data = self.db.execute(f'SELECT * FROM Dex WHERE DexID = {monnumber}')
+                            mon = after.content.split("!")[0]
+                            mon = mon.split("**")
+                            gth = len(mon)-1
+                            mon = mon[gth]
+                            data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{mon}'")
                             data = data.fetchone()
-                            if "just caught a " in after.content:
-                                if receiver_channel > 0:
-                                    raremon = poke_rarity[(data[14])]
-                                    description_text = f"Original message: [Click here]({before.jump_url})\n"
-                                    embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=embed_color[monrare],description=description_text)
-                                    embed.set_author(name=(f'{sender}'+" just discovered a:"), icon_url="https://cdn.discordapp.com/emojis/1072075141489623040.webp?size=96&quality=lossless")
-                                    embed.set_image(data[15])
-                                    embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                                    anno = await announce.send(embed=embed)
-                                    
-                            elif "broke out" in after.content:
-                                if receiver_channel > 0:
-                                    raremon = poke_rarity[(data[14])]
-                                    description_text = f"Original message: [Click here]({before.jump_url})\n"
-                                    embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=embed_color[monrare],description=description_text)
-                                    embed.set_author(name=(f'{sender}'+" almost caught a:"), icon_url="https://cdn.discordapp.com/emojis/1072075141489623040.webp?size=96&quality=lossless")
-                                    embed.set_image(data[15])
-                                    embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                                    anno = await announce.send(embed=embed)
-                                    
-                            elif "ran away" in after.content:
-                                if receiver_channel > 0:
-                                    raremon = poke_rarity[(data[14])]
-                                    description_text = f"Original message: [Click here]({before.jump_url})\n"
-                                    embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=embed_color[monrare],description=description_text)
-                                    embed.set_author(name=(sender+" was too slow for:"), icon_url="https://cdn.discordapp.com/emojis/1072075141489623040.webp?size=96&quality=lossless")
-                                    embed.set_image(data[15])
-                                    embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
-                                    anno = await announce.send(embed=embed)
+                            #print("Calculate catch")
+                            if data[14] in self.Rare_Spawns:
+                        #Rare_Spawns = ["Event", "Legendary", "Shiny", "Rare", "SuperRare","Golden","Uncommon"]
+                                asyncio.create_task(Rare_spawns.explore_spawn(self, after, data))
                                     
 
 
