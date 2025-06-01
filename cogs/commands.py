@@ -453,9 +453,9 @@ class Coms(commands.Cog):
             else:
                 await ctx.reply("Please reply to a message.")
         overseen = await channel.fetch_message(id)
-        #print(overseen)
-        #print("...")
-        #print(overseen.content)
+        print(overseen)
+        print("...")
+        print(overseen.content)
         if overseen:
             Rare_Spawns = ["Event", "Legendary", "Shiny","Golden"]
             if "you obtained a" in overseen.content.lower():
