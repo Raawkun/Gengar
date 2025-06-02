@@ -338,9 +338,7 @@ class Modules(commands.Cog):
         ev = self.db.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
         ev = ev.fetchone()
         points = th_points[data[14]]
-        sing = "point"
-        if points > 1:
-            sing = "points"
+        
         check = self.db.execute(f"SELECT * FROM TypeHunt WHERE User_ID = {sender.id}")
         check = check.fetchone()
         if check is None:
@@ -350,6 +348,9 @@ class Modules(commands.Cog):
             self.db.execute(f"UPDATE TypeHunt SET Amount = Amount + 1, Points = Points + {points} WHERE User_ID = {sender.id}")
             self.db.commit()
             points = points + check[2]
+        sing = "point"
+        if points > 1:
+            sing = "points"
         appending = f"{type_emotes[ev[5]]} You earned {th_points[data[14]]} {sing} for your catch!\nYou now have {points} points!"
         embe = disnake.Embed(title="Gengars Type Hunt", description=appending,color=type_colors[ev[5]])
         embe.set_thumbnail(url=data[15])
