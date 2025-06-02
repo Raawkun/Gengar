@@ -220,16 +220,17 @@ class Modules(commands.Cog):
             if "completed the quest" in message.content:
                 #print(message.content)
                 #print("-------")
-                coins = message.content.split("and received")[1]
-                #print(coins)
-                #print("-------")
-                if "PokeCoin" in coins:
-                    coins = coins.split("PokeCoin")[1]
+                if "and received" in message.content.lower():
+                    coins = message.content.split("and received")[1]
                     #print(coins)
-                    coins = coins.split("**")[1].replace(",","")
-                    coins = int(coins)
-                    self.db.execute(f"UPDATE DailyStats SET CoinOther = CoinOther + {coins} WHERE Date = '{date}'")
-                    self.db.commit()
+                    #print("-------")
+                    if "PokeCoin" in coins:
+                        coins = coins.split("PokeCoin")[1]
+                        #print(coins)
+                        coins = coins.split("**")[1].replace(",","")
+                        coins = int(coins)
+                        self.db.execute(f"UPDATE DailyStats SET CoinOther = CoinOther + {coins} WHERE Date = '{date}'")
+                        self.db.commit()
             #BattleWon &
             #CoinBattle
             if "won the battle" in message.content:
