@@ -139,6 +139,7 @@ class SlashComs(commands.Cog):
                                      Option(name="duration",description="Event runtime in days",required=False),
                                      Option(name="type",description="Only for TypeHunts",required=False)])
     async def _event(self, ctx, name = None, mode = None,duration = None,type=None):
+        await ctx.response.defer()
         if name == "bigfish":
             check = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
             check = check.fetchone()
