@@ -24,7 +24,7 @@ class Modules(commands.Cog):
         self.db = connect("database.db")
 
     hunted_type = ""
-    server_whitelist: [1351851125330022430, 825813023716540426]
+    server_whitelist = [1351851125330022430, 825813023716540426]
 
     async def load_type(self):
         data = self.db.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
