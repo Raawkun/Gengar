@@ -24,6 +24,7 @@ class Modules(commands.Cog):
         self.db = connect("database.db")
 
     hunted_type = ""
+    server_whitelist: [1351851125330022430, 825813023716540426]
 
     async def load_type(self):
         data = self.db.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
@@ -185,7 +186,7 @@ class Modules(commands.Cog):
             await asyncio.sleep(3600)
 
     async def dailycheck(self,message):
-        if message.guild.id == 825813023716540426: #paralympic
+        if message.guild.id in Modules.server_whitelist: #paralympic
             est = ZoneInfo("America/New_York")
             now = datetime.now(est)
             date = str(f"{now.day}.{now.month}.{now.year}")
@@ -311,7 +312,7 @@ class Modules(commands.Cog):
                 #print(xy)
                 return round(xy)
     async def eventchecker(self,message,sender):
-        if message.guild.id == 825813023716540426:
+        if message.guild.id in Modules.server_whitelist:
             sender = await message.guild.fetch_member(sender.id)
             check = self.db.execute(f"SELECT * FROM Events WHERE Active = 1")
             check = check.fetchone()
@@ -359,7 +360,7 @@ class Modules(commands.Cog):
         
     # BIGGEST FISH / KARP EVENT
     async def fisheventcheck(self,message,sender):
-        if message.guild.id == 825813023716540426:
+        if message.guild.id in Modules.server_whitelist:
             sender = await message.guild.fetch_member(sender.id)
             check = self.db.execute(f"SELECT * FROM Events WHERE Name = 'BiggestFish'")
             check = check.fetchone()
