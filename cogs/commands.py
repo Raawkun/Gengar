@@ -243,7 +243,7 @@ class Coms(commands.Cog):
             est = ZoneInfo("America/New_York")
             now = datetime.datetime.now(est)
             date = now-datetime.timedelta(days=1)
-            date = str(f"{now.day}.{now.month}.{now.year}")
+            date = str(f"{date.day}.{date.month}.{date.year}")
             print(date)
             coin = "<:pokecoin:835054000063381516>"
             embed = disnake.Embed(title="Daily Server Stats",description=f"The daily server stats for {ctx.guild.name}.",color=disnake.Color.blurple())
