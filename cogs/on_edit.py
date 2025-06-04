@@ -96,8 +96,8 @@ class On_Edit(commands.Cog):
                             if before.reference:
                                 ref_msg = await before.channel.fetch_message(before.reference.message_id)
                                 sender = ref_msg.author
-                            elif before.interaction:
-                                ref_msg = before.interaction.author
+                            elif before.interaction_metadata:
+                                ref_msg = before.interaction_metadata.user
                                 sender = ref_msg
                             if "caught a" in _embed.description:
                                 if "pokecoins" in _embed.footer.text.lower():

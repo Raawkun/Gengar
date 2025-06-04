@@ -353,8 +353,8 @@ class Listener(commands.Cog):
             if message.reference:
                 ref_msg = await message.channel.fetch_message(message.reference.message_id)
                 sender = ref_msg.author
-            elif message.interaction:
-                sender = message.interaction.author
+            elif message.interaction_metadata:
+                sender = message.interaction_metadata.user
             announce_channel = self.client.get_channel(receiver_channel)
             if ", your egg is ready to hatch" in message.content.lower():
                 if "incubator" in message.content.lower():
@@ -1012,8 +1012,8 @@ class Listener(commands.Cog):
                                 await message.reply(f"</egg use-incubator:1015311084594405485> ``;egg use i all``")
                             else:
                                 await message.reply(f"</egg hold:1015311084594405485>")
-                        elif message.interaction:
-                            ref_msg = message.interaction
+                        elif message.interaction_metadata:
+                            ref_msg = message.interaction_metadata
                             if "incubator" in ref_msg.name:
                                 await message.reply(f"</egg use-incubator:1015311084594405485> ``;egg use i all''")
                             else:
@@ -1080,8 +1080,8 @@ class Listener(commands.Cog):
                         try:
                             if message.reference:
                                 ref_msg = await message.channel.fetch_message(message.reference.message_id)
-                            elif message.interaction:
-                                ref_msg = message.interaction
+                            elif message.interaction_metadata:
+                                ref_msg = message.interaction_metadata
                             data_sw = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
                             data_sw = data_sw.fetchone()
                             sender = ref_msg.author.display_name
@@ -1099,8 +1099,8 @@ class Listener(commands.Cog):
                 if _embed.description:
                     if message.reference:
                         ref_msg = await message.channel.fetch_message(message.reference.message_id)
-                    elif message.interaction:
-                        ref_msg = message.interaction
+                    elif message.interaction_metadata:
+                        ref_msg = message.interaction_metadata
                     if "claimed a <:Golden" in _embed.description:
                         asyncio.create_task(Rare_spawns.gold_spawn(self, message))
                     if "returned with" in _embed.description:
@@ -1177,8 +1177,8 @@ class Listener(commands.Cog):
                         sender = ref_msg.author
                         #print("Ref")
                     except:
-                        ref_msg = message.interaction #Command with /
-                        sender = ref_msg.author
+                        ref_msg = message.interaction_metadata #Command with /
+                        sender = ref_msg.user
                 if _embed.description:
                     try:
                         if "variant" in _embed.description:

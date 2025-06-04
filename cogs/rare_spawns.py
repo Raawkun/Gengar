@@ -29,8 +29,8 @@ class Rare_spawns(commands.Cog):
         if message.reference:
             ref_msg = await message.channel.fetch_message(message.reference.message_id)
             sender = ref_msg.author
-        elif message.interaction:
-            ref_msg = message.interaction.author
+        elif message.interaction_metadata:
+            ref_msg = message.interaction_metadata.user
             sender = ref_msg
         _embed = message.embeds[0]
         receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
@@ -99,8 +99,8 @@ class Rare_spawns(commands.Cog):
         if message.reference:
             ref_msg = await message.channel.fetch_message(message.reference.message_id)
             sender = ref_msg.author
-        elif message.interaction:
-            ref_msg = message.interaction.author
+        elif message.interaction_metadata:
+            ref_msg = message.interaction_metadata.user
             sender = ref_msg
         _embed = message.embeds[0]
         color = _embed.color
@@ -146,8 +146,8 @@ class Rare_spawns(commands.Cog):
         if message.reference:
             ref_msg = await message.channel.fetch_message(message.reference.message_id)
             sender = ref_msg.author
-        elif message.interaction:
-            ref_msg = message.interaction.author
+        elif message.interaction_metadata:
+            ref_msg = message.interaction_metadata.user
             sender = ref_msg
 
         if "just caught a " in message.content:
@@ -221,8 +221,8 @@ class Rare_spawns(commands.Cog):
         if message.reference:
             ref_msg = await message.channel.fetch_message(message.reference.message_id)
             sender = ref_msg.author
-        elif message.interaction:
-            ref_msg = message.interaction.author
+        elif message.interaction_metadata:
+            ref_msg = message.interaction_metadata.user
             sender = ref_msg
         id = message.content.split("You obtained a <:")[1]
         id = int(id.split(":")[0])
@@ -253,8 +253,8 @@ class Rare_spawns(commands.Cog):
         if message.reference:
             ref_msg = await message.channel.fetch_message(message.reference.message_id)
             sender = ref_msg.author
-        elif message.interaction:
-            ref_msg = message.interaction.author
+        elif message.interaction_metadata:
+            ref_msg = message.interaction_metadata.user
             sender = ref_msg
         _embed = message.embeds[0]
         data_pr = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
@@ -290,8 +290,8 @@ class Rare_spawns(commands.Cog):
         if message.reference:
             ref_msg = await message.channel.fetch_message(message.reference.message_id)
             sender = ref_msg.author
-        elif message.interaction:
-            ref_msg = message.interaction.author
+        elif message.interaction_metadata:
+            ref_msg = message.interaction_metadata.user
             sender = ref_msg
         nite = message.content.split("<:")[1]
         item = nite.split(":")[0]
@@ -323,8 +323,8 @@ class Rare_spawns(commands.Cog):
         if message.reference:
             ref_msg = await message.channel.fetch_message(message.reference.message_id)
             sender = ref_msg.author
-        elif message.interaction:
-            sender = message.interaction.author
+        elif message.interaction_metadata:
+            sender = message.interaction_metadata.user
         monname = message.content.split("**")[1]
         monname = monname+" "
         data = self.db.execute(f'SELECT * FROM Dex WHERE Name LIKE "{monname}"')
