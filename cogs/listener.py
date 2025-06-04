@@ -144,10 +144,6 @@ class Listener(commands.Cog):
 ⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠈⢿⢻⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
         await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="you."))
-        path = os.path.dirname(os.path.abspath(__file__))
-        fp = os.path.join(path, "resume.txt")
-        if os.path.exists(fp):
-            os.remove(fp)
         Reminders.create_tracked_task(Listener.load_promo(self))
         Reminders.create_tracked_task(Listener.load_excl(self))
         Reminders.create_tracked_task(Listener.dawndusk(self))
