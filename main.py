@@ -3,17 +3,20 @@ import os
 import disnake
 from disnake.ext import commands
 from disnake.ext.commands import CommandNotFound
+from disnake.ext.commands import CommandSyncFlags
 
 
 f = open("key.txt", "r")
 token = f.read()
 
 intents = disnake.Intents.all()
+sync_flags = CommandSyncFlags.default()
+sync_flags.sync_commands_debug = True
 
 def __init__(self, client):
     self.client = client
 
-client = commands.AutoShardedBot(intents = intents, command_prefix =commands.when_mentioned_or("m", "M"), reload = True, sync_commands_debug=True)
+client = commands.AutoShardedBot(intents = intents, command_prefix =commands.when_mentioned_or("m", "M"), reload = True, command_sync_flags=sync_flags)
 
 @client.event
 async def on_command_error(ctx, error):
