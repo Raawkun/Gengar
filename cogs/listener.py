@@ -8,7 +8,7 @@ from sqlite3 import connect
 from utility.rarity_db import poke_rarity, chambers
 from utility.egglist import eggexcl
 from utility.info_dict import rem_emotes, emote_list, embed_color
-import aiomysql
+import aiomysql, subprocess
 import datetime
 from utility.embed import Custom_embed, Auction_embed
 from cogs.module import Modules
@@ -125,6 +125,11 @@ class Listener(commands.Cog):
         except Exception as e:
             #await log.send(f'Changelog Error: {e}')
             return
+    @commands.Cog.listener()
+    async def on_connect(self):
+        result = subprocess.run(["git", "pull"],capture_output=True,text = True)
+        git_output = result.stdout or result.stderr
+        print(git_output)
 
     #events
     @commands.Cog.listener()
@@ -1255,7 +1260,7 @@ class Listener(commands.Cog):
                             self.db.commit()
                             #print("Its in the dex now")
                     except Exception as e: 
-                        print("Dex for db: ")
+                        print(f"Dex for db: {message.jump_url}")
                         print(e)
                 
                     try:
