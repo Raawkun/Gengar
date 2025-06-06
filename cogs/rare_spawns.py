@@ -224,9 +224,9 @@ class Rare_spawns(commands.Cog):
         elif message.interaction_metadata:
             ref_msg = message.interaction_metadata.user
             sender = ref_msg
-        id = message.content.split("You obtained a <:")[1]
-        id = int(id.split(":")[0])
-        data = self.db.execute(f"SELECT * FROM Dex WHERE DexID = {id}")
+        name = message.content.split("You obtained a <:")[1]
+        name = name.split("**")[1]
+        data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
         data = data.fetchone()
         if (data[14] == "shinygigantamax") or (data[14] == "shiny"):
             color = disnake.Color.fuchsia()
