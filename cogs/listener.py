@@ -128,6 +128,10 @@ class Listener(commands.Cog):
             return
         
     async def Git_pull(self):
+        if getattr(Listener, "has_pulled", False):
+            return
+        Listener.has_pulled = True
+        asyncio.sleep(3)
         EXTENSIONS_FOLDER = "cogs"
         print("🔄 Running Git pull...")
         cmds = [
