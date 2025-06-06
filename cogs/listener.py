@@ -145,7 +145,7 @@ class Listener(commands.Cog):
             msg = f"✅ Reloaded:\n"+"\n".join(success)
             if fail:
                 msg += f"\n\n❌ Failed:\n" + "\n".join(f"{e[0]}: {e[1]}" for e in fail)
-            print(msg)
+        print(msg)
 
 
         print(git_output)
