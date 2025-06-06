@@ -37,6 +37,7 @@ class Listener(commands.Cog):
     promo_item = "none"
     exclusives = []
     active_tasks = set()
+    has_pulled = False
 
     
     async def get_db_connection(self):
@@ -127,18 +128,28 @@ class Listener(commands.Cog):
             return
     @commands.Cog.listener()
     async def on_connect(self):
-        print("Connected to Discord. Pulling latest code from Git...")
-        process = await asyncio.create_subprocess_exec(
-        "git", "pull",
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE
-    )
-        stdout, stderr = await process.communicate()
+        if getattr(self.client, "has_pulled", False):
+            return
 
-        if process.returncode == 0:
-            print("✅ Git pull successful:\n", stdout.decode())
-        else:
-            print("❌ Git pull failed:\n", stderr.decode())
+        self.client.has_pulled = True  # Prevent running multiple times
+        print("🔄 Performing hard reset and pulling latest code...")
+
+        cmds = [
+            ["git", "reset", "--hard", "HEAD"],
+            ["git", "pull"]
+        ]
+
+        for cmd in cmds:
+            process = await asyncio.create_subprocess_exec(
+                *cmd,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+            stdout, stderr = await process.communicate()
+            output = stdout.decode().strip() or stderr.decode().strip()
+            print(f"$ {' '.join(cmd)}\n{output}")
+
+        print("✅ Git update complete.")
 
     #events
     @commands.Cog.listener()
