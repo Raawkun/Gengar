@@ -126,6 +126,38 @@ class Listener(commands.Cog):
         except Exception as e:
             #await log.send(f'Changelog Error: {e}')
             return
+        
+    async def Git_pull(self):
+        EXTENSIONS_FOLDER = "cogs"
+        print("🔄 Running Git pull...")
+        cmds = [
+            ["git", "reset", "--hard", "HEAD"],
+            ["git", "pull"]
+        ]
+        for cmd in cmds:
+            process = await asyncio.create_subprocess_exec(
+                *cmd,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+            stdout, stderr = await process.communicate()
+            output = stdout.decode().strip() or stderr.decode().strip()
+            print(f"$ {' '.join(cmd)}\n{output}")
+
+        print("🔁 Reloading extensions...")
+        for file in os.listdir(EXTENSIONS_FOLDER):
+            if file.endswith(".py"):
+                name = f"{EXTENSIONS_FOLDER}.{file[:-3]}"
+                try:
+                    if name in self.client.extensions:
+                        await self.client.reload_extension(name)
+                        print(f"🔁 Reloaded: {name}")
+                    else:
+                        await self.client.load_extension(name)
+                        print(f"✅ Loaded: {name}")
+                except Exception as e:
+                    print(f"❌ Failed to load {name}: {e}")
+
 
     #events
     @commands.Cog.listener()
@@ -145,6 +177,7 @@ class Listener(commands.Cog):
 ⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠈⢿⢻⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
         await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="you."))
+        await Listener.Git_pull(self)
         Reminders.create_tracked_task(Listener.load_promo(self))
         Reminders.create_tracked_task(Listener.load_excl(self))
         Reminders.create_tracked_task(Listener.dawndusk(self))
