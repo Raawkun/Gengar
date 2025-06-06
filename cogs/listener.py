@@ -126,30 +126,6 @@ class Listener(commands.Cog):
         except Exception as e:
             #await log.send(f'Changelog Error: {e}')
             return
-    @commands.Cog.listener()
-    async def on_connect(self):
-        if getattr(self.client, "has_pulled", False):
-            return
-
-        self.client.has_pulled = True  # Prevent running multiple times
-        print("🔄 Performing hard reset and pulling latest code...")
-
-        cmds = [
-            ["git", "reset", "--hard", "HEAD"],
-            ["git", "pull"]
-        ]
-
-        for cmd in cmds:
-            process = await asyncio.create_subprocess_exec(
-                *cmd,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
-            )
-            stdout, stderr = await process.communicate()
-            output = stdout.decode().strip() or stderr.decode().strip()
-            print(f"$ {' '.join(cmd)}\n{output}")
-
-        print("✅ Git update complete.")
 
     #events
     @commands.Cog.listener()
