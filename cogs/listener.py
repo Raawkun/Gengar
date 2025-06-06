@@ -158,7 +158,6 @@ class Listener(commands.Cog):
 ⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠈⢿⢻⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
         await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="you."))
-        await asyncio.create_task(Listener.on_connect(self))
         Reminders.create_tracked_task(Listener.load_promo(self))
         Reminders.create_tracked_task(Listener.load_excl(self))
         Reminders.create_tracked_task(Listener.dawndusk(self))
