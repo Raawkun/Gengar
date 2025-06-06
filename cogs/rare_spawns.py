@@ -226,6 +226,7 @@ class Rare_spawns(commands.Cog):
             sender = ref_msg
         name = message.content.split("You obtained a <:")[1]
         name = name.split("**")[1]
+        print(name)
         data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
         data = data.fetchone()
         if (data[14] == "shinygigantamax") or (data[14] == "shiny"):
