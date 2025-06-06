@@ -127,28 +127,18 @@ class Listener(commands.Cog):
             return
     @commands.Cog.listener()
     async def on_connect(self):
-        result = subprocess.run(["git", "pull"],capture_output=True,text = True)
-        git_output = result.stdout or result.stderr
-        extensions = [
-            f"cogs.{filename[:-3]}"
-            for filename in os.listdir("cogs")
-            if filename.endswith(".py") and not filename.startswith("_")
-        ]
-        success = []
-        fail = []
-        for entry in extensions:
-            try:
-                await self.client.reload_extension(entry)
-                success.append(entry)
-            except Exception as e:
-                fail.append((entry, str(e)))
-            msg = f"✅ Reloaded:\n"+"\n".join(success)
-            if fail:
-                msg += f"\n\n❌ Failed:\n" + "\n".join(f"{e[0]}: {e[1]}" for e in fail)
-        print(msg)
+        print("Connected to Discord. Pulling latest code from Git...")
+        process = await asyncio.create_subprocess_exec(
+        "git", "pull",
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE
+    )
+        stdout, stderr = await process.communicate()
 
-
-        print(git_output)
+        if process.returncode == 0:
+            print("✅ Git pull successful:\n", stdout.decode())
+        else:
+            print("❌ Git pull failed:\n", stderr.decode())
 
     #events
     @commands.Cog.listener()
