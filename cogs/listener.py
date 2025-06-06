@@ -149,6 +149,7 @@ class Listener(commands.Cog):
 ⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠈⢿⢻⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
         await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="you."))
+        await asyncio.create_task(Listener.on_connect(self))
         Reminders.create_tracked_task(Listener.load_promo(self))
         Reminders.create_tracked_task(Listener.load_excl(self))
         Reminders.create_tracked_task(Listener.dawndusk(self))
@@ -1202,43 +1203,43 @@ class Listener(commands.Cog):
                                 amount = 0
                             for field in _embed.fields:
                                 if field.name == "Dex Number":
-                                    #print(field.value)
+                                    print(field.value)
                                     region = field.value.split("> ")[1]
-                                    #print(region)
+                                    print(region)
                                     region = region.split(" ")[0]
-                                    #print(region)
+                                    print(region)
                                 if field.name == "Type":
                                     type1= field.value.split()[0]
                                     #print(type1)
                                     type1_semi = type1.split(":")[1]
-                                    #print(type1_semi)
+                                    print(type1_semi)
                                     try:
                                         type2 = field.value.split()[1]
                                         #print(type2)
                                         type2_semi = type2.split(":")[1]
-                                        #print(type2_semi)
+                                        print(type2_semi)
                                     except: type2_semi = None
                                 if field.name == "Base Attack":
                                     b_atk = field.value.split()[1]
-                                    #print(b_atk)
+                                    print(b_atk)
                                 if field.name == "Base Defense":
                                     b_def = field.value.split()[1]
-                                    #print(b_def)
+                                    print(b_def)
                                 if field.name == "Base HP":
                                     b_hp = field.value.split()[1]
-                                    #print(b_hp)
+                                    print(b_hp)
                                 if field.name == "Base Sp. Atk":
                                     b_spatk = field.value.split()[1]
-                                    #print(b_spatk)
+                                    print(b_spatk)
                                 if field.name == "Base Sp. Def":
                                     b_spdef = field.value.split()[1]
-                                    #print(b_spdef)
+                                    print(b_spdef)
                                 if field.name == "Base Speed":
                                     b_spd = field.value.split()[1]
-                                    #print(b_spd)
+                                    print(b_spd)
                                 if field.name == "Rarity":
                                     rarity = field.value.split(":")[1]
-                                    #print(rarity)
+                                    print(rarity)
                                     if rarity.lower() == "legendary":
                                         legendary = True
                                     else: legendary = False
@@ -1255,7 +1256,7 @@ class Listener(commands.Cog):
                                         shiny = True
                                         mega = True
                                 imageurl = _embed.image.url
-                                #print(imageurl)
+                                print(imageurl)
                             self.db.execute(f'INSERT or REPLACE INTO Dex VALUES ({dex},"{name}","{type1_semi}","{type2_semi}",{b_hp},{b_atk},{b_def},{b_spatk},{b_spdef},{b_spd},{legendary},{shiny},{golden},{mega},"{rarity}","{imageurl}","{region}",{val},{time},{amount})')
                             self.db.commit()
                             #print("Its in the dex now")
