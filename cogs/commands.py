@@ -323,9 +323,9 @@ class Coms(commands.Cog):
             try:
                 channels = self.db.execute(f"SELECT Changelog FROM Admin WHERE Changelog > 0")
                 channels = channels.fetchall()
-                print(channels)
-                with open("changelog.txt", "r") as file:
-                    content = file.read()
+                #print(channels)
+                with open("changelog.txt", "r") as ch_file:
+                    content = ch_file.read()
                     current_time=datetime.datetime.utcnow()
                     timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
                     timestamp = "At UTC "+timestamp
@@ -341,8 +341,9 @@ class Coms(commands.Cog):
                         i += 1
                     except:
                         continue
-                #os.remove("changelog.txt")
-                await ctx.reply(f"Send the changelog to {i} servers.")
+                
+                await ctx.reply(f"Send the changelog to {i} servers.",file=ch_file)
+                os.remove("changelog.txt")
             except Exception as e:
                 print(f"Changelog posting error:\n{e}")
 
