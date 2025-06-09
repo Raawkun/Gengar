@@ -249,7 +249,7 @@ class Coms(commands.Cog):
                     try:
                         results = self.db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC")
                         results = results.fetchall()
-                        events = self.db.execute(f"SELECT * FROM Event WHERE Name = 'TypeHunt'")
+                        events = self.db.execute(f"SELECT * FROM Events WHERE Name = 'TypeHunt'")
                         events = events.fetchone()
                         table = ""
                         i = 0
