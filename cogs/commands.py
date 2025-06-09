@@ -273,8 +273,9 @@ class Coms(commands.Cog):
     @commands.command(aliases=["cl","ch"])
     async def changelog(self, ctx, handle, *args):
         await asyncio.create_task(Listener._changelog(self))
-
+        print(handle)
         if handle == "add":
+            args = ' '.join(args)
             with open("changelog.txt", "r") as file:
                 content = file.read()
                 if any(word.isalpha() for word in content.split()):
