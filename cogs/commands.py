@@ -146,6 +146,7 @@ class Coms(commands.Cog):
     async def event(self, ctx, handle = None):
         check = self.db.execute(f"SELECT * FROM Events WHERE Active = 1")
         check = check.fetchone()
+        print(handle)
         if check is None:
             await ctx.reply(f"There's currently no Mega Gengar event active.")
         else:
@@ -243,6 +244,7 @@ class Coms(commands.Cog):
                 jk += f"\nThe event will run until <t:{timeing}:f>"
                 await ctx.reply(jk)
             elif handle in ["lb","board","leaderboard","stats"]:
+                    print(handle)
                     results = self.db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC")
                     results = results.fetchall()
                     events = self.db.execute(f"SELECT * FROM Event WHERE Name = 'TypeHunt'")
