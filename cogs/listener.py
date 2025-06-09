@@ -93,7 +93,7 @@ class Listener(commands.Cog):
     
     async def _changelog(self):
         try:
-            with open("changelog.txt", "w") as file:
+            with open("changelog.txt", "a") as file:
                 print("File created.")
             
         except Exception as e:
