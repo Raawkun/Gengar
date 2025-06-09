@@ -442,19 +442,22 @@ class Modules(commands.Cog):
         emb.set_footer(text="Provided by Mega Gengar.")
         channel = self.client.get_channel(825958388349272106) #Bot-Testing
         await channel.send(embed=emb)
-        async with aiosqlite.connect("database.db") as db:
-            async with db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC") as cursor:
-                cols = [column[0] for column in cursor.description]
-                rows = await cursor.fetchall()
-                df = pandas.DataFrame(rows, columns = cols)
-                df.to_excel("typehunt.xlsx", index=False)
-                if channel:
-                    await channel.send("Here is the exported table for the last TypeHunt Event:",file=disnake.File("typehunt.xlsx"))
-                os.remove("typehunt.xlsx")
-                self.db.execute(f"DELETE FROM TypeHunt")
-                self.db.commit()
-                self.db.execute(f"UPDATE Events SET Active = 0, Runtime = 0, Start_Stamp = 0 WHERE Name = 'TypeHunt'")
-                self.db.commit()
+        try:
+            async with aiosqlite.connect("database.db") as db:
+                async with db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC") as cursor:
+                    cols = [column[0] for column in cursor.description]
+                    rows = await cursor.fetchall()
+                    df = pandas.DataFrame(rows, columns = cols)
+                    df.to_excel("typehunt.xlsx", index=False)
+                    if channel:
+                        await channel.send("Here is the exported table for the last TypeHunt Event:",file=disnake.File("typehunt.xlsx"))
+                    os.remove("typehunt.xlsx")
+                    self.db.execute(f"DELETE FROM TypeHunt")
+                    self.db.commit()
+                    self.db.execute(f"UPDATE Events SET Active = 0, Runtime = 0, Start_Stamp = 0 WHERE Name = 'TypeHunt'")
+                    self.db.commit()
+        except Exception as e:
+            print(f"There was an error with ending the TypeHunt Event.\n{e}")
 
     async def fishend(self):
         results = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC")
