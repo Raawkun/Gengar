@@ -294,7 +294,7 @@ class Coms(commands.Cog):
                     last = content.pop()
                     content = ' '.join(content)
                     with open("changelog.txt", "w") as file:
-                        file.write(content[-4])
+                        file.write(content[:-4])
                     answer = f"Successfully deleted the last entry!\n~~{last}~~"
                 else:
                     answer = f"There was nothing worthy of deletion."
@@ -330,6 +330,7 @@ class Coms(commands.Cog):
                 emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed)
                 emb.set_footer(text=timestamp)
                 emb.add_field(name="Whats different:",value=content)
+                emb.add_field(name="", value="That's it for today!")
             i = 0
             for entry in channels:
                 try:
