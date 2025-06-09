@@ -281,20 +281,23 @@ class Listener(commands.Cog):
             await message.reply("Rofl.", allowed_mentions = disnake.AllowedMentions(replied_user=False))
 
         if message.author.id == karp:
+            emote = self.client.get_emoji(1153729922620215349)
             if "our general chat" in message.content.lower():
                 username = message.content
                 username = username.split(">")[0]
                 username = int(username.split("@")[1])
                 username = self.client.get_user(username)
                 username = username.display_name
+                await message.add_reaction(emote)
                 #print(username+" welcomed")
                 await message.channel.send("Hey, "+username)
                 await message.channel.send("<a:welcome1:1130245046025846814><a:welcome2:1130245098983137323>")
             if "here is some info for new people" in message.content.lower():
+                message.add_reaction(emote)
                 id = message.content.split("<@")[1]
                 id = id.split(">")[0]
                 desc = f"Hi <@{id}>! Congrats on joining this awesome clan!\nI'm {self.client.user.display_name} and here to help you to grind as easy & efficient as possible!\nYou may know bots like MeowHelper from other servers - don't worry, I'm way more reliable!\n\n"
-                desc += f"My main work here is to remind you when your PokéMeow command cooldowns are done - and I can either remind with or without pings.\nIf you want to know more about my functions and command, check out ``mInfo`` or </info:1177325264351543447>.\n\n"
+                desc += f"My main work here is to remind you when your PokéMeow command cooldowns are done - and I can either remind with or without pings (or even all-emote mode).\nIf you want to know more about my functions and commands, check out </toggle:1164678389165215746> or </help:1381709396421378070>.\n\n"
                 desc += f"Have a good time here! <:GengarHeart:1153729922620215349>"
                 emb = await Auction_embed(self.client, title="Welcome!", description=desc).setup_embed()
                 await message.channel.send(embed=emb)
