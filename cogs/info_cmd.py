@@ -21,7 +21,6 @@ async def info_cmd(self, ctx):
     
     embed.add_field(name="**__Toggle__**",value=cmds["toggle"],inline=False)
     embed.add_field(name="**__Random__**", value=cmds["random"],inline=False)
-    embed.add_field(name="**__Clan Hunts__**", value=cmds["hunt"],inline=False)
     embed.add_field(name="**__Top Count__**",value=cmds["topcount"], inline=False)
     embed.add_field(name=" ", value=" ",inline=False)
     embed.add_field(name="Miscellaneous Cmds", value=cmds["misc"],inline=False)
@@ -228,7 +227,6 @@ class Info_Cmd(commands.Cog):
         if switch == "cmnds":
             embed.add_field(name="**__Toggle__**",value=cmds["toggle"],inline=False)
             embed.add_field(name="**__Random__**", value=cmds["random"],inline=False)
-            embed.add_field(name="**__Clan Hunts__**", value=cmds["hunt"],inline=False)
             embed.add_field(name="**__Top Count__**",value=cmds["topcount"], inline=False)
             embed.add_field(name=" ", value=" ",inline=False)
             embed.add_field(name="Miscellanous Cmds", value=cmds["misc"],inline=False)
