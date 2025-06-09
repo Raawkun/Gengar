@@ -294,7 +294,7 @@ class Coms(commands.Cog):
                     last = content.pop()
                     content = '- '.join(content)
                     with open("changelog.txt", "w") as file:
-                        file.write(content)
+                        file.write(content[:-2])
                     answer = f"Successfully deleted the last entry!\n~~{last}~~"
                 else:
                     answer = f"There was nothing worthy of deletion."
@@ -320,27 +320,30 @@ class Coms(commands.Cog):
             except Exception as e:
                 print(f"Error showing changelog:\n{e}")
         elif handle == "post":
-            channels = self.db.execute(f"SELECT Changelog FROM Admin WHERE Changelog !=  0")
-            channels= channels.fetchall()
-            with open("changelog.txt", "r") as file:
-                content = file.read()
-                current_time=datetime.datetime.utcnow()
-                timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-                timestamp = "At UTC "+timestamp
-                emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed)
-                emb.set_footer(text=timestamp)
-                emb.add_field(name="Whats different:",value=content)
-                emb.add_field(name="", value="That's it for today!")
-            i = 0
-            for entry in channels:
-                try:
-                    receiver = self.client.get_channel(entry)
-                    await receiver.send(embed=emb)
-                    i += 1
-                except:
-                    continue
-            os.remove("changelog.txt")
-            await ctx.reply(f"Send the changelog to {i} servers.")
+            try:
+                channels = self.db.execute(f"SELECT Changelog FROM Admin WHERE Changelog !=  0")
+                channels= channels.fetchall()
+                with open("changelog.txt", "r") as file:
+                    content = file.read()
+                    current_time=datetime.datetime.utcnow()
+                    timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
+                    timestamp = "At UTC "+timestamp
+                    emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed)
+                    emb.set_footer(text=timestamp)
+                    emb.add_field(name="Whats different:",value=content)
+                    emb.add_field(name="", value="That's it for today!")
+                i = 0
+                for entry in channels:
+                    try:
+                        receiver = self.client.get_channel(entry)
+                        await receiver.send(embed=emb)
+                        i += 1
+                    except:
+                        continue
+                os.remove("changelog.txt")
+                await ctx.reply(f"Send the changelog to {i} servers.")
+            except Exception as e:
+                print(f"Changelog posting error:\n{e}")
 
         else:
             await ctx.reply(f"Not a valid input, please use either `àdd``, ``delete``, ``reset``, ``show``or ``post``.")
