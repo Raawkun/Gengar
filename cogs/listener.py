@@ -1048,7 +1048,7 @@ class Listener(commands.Cog):
                                 await message.reply(f"</egg hold:1015311084594405485>")
                         elif message.interaction_metadata:
                             ref_msg = message.interaction_metadata
-                            if "incubator" in ref_msg.name:
+                            if "incubator" in _embed.author.name:
                                 await message.reply(f"</egg use-incubator:1015311084594405485> ``;egg use i all''")
                             else:
                                 await message.reply(f"</egg hold:1015311084594405485>")
