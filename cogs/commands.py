@@ -315,7 +315,7 @@ class Coms(commands.Cog):
                     emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed())
                     emb.set_footer(text=timestamp)
                     emb.add_field(name="Whats different:",value=content)
-                    await ctx.reply(emb)
+                    await ctx.reply(embed=emb)
             except Exception as e:
                 print(f"Error showing changelog:\n{e}")
         elif handle == "post":
@@ -332,7 +332,7 @@ class Coms(commands.Cog):
             for entry in channels:
                 try:
                     receiver = self.client.get_channel(entry)
-                    await receiver.send(emb)
+                    await receiver.send(embed=emb)
                 except:
                     continue
 
