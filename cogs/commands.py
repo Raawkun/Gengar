@@ -306,15 +306,18 @@ class Coms(commands.Cog):
             except Exception as e:
                 await ctx.reply(f"Oh no! There was an error performing your reset:\n``{e}")
         elif handle == "show":
-            with open("changelog.txt", "r") as file:
-                content = file.read()
-                current_time=datetime.datetime.utcnow()
-                timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-                timestamp = "At UTC "+timestamp
-                emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed)
-                emb.set_footer(text=timestamp)
-                emb.add_field(name="Whats different:",value=content)
-                await ctx.reply(emb)
+            try:
+                with open("changelog.txt", "r") as file:
+                    content = file.read()
+                    current_time=datetime.datetime.utcnow()
+                    timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
+                    timestamp = "At UTC "+timestamp
+                    emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed)
+                    emb.set_footer(text=timestamp)
+                    emb.add_field(name="Whats different:",value=content)
+                    await ctx.reply(emb)
+            except Exception as e:
+                print(f"Error showing changelog:\n{e}")
         elif handle == "post":
             channels = self.db.execute(f"SELECT Changelog FROM Admin WHERE Changelog !=  0")
             channels= channels.fetchall()
