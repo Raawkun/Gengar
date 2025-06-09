@@ -1,4 +1,4 @@
-import io
+import io, os
 import math
 import random
 from typing import Any
@@ -268,6 +268,72 @@ class Coms(commands.Cog):
                         await ctx.reply(jk,embed=emb)
                     except Exception as e:
                         print(f"TypeHunt Stats Error: {e}")
+
+    @commands.is_owner()
+    @commands.command(aliases=["cl","ch"])
+    async def changelog(self, ctx, handle, *args):
+        await asyncio.create_task(Listener._changelog(self))
+
+        if handle == "add":
+            with open("changelog.txt", "r") as file:
+                content = file.read()
+                if any(word.isalpha() for word in content.split()):
+                    text = f"\n- {args}"
+                else:
+                    text = f"- {args}"
+                with open("changelog.txt", "a") as file:
+                    file.write(text)
+            await ctx.reply(f"Successfully appended your changes!\n>>> {text}")
+        elif handle == "delete":
+            with open("changelog.txt", "r") as file:
+                content = file.read()
+                if any(word.isalpha() for word in content.split()):
+                    content = content.split("- ")
+                    last = content.pop()
+                    content = ' '.join(content)
+                    with open("changelog.txt", "w") as file:
+                        file.write(content[-4])
+                    answer = f"Successfully deleted the last entry!\n~~{last}~~"
+                else:
+                    answer = f"There was nothing worthy of deletion."
+            await ctx.reply(answer)
+                
+        elif handle == "reset":
+            try:
+                os.remove("changelog.txt")
+                await ctx.reply(f"Successfully ~~deleted~~**reset** the changelog...")
+            except Exception as e:
+                await ctx.reply(f"Oh no! There was an error performing your reset:\n``{e}")
+        elif handle == "show":
+            with open("changelog.txt", "r") as file:
+                content = file.read()
+                current_time=datetime.datetime.utcnow()
+                timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
+                timestamp = "At UTC "+timestamp
+                emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed)
+                emb.set_footer(text=timestamp)
+                emb.add_field(name="Whats different:",value=content)
+                await ctx.reply(emb)
+        elif handle == "post":
+            channels = self.db.execute(f"SELECT Changelog FROM Admin WHERE Changelog !=  0")
+            channels= channels.fetchall()
+            with open("changelog.txt", "r") as file:
+                content = file.read()
+                current_time=datetime.datetime.utcnow()
+                timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
+                timestamp = "At UTC "+timestamp
+                emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed)
+                emb.set_footer(text=timestamp)
+                emb.add_field(name="Whats different:",value=content)
+            for entry in channels:
+                try:
+                    receiver = self.client.get_channel(entry)
+                    await receiver.send(emb)
+                except:
+                    continue
+
+        else:
+            await ctx.reply(f"Not a valid input, please use either `àdd``, ``delete``, ``reset``, ``show``or ``post``.")
 
     @commands.is_owner()
     @commands.command()

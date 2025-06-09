@@ -92,75 +92,13 @@ class Listener(commands.Cog):
 
     
     async def _changelog(self):
-        log = self.client.get_channel(1210143608355823647)
-        current_time = datetime.datetime.utcnow()
-        timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
-        timestamp = "At UTC "+timestamp
-        print("Changelog check!")
         try:
-            print("Opening that file!")
-            with open("changelog.txt", 'r') as file:
-            # Read the content of the file
-                file_content = file.read()
-                print(file_content)
-            # Check if the file contains any words
+            with open("changelog.txt", "w") as file:
+                print("File created.")
             
-            if any(word.isalpha() for word in file_content.split()):
-                # If the file contains words, send the content in a message
-                channels = self.db.execute(f'SELECT Changelog FROM Admin WHERE Changelog != 0')
-                channels = channels.fetchall()
-                #print(channels)
-                for entry in channels:
-                    #print(entry)
-                    entry = int(entry[0])
-                    channel = self.client.get_channel(entry)
-                    await channel.send(f"Time for a new changelog! Get ready:\n```\n{file_content}\n```\nAnd that's all for today!")
-                with open("changelog_old.txt", "a") as oldfile:
-                    old_content = f"\n\n{timestamp}\n{file_content}"
-                    oldfile.write(old_content)
-                file ="changelog.txt"
-                os.remove(file)
-                
-            else:
-               exit
         except Exception as e:
-            #await log.send(f'Changelog Error: {e}')
-            return
+            print(f"Error in changelog file creation.\n{e}")
         
-    async def Git_pull(self):
-        if getattr(Listener, "has_pulled", False):
-            return
-        Listener.has_pulled = True
-        asyncio.sleep(3)
-        EXTENSIONS_FOLDER = "cogs"
-        print("🔄 Running Git pull...")
-        cmds = [
-            ["git", "reset", "--hard", "HEAD"],
-            ["git", "pull"]
-        ]
-        for cmd in cmds:
-            process = await asyncio.create_subprocess_exec(
-                *cmd,
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
-            )
-            stdout, stderr = await process.communicate()
-            output = stdout.decode().strip() or stderr.decode().strip()
-            print(f"$ {' '.join(cmd)}\n{output}")
-
-        print("🔁 Reloading extensions...")
-        for file in os.listdir(EXTENSIONS_FOLDER):
-            if file.endswith(".py"):
-                name = f"{EXTENSIONS_FOLDER}.{file[:-3]}"
-                try:
-                    if name in self.client.extensions:
-                        await self.client.reload_extension(name)
-                        print(f"🔁 Reloaded: {name}")
-                    else:
-                        await self.client.load_extension(name)
-                        print(f"✅ Loaded: {name}")
-                except Exception as e:
-                    print(f"❌ Failed to load {name}: {e}")
 
 
     #events
@@ -265,6 +203,7 @@ class Listener(commands.Cog):
     async def on_member_join(self, member):
         id = member.guild.id
         if id == 825813023716540426: #Paralympic
+            asyncio.sleep(2)
             desc= f"Welcome to ᵖᵃʳᵃˡʸᵐᵖᶤᶜˢ <@{member.id}>.\nTo get full access to the server, get verified in <#998249646923202610>!\n"
             desc += f"If you are here to join the clan, then please post your `;stats` in <#825836268332122122> and make sure you read the pins in there for clan requirements.\n"
             desc += f"Have a read of <#885070641638825984> for information on the server including the rules.\n"
