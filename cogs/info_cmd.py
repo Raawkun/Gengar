@@ -160,7 +160,7 @@ class Info_Cmd(commands.Cog):
 
         
 
-    @commands.command(aliases = ["Info"])
+    @commands.command(aliases = ["Info","help"])
     async def info(self, ctx, message = None):
         embed = disnake.Embed(description=f'{self.client.user.display_name}'+" overview",color = embed_color)
         embed.set_footer(text=f'{self.client.user.display_name}', icon_url=f'{self.client.user.avatar}')
@@ -191,6 +191,21 @@ class Info_Cmd(commands.Cog):
             except Exception as e:
                 print(e)
 
+    @commands.slash_command(name="help", description="Important informations about the bot and its functions.",options=
+                [Option(
+                name="switch",
+                description="Choose a switch to know more.",
+                type=3,
+                choices=[
+                    OptionChoice("Commands", "cmnds"),
+                    OptionChoice("Functions", "functions"),
+                    OptionChoice("Events", "events")
+                ],
+                required=False
+            ), ],
+            )
+    async def _help(self, ctx, switch=None):
+        await Info_Cmd._info(self,ctx,switch)
 
     @commands.slash_command(name="info", description="Important informations about the bot and its functions.",options=
                 [Option(
