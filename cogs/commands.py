@@ -143,75 +143,125 @@ class Coms(commands.Cog):
 
     
     @commands.command()
-    async def event(self, ctx):
+    async def event(self, ctx, handle = None):
         check = self.db.execute(f"SELECT * FROM Events WHERE Active = 1")
         check = check.fetchone()
         if check is None:
             await ctx.reply(f"There's currently no Mega Gengar event active.")
         else:
             if check[0] == 'BiggestFish':
-                table = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC")
-                table = table.fetchall()
-                i = 0
-                jk = f"You're currently not present in the Biggest Karp Event Leaderboard. Try to catch some more!"
-                for row in table:
-                    if row[0] == ctx.author.id:
-                        try:
-                            pic = self.db.execute(f"SELECT Img_Url FROM Dex WHERE DexID = 129")
-                            pic = pic.fetchone()
-                            pic = pic[0]
-                            emb = disnake.Embed(
-                            title=f"Karp Fishing Event", color=disnake.Color.teal())
-                            emb.add_field(name=f"Current Place:", value=f"{i+1}")
-                            emb.add_field(name=f"Biggest Catch:",value=f"{row[2]/100}m")
-                            emb.add_field(name=f"Smallest Catch:",value=f"{row[3]/100}m")
-                            emb.add_field(name="Total Catches:", value=row[1])
-                            emb.add_field(name="Average Size:",value=f"{int(row[4]/row[1])/100}m")
-                            emb.set_thumbnail(url=pic)
-                            #jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
-                            timeing = int(check[3])+int(check[2])
-                            jk = f"The event will run until <t:{timeing}:f>"
-                            await ctx.reply(jk,embed=emb)
-                            return
-                        except Exception as e:
-                            print(e)
-                    else:
+                if handle == None:
+                    table = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Size DESC")
+                    table = table.fetchall()
+                    i = 0
+                    jk = f"You're currently not present in the Biggest Karp Event Leaderboard. Try to catch some more!"
+                    for row in table:
+                        if row[0] == ctx.author.id:
+                            try:
+                                pic = self.db.execute(f"SELECT Img_Url FROM Dex WHERE DexID = 129")
+                                pic = pic.fetchone()
+                                pic = pic[0]
+                                emb = disnake.Embed(
+                                title=f"Karp Fishing Event", color=disnake.Color.teal())
+                                emb.add_field(name=f"Current Place:", value=f"{i+1}")
+                                emb.add_field(name=f"Biggest Catch:",value=f"{row[2]/100}m")
+                                emb.add_field(name=f"Smallest Catch:",value=f"{row[3]/100}m")
+                                emb.add_field(name="Total Catches:", value=row[1])
+                                emb.add_field(name="Average Size:",value=f"{int(row[4]/row[1])/100}m")
+                                emb.set_thumbnail(url=pic)
+                                #jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
+                                timeing = int(check[3])+int(check[2])
+                                jk = f"The event will run until <t:{timeing}:f>"
+                                await ctx.reply(jk,embed=emb)
+                                return
+                            except Exception as e:
+                                print(e)
+                        else:
+                            i += 1
+                elif handle in ["lb","board","leaderboard","stats"]:
+                    results = self.db.execute(f"SELECT * FROM BiggestFish ODER BY Size DESC")
+                    results = results.fetchall()
+                    i = 0
+                    pic = self.db.execute(f"SELECT Img_Url FROM Dex WHERE DexID = 129")
+                    pic = pic.fetchone()
+                    pic = pic[0]
+                    table = ""
+                    while i < len(results):
+                        if i < 10:
+                            if results[i][0] == ctx.author.id:
+                                table += f"<:normal:1381575244120195134> <@{results[i][0]}>  |  {results[i][1]}  |  {float(results[i][2])/100}m\n"
+                            else:
+                                table += f"<:myst:1381574778275627130> ???  |  {results[i][1]}  |  {float(results[i][2])/100}m\n"
                         i += 1
+                    emb = disnake.Embed(title="Biggest Karp Leaderboard", description=f"This is a sneak peak at the current event leaderboard.",color=disnake.Color.dark_gold())
+                    emb.add_field(name="Top 10:",value=f"•  Username  |  Catch Amount  |  Size  •\n{table}",inline=True)
+                    smallest = self.db.execute(f"SELECT * FROM BiggestFish ORDER BY Smallest ASC")
+                    smallest = smallest.fetchone()
+                    if smallest[0] == ctx.author.id:
+                        small = f"<:normal:1381575244120195134> <@{smallest[0]}>  |  {smallest[3]/100}m"
+                    else:
+                        small = f"<:myst:1381574778275627130> ???  |  {smallest[3]/100}m"
+                    emb.set_thumbnail(url=pic)
+                    emb.add_field(name="Smallest  <:129:1210417260196270213> Karp caught:",value=small,inline=True)
+                    emb.set_footer(text="Provided by Mega Gengar.")
+                    jk = f"The event will run until <t:{timeing}:f>"
+                    await ctx.reply(jk,embed=emb)
             elif check[0] == 'TypeHunt':
-                table = self.db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC")
-                table = table.fetchall()
-                i = 0
-                jk = f"You're currently not present in the Type Hunt Event Leaderboard. Try to catch some more!"
-                for row in table:
-                    if row[0] == ctx.author.id:
-                        try:
-                            #print(check)
-                            pic = check[5]
-                            pic = type_emotes[pic]
-                            pic = pic.split("type:")[1]
-                            pic = pic.split(">")[0]
-                            pic = f'https://cdn.discordapp.com/emojis/{pic}.webp?size=240'
-                            emb = disnake.Embed(
-                            title=f"Type Hunt Event", color=type_colors[check[5]])
-                            emb.add_field(name=f"Current Place:", value=f"{i+1}")
-                            #print("place")
-                            emb.add_field(name=f"Points",value=row[2])
-                            #print("points")
-                            emb.add_field(name="Total Catches:", value=row[1])
-                            #print("catches")
-                            emb.set_thumbnail(url=pic)
-                            #jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
-                            timeing = int(check[3])+int(check[2])
-                            jk = f"The event will run until <t:{timeing}:f>"
-                            await ctx.reply(jk,embed=emb)
-                            return
-                        except Exception as e:
-                            print(e)
-                    else:
+                if handle == None:
+                    table = self.db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC")
+                    table = table.fetchall()
+                    i = 0
+                    jk = f"You're currently not present in the Type Hunt Event Leaderboard. Try to catch some more!"
+                    for row in table:
+                        if row[0] == ctx.author.id:
+                            try:
+                                #print(check)
+                                pic = check[5]
+                                pic = type_emotes[pic]
+                                pic = pic.split("type:")[1]
+                                pic = pic.split(">")[0]
+                                pic = f'https://cdn.discordapp.com/emojis/{pic}.webp?size=240'
+                                emb = disnake.Embed(
+                                title=f"Type Hunt Event", color=type_colors[check[5]])
+                                emb.add_field(name=f"Current Place:", value=f"{i+1}")
+                                #print("place")
+                                emb.add_field(name=f"Points",value=row[2])
+                                #print("points")
+                                emb.add_field(name="Total Catches:", value=row[1])
+                                #print("catches")
+                                emb.set_thumbnail(url=pic)
+                                #jk = f"You're currently placed on #{i+1} in the Event Leaderboard, with a catch of {row[2]/100}m.\nYour smallest catch is {row[3]/100}m."
+                                timeing = int(check[3])+int(check[2])
+                                jk = f"The event will run until <t:{timeing}:f>"
+                                await ctx.reply(jk,embed=emb)
+                                return
+                            except Exception as e:
+                                print(e)
+                        else:
+                            i += 1
+                timeing = int(check[3])+int(check[2])
+                jk += f"\nThe event will run until <t:{timeing}:f>"
+                await ctx.reply(jk)
+            elif handle in ["lb","board","leaderboard","stats"]:
+                    results = self.db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC")
+                    results = results.fetchall()
+                    events = self.db.execute(f"SELECT * FROM Event WHERE Name = 'TypeHunt'")
+                    events = events.fetchone()
+                    table = ""
+                    i = 0
+                    while i < len(results):
+                        if i<10:
+                            if results[i][0] == ctx.author.id:
+                                table += f"<:normal:1381575244120195134> <@{results[i][0]}>  |  {results[i][1]}  |  {(results[i][2])}\n"
+                            else:
+                                table += f"<:myst:1381574778275627130> ??? |  {results[i][1]}  |  {(results[i][2])}\n"
                         i += 1
-            timeing = int(check[3])+int(check[2])
-            jk += f"\nThe event will run until <t:{timeing}:f>"
-            await ctx.reply(jk)
+                    emb = disnake.Embed(title="Type Hunt Leaderboard", description=f"This is a sneak peak for the current event leaderboard..",color=type_colors[f'{events[5]}'])
+                    emb.add_field(name="Top 10:",value=f"•  Username  |  Catch Amount  |  Points  •\n{table}",inline=True)
+                    emb.set_footer(text="Provided by Mega Gengar.")
+                    timeing = int(check[3])+int(check[2])
+                    jk = f"The event will run until <t:{timeing}:f>"
+                    await ctx.reply(jk,embed=emb)
 
     @commands.is_owner()
     @commands.command()
