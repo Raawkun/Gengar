@@ -246,25 +246,28 @@ class Coms(commands.Cog):
                     await ctx.reply(jk)
                 elif handle in ["lb","board","leaderboard","stats"]:
                     print(handle)
-                    results = self.db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC")
-                    results = results.fetchall()
-                    events = self.db.execute(f"SELECT * FROM Event WHERE Name = 'TypeHunt'")
-                    events = events.fetchone()
-                    table = ""
-                    i = 0
-                    while i < len(results):
-                        if i<10:
-                            if results[i][0] == ctx.author.id:
-                                table += f"<:normal:1381575244120195134> <@{results[i][0]}>  |  {results[i][1]}  |  {(results[i][2])}\n"
-                            else:
-                                table += f"<:myst:1381574778275627130> ??? |  {results[i][1]}  |  {(results[i][2])}\n"
-                        i += 1
-                    emb = disnake.Embed(title="Type Hunt Leaderboard", description=f"This is a sneak peak for the current event leaderboard..",color=type_colors[f'{events[5]}'])
-                    emb.add_field(name="Top 10:",value=f"•  Username  |  Catch Amount  |  Points  •\n{table}",inline=True)
-                    emb.set_footer(text="Provided by Mega Gengar.")
-                    timeing = int(check[3])+int(check[2])
-                    jk = f"The event will run until <t:{timeing}:f>"
-                    await ctx.reply(jk,embed=emb)
+                    try:
+                        results = self.db.execute(f"SELECT * FROM TypeHunt ORDER BY Points DESC")
+                        results = results.fetchall()
+                        events = self.db.execute(f"SELECT * FROM Event WHERE Name = 'TypeHunt'")
+                        events = events.fetchone()
+                        table = ""
+                        i = 0
+                        while i < len(results):
+                            if i<10:
+                                if results[i][0] == ctx.author.id:
+                                    table += f"<:normal:1381575244120195134> <@{results[i][0]}>  |  {results[i][1]}  |  {(results[i][2])}\n"
+                                else:
+                                    table += f"<:myst:1381574778275627130> ??? |  {results[i][1]}  |  {(results[i][2])}\n"
+                            i += 1
+                        emb = disnake.Embed(title="Type Hunt Leaderboard", description=f"This is a sneak peak for the current event leaderboard..",color=type_colors[f'{events[5]}'])
+                        emb.add_field(name="Top 10:",value=f"•  Username  |  Catch Amount  |  Points  •\n{table}",inline=True)
+                        emb.set_footer(text="Provided by Mega Gengar.")
+                        timeing = int(check[3])+int(check[2])
+                        jk = f"The event will run until <t:{timeing}:f>"
+                        await ctx.reply(jk,embed=emb)
+                    except Exception as e:
+                        print(f"TypeHunt Stats Error: {e}")
 
     @commands.is_owner()
     @commands.command()
