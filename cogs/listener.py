@@ -1075,14 +1075,16 @@ class Listener(commands.Cog):
                 if _embed.description:
                     if message.reference:
                         ref_msg = await message.channel.fetch_message(message.reference.message_id)
+                        sender = ref_msg.author
                     elif message.interaction_metadata:
                         ref_msg = message.interaction_metadata
+                        sender = ref_msg.user
                     if "claimed a <:Golden" in _embed.description:
                         asyncio.create_task(Rare_spawns.gold_spawn(self, message))
                     if "returned with" in _embed.description:
                         # await message.channel.send(_embed.description)
                         description_text = f"Original message: [Click here]({message.jump_url})\n"
-                        sender = ref_msg.author.display_name
+                        sender = sender.display_name
                         author_icurl = _embed.author.icon_url
                         # if "SuperRare" in _embed.description:
                         #     legy_mon = _embed.description.split(":SuperRare:")[1]
@@ -1096,7 +1098,6 @@ class Listener(commands.Cog):
                         #     embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                         #     await announce_channel.send(embed=embed)
                         if "Legendary" in _embed.description:
-                            sender = ref_msg.author.display_name
                             author_icurl = _embed.author.icon_url
                             legy_mon = _embed.description.split(":Legendary:")[1]
                             legy_numb = legy_mon.split(":")[1]
@@ -1109,7 +1110,6 @@ class Listener(commands.Cog):
                             embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                             await announce_channel.send(embed=embed)
                         if "Shiny" in _embed.description:
-                            sender = ref_msg.author.display_name
                             author_icurl = _embed.author.icon_url
                             shiny_mon = _embed.description.split(":Shiny:")[1]
                             shiny_numb = shiny_mon.split(":")[1]
@@ -1125,7 +1125,6 @@ class Listener(commands.Cog):
                             embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                             await announce_channel.send(embed=embed)
                         if "Golden" in _embed.description:
-                            sender = ref_msg.author.display_name
                             author_icurl = _embed.author.icon_url
                             gold_mon = _embed.description.split(":Golden:")[1]
                             gold_numb = gold_mon.split(":")[1]
