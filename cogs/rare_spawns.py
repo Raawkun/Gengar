@@ -16,8 +16,10 @@ class Rare_spawns(commands.Cog):
         self.client = client
         self.db = connect("database.db")
 
-    current_time = datetime.utcnow()
-    timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
+    async def set_time(self):
+        current_time = datetime.utcnow()
+        timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
+        return timestamp
     Rare_Spawned = ["Event", "Legendary", "Shiny", "Golden"]
 
     async def egg_spawn(self, message, data):
@@ -46,12 +48,13 @@ class Rare_spawns(commands.Cog):
         #print(Rare_Spawned)
         #Rare_Spawned = ["Golden","Event", "Legendary", "Shiny", "Rare", "SuperRare"]
         if data[14] in Rare_spawns.Rare_Spawned or str(data[0]) in eggexcl:
+            timestamp = await Rare_spawns.set_time(self)
             print("Its in the one list!")
             print(str(data[0]))
             embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=color,description=description_text)
             embed.set_author(name=(sender.display_name+" just hatched an exclusive:"),icon_url="https://cdn.discordapp.com/emojis/689325070015135745.gif?size=96&quality=lossless")
             embed.set_image(data[15])
-            embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
+            embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
             await receiver_channel.send(embed=embed)
             emoji = '🔔'
             await message.add_reaction(emoji)
@@ -127,11 +130,12 @@ class Rare_spawns(commands.Cog):
             #print(f"Something ran away; {data[1]}")
             author = sender.display_name+" was too slow for:"
         raremon = poke_rarity[(data[14])]
+        timestamp = await Rare_spawns.set_time(self)
         description_text += f"Original message: [Click here]({message.jump_url})\n"
         embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=color,description=description_text)
         embed.set_author(name=author, icon_url=_embed.author.icon_url)
         embed.set_image(_embed.image.url)
-        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
+        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
         await receiver_channel.send(embed=embed)
         emoji = '🔔'
         await message.add_reaction(emoji)
@@ -150,6 +154,7 @@ class Rare_spawns(commands.Cog):
             ref_msg = message.interaction_metadata.user
             sender = ref_msg
 
+        timestamp = await Rare_spawns.set_time(self)
         if "just caught a " in message.content:
             if receiver_channel > 0:
                 raremon = poke_rarity[(data[14])]
@@ -157,7 +162,7 @@ class Rare_spawns(commands.Cog):
                 embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=embed_color[data[14]],description=description_text)
                 embed.set_author(name=(f'{sender}'+" just discovered a:"), icon_url="https://cdn.discordapp.com/emojis/1072075141489623040.webp?size=96&quality=lossless")
                 embed.set_image(data[15])
-                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
+                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                 anno = await receiver_channel.send(embed=embed)
                 
         elif "broke out" in message.content:
@@ -167,7 +172,7 @@ class Rare_spawns(commands.Cog):
                 embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=embed_color[data[14]],description=description_text)
                 embed.set_author(name=(f'{sender}'+" almost caught a:"), icon_url="https://cdn.discordapp.com/emojis/1072075141489623040.webp?size=96&quality=lossless")
                 embed.set_image(data[15])
-                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
+                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                 anno = await receiver_channel.send(embed=embed)
                 
         elif "ran away" in message.content:
@@ -177,7 +182,7 @@ class Rare_spawns(commands.Cog):
                 embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=embed_color[data[14]],description=description_text)
                 embed.set_author(name=(sender+" was too slow for:"), icon_url="https://cdn.discordapp.com/emojis/1072075141489623040.webp?size=96&quality=lossless")
                 embed.set_image(data[15])
-                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
+                embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
                 anno = await receiver_channel.send(embed=embed)
 
     async def icon_spawn(self, message):
@@ -204,8 +209,9 @@ class Rare_spawns(commands.Cog):
         thumburl = thumburl+".webp?size=96&quality=lossless"
         print(thumburl)
         desc_text = f"Original message: [Click here]({message.jump_url})\n"
+        timestamp = await Rare_spawns.set_time(self)
         embed = await Custom_embed(self.client,thumb=thumburl,description="**"+iconname+"** was viciously defeated and dropped their icon.\n"+desc_text).setup_embed()
-        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
+        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
         embed.set_author(name=f'{self.client.get_user(authorid).display_name}'" just found a new icon!", icon_url="https://cdn.discordapp.com/emojis/766701189260771359.webp?size=96&quality=lossless")
         await receiver_channel.send(embed=embed)
         await log_chn.send(user.name+" found an icon")
@@ -236,10 +242,11 @@ class Rare_spawns(commands.Cog):
         author_icon = "https://cdn.discordapp.com/emojis/1372953699852357665.webp?"
         raremon = poke_rarity[(data[14])]
         description_text = f"Original message: [Click here]({message.jump_url})\n"
+        timestamp = await Rare_spawns.set_time(self)
         embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=color,description=description_text)
         embed.set_author(name=f"{sender.display_name} got this from a World Boss:", icon_url=author_icon)
         embed.set_image(data[15])
-        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
+        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
         await announce.send(embed=embed)
         emoji = '🔔'
         await message.add_reaction(emoji)
@@ -272,11 +279,12 @@ class Rare_spawns(commands.Cog):
             logging.send("How's there no description???")
         #print(data_pr[0][14])
         raremon = poke_rarity[(data_pr[0][14])]
+        timestamp = await Rare_spawns.set_time(self)
         description_text = f"Original message: [Click here]({message.jump_url})\n"
         embed = disnake.Embed(title=raremon+" **"+data_pr[0][1]+"** \nDex: #"+str(data_pr[0][0]), color=_embed.color,description=description_text)
         embed.set_author(name=(f'{sender.display_name}'+" just claimed a:"),icon_url="https://cdn.discordapp.com/emojis/676623920711073793.webp?size=96&quality=lossless")
         embed.set_image(_embed.image.url)
-        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{Rare_spawns.timestamp}'), icon_url=f'{self.client.user.avatar}')
+        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
         await receiver_channel.send(embed=embed)
 
     async def box_spawn(self, message):
