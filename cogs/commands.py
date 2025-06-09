@@ -336,7 +336,7 @@ class Coms(commands.Cog):
                 i = 0
                 for entry in channels:
                     try:
-                        receiver = self.client.get_channel(entry)
+                        receiver = self.client.get_channel(entry[0])
                         await receiver.send(embed=emb)
                         i += 1
                     except:
