@@ -4,7 +4,7 @@ import asyncio
 from disnake.ext import commands
 import datetime
 from utility.embed import Custom_embed
-from utility.info_dict import embed_color, cmds, functions, info
+from utility.info_dict import embed_color, cmds, functions, info, events
 from disnake import Message, Option, OptionChoice, OptionType, ApplicationCommandInteraction
 
 async def info_home(self, ctx):
@@ -39,6 +39,16 @@ async def info_funct(self,ctx):
     embed.add_field(name="Miscellaneous Functions",value=functions["misc"], inline=False)
     return(embed)
 
+async def info_event(self, ctx):
+    embed = disnake.Embed(description=f'{ctx.me.display_name}'+" overview",colour=embed_color)
+    embed.set_footer(text=f'{ctx.me.display_name}', icon_url=f'{ctx.me.avatar}')
+    embed.set_thumbnail(url=embed.footer.icon_url)
+    
+    embed.add_field(name="**__Info__**",value=events["text"],inline=False)
+    embed.add_field(name="**__Biggest Karp__**",value=events["bigfish"],inline=False)
+    embed.add_field(name="**__Type Hunt__**",value=events["typehunt"], inline=False)
+    return(embed)
+
 class HomeButton(disnake.ui.Button):
     def __init__(self, user_id):
         super().__init__(label="Home", style=disnake.ButtonStyle.primary,custom_id=f"hm_button_{user_id}")
@@ -60,6 +70,29 @@ class HomeButton(disnake.ui.Button):
                         item.disabled = False
                         item.style = disnake.ButtonStyle.primary
         await interaction.response.edit_message(embed=msg,view=view)
+
+class EvtButton(disnake.ui.Button):
+    def __init__(self, user_id):
+        super().__init__(label="Events", style=disnake.ButtonStyle.primary,custom_id=f"ev_button_{user_id}")
+        self.user_id = user_id
+
+    async def callback(self, interaction: disnake.MessageInteraction):
+        if interaction.user.id != self.user_id:
+            exit
+        msg = await info_event(self, interaction)
+
+        if interaction.component.custom_id == self.custom_id:
+            view = GuessView(self.user_id)
+            for item in view.children:
+                if isinstance(item, disnake.ui.Button):
+                    if item.custom_id == self.custom_id:
+                        item.disabled = True
+                        item.style = disnake.ButtonStyle.gray
+                    else:
+                        item.disabled = False
+                        item.style = disnake.ButtonStyle.primary
+        await interaction.response.edit_message(embed=msg,view=view)
+
 class CmdButton(disnake.ui.Button):
     def __init__(self, user_id):
         super().__init__(label="Commands", style=disnake.ButtonStyle.primary, custom_id=f"cmd_button_{user_id}")
@@ -113,6 +146,7 @@ class GuessView(disnake.ui.View):
         self.add_item(HomeButton(user_id))
         self.add_item(CmdButton(user_id))
         self.add_item(FnctButton(user_id))
+        self.add_item(EvtButton(user_id))
 
 class Info_Cmd(commands.Cog):
 
@@ -144,6 +178,12 @@ class Info_Cmd(commands.Cog):
                     await ctx.send(embed=embed,view=GuessView(ctx.author.id))
                 except Exception as e:
                     print(e)
+            elif message in ["events","event","ev"]:
+                try:
+                    embed = await self.info_event()
+                    await ctx.send(embed=embed, view=GuessView(ctx.author.id))
+                except Exception as e:
+                    print(e)
         else:
             try:
                 embed.add_field(name="**__Info Panel__**",value=info["text"])
@@ -159,7 +199,8 @@ class Info_Cmd(commands.Cog):
                 type=3,
                 choices=[
                     OptionChoice("Commands", "cmnds"),
-                    OptionChoice("Functions", "functions")
+                    OptionChoice("Functions", "functions"),
+                    OptionChoice("Events", "events")
                 ],
                 required=False
             ), ],
@@ -183,6 +224,11 @@ class Info_Cmd(commands.Cog):
             embed.add_field(name="**__Reminders__**",value=functions["remind"], inline=False)
             embed.add_field(name=" ", value=" ",inline=False)
             embed.add_field(name="Miscellanous Functions",value=functions["misc"], inline=False)
+            await ctx.send(embed=embed,view=GuessView(ctx.author.id))
+        elif switch == "events":
+            embed.add_field(name="**__Info__**",value=events["text"],inline=False)
+            embed.add_field(name="**__Biggest Karp__**",value=events["bigfish"],inline=False)
+            embed.add_field(name="**__Type Hunt__**",value=events["typehunt"], inline=False)
             await ctx.send(embed=embed,view=GuessView(ctx.author.id))
         else:
             embed.add_field(name="**__Info Panel__**",value=info["text"])

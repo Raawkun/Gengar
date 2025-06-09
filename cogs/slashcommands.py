@@ -137,7 +137,9 @@ class SlashComs(commands.Cog):
                             options=[Option(name="name", description="Which event to activate.", choices=[OptionChoice("Biggest Fish / Karp","bigfish"),OptionChoice("TypeHunt","typehunt")],required=True),
                                      Option(name="mode",description="To either start or stop an event.",choices=[OptionChoice("Start","start"),OptionChoice("End","end")], required=True),
                                      Option(name="duration",description="Event runtime in days",required=False),
-                                     Option(name="type",description="Only for TypeHunts",required=False)])
+                                     Option(name="type",description="Only for TypeHunts",required=False,choices=[
+                                        OptionChoice(name="bug",value="bug"),OptionChoice(name="dark",value="dark"),OptionChoice(name="dragon",value="dragon"),OptionChoice(name="electric",value="electric"),OptionChoice(name="fairy",value="fairy"),OptionChoice(name="fighting",value="fighting"),OptionChoice(name="fire",value="fire"),OptionChoice(name="flying",value="flying"),OptionChoice(name="ghost",value="ghost"),OptionChoice(name="grass",value="grass"),OptionChoice(name="ground",value="ground"),OptionChoice(name="ice",value="ice"),OptionChoice(name="normal",value="normal"),OptionChoice(name="poison",value="poison"),OptionChoice(name="psychic",value="psychic"),OptionChoice(name="steel",value="steel"),OptionChoice(name="rock",value="rock"),OptionChoice(name="water",value="water")
+                                     ])])
     async def _event(self, ctx, name = None, mode = None,duration = None,type=None):
         await ctx.response.defer()
         if name == "bigfish":
@@ -167,9 +169,8 @@ class SlashComs(commands.Cog):
                 asyncio.create_task(Modules.fishtimer(self))
         elif name == "typehunt":
             if mode == "end":
-                type = "fire"
-            types = ["fire","water","rock","ground","flying","fairy","psychic","electric","normal","ghost","dark","steel","grass","bug","fighting","ice"]
-            if (type == None) or (type not in types):
+                type = "fairy"
+            if type == None:
                 await ctx.send("Please insert a valid Pokémon type!")
             else:
                 print(type)
