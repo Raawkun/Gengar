@@ -312,7 +312,7 @@ class Coms(commands.Cog):
                     current_time=datetime.datetime.utcnow()
                     timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
                     timestamp = "At UTC "+timestamp
-                    emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed)
+                    emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed())
                     emb.set_footer(text=timestamp)
                     emb.add_field(name="Whats different:",value=content)
                     await ctx.reply(emb)
