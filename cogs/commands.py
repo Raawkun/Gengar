@@ -292,9 +292,9 @@ class Coms(commands.Cog):
                 if any(word.isalpha() for word in content.split()):
                     content = content.split("- ")
                     last = content.pop()
-                    content = ' '.join(content)
+                    content = '- '.join(content)
                     with open("changelog.txt", "w") as file:
-                        file.write(content[:-4])
+                        file.write(content)
                     answer = f"Successfully deleted the last entry!\n~~{last}~~"
                 else:
                     answer = f"There was nothing worthy of deletion."
