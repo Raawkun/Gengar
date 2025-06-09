@@ -272,8 +272,9 @@ class Coms(commands.Cog):
     @commands.is_owner()
     @commands.command(aliases=["cl","ch"])
     async def changelog(self, ctx, handle, *args):
-        await asyncio.create_task(Listener._changelog(self))
-        print(handle)
+        if not os.path.exists("changelog.txt"):
+            await asyncio.create_task(Listener._changelog(self))
+        #print(handle)
         if handle == "add":
             args = ' '.join(args)
             with open("changelog.txt", "r") as file:
@@ -329,12 +330,16 @@ class Coms(commands.Cog):
                 emb = disnake.Embed(title="Mega Gengar Changelog",color=disnake.Color.dark_embed)
                 emb.set_footer(text=timestamp)
                 emb.add_field(name="Whats different:",value=content)
+            i = 0
             for entry in channels:
                 try:
                     receiver = self.client.get_channel(entry)
                     await receiver.send(embed=emb)
+                    i += 1
                 except:
                     continue
+            os.remove("changelog.txt")
+            await ctx.reply(f"Send the changelog to {i} servers.")
 
         else:
             await ctx.reply(f"Not a valid input, please use either `àdd``, ``delete``, ``reset``, ``show``or ``post``.")
