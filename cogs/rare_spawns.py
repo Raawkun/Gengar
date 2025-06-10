@@ -23,11 +23,6 @@ class Rare_spawns(commands.Cog):
     Rare_Spawned = ["Event", "Legendary", "Shiny", "Golden"]
 
     async def egg_spawn(self, message, data):
-        est = ZoneInfo("America/New_York")
-        now = datetime.now(est)
-        date = str(f"{now.day}.{now.month}.{now.year}")
-        self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
-        self.db.commit()
         if message.reference:
             ref_msg = await message.channel.fetch_message(message.reference.message_id)
             sender = ref_msg.author
@@ -62,6 +57,9 @@ class Rare_spawns(commands.Cog):
 
     async def one_egg(self, message):
         try:
+            est = ZoneInfo("America/New_York")
+            now = datetime.now(est)
+            date = str(f"{now.day}.{now.month}.{now.year}")   
             #print(message.content)
             mons = message.content.split("** just hatched a ")[1]
             #print(mons)
@@ -69,6 +67,8 @@ class Rare_spawns(commands.Cog):
             #print(mons)
             data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{mons}'")
             data = data.fetchone()
+            self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
+            self.db.commit()
             if data[14] in Rare_spawns.Rare_Spawned or str(data[0]) in eggexcl:
                 asyncio.create_task(Rare_spawns.egg_spawn(self, message, data))
         except Exception as e:
@@ -76,6 +76,9 @@ class Rare_spawns(commands.Cog):
 
     async def multi_egg(self, message):
         try:
+            est = ZoneInfo("America/New_York")
+            now = datetime.now(est)
+            date = str(f"{now.day}.{now.month}.{now.year}")   
             mons = message.content.split("*You have ")[0]
             #print(mons)
             mons = mons.split("- ")
@@ -83,6 +86,8 @@ class Rare_spawns(commands.Cog):
             mons = mons[1:]
             #print(mons)
             for entry in mons:
+                self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
+                self.db.commit()
                 matches = re.findall(r"\*\*(.+?)\*\*", entry)
                 #print(matches)
                 data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{matches[0]}'")
