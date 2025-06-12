@@ -118,7 +118,7 @@ class Listener(commands.Cog):
 ⣿⡿⠛⠿⠟⠉⠉⠉⠸⠋⠀⠻⡿⣿⣿⣿⣿⠻⠇⠀⠀⠈⠀⠀⠈⠉⢸⠃
 ⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠈⢿⢻⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
-        await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.Custom, name="mons.", state="🫶🏼 Catching "))
+        await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="you catching Pokémon."))
         #await Listener.Git_pull(self)
         Reminders.create_tracked_task(Listener.load_promo(self))
         Reminders.create_tracked_task(Listener.load_excl(self))
