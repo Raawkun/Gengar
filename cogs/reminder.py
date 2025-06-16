@@ -68,25 +68,25 @@ class Reminders(commands.Cog):
         self.db.execute(f'UPDATE Toggle SET QuestTime = 0, Channel = 0, Timer = 0 WHERE User_ID = {user_id}')
         self.db.commit()
 
-    def create_tracked_task(coro):
-        task = asyncio.create_task(coro)
-        conn = Listener.get_db_connection(self)
-        with conn.cursor() as cursor:
-            cursor.execute(f"INSERT INTO Tasks VALUES ('{task.get_coro().__name__}', '{task}')")
+    #def create_tracked_task(coro):
+        #task = asyncio.create_task(coro)
+        #conn = Listener.get_db_connection(self)
+        #with conn.cursor() as cursor:
+            #cursor.execute(f"INSERT INTO Tasks VALUES ('{task.get_coro().__name__}', '{task}')")
             #print("We're in")
-            cursor.commit()
-            conn.ensure_closed()
-        print(f"Added: {task.get_coro().__name__}")
+            #cursor.commit()
+            #conn.ensure_closed()
+        #print(f"Added: {task.get_coro().__name__}")
         #print(Reminders.bg_tasks)
-        def remove(_):
-            conn = Listener.get_db_connection(self)
-            with conn.cursor() as cursor:
-                cursor.execute(f"DELETE * FROM Tasks WHERE Name = '{task.get_coro().__name__}'")
-                cursor.commit()
-                conn.ensure_closed()
+        #def remove(_):
+            #conn = Listener.get_db_connection(self)
+            #with conn.cursor() as cursor:
+                #cursor.execute(f"DELETE * FROM Tasks WHERE Name = '{task.get_coro().__name__}'")
+                #cursor.commit()
+                #conn.ensure_closed()
 
-        task.add_done_callback(remove)
-        return task
+        #task.add_done_callback(remove)
+        #return task
 
                 
 
