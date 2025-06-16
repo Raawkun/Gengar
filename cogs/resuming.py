@@ -12,23 +12,39 @@ class Resuming(commands.Cog):
         self.db = connect("database.db")
     
     async def cancel_all_tracked_tasks():
-        print(list(Reminders.bg_tasks))
-        for task in list(Reminders.bg_tasks):
-            task.cancel()
+        conn = await Listener.get_db_connection(self)
+        async with conn.cursor() as cursor:
+            await cursor.execute(f"SELECT * FROM Tasks")
+            result = await cursor.fetchall()
+            await conn.ensure_closed()
+        #print(list(Reminders.bg_tasks))
+        #for task in list(Reminders.bg_tasks):
+        for entry in result:
+            result[1].cancel()
+            #task.cancel()
             try:
-                await task
+                await result[1]
             except asyncio.CancelledError:
-                print(f"✅ Cancelled: {task.get_coro().__name__}")
+                print(f"✅ Cancelled: {result[1].get_coro().__name__}")
             except Exception as e:
                 print(e)
-        Reminders.bg_tasks.clear()
+        conn = await Listener.get_db_connection(self)
+        async with conn.cursor() as cursor:
+            await cursor.execute(f"DELETE * FROM Tasks")
+            print("Task DB Cleared")
+            await cursor.commit()
+            await conn.ensure_closed()
         
     @commands.command()
     async def tasks(self, ctx):
         listing = ""
-        for tasks in Reminders.bg_tasks:
-            listing += task.get_coro().__name__
-        listing = list(Reminders.bg_tasks)
+        conn = await Listener.get_db_connection(self)
+        async with conn.cursor() as cursor:
+            await cursor.execute(f"SELECT * FROM Tasks")
+            result = await cursor.fetchall()
+            await conn.ensure_closed()
+        for entry in result:
+            listing += entry[0]
         print(listing)
 
 
