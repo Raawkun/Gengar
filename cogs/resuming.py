@@ -22,7 +22,13 @@ class Resuming(commands.Cog):
             except Exception as e:
                 print(e)
         Reminders.bg_tasks.clear()
-
+        
+    @commands.command()
+    async def tasks(self, ctx):
+        listing = ""
+        for tasks in Reminders.bg_tasks:
+            listing += task.get_coro().__name__
+        print(listing)
 
 
 
