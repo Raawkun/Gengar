@@ -38,14 +38,8 @@ class Resuming(commands.Cog):
         
     @commands.command()
     async def tasks(self, ctx):
-        listing = ""
-        conn = await Listener.get_db_connection(self)
-        async with conn.cursor() as cursor:
-            await cursor.execute(f"SELECT * FROM Tasks")
-            result = await cursor.fetchall()
-            await conn.ensure_closed()
-        for entry in result:
-            listing += entry[0]
+        listing = list(Reminders.bg_tasks)
+        
         print(listing)
 
 
