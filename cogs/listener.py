@@ -70,7 +70,7 @@ class Listener(commands.Cog):
         task = asyncio.create_task(coro)
         conn = await Listener.get_db_connection(Listener)
         async with conn.cursor() as cursor:
-            await cursor.execute(f"INSERT INTO Tasks VALUES ('{task.get_coro().__name__}', '{task}')")
+            await cursor.execute(f"INSERT INTO Tasks (Name, Coro) VALUES ('{task.get_coro().__name__}', '{task}')")
             #print("We're in")
             await cursor.commit()
             await conn.ensure_closed()
