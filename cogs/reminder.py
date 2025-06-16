@@ -3,6 +3,7 @@ from disnake.ext import commands
 from sqlite3 import connect
 from datetime import datetime, timedelta
 import asyncio
+from listener import Listener
 from utility.info_dict import rem_emotes, emote_list, embed_color
 
 class Reminders(commands.Cog):
