@@ -68,7 +68,7 @@ class Listener(commands.Cog):
     
     def create_tracked_task(coro):
         task = asyncio.create_task(coro)
-        conn = Listener.get_db_connection(self)
+        conn = Listener.get_db_connection(Listener)
         with conn.cursor() as cursor:
             cursor.execute(f"INSERT INTO Tasks VALUES ('{task.get_coro().__name__}', '{task}')")
             #print("We're in")
@@ -77,7 +77,7 @@ class Listener(commands.Cog):
         print(f"Added: {task.get_coro().__name__}")
         #print(Reminders.bg_tasks)
         def remove(_):
-            conn = Listener.get_db_connection(self)
+            conn = Listener.get_db_connection(Listener)
             with conn.cursor() as cursor:
                 cursor.execute(f"DELETE * FROM Tasks WHERE Name = '{task.get_coro().__name__}'")
                 cursor.commit()
