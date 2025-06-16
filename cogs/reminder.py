@@ -66,7 +66,7 @@ class Reminders(commands.Cog):
         self.db.execute(f'UPDATE Toggle SET QuestTime = 0, Channel = 0, Timer = 0 WHERE User_ID = {user_id}')
         self.db.commit()
 
-    def create_tracked_task(coro):
+    def create_tracked_task(self, coro):
         task = asyncio.create_task(coro)
         self.client.bg_tasks.add(task)
         #conn = Listener.get_db_connection(self)
