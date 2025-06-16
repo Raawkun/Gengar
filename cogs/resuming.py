@@ -18,7 +18,7 @@ class Resuming(commands.Cog):
             #result = await cursor.fetchall()
             #await conn.ensure_closed()
         #print(list(Reminders.bg_tasks))
-        for task in list(Reminders.bg_tasks):
+        for task in list(self.client.bg_tasks):
         #for entry in result:
             #result[1].cancel()
             task.cancel()
@@ -28,7 +28,7 @@ class Resuming(commands.Cog):
                 print(f"✅ Cancelled: {result[1].get_coro().__name__}")
             except Exception as e:
                 print(e)
-        Reminders.bg_tasks.clear()
+        self.client.bg_tasks.clear()
         #conn = await Listener.get_db_connection(self)
         #async with conn.cursor() as cursor:
             #await cursor.execute(f"DELETE * FROM Tasks")
