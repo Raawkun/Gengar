@@ -120,15 +120,15 @@ class Listener(commands.Cog):
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
         await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="you catching Pokémon."))
         #await Listener.Git_pull(self)
-        Reminders.create_tracked_task(Listener.load_promo(self))
-        Reminders.create_tracked_task(Listener.load_excl(self))
-        Reminders.create_tracked_task(Listener.dawndusk(self))
-        Reminders.create_tracked_task(Listener._changelog(self))
-        Reminders.create_tracked_task(Modules.dailyreset(self))
-        Reminders.create_tracked_task(Modules.averagetimer(self))
-        Reminders.create_tracked_task(Modules.fishtimer(self))
-        Reminders.create_tracked_task(Reminders.load_reminder(self))
-        Reminders.create_tracked_task(Modules.load_type(self))
+        Reminders.create_tracked_task(self, Listener.load_promo(self))
+        Reminders.create_tracked_task(self, Listener.load_excl(self))
+        Reminders.create_tracked_task(self, Listener.dawndusk(self))
+        Reminders.create_tracked_task(self, Listener._changelog(self))
+        Reminders.create_tracked_task(self, Modules.dailyreset(self))
+        Reminders.create_tracked_task(self, Modules.averagetimer(self))
+        Reminders.create_tracked_task(self, Modules.fishtimer(self))
+        Reminders.create_tracked_task(self, Reminders.load_reminder(self))
+        Reminders.create_tracked_task(self, Modules.load_type(self))
         print("Time do to ghost stuff!")
         
     async def logerror(self, error: Exception, context: str = "Unspecified"):
@@ -156,7 +156,7 @@ class Listener(commands.Cog):
     @commands.Cog.listener()
     async def on_disconnect(self):
         try:
-            await Resuming.cancel_all_tracked_tasks()
+            await Resuming.cancel_all_tracked_tasks(self)
             print("⚠️⚠️Lost connection...⚠️⚠️")
         except Exception as e:
             await Listener.logerror(self, e, context="on_disconnect()")
