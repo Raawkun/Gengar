@@ -70,7 +70,8 @@ class Reminders(commands.Cog):
     def create_tracked_task(coro):
         task = asyncio.create_task(coro)
         Reminders.bg_tasks.add(task)
-
+        print(f"Added: {task.get_coro().__name__}")
+        print(Reminders.bg_tasks)
         def remove(_):
             Reminders.bg_tasks.discard(task)
 
