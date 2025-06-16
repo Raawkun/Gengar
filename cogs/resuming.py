@@ -12,7 +12,7 @@ class Resuming(commands.Cog):
         self.db = connect("database.db")
     
     async def cancel_all_tracked_tasks():
-        #print(list(Reminders.bg_tasks))
+        print(list(Reminders.bg_tasks))
         for task in list(Reminders.bg_tasks):
             task.cancel()
             try:
