@@ -28,6 +28,7 @@ class Resuming(commands.Cog):
         listing = ""
         for tasks in Reminders.bg_tasks:
             listing += task.get_coro().__name__
+        lieting = list(Reminders.bg_tasks)
         print(listing)
 
 
