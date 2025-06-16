@@ -76,7 +76,7 @@ class Reminders(commands.Cog):
             #cursor.commit()
             #conn.ensure_closed()
         print(f"Added: {task.get_coro().__name__}")
-        print(Reminders.bg_tasks)
+        #print(Reminders.bg_tasks)
         def remove(_):
             self.client.bg_tasks.remove(task)
             #conn = Listener.get_db_connection(self)
