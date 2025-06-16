@@ -69,11 +69,20 @@ class Reminders(commands.Cog):
 
     def create_tracked_task(coro):
         task = asyncio.create_task(coro)
-        Reminders.bg_tasks.add(task)
+        conn = await Listener.get_db_connection(self)
+        async with conn.cursor() as cursor:
+            await cursor.execute(f"INSERT INTO Tasks VALUES ('{task.get_coro().__name__}', '{task}')")
+            #print("We're in")
+            await cursor.commit()
+            await conn.ensure_closed()
         print(f"Added: {task.get_coro().__name__}")
         #print(Reminders.bg_tasks)
         def remove(_):
-            Reminders.bg_tasks.discard(task)
+            conn = await Listener.get_db_connection(self)
+            async with conn.cursor() as cursor:
+                await cursor.execute(f"DELETE * FROM Tasks WHERE Name = '{task.get_coro().__name__}'")
+                await cursor.commit()
+                await conn.ensure_closed()
 
         task.add_done_callback(remove)
         return task
