@@ -66,6 +66,26 @@ class Listener(commands.Cog):
             Listener.exclusives.append(entry[0])
         print(f"Loaded exclusives: {Listener.exclusives}")
     
+    def create_tracked_task(coro):
+        task = asyncio.create_task(coro)
+        conn = Listener.get_db_connection(self)
+        with conn.cursor() as cursor:
+            cursor.execute(f"INSERT INTO Tasks VALUES ('{task.get_coro().__name__}', '{task}')")
+            #print("We're in")
+            cursor.commit()
+            conn.ensure_closed()
+        print(f"Added: {task.get_coro().__name__}")
+        #print(Reminders.bg_tasks)
+        def remove(_):
+            conn = Listener.get_db_connection(self)
+            with conn.cursor() as cursor:
+                cursor.execute(f"DELETE * FROM Tasks WHERE Name = '{task.get_coro().__name__}'")
+                cursor.commit()
+                conn.ensure_closed()
+
+        task.add_done_callback(remove)
+        return task
+    
     async def dawndusk(self):
         rem_channel = self.client.get_channel(827306503866155008)
         east = pytz.timezone("America/New_York")
@@ -120,15 +140,15 @@ class Listener(commands.Cog):
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
         await self.client.change_presence(activity=disnake.Activity(type=disnake.ActivityType.watching, name="you catching Pokémon."))
         #await Listener.Git_pull(self)
-        Reminders.create_tracked_task(Listener.load_promo(self))
-        Reminders.create_tracked_task(Listener.load_excl(self))
-        Reminders.create_tracked_task(Listener.dawndusk(self))
-        Reminders.create_tracked_task(Listener._changelog(self))
-        Reminders.create_tracked_task(Modules.dailyreset(self))
-        Reminders.create_tracked_task(Modules.averagetimer(self))
-        Reminders.create_tracked_task(Modules.fishtimer(self))
-        Reminders.create_tracked_task(Reminders.load_reminder(self))
-        Reminders.create_tracked_task(Modules.load_type(self))
+        Listener.create_tracked_task(Listener.load_promo(self))
+        Listener.create_tracked_task(Listener.load_excl(self))
+        Listener.create_tracked_task(Listener.dawndusk(self))
+        Listener.create_tracked_task(Listener._changelog(self))
+        Listener.create_tracked_task(Modules.dailyreset(self))
+        Listener.create_tracked_task(Modules.averagetimer(self))
+        Listener.create_tracked_task(Modules.fishtimer(self))
+        Listener.create_tracked_task(Reminders.load_reminder(self))
+        Listener.create_tracked_task(Modules.load_type(self))
         print("Time do to ghost stuff!")
         
     async def logerror(self, error: Exception, context: str = "Unspecified"):
