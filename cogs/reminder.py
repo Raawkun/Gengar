@@ -69,7 +69,7 @@ class Reminders(commands.Cog):
 
     def create_tracked_task(coro):
         task = asyncio.create_task(coro)
-        Reminders.bg_tasks.append(task)
+        Reminders.bg_tasks.add(task)
         #conn = Listener.get_db_connection(self)
         #with conn.cursor() as cursor:
             #cursor.execute(f"INSERT INTO Tasks VALUES ('{task.get_coro().__name__}', '{task}')")
