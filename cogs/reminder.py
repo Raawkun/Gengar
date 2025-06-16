@@ -79,11 +79,7 @@ class Reminders(commands.Cog):
         print(f"Added: {task.get_coro().__name__}")
         print(Reminders.bg_tasks)
         def remove(_):
-            task.cancel()
-            try:
-                await task
-            except Exception as e:
-                print(f"Canceled: {e} - {task.get_coro().__name__}")
+            Reminders.bg_tasks.discard(task)
             #conn = Listener.get_db_connection(self)
             #with conn.cursor() as cursor:
                 #cursor.execute(f"DELETE * FROM Tasks WHERE Name = '{task.get_coro().__name__}'")
