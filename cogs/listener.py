@@ -861,7 +861,7 @@ class Listener(commands.Cog):
                                                 await message.channel.send(desc, allowed_mentions= disnake.AllowedMentions(users=False))
                                             elif datarem[14] == 2:
                                                 await message.channel.send(desc)
-                                            Reminders.create_tracked_task(Reminders._quest_reminder(self,channelid, sender.id, waiter,remind, link, emote))
+                                            Reminders.create_tracked_task(self, Reminders._quest_reminder(self,channelid, sender.id, waiter,remind, link, emote))
                         
                 if _embed.author.name:
                     if "catchbot" in _embed.author.name.lower():
