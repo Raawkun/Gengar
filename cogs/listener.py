@@ -142,7 +142,7 @@ class Listener(commands.Cog):
     async def on_resumed(self):
         print("Bot reconnected! Reloading tasks...")
         try:  
-            await Resuming.cancel_all_tracked_tasks()
+            #await Resuming.cancel_all_tracked_tasks()
             print("Canceled it all...")
         except Exception as e:
             await Listener.logerror(self, e, context="cancel_all_tracked_tasks() in on_resumed()")
@@ -156,7 +156,7 @@ class Listener(commands.Cog):
     @commands.Cog.listener()
     async def on_disconnect(self):
         try:
-            #await Resuming.cancel_all_tracked_tasks()
+            await Resuming.cancel_all_tracked_tasks()
             print("⚠️⚠️Lost connection...⚠️⚠️")
         except Exception as e:
             await Listener.logerror(self, e, context="on_disconnect()")
