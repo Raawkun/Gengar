@@ -77,8 +77,8 @@ class Listener(commands.Cog):
         print(f"Added: {task.get_coro().__name__}")
         #print(Reminders.bg_tasks)
         def remove(_):
-            await conn = Listener.get_db_connection(Listener)
-            await with conn.cursor() as cursor:
+            conn = await Listener.get_db_connection(Listener)
+            async with conn.cursor() as cursor:
                 await cursor.execute(f"DELETE * FROM Tasks WHERE Name = '{task.get_coro().__name__}'")
                 await cursor.commit()
                 await conn.ensure_closed()
