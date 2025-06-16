@@ -15,8 +15,9 @@ sync_flags.sync_commands_debug = True
 
 def __init__(self, client):
     self.client = client
-
+    
 client = commands.AutoShardedBot(intents = intents, command_prefix =commands.when_mentioned_or("m", "M"),help_command=None, reload = True, command_sync_flags=sync_flags)
+client.bg_tasks = []
 
 @client.event
 async def on_command_error(ctx, error):
