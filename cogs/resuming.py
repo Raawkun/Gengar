@@ -38,7 +38,7 @@ class Resuming(commands.Cog):
         
     @commands.command()
     async def tasks(self, ctx):
-        listing = list(Reminders.bg_tasks)
+        listing = self.client.bg_tasks
         
         print(listing)
 
