@@ -66,22 +66,22 @@ class Listener(commands.Cog):
             Listener.exclusives.append(entry[0])
         print(f"Loaded exclusives: {Listener.exclusives}")
     
-    def create_tracked_task(coro):
+    async def create_tracked_task(coro):
         task = asyncio.create_task(coro)
-        conn = Listener.get_db_connection(Listener)
-        with conn.cursor() as cursor:
-            cursor.execute(f"INSERT INTO Tasks VALUES ('{task.get_coro().__name__}', '{task}')")
+        conn = await Listener.get_db_connection(Listener)
+        await with conn.cursor() as cursor:
+            await cursor.execute(f"INSERT INTO Tasks VALUES ('{task.get_coro().__name__}', '{task}')")
             #print("We're in")
-            cursor.commit()
-            conn.ensure_closed()
+            await cursor.commit()
+            await conn.ensure_closed()
         print(f"Added: {task.get_coro().__name__}")
         #print(Reminders.bg_tasks)
         def remove(_):
-            conn = Listener.get_db_connection(Listener)
-            with conn.cursor() as cursor:
-                cursor.execute(f"DELETE * FROM Tasks WHERE Name = '{task.get_coro().__name__}'")
-                cursor.commit()
-                conn.ensure_closed()
+            await conn = Listener.get_db_connection(Listener)
+            await with conn.cursor() as cursor:
+                await cursor.execute(f"DELETE * FROM Tasks WHERE Name = '{task.get_coro().__name__}'")
+                await cursor.commit()
+                await conn.ensure_closed()
 
         task.add_done_callback(remove)
         return task
