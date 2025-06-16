@@ -11,7 +11,7 @@ class Resuming(commands.Cog):
         self.client = client
         self.db = connect("database.db")
     
-    async def cancel_all_tracked_tasks():
+    async def cancel_all_tracked_tasks(self):
         #conn = await Listener.get_db_connection(self)
         #async with conn.cursor() as cursor:
             #await cursor.execute(f"SELECT * FROM Tasks")
