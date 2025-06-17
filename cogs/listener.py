@@ -1156,7 +1156,7 @@ class Listener(commands.Cog):
                         sender = ref_msg.user
                 if _embed.description:
                     try:
-                        if "variant" in _embed.description:
+                        if "_locked" in _embed.description or "_unlocked" in _embed.description:
                             #print("Version in it")
                             dex=_embed.author.name.split(" #")[1]
                             #print(dex)
@@ -1238,7 +1238,7 @@ class Listener(commands.Cog):
                         print(e)
                 
                     try:
-                        if "variant" in _embed.description:
+                        if "_locked" in _embed.description or "_unlocked" in _embed.description:
                             _embed=message.embeds[0]
                             dex=_embed.author.name.split("#")[1]
                             #print(dex)
