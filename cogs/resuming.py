@@ -23,9 +23,9 @@ class Resuming(commands.Cog):
             #result[1].cancel()
             task.cancel()
             try:
-                await result[1]
+                await task
             except asyncio.CancelledError:
-                print(f"✅ Cancelled: {result[1].get_coro().__name__}")
+                print(f"✅ Cancelled: {task.get_coro().__name__}")
             except Exception as e:
                 print(e)
         self.client.bg_tasks.clear()
