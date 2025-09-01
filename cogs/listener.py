@@ -732,7 +732,7 @@ class Listener(commands.Cog):
                                     await message.channel.send(desc)
 
                     
-                        await asyncio.sleep(8.8)
+                        await asyncio.sleep(9)
                         datarem = self.db.execute(f'SELECT * FROM Toggle WHERE User_ID = {sender.id}')
                         datarem = datarem.fetchone()
                         if datarem[10] == 1:
