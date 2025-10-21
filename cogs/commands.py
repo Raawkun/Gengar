@@ -112,6 +112,7 @@ class Coms(commands.Cog):
             args = " ".join(args)
             data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{args}'")
             data = data.fetchone()
+        print(data)
         await ctx.reply(data)
             
             
