@@ -106,7 +106,7 @@ class Coms(commands.Cog):
         print(args)
         data = "Something went wrong"
         try:
-            data = self.db.execute(f"SELECT * FROM Dex WHERE DexID = {args[1]}")
+            data = self.db.execute(f"SELECT * FROM Dex WHERE DexID = {args[0]}")
             data = data.fetchone()
         except:
             args = " ".join(args)
