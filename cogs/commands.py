@@ -101,6 +101,18 @@ class Coms(commands.Cog):
             else:
                 await ctx.reply()
         
+    @commands.command()
+    async def checkdex(self, ctx, *args):
+        print(args)
+        data = "Something went wrong"
+        try:
+            data = self.db.execute(f"SELECT * FROM Dex WHERE DexID = {args}")
+            data = data.fetchone()
+        except:
+            data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{args}'")
+            data = data.fetchone()
+        await ctx.reply(data)
+            
             
     @commands.command()
     async def dm(self, ctx, userid, *args):
