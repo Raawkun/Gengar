@@ -282,7 +282,7 @@ class Listener(commands.Cog):
             await message.reply("Rofl.", allowed_mentions = disnake.AllowedMentions(replied_user=False))
 
         if message.author.id == sofi:
-            if "is **dropping** cards" in message.text:
+            if "is **dropping** cards" in message.content.lower():
                 print("Sofi drop")
                 
                 
