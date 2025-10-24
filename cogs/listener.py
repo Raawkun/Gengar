@@ -238,12 +238,13 @@ class Listener(commands.Cog):
         #Meow ID & KarpGuru
         karp = 922248409350549564
         celadon = 1080049677518508032
-        myself = 352224989367369729
+        myself = 35222498936736972
+        sofi = 853629533855809596
         
         current_time = datetime.datetime.utcnow()
         timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
         
-        if message.author.bot and message.author.id != meow and message.author.id != karp and message.author.id != 1209829454667317288 and message.author.id != 865576698137673739:
+        if message.author.bot and message.author.id != meow and message.author.id != karp and message.author.id != sofi and message.author.id != 1209829454667317288 and message.author.id != 865576698137673739:
             return
             
         if "happy" in message.content.lower():
@@ -280,6 +281,11 @@ class Listener(commands.Cog):
         if message.content.lower() == "lol":
             await message.reply("Rofl.", allowed_mentions = disnake.AllowedMentions(replied_user=False))
 
+        if message.author.id == sofi:
+            if "is **dropping** cards" in message.text:
+                print("Sofi drop")
+                
+                
         if message.author.id == karp:
             emote = self.client.get_emoji(1153729922620215349)
             if "our general chat" in message.content.lower():
