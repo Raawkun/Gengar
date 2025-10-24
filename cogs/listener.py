@@ -284,6 +284,10 @@ class Listener(commands.Cog):
         if message.author.id == sofi:
             if "is **dropping** cards" in message.content.lower():
                 print("Sofi drop")
+                user = message.content.split("<@")[1]
+                user = user.split(">")[0]
+                await asyncio.sleep(480)
+                await message.channel.send(f"<@{user}> Drop is ready")
                 
                 
         if message.author.id == karp:
