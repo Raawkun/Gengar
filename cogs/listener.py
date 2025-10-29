@@ -68,7 +68,7 @@ class Listener(commands.Cog):
 
     async def load_sofi(self):
         conn = connect("database.db")
-        async with conn.cursor() as cursor:
+        with conn.cursor() as cursor:
             await cursor.execute("SELECT * FROM Sofi ORDER BY Timestamp ASC")
             rems = cursor.fetchall()
             for entry in rems:
