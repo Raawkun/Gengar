@@ -65,6 +65,32 @@ class Listener(commands.Cog):
         for entry in result:
             Listener.exclusives.append(entry[0])
         print(f"Loaded exclusives: {Listener.exclusives}")
+
+    async def load_sofi(self):
+        conn = connect("database.db")
+        async with conn.cursor() as cursor:
+            await cursor.execute("SELECT * FROM Sofi ORDER BY Timestamp ASC")
+            rems = cursor.fetchall()
+            for entry in rems:
+                now = int(datetime.datetime.now().timestamp())-entry[3]
+                if now > 0:
+                    Reminders.create_tracked_task(Listener.sofi_rem(Listener,entry[0],entry[1],entry[2],now))
+                else:
+                    await cursor.execute(f"DELETE FROM Sofi WHERE Timestamp = {entry[3]}")
+                    cursor.commit()
+
+    async def sofi_rem(self, user_id, channel_id, mode, wait):
+        channel = await self.client.fetch_channel(channel_id)
+        if mode == "card":
+            await asyncio.sleep(wait)
+            await channel.send(f"<@{user_id}> ``SDrop`` is ready")
+            self.db.execute(f"DELETE FROM Sofi WHERE User_ID = {user_id} AND Mode = 'card'")
+            self.db.commit()
+        elif mode == "series":
+            await asyncio.sleep(wait)
+            await channel.send(f"<@{user_id}> ``SSeriesDrop``` is ready")
+            self.db.execute(f"DELETE FROM Sofi WHERE User_ID = {user_id} AND Mode = 'series'")
+            self.db.commit()
     
     async def dawndusk(self):
         rem_channel = self.client.get_channel(827306503866155008)
@@ -129,6 +155,7 @@ class Listener(commands.Cog):
         Reminders.create_tracked_task(self, Modules.fishtimer(self))
         Reminders.create_tracked_task(self, Reminders.load_reminder(self))
         Reminders.create_tracked_task(self, Modules.load_type(self))
+        Reminders.create_tracked_task(self, Listener.load_sofi(self))
         print("Time do to ghost stuff!")
         
     async def logerror(self, error: Exception, context: str = "Unspecified"):
@@ -283,12 +310,18 @@ class Listener(commands.Cog):
 
         if message.author.id == sofi:
             if "is **dropping** cards" in message.content.lower():
-                print("Sofi drop")
+                #print("Sofi drop")
                 user = message.content.split("<@")[1]
                 user = user.split(">")[0]
-                print(user)
-                await asyncio.sleep(480)
-                await message.channel.send(f"<@{user}> Drop is ready")
+                self.db.execute(f"INSERT INTO Sofi VALUES ({int(user)},{message.channel.id},'card',{int(message.created_at.timestamp())+480})")
+                self.db.commit()
+                Reminders.create_tracked_task(self, Listener.sofi_rem(self, int(user),message.channel.id,"card",480))
+            elif "is dropping series" in message.content.lower():
+                user = message.content.split("<@")[1]
+                user = user.split(">")[0]
+                self.db.execute(f"INSERT INTO Sofi VALUES ({int(user)},{message.channel.id},'series',{int(message.created_at.timestamp())+86400})")
+                self.db.commit()
+                Reminders.create_tracked_task(self, Listener.sofi_rem(self, int(user),message.channel.id,"series",86400))
                 
                 
         if message.author.id == karp:
