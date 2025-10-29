@@ -78,6 +78,7 @@ class Listener(commands.Cog):
                 else:
                     await cursor.execute(f"DELETE FROM Sofi WHERE Timestamp = {entry[3]}")
                     cursor.commit()
+        print("Loaded sofi reminders.")
 
     async def sofi_rem(self, user_id, channel_id, mode, wait):
         channel = await self.client.fetch_channel(channel_id)
@@ -87,7 +88,9 @@ class Listener(commands.Cog):
             self.db.execute(f"DELETE FROM Sofi WHERE User_ID = {user_id} AND Mode = 'card'")
             self.db.commit()
         elif mode == "series":
+            print(f"Waiting for a series drop for {wait} seconds....")
             await asyncio.sleep(wait)
+            print("Waiting is over...")
             await channel.send(f"<@{user_id}> ``SSeriesDrop``` is ready")
             self.db.execute(f"DELETE FROM Sofi WHERE User_ID = {user_id} AND Mode = 'series'")
             self.db.commit()
@@ -317,6 +320,7 @@ class Listener(commands.Cog):
                 self.db.commit()
                 Reminders.create_tracked_task(self, Listener.sofi_rem(self, int(user),message.channel.id,"card",480))
             elif "is dropping series" in message.content.lower():
+                print("Sofi series drop")
                 user = message.content.split("<@")[1]
                 user = user.split(">")[0]
                 self.db.execute(f"INSERT INTO Sofi VALUES ({int(user)},{message.channel.id},'series',{int(message.created_at.timestamp())+86400})")
