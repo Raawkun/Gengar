@@ -69,8 +69,8 @@ class Listener(commands.Cog):
     async def load_sofi(self):
         with connect("database.db") as db:
             cursor = db.cursor()
-            await cursor.execute("SELECT * FROM Sofi ORDER BY Timestamp ASC")
-            rems = cursor.fetchall()
+            rems = cursor.execute("SELECT * FROM Sofi ORDER BY Timestamp ASC")
+            rems = rems.fetchall()
             for entry in rems:
                 now = int(datetime.datetime.now().timestamp())-entry[3]
                 if now > 0:
