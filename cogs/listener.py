@@ -67,8 +67,8 @@ class Listener(commands.Cog):
         print(f"Loaded exclusives: {Listener.exclusives}")
 
     async def load_sofi(self):
-        conn = connect("database.db")
-        with conn.cursor() as cursor:
+        with connect("database.db") as db:
+            cursor = db.cursor()
             await cursor.execute("SELECT * FROM Sofi ORDER BY Timestamp ASC")
             rems = cursor.fetchall()
             for entry in rems:
