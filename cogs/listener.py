@@ -81,7 +81,7 @@ class Listener(commands.Cog):
         print("Loaded sofi reminders.")
 
     async def sofi_rem(self, user_id, channel_id, mode, wait):
-        channel = await self.client.fetch_channel(channel_id)
+        channel = self.client.get_channel(channel_id)
         if mode == "card":
             await asyncio.sleep(wait)
             await channel.send(f"<@{user_id}> ``SDrop`` is ready")
