@@ -83,7 +83,7 @@ class Listener(commands.Cog):
 
     async def sofi_rem(self, user_id, channel_id, mode, wait):
         print(self)
-        channel = self.client.get_channel(channel_id)
+        channel = Listener.client.get_channel(channel_id)
         if mode == "card":
             await asyncio.sleep(wait)
             await channel.send(f"<@{user_id}> ``SDrop`` is ready")
