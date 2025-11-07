@@ -78,7 +78,7 @@ class Listener(commands.Cog):
                     Reminders.create_tracked_task(self, Listener.sofi_rem(Listener,entry[0],entry[1],entry[2],now))
                 else:
                     cursor.execute(f"DELETE FROM Sofi WHERE Timestamp = {entry[3]}")
-                    cursor.commit()
+                    db.commit()
         print("Loaded sofi reminders.")
 
     async def sofi_rem(self, user_id, channel_id, mode, wait):
