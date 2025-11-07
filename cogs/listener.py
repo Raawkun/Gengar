@@ -67,6 +67,7 @@ class Listener(commands.Cog):
         print(f"Loaded exclusives: {Listener.exclusives}")
 
     async def load_sofi(self):
+        print(self)
         with connect("database.db") as db:
             cursor = db.cursor()
             rems = cursor.execute("SELECT * FROM Sofi ORDER BY Timestamp ASC")
@@ -81,6 +82,7 @@ class Listener(commands.Cog):
         print("Loaded sofi reminders.")
 
     async def sofi_rem(self, user_id, channel_id, mode, wait):
+        print(self)
         channel = self.client.get_channel(channel_id)
         if mode == "card":
             await asyncio.sleep(wait)
@@ -133,6 +135,7 @@ class Listener(commands.Cog):
     #events
     @commands.Cog.listener()
     async def on_ready(self):
+        print(self)
         print(f'We have logged in {self.client.user}! ID: {self.client.user.id}')
         print("------")
         print(datetime.datetime.now())
