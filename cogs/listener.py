@@ -77,7 +77,7 @@ class Listener(commands.Cog):
                 if now > 0:
                     Reminders.create_tracked_task(self, Listener.sofi_rem(Listener,entry[0],entry[1],entry[2],now))
                 else:
-                    await cursor.execute(f"DELETE FROM Sofi WHERE Timestamp = {entry[3]}")
+                    cursor.execute(f"DELETE FROM Sofi WHERE Timestamp = {entry[3]}")
                     cursor.commit()
         print("Loaded sofi reminders.")
 
