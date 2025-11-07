@@ -83,7 +83,7 @@ class Listener(commands.Cog):
 
     async def sofi_rem(self, user_id, channel_id, mode, wait):
         print(self)
-        channel = Listener.client.get_channel(channel_id)
+        channel = self.client.get_channel(channel_id)
         if mode == "card":
             await asyncio.sleep(wait)
             await channel.send(f"<@{user_id}> ``SDrop`` is ready")
@@ -323,7 +323,8 @@ class Listener(commands.Cog):
                 user = user.split(">")[0]
                 self.db.execute(f"INSERT INTO Sofi VALUES ({int(user)},{message.channel.id},'card',{int(message.created_at.timestamp())+480})")
                 self.db.commit()
-                Reminders.create_tracked_task(self, Listener.sofi_rem(self, int(user),message.channel.id,"card",480))
+                print(self)
+                Reminders.create_tracked_task(Reminders, Listener.sofi_rem(self, int(user),message.channel.id,"card",480))
             elif "is dropping series" in message.content.lower():
                 print("Sofi series drop")
                 user = message.content.split("<@")[1]
