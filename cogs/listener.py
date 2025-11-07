@@ -98,6 +98,8 @@ class Listener(commands.Cog):
             self.db.commit()
     
     async def dawndusk(self):
+        print(self)
+        print(self.client)
         rem_channel = self.client.get_channel(827306503866155008)
         east = pytz.timezone("America/New_York")
     
