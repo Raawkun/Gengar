@@ -964,7 +964,7 @@ class Listener(commands.Cog):
                     if "battle starts in" in _embed.footer.text.lower():
                         asyncio.create_task(Modules.dailycheck(self,message))
                         #print("Aha, battling.")
-                        if "irida** to a battle" in _embed.description.lower():
+                        if "xmas blue** to a battle" in _embed.description.lower():
                             asyncio.create_task(Modules.adamannpc(self, message))
                         #asyncio.create_task(Modules.darktest(self, message))
                         await asyncio.sleep(59)
