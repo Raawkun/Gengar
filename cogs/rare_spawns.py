@@ -277,7 +277,7 @@ class Rare_spawns(commands.Cog):
         try:
             await logging.send(embed=message.embed)
         except:
-            logging.send("NO message to log")
+            await logging.send("NO message to log")
         try:
             await logging.send(_embed.description)
         except:
