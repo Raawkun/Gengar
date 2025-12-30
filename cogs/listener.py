@@ -324,7 +324,7 @@ class Listener(commands.Cog):
                 self.db.execute(f"INSERT INTO Sofi VALUES ({int(user)},{message.channel.id},'card',{int(message.created_at.timestamp())+480})")
                 self.db.commit()
                 print(self)
-                Reminders.create_tracked_task(Reminders, Listener.sofi_rem(self, int(user),message.channel.id,"card",480))
+                Reminders.create_tracked_task(self, Listener.sofi_rem(self, int(user),message.channel.id,"card",480))
             elif "is dropping series" in message.content.lower():
                 print("Sofi series drop")
                 user = message.content.split("<@")[1]
