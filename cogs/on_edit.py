@@ -5,7 +5,7 @@ from disnake.ext import commands
 import sqlite3
 from sqlite3 import connect
 from cogs.module import Modules
-from  utility.rarity_db import poke_rarity, embed_color
+from utility.rarity_db import poke_rarity, embed_color
 from utility.embed import Custom_embed
 from utility.drop_chance import drop_pos, rare_calc, ball_used_low, ball_used_high
 from utility.id_lists import safari_id
