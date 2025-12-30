@@ -2,6 +2,7 @@ import os
 import disnake
 from disnake.ext import commands
 import asyncio
+from main import client
 import re
 import pytz
 from sqlite3 import connect
@@ -32,7 +33,7 @@ class Listener(commands.Cog):
         desc = f"{message.guild.name}, <#{message.channel}>, <@{author.id}>\n[Original Message.]({message.jump_url})"
         _emb = await Auction_embed(self.client,footer=footer, description=desc).setup_embed()
         _emb.add_field(name="Error:",value=error)
-        errcha = self.client.get_channel(1210143608355823647)
+        errcha = client.get_channel(1210143608355823647)
         await errcha.send(embed=_emb)
     promo_item = "none"
     exclusives = []
@@ -83,7 +84,7 @@ class Listener(commands.Cog):
 
     async def sofi_rem(self, user_id, channel_id, mode, wait):
         print(mode)
-        channel = self.client.get_channel(channel_id)
+        channel = client.get_channel(channel_id)
         if mode == "card":
             await asyncio.sleep(wait)
             await channel.send(f"<@{user_id}> ``SDrop`` is ready")
