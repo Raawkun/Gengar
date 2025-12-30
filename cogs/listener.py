@@ -82,7 +82,7 @@ class Listener(commands.Cog):
         print("Loaded sofi reminders.")
 
     async def sofi_rem(self, user_id, channel_id, mode, wait):
-        print(self)
+        print(mode)
         channel = self.client.get_channel(channel_id)
         if mode == "card":
             await asyncio.sleep(wait)
