@@ -17,6 +17,7 @@ from cogs.reminder import Reminders
 from cogs.resuming import Resuming
 from cogs.rare_spawns import Rare_spawns
 from utility.db_config import db_config
+from cogs.methods import Methods
 
 # Zeichen zum Kopieren: [ ] { }
 
@@ -504,6 +505,10 @@ class Listener(commands.Cog):
                 color = _embed.color
                 #print(_embed.author.name)
                 Rare_Spawned = ["Event", "Legendary", "Shiny", "Golden"]
+                if _embed.footer:
+                    if "information on buddies" in _embed.footer.text():
+                        asyncio.create_task(Methods.iv_check(self, message))
+                
                 if _embed.title:
                     #print(_embed)
                     #print(_embed.title)
