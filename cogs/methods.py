@@ -30,7 +30,7 @@ class Methods(commands.Cog):
                 stats = entry.value()
                 spatk = int(stats.split("`Sp.Atk` : ")[1].split("`")[0])
                 spdef = int(stats.split("`Sp.Def` : ")[1].split("`")[0])
-                speed = int(stats.split("`Speed`\u200b: ")[1].split("\")[0])
+                speed = int(stats.split("`Speed`\u200b: ")[1])
         image = embed.image.url()
         dex = self.db.execute(f"SELECT * FROM Dex Where Img_url = {image}")
         dex = dex.fetchone()
