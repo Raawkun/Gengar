@@ -16,7 +16,6 @@ class Methods(commands.Cog):
             if "**Pokémon EVs** " in entry.name:
                 evs = entry.value
                 evatk= evs.split("`ATK` ")[1].split("`")[0]
-                print(evatk)
                 evatk=int(evatk[:-1])
                 evdef=evs.split("`DEF` ")[1].split("`")[0]
                 evdef=int(evdef[:-1])
@@ -39,7 +38,8 @@ class Methods(commands.Cog):
                 spdef = int(stats.split("`Sp.Def` : ")[1].split("\n")[0])
                 speed = int(stats.split("`Speed`\u200b: ")[1])
         image = embed.image.url
-        dex = self.db.execute(f"SELECT * FROM Dex Where Img_url = {image}")
+        print(image)
+        dex = self.db.execute(f"SELECT * FROM Dex WHERE Img_url = {image}")
         dex = dex.fetchone()
         baseatk = dex[5]
         basedef=dex[6]
