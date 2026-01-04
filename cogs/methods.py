@@ -19,15 +19,15 @@ class Methods(commands.Cog):
                 print(evatk)
                 evatk=int(evatk[:-1])
                 evdef=evs.split("`DEF` ")[1].split("`")[0]
-                evdef=int(evdef[:-6])
+                evdef=int(evdef[:-1])
                 evhp=evs.split("`HP` ")[1].split("`")[0]
-                evhp=int(evhp[:-6])
+                evhp=int(evhp[:-1])
                 evspatk=evs.split("`SPA` ")[1].split("`")[0]
-                evspatk=int(evspatk[:-6])
+                evspatk=int(evspatk[:-1])
                 evspdef=evs.split("`SPD` ")[1].split("`")[0]
-                evspdef=int(evspdef[:-6])
+                evspdef=int(evspdef[:-1])
                 evspeed=evs.split("`SPE` ")[1]
-                evspeed=int(evspeed[:-6])
+                evspeed=int(evspeed[:-1])
             if "**Pokémon Stats**" in entry.name:
                 stats = entry.value
                 atk = int(stats.split("`Atk` : ")[1].split("\n")[0])
