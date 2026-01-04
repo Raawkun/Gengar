@@ -17,7 +17,7 @@ class Methods(commands.Cog):
         if toggle[0] == 1:
             embed = message.embeds[0]
             name = embed.title.split("> ")
-            print(name)
+            #print(name)
             name = name[2]
             #Get Stats from Embed
             level = int(embed.description.split("**Level**: ")[1].split("\n")[0])
