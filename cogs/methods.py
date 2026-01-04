@@ -50,7 +50,8 @@ class Methods(commands.Cog):
             embed = await Custom_embed(
                 self.client, title = f"__Calculated IV's__", description = f"""This pokemon is not currently in the database.  Please use `/pokedex entry (mon name)` to add it.""", thumb = "https://hips.hearstapps.com/digitalspyuk.cdnds.net/16/28/1468492501-pokemon-computer.gif"
             ).setup_embed()
-            return embed
+            await message.channel.send(embed)
+            exit
         else:
             for row in dex:
                 b_atk = row[5]
@@ -74,6 +75,7 @@ class Methods(commands.Cog):
             atk_iv = math.ceil(((atk - 5 - (2.7 * b_atk * (level/100))) * 100) / (level + 100))
             def_iv = math.ceil(((defe - 5 - (2.7 * b_def * (level/100))) * 100) / (level + 100))
             spe_iv = math.ceil(((speed - 5 - (2.7 * b_spe * (level/100))) * 100) / (level + 100))
+            
             # hp_iv = math.ceil(((hp - (level / 3) - (2.7 * b_hp * (level / 100))) * 100) / (level + 200))
 
             # hp_iv = math.ceil(((hp - level - 10 - (2.7 * b_hp * (level / 100))) * 100) / (level + 100))
@@ -93,7 +95,7 @@ class Methods(commands.Cog):
                 hp_iv = 0
                 # print("Couldn't find match")
 
-
+            print(f"{atk_iv}, {def_iv}, {spe_iv}, {hp_iv}")
             # print(atk_iv, def_iv, spd_iv)
             if golden:
                 progress = round(((atk_iv + def_iv + spe_iv + hp_iv) / 80 ) * 100 , 2)
@@ -114,7 +116,7 @@ class Methods(commands.Cog):
             embed.set_author(name=f"{name}", icon_url=f"{pic}")
             embed.add_field(name="⠀", value=f'⚔ Atk: `{atk_iv}`\n🛡 Def: `{def_iv}`', inline=True)
             embed.add_field(name="⠀", value=f'💖   HP: `{hp_iv}`\n⚡ Spe: `{spe_iv}`', inline=True)
-        return embed
+        await message.channel.send(embed)
 
 
 def setup(client):
