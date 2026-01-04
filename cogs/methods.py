@@ -14,9 +14,7 @@ class Methods(commands.Cog):
         sender = sender.id
         toggle = self.db.execute(f"SELECT IV FROM Toggle WHERE User_ID = {sender}")
         toggle = toggle.fetchone()
-        if toggle == 0:
-            return
-        else:
+        if toggle[0] == 1:
             embed = message.embeds[0]
             #Get Stats from Embed
             level = int(embed.description.split("**Level**: ")[1].split("\n")[0])
@@ -54,7 +52,7 @@ class Methods(commands.Cog):
                 return
             if not dex:
                 embed = await Custom_embed(
-                    self.client, title = f"__Calculated IV's__", description = f"""This pokemon is not currently in the database.  Please use `/pokedex entry (mon name)` to add it.""", thumb = "https://hips.hearstapps.com/digitalspyuk.cdnds.net/16/28/1468492501-pokemon-computer.gif"
+                    self.client, title = f"__Calculated IV's__", description = f"""This pokemon is not currently in the database.  Please use `/pokedex entry (mon name)` to add it."""
                 ).setup_embed()
                 await message.channel.send(embed=embed)
                 exit
@@ -116,6 +114,8 @@ class Methods(commands.Cog):
                 embed.add_field(name="⠀", value=f'⚔ Atk: `{atk_iv}`\n🛡 Def: `{def_iv}`', inline=True)
                 embed.add_field(name="⠀", value=f'💖 HP: `{hp_iv}`\n⚡ Spe: `{spe_iv}`', inline=True)
             await message.channel.send(embed=embed)
+        else:
+            return
 
 
 def setup(client):
