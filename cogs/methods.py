@@ -24,8 +24,9 @@ class Methods(commands.Cog):
                 evspatk=evs.split("`SPA` ")[1].split("`")[0]
                 evspatk=int(evspatk[:-6])
                 evspdef=evs.split("`SPD` ")[1].split("`")[0]
-                evspdef=int(evspef[:-6])
-                evspeed=evs.split("`SPE` ")[1])
+                evspdef=int(evspdef[:-6])
+                evspeed=evs.split("`SPE` ")[1]
+                evspeed=int(evspeed[:-6])
             if "**Pokémon Stats**" in entry.name:
                 stats = entry.value
                 atk = int(stats.split("`Atk` : ")[1].split("\n")[0])
