@@ -11,13 +11,13 @@ class Methods(commands.Cog):
 
     async def iv_calc(self, message):
         embed = message.embeds[0]
-        level = 
-        atk = 
-        def = 
-        hp = 
-        spatk = 
-        spdef = 
-        speed = 
+        level = 0
+        atk = 0
+        def = 0
+        hp = 0
+        spatk = 0
+        spdef = 0
+        speed = 0
         image = embed.image.url()
         dex = self.db.execute(f"SELECT * FROM Dex Where Img_url = {image}")
         dex = dex.fetchone()
