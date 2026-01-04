@@ -27,7 +27,7 @@ class Methods(commands.Cog):
                 defe = int(stats.split("`Def` : ")[1].split("\n")[0])
                 hp = int(stats.split("`HP`\u200b: ")[1].split("\n")[0])
             if "\u200b" in entry.name:
-                stats = entry.value))
+                stats = entry.value()
                 spatk = int(stats.split("`Sp.Atk` : ")[1].split("\n")[0])
                 spdef = int(stats.split("`Sp.Def` : ")[1].split("\n")[0])
                 speed = int(stats.split("`Speed`\u200b: ")[1].split("\n")[0])
