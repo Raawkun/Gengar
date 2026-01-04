@@ -860,55 +860,49 @@ class Coms(commands.Cog):
             if ref_msg.content != None:
                 desc +=(f"Content: \n```{ref_msg.content}\n```")
             if mode == "embed":
+                conty = ""
                 if (len(ref_msg.embeds) > 0):
                     _embed = ref_msg.embeds[0]
                     #print("Its an embed...")
                     if ref_msg.content != None:
                         if _embed.description != None:
-                            length = len(_embed.description)
-                            print(length)
-                            if length > 1000:
-                                desc +=("```Desc:\nCheck Attachment below.```")
-                                txt_file = io.StringIO(_embed.description)
-                                txt_file.name = "desc.txt"
-                                desc_check = 1
-                            else:
-                                desc +=("```Desc:\n")
-                                desc +=(f"{_embed.description}```\n")
+                            desc +=("```Desc:\nCheck Attachment below.```")
+                            conty +=("```Desc:\n")
+                            conty +=(f"{_embed.description}```\n")
                             #print("with a description....")
                         if _embed.footer != None:
-                            desc +=("```Footer:\n")
-                            desc +=(f"{_embed.footer.text}```\n")
+                            conty +=("```Footer:\n")
+                            conty +=(f"{_embed.footer.text}```\n")
                             #print("with a footer....")
                         if _embed.title != None:
-                            desc +=("```Title:")
-                            desc +=(f"{_embed.title}```\n")
+                            conty +=("```Title:")
+                            conty +=(f"{_embed.title}```\n")
                             #print("with a title...")
                         if _embed.fields != None:
-                            desc +=("```Fields:")
-                            desc +=(f"{_embed.fields}```\n")
+                            conty +=("```Fields:")
+                            conty +=(f"{_embed.fields}```\n")
                             #print("with fields...")
                         if _embed.image != None:
-                            desc +=("```Image:")
-                            desc +=(f"{_embed.image.url}```\n")
+                            conty +=("```Image:")
+                            conty +=(f"{_embed.image.url}```\n")
                             #print("with an image...")
                         if _embed.thumbnail.url != None:
-                            desc +=("```Thumb:")
-                            desc +=(f"{_embed.thumbnail.url}```\n")
+                            conty +=("```Thumb:")
+                            conty +=(f"{_embed.thumbnail.url}```\n")
                             #print("with a thumb...")
                         if _embed.author.name != None:
-                            desc +=("```Author:")
-                            desc +=(f"{_embed.author.name}\n")
-                            desc +=(f"{_embed.author.icon_url}```\n")
+                            conty +=("```Author:")
+                            conty +=(f"{_embed.author.name}\n")
+                            conty +=(f"{_embed.author.icon_url}```\n")
                             #print("with an author...")
                         if _embed.color != None:
-                            desc +=(f"```Color:\n")
-                            desc +=(f"{_embed.color}```")
+                            conty +=(f"```Color:\n")
+                            conty +=(f"{_embed.color}```")
                             #print("with a color.")
-            if desc_check == 1:
-                await ctx.reply(desc, file = disnake.File(txt_file, txt_file.name))
-            else:
-                await ctx.reply(desc)
+            txt_file = io.StringIO(conty)
+            txt_file.name = "embed_content.txt"
+            await ctx.reply(desc, file = disnake.File(txt_file, txt_file.name))
+            
 
     @commands.command()
     async def invite(self, ctx):
