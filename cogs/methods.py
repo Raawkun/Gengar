@@ -9,7 +9,7 @@ class Methods(commands.Cog):
         self.client = client
         self.db = connect("database.db")
 
-    async def iv_calc(self, message):
+    async def iv_check(self, message):
         embed = message.embeds[0]
         level = int(embed.description.split("**Level**: ")[1].split("\n")[0])
         for entry in embed.Fields:
