@@ -15,21 +15,21 @@ class Methods(commands.Cog):
         for entry in embed.fields:
             if "**Pokémon EVs** " in entry.name:
                 evs = entry.value
-                evatk= int(evs.split("`ATK` ")[1].split("\")[0])
-                evdef=int(evs.split("`DEF` ")[1].split("\")[0])
-                evhp=int(evs.split("`HP` ")[1].split("\")[0])
-                evspatk=int(evs.split("`SPA` ")[1].split("\")[0])
-                evspdef=int(evs.split("`SPD` ")[1].split("\")[0])
-                evspeed=int(evs.split("`SPE` ")[1].split("\")[0])
+                evatk= int(evs[:-6].split("`ATK` ")[1])
+                evdef=int(evs[:-6].split("`DEF` ")[1])
+                evhp=int(evs[:-6].split("`HP` ")[1])
+                evspatk=int(evs[:-6].split("`SPA` ")[1])
+                evspdef=int(evs[:-6].split("`SPD` ")[1])
+                evspeed=int(evs[:-6].split("`SPE` ")[1])
             if "**Pokémon Stats**" in entry.name:
                 stats = entry.value
-                atk = int(stats.split("`Atk` : ")[1].split("`")[0])
-                defe = int(stats.split("`Def` : ")[1].split("`")[0])
-                hp = int(stats.split("`HP`\u200b: ")[1].split("`")[0])
+                atk = int(stats.split("`Atk` : ")[1].split("\n")[0])
+                defe = int(stats.split("`Def` : ")[1].split("\n")[0])
+                hp = int(stats.split("`HP`\u200b: ")[1])
             if "\u200b" in entry.name:
                 stats = entry.value
-                spatk = int(stats.split("`Sp.Atk` : ")[1].split("`")[0])
-                spdef = int(stats.split("`Sp.Def` : ")[1].split("`")[0])
+                spatk = int(stats.split("`Sp.Atk` : ")[1].split("\n")[0])
+                spdef = int(stats.split("`Sp.Def` : ")[1].split("\n")[0])
                 speed = int(stats.split("`Speed`\u200b: ")[1])
         image = embed.image.url
         dex = self.db.execute(f"SELECT * FROM Dex Where Img_url = {image}")
