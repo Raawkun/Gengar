@@ -16,6 +16,9 @@ class Methods(commands.Cog):
         toggle = toggle.fetchone()
         if toggle[0] == 1:
             embed = message.embeds[0]
+            name = embed.title.split("> ")
+            print(name)
+            name = name[2]
             #Get Stats from Embed
             level = int(embed.description.split("**Level**: ")[1].split("\n")[0])
             for entry in embed.fields:
@@ -62,7 +65,6 @@ class Methods(commands.Cog):
                     b_def = row[6]
                     b_hp = row[4]
                     b_spe = row[9]
-                    mega = row[13]
                     golden = row[12]
                     shiny = row[11]
                     dex_name = row[1]
@@ -110,7 +112,8 @@ class Methods(commands.Cog):
                 embed = await Custom_embed(
                     self.client, title = f"__Calculated IV's__", description = f"""Your IV progress is: **{progress}%**\n*Please note, this is not accurate for low levels*"""
                 ).setup_embed()
-                embed.set_author(name=f"{dex[1]}", icon_url=f"{pic}")
+                name = 
+                embed.set_author(name=f"{name}", icon_url=f"{pic}")
                 embed.add_field(name="⠀", value=f'⚔ Atk: `{atk_iv}`\n🛡 Def: `{def_iv}`', inline=True)
                 embed.add_field(name="⠀", value=f'💖 HP: `{hp_iv}`\n⚡ Spe: `{spe_iv}`', inline=True)
             await message.channel.send(embed=embed)
