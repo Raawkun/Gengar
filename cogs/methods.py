@@ -11,6 +11,7 @@ class Methods(commands.Cog):
 
     async def iv_check(self, message):
         embed = message.embeds[0]
+        #Get Stats from Embed
         level = int(embed.description.split("**Level**: ")[1].split("\n")[0])
         for entry in embed.fields:
             if "**Pokémon EVs** " in entry.name:
@@ -38,7 +39,6 @@ class Methods(commands.Cog):
                 spdef = int(stats.split("`Sp.Def` : ")[1].split("\n")[0])
                 speed = int(stats.split("`Speed`\u200b: ")[1])
         image = embed.image.url
-        print(image)
         dex = self.db.execute(f"SELECT * FROM Dex WHERE Img_url = '{image}'")
         dex = dex.fetchone()
         baseatk = dex[5]
@@ -51,7 +51,39 @@ class Methods(commands.Cog):
         if ref_msg.author.id == 352224989367369729:
             await message.channel.send(f"Level:{level}\nBase Stats:{baseatk}/{basedef}/{basehp}/{basespatk}/{basespdef}/{basespeed}\nEVs:{evatk}/{evdef}/{evhp}/{evspatk}/{evspdef}/{evspeed}\nStats:{atk}/{defe}/{hp}/{spatk}/{spdef}/{speed}")
 
+        #Start calculation
+        IV_ATK = Methods.possible_ivs(baseatk, level,atk,evatk)
+        IV_DEF = Methods.possible_ivs(basedef, level,defe,evdef)
+        IV_HP = Methods.possible_ivs(basehp, level,hp,evhp)
+        IV_SPATK = Methods.possible_ivs(basespatk, level,spatk,evspatk)
+        IV_SPDEF = Methods.possible_ivs(basespdef, level,spdef,evspdef)
+        IV_SPEED = Methods.possible_ivs(basespeed, level,speed,evspeed)
 
+        desc = f"Possible IVs for **{dex[1]}**:\nATK: {IV_ATK}\nDEF: {IV_DEF}\nHP: {IV_HP}\nSpeed: {IV_SPEED}"
+        await message.channel.send(desc)
+    def possible_ivs(base_stat: int, level: int, stat: int, ev: int):
+        
+        # Level-abhängiger EV-Term
+        ev_term = (ev // 4) * level // 100
+
+        x = stat - 5
+
+        iv_min = math.ceil(
+            (x * 100) / level - (2 * base_stat + ev_term)
+        )
+
+        iv_max = math.floor(
+            ((x + 1) * 100 - 1) / level - (2 * base_stat + ev_term)
+        )
+
+        # IV-Bereich erzwingen
+        iv_min = max(0, iv_min)
+        iv_max = min(15, iv_max)
+
+        if iv_min > iv_max:
+            return []
+
+        return list(range(iv_min, iv_max + 1))
 
 
 def setup(client):
