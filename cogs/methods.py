@@ -81,9 +81,9 @@ class Methods(commands.Cog):
 
         # IV-Bereich erzwingen
         iv_min = max(0, iv_min)
-        #print(iv_min)
+        print(iv_min)
         iv_max = min(15, iv_max)
-        #print(iv_max)
+        print(f"{iv_min},{iv_max}")
 
         if iv_min > iv_max:
             return []
