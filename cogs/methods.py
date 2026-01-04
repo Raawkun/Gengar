@@ -12,7 +12,7 @@ class Methods(commands.Cog):
     async def iv_check(self, message):
         embed = message.embeds[0]
         level = int(embed.description.split("**Level**: ")[1].split("\n")[0])
-        for entry in embed.Fields:
+        for entry in embed.fields:
             if "**Pokémon EVs** " in entry.name:
                 evs = entry.value()
                 evatk= int(evs.split("`ATK` ")[1].split("`")[0])
