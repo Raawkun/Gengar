@@ -101,7 +101,7 @@ class Methods(commands.Cog):
                     hp_iv = 0
                     # print("Couldn't find match")
 
-                print(f"{atk_iv}, {def_iv}, {spe_iv}, {hp_iv}")
+                #print(f"{atk_iv}, {def_iv}, {spe_iv}, {hp_iv}")
                 # print(atk_iv, def_iv, spd_iv)
                 if golden:
                     progress = round(((atk_iv + def_iv + spe_iv + hp_iv) / 80 ) * 100 , 2)
