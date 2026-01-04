@@ -107,21 +107,14 @@ class Methods(commands.Cog):
                     progress = round(((atk_iv + def_iv + spe_iv + hp_iv) / 80 ) * 100 , 2)
                 else:
                     progress = round(((atk_iv + def_iv + spe_iv + hp_iv) / 60 ) * 100 , 2)
-                name = ""
-                if golden:
-                    name = "Golden "
-                if shiny:
-                    name = "Shiny "
-                if mega:
-                    name += "Mega "
-                name += dex_name
+                
 
                 embed = await Custom_embed(
                     self.client, title = f"__Calculated IV's__", description = f"""Your IV progress is: **{progress}%**\n*Please note, this is not accurate for low levels*"""
                 ).setup_embed()
-                embed.set_author(name=f"{name}", icon_url=f"{pic}")
+                embed.set_author(name=f"{dex[1]}", icon_url=f"{pic}")
                 embed.add_field(name="⠀", value=f'⚔ Atk: `{atk_iv}`\n🛡 Def: `{def_iv}`', inline=True)
-                embed.add_field(name="⠀", value=f'💖   HP: `{hp_iv}`\n⚡ Spe: `{spe_iv}`', inline=True)
+                embed.add_field(name="⠀", value=f'💖 HP: `{hp_iv}`\n⚡ Spe: `{spe_iv}`', inline=True)
             await message.channel.send(embed=embed)
 
 
