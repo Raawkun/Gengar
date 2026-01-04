@@ -50,7 +50,7 @@ class Methods(commands.Cog):
             embed = await Custom_embed(
                 self.client, title = f"__Calculated IV's__", description = f"""This pokemon is not currently in the database.  Please use `/pokedex entry (mon name)` to add it.""", thumb = "https://hips.hearstapps.com/digitalspyuk.cdnds.net/16/28/1468492501-pokemon-computer.gif"
             ).setup_embed()
-            await message.channel.send(embed)
+            await message.channel.send(embed=embed)
             exit
         else:
             for row in dex:
@@ -116,7 +116,7 @@ class Methods(commands.Cog):
             embed.set_author(name=f"{name}", icon_url=f"{pic}")
             embed.add_field(name="⠀", value=f'⚔ Atk: `{atk_iv}`\n🛡 Def: `{def_iv}`', inline=True)
             embed.add_field(name="⠀", value=f'💖   HP: `{hp_iv}`\n⚡ Spe: `{spe_iv}`', inline=True)
-        await message.channel.send(embed)
+        await message.channel.send(embed=embed)
 
 
 def setup(client):
