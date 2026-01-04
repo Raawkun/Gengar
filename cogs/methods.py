@@ -16,6 +16,7 @@ class Methods(commands.Cog):
             if "**Pokémon EVs** " in entry.name:
                 evs = entry.value
                 evatk= evs.split("`ATK` ")[1].split("`")[0]
+                print(evatk)
                 evatk=int(evatk[:-6])
                 evdef=evs.split("`DEF` ")[1].split("`")[0]
                 evdef=int(evdef[:-6])
