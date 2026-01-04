@@ -15,7 +15,7 @@ class Methods(commands.Cog):
         toggle = self.db.execute(f"SELECT IV FROM Toggle WHERE User_ID = {sender}")
         toggle = toggle.fetchone()
         if toggle == 0:
-            exit
+            return
         else:
             embed = message.embeds[0]
             #Get Stats from Embed
