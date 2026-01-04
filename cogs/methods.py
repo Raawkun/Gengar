@@ -71,16 +71,19 @@ class Methods(commands.Cog):
         iv_min = math.ceil(
             (x * 100) / level - (2 * base_stat + ev_term)
         )
-
+        print("IV MIN")
+        print(iv_min)
         iv_max = math.floor(
             ((x + 1) * 100 - 1) / level - (2 * base_stat + ev_term)
         )
+        print("IV MAX")
+        print(iv_max)
 
         # IV-Bereich erzwingen
         iv_min = max(0, iv_min)
-        print(iv_min)
+        #print(iv_min)
         iv_max = min(15, iv_max)
-        print(iv_max)
+        #print(iv_max)
 
         if iv_min > iv_max:
             return []
