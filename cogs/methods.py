@@ -67,13 +67,13 @@ class Methods(commands.Cog):
             # print(hp)
             atk -= math.floor(evatk * level / 400)
             defe -= math.floor(evdef * level / 400)
-            spe -= math.floor(evspeed * level / 400)
+            speed -= math.floor(evspeed * level / 400)
             # hp -= math.floor(hp_ev * level / 400)
             # print(hp)
 
             atk_iv = math.ceil(((atk - 5 - (2.7 * b_atk * (level/100))) * 100) / (level + 100))
             def_iv = math.ceil(((defe - 5 - (2.7 * b_def * (level/100))) * 100) / (level + 100))
-            spe_iv = math.ceil(((spe - 5 - (2.7 * b_spe * (level/100))) * 100) / (level + 100))
+            spe_iv = math.ceil(((speed - 5 - (2.7 * b_spe * (level/100))) * 100) / (level + 100))
             # hp_iv = math.ceil(((hp - (level / 3) - (2.7 * b_hp * (level / 100))) * 100) / (level + 200))
 
             # hp_iv = math.ceil(((hp - level - 10 - (2.7 * b_hp * (level / 100))) * 100) / (level + 100))
