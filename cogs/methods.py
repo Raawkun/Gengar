@@ -47,8 +47,9 @@ class Methods(commands.Cog):
         basespatk=dex[7]
         basespdef=dex[8]
         basespeed=dex[9]
-        if message.reference.author_id == 352224989367369729:
-            await message.reply(f"Level:{level}\nBase Stats:{baseatk}/{basedef}/{basehp}/{basespatk}/{basespdef}/{basespeed}\nEVs:{evatk}/{evdef}/{evhp}/{evspatk}/{evspdef}/{evspeed}\nStats:{atk}/{defe}/{hp}/{spatk}/{spdef}/{speed}")
+        ref_msg = await message.channel.fetch_message(message.reference.message_id)
+        if ref_msg.author_id == 352224989367369729:
+            await message.send(f"Level:{level}\nBase Stats:{baseatk}/{basedef}/{basehp}/{basespatk}/{basespdef}/{basespeed}\nEVs:{evatk}/{evdef}/{evhp}/{evspatk}/{evspdef}/{evspeed}\nStats:{atk}/{defe}/{hp}/{spatk}/{spdef}/{speed}")
 
 
 
