@@ -39,7 +39,7 @@ class Methods(commands.Cog):
                 speed = int(stats.split("`Speed`\u200b: ")[1])
         image = embed.image.url
         print(image)
-        dex = self.db.execute(f"SELECT * FROM Dex WHERE Img_url = {image}")
+        dex = self.db.execute(f"SELECT * FROM Dex WHERE Img_url = '{image}'")
         dex = dex.fetchone()
         baseatk = dex[5]
         basedef=dex[6]
