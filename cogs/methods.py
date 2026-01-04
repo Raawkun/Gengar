@@ -30,4 +30,4 @@ class Methods(commands.Cog):
 
 
 def setup(client):
-    client.add_cog(Modules(client))
+    client.add_cog(Methods(client))
