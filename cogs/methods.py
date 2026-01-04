@@ -2,6 +2,7 @@ import disnake
 from disnake.ext import commands
 import math, sqlite3
 from sqlite3 import connect
+from utility.embed import Custom_embed
 
 class Methods(commands.Cog):
 
@@ -39,53 +40,81 @@ class Methods(commands.Cog):
                 spdef = int(stats.split("`Sp.Def` : ")[1].split("\n")[0])
                 speed = int(stats.split("`Speed`\u200b: ")[1])
         image = embed.image.url
-        dex = self.db.execute(f"SELECT * FROM Dex WHERE Img_url = '{image}'")
-        dex = dex.fetchone()
-        baseatk = dex[5]
-        basedef=dex[6]
-        basehp=dex[4]
-        basespatk=dex[7]
-        basespdef=dex[8]
-        basespeed=dex[9]
-        ref_msg = await message.channel.fetch_message(message.reference.message_id)
-        if ref_msg.author.id == 352224989367369729:
-            await message.channel.send(f"Level:{level}\nBase Stats:{baseatk}/{basedef}/{basehp}/{basespatk}/{basespdef}/{basespeed}\nEVs:{evatk}/{evdef}/{evhp}/{evspatk}/{evspdef}/{evspeed}\nStats:{atk}/{defe}/{hp}/{spatk}/{spdef}/{speed}")
+        try:
+            dex = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
+            dex = dex.fetchall()
+        except Exception as e:
+            print(e)
+            return
+        if not dex:
+            embed = await Custom_embed(
+                self.client, title = f"__Calculated IV's__", description = f"""This pokemon is not currently in the database.  Please use `/pokedex entry (mon name)` to add it.""", thumb = "https://hips.hearstapps.com/digitalspyuk.cdnds.net/16/28/1468492501-pokemon-computer.gif"
+            ).setup_embed()
+            return embed
+        else:
+            for row in dex:
+                b_atk = row[5]
+                b_def = row[6]
+                b_hp = row[4]
+                b_spe = row[9]
+                mega = row[13]
+                golden = row[12]
+                shiny = row[11]
+                dex_name = row[1]
+                pic = row[15]
 
-        #Start calculation
-        IV_ATK = Methods.possible_ivs(baseatk, level,atk,evatk)
-        IV_DEF = Methods.possible_ivs(basedef, level,defe,evdef)
-        IV_HP = Methods.possible_ivs(basehp, level,hp,evhp)
-        IV_SPATK = Methods.possible_ivs(basespatk, level,spatk,evspatk)
-        IV_SPDEF = Methods.possible_ivs(basespdef, level,spdef,evspdef)
-        IV_SPEED = Methods.possible_ivs(basespeed, level,speed,evspeed)
+            # print(f"hp_EV: {hp_ev} Level: {level} EV influence: {atk_ev * level / 400}")
+            # print(hp)
+            atk -= math.floor(evatk * level / 400)
+            defen -= math.floor(evdef * level / 400)
+            spe -= math.floor(evspeed * level / 400)
+            # hp -= math.floor(hp_ev * level / 400)
+            # print(hp)
 
-        desc = f"Possible IVs for **{dex[1]}**:\nATK: {IV_ATK}\nDEF: {IV_DEF}\nHP: {IV_HP}\nSpeed: {IV_SPEED}"
-        await message.channel.send(desc)
-    def possible_ivs(base_stat: int, level: int, stat: int, ev: int):
-        
-        # Level-abhängiger EV-Term
-        # Level-abhängiger EV-Term
-        ev_eff = (ev // 4) * level // 100
+            atk_iv = math.ceil(((atk - 5 - (2.7 * b_atk * (level/100))) * 100) / (level + 100))
+            def_iv = math.ceil(((defen - 5 - (2.7 * b_def * (level/100))) * 100) / (level + 100))
+            spe_iv = math.ceil(((spe - 5 - (2.7 * b_spe * (level/100))) * 100) / (level + 100))
+            # hp_iv = math.ceil(((hp - (level / 3) - (2.7 * b_hp * (level / 100))) * 100) / (level + 200))
 
-        # Konstanten entfernen
-        x = stat - (level // 2) - 8
+            # hp_iv = math.ceil(((hp - level - 10 - (2.7 * b_hp * (level / 100))) * 100) / (level + 100))
 
-        iv_min = math.ceil(
-            (x * 100) / level - (2 * base_stat + ev_eff)
-        )
+            # hp_iv = math.ceil((100 * (hp - level - 10) / level) - (2.7 * b_hp))
+            hp_iv = None
+            i = 0
 
-        iv_max = math.floor(
-            ((x + 1) * 100 - 1) / level - (2 * base_stat + ev_eff)
-        )
+            for iv in range(21):  # Loop through EV values from 0 to 20
+                hp_check = math.floor((((2.7 * b_hp) + iv + math.floor(evhp / 4)) * level / 100) + level + 10)
+                # print(f"Check{i} {hp_check} {iv}")
+                i += 1
+                if hp_check == hp:
+                    hp_iv = iv
+                    break
+            else:
+                hp_iv = 0
+                # print("Couldn't find match")
 
-        # IV-Grenzen erzwingen
-        iv_min = max(0, iv_min)
-        iv_max = min(15, iv_max)
-        print(f"Min {iv_min}, Max {iv_max}")
-        if iv_min > iv_max:
-            return []
 
-        return list(range(iv_min, iv_max + 1))
+            # print(atk_iv, def_iv, spd_iv)
+            if golden:
+                progress = round(((atk_iv + def_iv + spe_iv + hp_iv) / 80 ) * 100 , 2)
+            else:
+                progress = round(((atk_iv + def_iv + spe_iv + hp_iv) / 60 ) * 100 , 2)
+            name = ""
+            if golden:
+                name = "Golden "
+            if shiny:
+                name = "Shiny "
+            if mega:
+                name += "Mega "
+            name += dex_name
+
+            embed = await Custom_embed(
+                self.client, title = f"__Calculated IV's__", description = f"""Your IV progress is: **{progress}%**\n*Please note, this is not accurate for low levels*""", thumb = "https://hips.hearstapps.com/digitalspyuk.cdnds.net/16/28/1468492501-pokemon-computer.gif"
+            ).setup_embed()
+            embed.set_author(name=f"{name}", icon_url=f"{pic}")
+            embed.add_field(name="⠀", value=f'⚔ Atk: `{atk_iv}`\n🛡 Def: `{def_iv}`', inline=True)
+            embed.add_field(name="⠀", value=f'💖   HP: `{hp_iv}`\n⚡ Spe: `{spe_iv}`', inline=True)
+        return embed
 
 
 def setup(client):
