@@ -506,7 +506,7 @@ class Listener(commands.Cog):
                 #print(_embed.author.name)
                 Rare_Spawned = ["Event", "Legendary", "Shiny", "Golden"]
                 if _embed.footer:
-                    if "information on buddies" in _embed.footer.text():
+                    if "information on buddies" in _embed.footer.text:
                         asyncio.create_task(Methods.iv_check(self, message))
                 
                 if _embed.title:
