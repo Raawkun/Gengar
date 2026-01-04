@@ -17,7 +17,7 @@ class Methods(commands.Cog):
                 evs = entry.value
                 evatk= evs.split("`ATK` ")[1].split("`")[0]
                 print(evatk)
-                evatk=int(evatk[:-5])
+                evatk=int(evatk[:-1])
                 evdef=evs.split("`DEF` ")[1].split("`")[0]
                 evdef=int(evdef[:-6])
                 evhp=evs.split("`HP` ")[1].split("`")[0]
