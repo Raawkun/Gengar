@@ -64,27 +64,24 @@ class Methods(commands.Cog):
     def possible_ivs(base_stat: int, level: int, stat: int, ev: int):
         
         # Level-abhängiger EV-Term
-        ev_term = (ev // 4) * level // 100
+        # Level-abhängiger EV-Term
+        ev_eff = (ev // 4) * level // 100
 
-        x = stat - 5
+        # Konstanten entfernen
+        x = stat - (level // 2) - 8
 
         iv_min = math.ceil(
-            (x * 100) / level - (2 * base_stat + ev_term)
+            (x * 100) / level - (2 * base_stat + ev_eff)
         )
-        print("IV MIN")
-        print(iv_min)
+
         iv_max = math.floor(
-            ((x + 1) * 100 - 1) / level - (2 * base_stat + ev_term)
+            ((x + 1) * 100 - 1) / level - (2 * base_stat + ev_eff)
         )
-        print("IV MAX")
-        print(iv_max)
 
-        # IV-Bereich erzwingen
+        # IV-Grenzen erzwingen
         iv_min = max(0, iv_min)
-        print(iv_min)
         iv_max = min(15, iv_max)
-        print(f"{iv_min},{iv_max}")
-
+        print(f"Min {iv_min}, Max {iv_max}")
         if iv_min > iv_max:
             return []
 
