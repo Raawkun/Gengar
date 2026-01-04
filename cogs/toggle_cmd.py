@@ -4,8 +4,8 @@ import disnake
 from disnake import Option, OptionChoice
 from disnake.ext import commands
 
-toggles = ["Grazz","Repel","Starter","Linked","Emotes","ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","Ping"]
-functions = ["Grazz", "Repel","Starter","Linked","Emotes","Ping"]
+toggles = ["Grazz","Repel","Starter","Linked","Emotes","ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","Ping","IV"]
+functions = ["Grazz", "Repel","Starter","Linked","Emotes","Ping", "IV"]
 reminders = ["ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers"]
 #Reminder Buttons
 class Remd_Buttons(disnake.ui.Button):
