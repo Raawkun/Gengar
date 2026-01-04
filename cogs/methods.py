@@ -55,7 +55,7 @@ class Methods(commands.Cog):
                     self.client, title = f"__Calculated IV's__", description = f"""This pokemon is not currently in the database.  Please use `/pokedex entry (mon name)` to add it."""
                 ).setup_embed()
                 await message.channel.send(embed=embed)
-                exit
+                return
             else:
                 for row in dex:
                     b_atk = row[5]
