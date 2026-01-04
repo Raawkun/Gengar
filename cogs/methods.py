@@ -13,7 +13,7 @@ class Methods(commands.Cog):
         embed = message.embeds[0]
         level = 0
         atk = 0
-        def = 0
+        defe = 0
         hp = 0
         spatk = 0
         spdef = 0
