@@ -77,7 +77,7 @@ class Listener(commands.Cog):
             for entry in rems:
                 now = int(datetime.datetime.now().timestamp())-entry[3]
                 if now > 0:
-                    Reminders.create_tracked_task(self, Listener.sofi_rem(Listener,entry[0],entry[1],entry[2],now))
+                    Reminders.create_tracked_task(self, Listener.sofi_rem(self,entry[0],entry[1],entry[2],now))
                 else:
                     cursor.execute(f"DELETE FROM Sofi WHERE Timestamp = {entry[3]}")
                     db.commit()
