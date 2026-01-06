@@ -75,7 +75,7 @@ class Listener(commands.Cog):
             rems = cursor.execute("SELECT * FROM Sofi ORDER BY Timestamp ASC")
             rems = rems.fetchall()
             for entry in rems:
-                now = int(datetime.datetime.now().timestamp())-entry[3]
+                now = entry[3]-int(datetime.datetime.now().timestamp())
                 print(entry[3])
                 print(now)
                 if now > 0:
