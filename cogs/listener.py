@@ -76,6 +76,8 @@ class Listener(commands.Cog):
             rems = rems.fetchall()
             for entry in rems:
                 now = int(datetime.datetime.now().timestamp())-entry[3]
+                print(entry[3])
+                print(now)
                 if now > 0:
                     Reminders.create_tracked_task(self, Listener.sofi_rem(self,entry[0],entry[1],entry[2],now))
                 else:
