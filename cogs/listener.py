@@ -97,7 +97,7 @@ class Listener(commands.Cog):
             print(f"Waiting for a series drop for {wait} seconds....")
             await asyncio.sleep(wait)
             print("Waiting is over...")
-            await channel.send(f"<@{user_id}> ``SSeriesDrop``` is ready")
+            await channel.send(f"<@{user_id}> ``SSeriesDrop`` is ready")
             self.db.execute(f"DELETE FROM Sofi WHERE User_ID = {user_id} AND Mode = 'series'")
             self.db.commit()
     
@@ -974,7 +974,7 @@ class Listener(commands.Cog):
                         #print("Aha, battling.")
                         if "xmas blue** to a battle" in _embed.description.lower():
                             asyncio.create_task(Modules.adamannpc(self, message))
-                        #asyncio.create_task(Modules.darktest(self, message))
+                        asyncio.create_task(Modules.darktest(self, message))
                         await asyncio.sleep(59)
                         datarem = self.db.execute(f'SELECT * FROM Toggle WHERE User_ID = {sender.id}')
                         datarem = datarem.fetchone()
