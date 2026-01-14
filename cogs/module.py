@@ -45,38 +45,38 @@ class Modules(commands.Cog):
         await asyncio.sleep(1800)
         await message.channel.send(f"<@{sender.id}> - Trainer **Xmas Blue** ``962``is ready for the next battle.\n**Don't forget to set the right team!!!** <:493:1213076751559819294>")
 
-    # async def darktest(self, message):
-    #     if message.reference:
-    #         ref_msg = await message.channel.fetch_message(message.reference.message_id)
-    #         sender = ref_msg.author
-    #     elif message.interaction:
-    #         sender = message.interaction.author
-    #     if sender.id == 475664587736481792 or sender.id == 352224989367369729:
-    #         #print("Sjaap battle - testing for Dark mons.")
-    #         if len(message.embeds)>0:
-    #             emb = message.embeds[0]
-    #             #print("Has an embed.")
-    #             if emb.description:
-    #                 #print("Has a description.")
-    #                 opponent = emb.description.split("challenged ")[1]
-    #                 opponent = opponent.split("**")[1]
-    #                 #print(opponent)
-    #                 mons = emb.description.split(opponent)[2]
+    async def darktest(self, message):
+        if message.reference:
+            ref_msg = await message.channel.fetch_message(message.reference.message_id)
+            sender = ref_msg.author
+        elif message.interaction:
+             sender = message.interaction.author
+        if sender.id == 475664587736481792 or sender.id == 352224989367369729:
+             #print("Sjaap battle - testing for Dark mons.")
+         if len(message.embeds)>0:
+                emb = message.embeds[0]
+                #print("Has an embed.")
+                if emb.description:
+                    #print("Has a description.")
+                    opponent = emb.description.split("challenged ")[1]
+                    opponent = opponent.split("**")[1]
+                    #print(opponent)
+                    mons = emb.description.split(opponent)[2]
     #                 #print(mons)
-    #                 mon = [mons.split(":")[1], mons.split(":")[3], mons.split(":")[5]]
+                    mon = [mons.split(":")[1], mons.split(":")[3], mons.split(":")[5]]
     #                 #print(mon)
-    #                 #await message.channel.send(mon)
+                    #await message.channel.send(mon)
     #                 desc = ""
-    #                 i = 1
-    #                 for entry in mon:
-    #                     dex = self.db.execute(f'SELECT DexID, Name, Type_1, Type_2 FROM Dex WHERE DexID = {entry}')
-    #                     dex = dex.fetchone()
+                    i = 1
+                    for entry in mon:
+                        dex = self.db.execute(f'SELECT DexID, Name, Type_1, Type_2 FROM Dex WHERE DexID = {entry}')
+                        dex = dex.fetchone()
     #                     #print(dex)
-    #                     if dex[2] == "darktype" or dex[3] == "darktype":
-    #                         desc += f"Team-number {i}: {dex[1]} is a Dark type Pokémon.\n"
-    #                     i = i + 1
-    #                 if desc != "":
-    #                     await message.reply(f"<@{sender.id}>\n{desc}")
+                        if dex[2] == "darktype" or dex[3] == "darktype":
+                            desc += f"Team-number {i}: {dex[1]} is a Dark type Pokémon.\n"
+                        i = i + 1
+                    if desc != "":
+                        await message.reply(f"<@{sender.id}>\n{desc}")
 
     async def averagecoins(self, message):
         #print("Someone caught.")
