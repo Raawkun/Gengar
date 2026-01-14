@@ -62,11 +62,11 @@ class Modules(commands.Cog):
                     opponent = opponent.split("**")[1]
                     #print(opponent)
                     mons = emb.description.split(opponent)[2]
-    #                 #print(mons)
+                    print(mons)
                     mon = [mons.split(":")[1], mons.split(":")[3], mons.split(":")[5]]
-    #                 #print(mon)
+                    print(mon)
                     #await message.channel.send(mon)
-    #                 desc = ""
+                    desc = ""
                     i = 1
                     for entry in mon:
                         dex = self.db.execute(f'SELECT DexID, Name, Type_1, Type_2 FROM Dex WHERE DexID = {entry}')
