@@ -52,6 +52,7 @@ class On_Edit(commands.Cog):
                         emoji = "<a:GengarClapping:1378680505775558708>"
                         await after.add_reaction(emoji)
                         return
+                    
                     if (len(after.embeds) > 0):
                         _embed = after.embeds[0]
                         color = _embed.color
