@@ -303,7 +303,56 @@ class Listener(commands.Cog):
                     next_bd = datetime.datetime(current_time.year+1, 9,10,tzinfo=current_time.tzinfo)
                     next = next_bd - current_time
                     await message.reply(f"Thx <@{message.author.id}>, but my birthday is October 9th, so in {next.days} days.")
-                
+        
+        #squirtle code
+        role_name = "Clan Owner"
+        for role in message.author.roles:
+            if role.name == role_name:
+                if message.content.lower() == "ft":
+                    await message.channel.send("<#825817765432131615> <#890255606219431946>")
+
+        
+        channel_ids = [827551577698730015, 1035256982485094530, 1079569286235959296, 920260648045273088, 1028441789448867880, 955100117902442496, 825826678986637352, 825922247608500224]
+        if message.channel.id in channel_ids:
+            if message.content.lower() == ";p":
+                await asyncio.sleep(2)
+                await message.channel.send(f"{message.author.mention} Don't grind here, ya silly goose!")
+
+        if "vibing squirtle" in message.content.lower():
+            await message.channel.send("https://tenor.com/view/squirtle-sax-squirtle-epic-sax-gif-9114541324807947557")
+
+        if re.search(r'\bwoo\b', message.content, re.IGNORECASE):
+            await message.channel.send("Wooooooooooo!")
+            
+        # EV easy access trainer battles
+
+# HP EV
+        if message.content.lower() == "<@944714684911726602>":
+            await message.channel.send("`;b user 944714684911726602`")
+
+# ATK EV
+        if message.content.lower() == "<@944715198965637190>":
+            await message.channel.send("`;b user 944715198965637190`")
+
+# DEF EV
+        if message.content.lower() == "<@947665356347039745>":
+            await message.channel.send("`;b user 947665356347039745`")
+
+# SP ATK EV
+        if message.content.lower() == "<@957789591308492891>":
+            await message.channel.send("`;b user 957789591308492891`")
+
+# SP DEF EV
+        if message.content.lower() == "<@957790330042871848>":
+            await message.channel.send("`;b user 957790330042871848`")
+
+# SPEED EV
+        if message.content.lower() == "<@987069732832292865>":
+            await message.channel.send("`;b user 987069732832292865`")
+
+            
+        #Continue with my own code
+        
         if message.content.lower() == "trygoogle":
             await message.delete()
             await message.channel.send("https://tenor.com/bUYzH.gif")
