@@ -24,18 +24,20 @@ class Methods(commands.Cog):
             for entry in embed.fields:
                 if "**Pokémon EVs** " in entry.name:
                     evs = entry.value
-                    evatk= evs.split("`ATK` ")[1].split("`")[0]
-                    evatk=int(evatk[:-1])
-                    evdef=evs.split("`DEF` ")[1].split("`")[0]
-                    evdef=int(evdef[:-1])
-                    evhp=evs.split("`HP` ")[1].split("`")[0]
-                    evhp=int(evhp[:-1])
-                    evspatk=evs.split("`SPA` ")[1].split("`")[0]
-                    evspatk=int(evspatk[:-1])
-                    evspdef=evs.split("`SPD` ")[1].split("`")[0]
-                    evspdef=int(evspdef[:-1])
-                    evspeed=evs.split("`SPE` ")[1]
-                    evspeed=int(evspeed[:-1])
+                    print(evs)
+                    evatk= evs.split("`ATK` **  ")[1].split("**")[0]
+                    print(evatk)
+                    evatk=int(evatk)
+                    evdef=evs.split("`DEF` **  ")[1].split("**")[0]
+                    evdef=int(evdef)
+                    evhp=evs.split("`HP` **  ")[1].split("**")[0]
+                    evhp=int(evhp)
+                    evspatk=evs.split("`SPA` ")[1].split("**")[0]
+                    evspatk=int(evspatk)
+                    evspdef=evs.split("`SPD` ")[1].split("**")[0]
+                    evspdef=int(evspdef)
+                    evspeed=evs.split("`SPE` ")[1].split("**")[0]
+                    evspeed=int(evspeed)
                 if "**Pokémon Stats**" in entry.name:
                     stats = entry.value
                     atk = int(stats.split("`Atk` : ")[1].split("\n")[0])
