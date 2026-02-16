@@ -39,7 +39,9 @@ class Methods(commands.Cog):
                     defe = int(stats.split("`Def` : ")[1].split("\n")[0])
                     hp = int(stats.split("`HP`\u200b: ")[1])
                 if "\u200b" in entry.name:
+                    print(entry.value)
                     if "`DEF` **  " in entry.value:
+                        evs=entry.value
                         evdef=evs.split("`DEF` **  ")[1].split("**")[0]
                         evdef=int(evdef)
                         evspdef=evs.split("`SPD` ")[1].split("**")[0]
