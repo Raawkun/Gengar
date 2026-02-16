@@ -456,10 +456,7 @@ class Listener(commands.Cog):
                     await message.reply(f"Oh wow - looks like you've found a promo item! Congratulations!")
             if "** released " in message.content.lower():
                 asyncio.create_task(Modules.dailycheck(self,message))
-            if "here are your rewards for the " in message.content.lower():
-                asyncio.create_task(Modules.dailycheck(self, message))
-                if "you obtained a" in message.content.lower():
-                    asyncio.create_task(Rare_spawns.wb_spawn(self, message))
+            
             if "used a code to claim" in message.content:
                 monname = message.content.split("**")[1]
                 print(monname)
@@ -566,6 +563,10 @@ class Listener(commands.Cog):
                     if "from all of your offers" in _embed.title:
                         print("Market calculate")
                         asyncio.create_task(Modules.dailycheck(self, message))
+                    if "here are your rewards for the " in _embed.title.lower():
+                        asyncio.create_task(Modules.dailycheck(self, message))
+                        if "you obtained a" in _embed.title.lower():
+                            asyncio.create_task(Rare_spawns.wb_spawn(self, message))
                 if _embed.author:
                     if "special golden" in _embed.author.name.lower():
                         try:
