@@ -633,9 +633,7 @@ class Coms(commands.Cog):
         #print(overseen.content)
         if overseen:
             Rare_Spawns = ["Event", "Legendary", "Shiny","Golden"]
-            if "you obtained a" in overseen.content.lower():
-                print("World Boss rare spawn")
-                asyncio.create_task(Rare_spawns.wb_spawn(self, overseen))
+        
             if "from completing challenge" in overseen.content:
                 asyncio.create_task(Rare_spawns.chamber_claim(self, overseen))
             if "just hatched ..." in overseen.content:
@@ -644,6 +642,10 @@ class Coms(commands.Cog):
                 asyncio.create_task(Rare_spawns.one_egg(self, overseen))
             if len(overseen.embeds) > 0:
                 _embed = overseen.embeds[0]
+                if "here are your rewards for the" in _embed.title.lower():
+                    if "you obtained a" in _embed.description.lower():
+                        print("World Boss rare spawn")
+                        asyncio.create_task(Rare_spawns.wb_spawn(self, overseen))
                 if "claimed a <:Golden" in _embed.description:
                     asyncio.create_task(Rare_spawns.gold_spawn(self, overseen))
                 if "pokemon roll" in _embed.footer.text.lower():
