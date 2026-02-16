@@ -641,8 +641,10 @@ class Coms(commands.Cog):
             if "just hatched a " in overseen.content:
                 asyncio.create_task(Rare_spawns.one_egg(self, overseen))
             if len(overseen.embeds) > 0:
+                print("Embed in check...")
                 _embed = overseen.embeds[0]
-                if "here are your rewards for the" in _embed.title.lower():
+                if "Here are your rewards for the" in _embed.title:
+                    print("It was a world boss...)
                     if "you obtained a" in _embed.description.lower():
                         print("World Boss rare spawn")
                         asyncio.create_task(Rare_spawns.wb_spawn(self, overseen))
