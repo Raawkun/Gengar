@@ -235,7 +235,8 @@ class Rare_spawns(commands.Cog):
         elif message.interaction_metadata:
             ref_msg = message.interaction_metadata.user
             sender = ref_msg
-        name = message.content.split("You obtained a <:")[1]
+        embe = message.embeds[0]
+        name = embe.description.split("You obtained a <:")[1]
         name = name.split("**")[1]
         print(name)
         data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
