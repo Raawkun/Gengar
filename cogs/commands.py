@@ -644,7 +644,7 @@ class Coms(commands.Cog):
                 print("Embed in check...")
                 _embed = overseen.embeds[0]
                 if "Here are your rewards for the" in _embed.title:
-                    print("It was a world boss...)
+                    print("It was a world boss...")
                     if "you obtained a" in _embed.description.lower():
                         print("World Boss rare spawn")
                         asyncio.create_task(Rare_spawns.wb_spawn(self, overseen))
