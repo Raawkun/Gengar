@@ -28,26 +28,29 @@ class Methods(commands.Cog):
                     evatk= evs.split("`ATK` **  ")[1].split("**")[0]
                     print(evatk)
                     evatk=int(evatk)
-                    evdef=evs.split("`DEF` **  ")[1].split("**")[0]
-                    evdef=int(evdef)
                     evhp=evs.split("`HP` **  ")[1].split("**")[0]
                     evhp=int(evhp)
                     evspatk=evs.split("`SPA` ")[1].split("**")[0]
                     evspatk=int(evspatk)
-                    evspdef=evs.split("`SPD` ")[1].split("**")[0]
-                    evspdef=int(evspdef)
-                    evspeed=evs.split("`SPE` ")[1].split("**")[0]
-                    evspeed=int(evspeed)
+                    
                 if "**Pokémon Stats**" in entry.name:
                     stats = entry.value
                     atk = int(stats.split("`Atk` : ")[1].split("\n")[0])
                     defe = int(stats.split("`Def` : ")[1].split("\n")[0])
                     hp = int(stats.split("`HP`\u200b: ")[1])
                 if "\u200b" in entry.name:
-                    stats = entry.value
-                    spatk = int(stats.split("`Sp.Atk` : ")[1].split("\n")[0])
-                    spdef = int(stats.split("`Sp.Def` : ")[1].split("\n")[0])
-                    speed = int(stats.split("`Speed`\u200b: ")[1])
+                    if "`DEF` **  " in entry.value:
+                        evdef=evs.split("`DEF` **  ")[1].split("**")[0]
+                        evdef=int(evdef)
+                        evspdef=evs.split("`SPD` ")[1].split("**")[0]
+                        evspdef=int(evspdef)
+                        evspeed=evs.split("`SPE` ")[1].split("**")[0]
+                        evspeed=int(evspeed)
+                    else:
+                        stats = entry.value
+                        spatk = int(stats.split("`Sp.Atk` : ")[1].split("\n")[0])
+                        spdef = int(stats.split("`Sp.Def` : ")[1].split("\n")[0])
+                        speed = int(stats.split("`Speed`\u200b: ")[1])
             image = embed.image.url
             try:
                 dex = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
