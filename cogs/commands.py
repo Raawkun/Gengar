@@ -628,7 +628,7 @@ class Coms(commands.Cog):
             else:
                 await ctx.reply("Please reply to a message.")
         overseen = await channel.fetch_message(id)
-        #print(overseen)
+        print(overseen)
         #print("...")
         #print(overseen.content)
         if overseen:
