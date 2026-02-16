@@ -48,8 +48,9 @@ class Methods(commands.Cog):
                         evspdef=int(evspdef)
                         evspeed=evs.split("`SPE` **  ")[1].split("**")[0]
                         evspeed=int(evspeed)
-                    else:
+                    elif ":shield:" in entry.value:
                         stats = entry.value
+                        print(stats)
                         defe = int(stats.split("`Def` **")[1].split("**")[0])
                         spdef = int(stats.split("`SpD` **")[1].split("**")[0])
                         speed = int(stats.split("`Spe` **")[1]).split("**")[0]
