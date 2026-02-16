@@ -30,7 +30,7 @@ class Methods(commands.Cog):
                     evatk=int(evatk)
                     evhp=evs.split("`HP` **  ")[1].split("**")[0]
                     evhp=int(evhp)
-                    evspatk=evs.split("`SPA` ")[1].split("**")[0]
+                    evspatk=evs.split("`SPA` **  ")[1].split("**")[0]
                     evspatk=int(evspatk)
                     
                 if "**Pokémon Stats**" in entry.name:
