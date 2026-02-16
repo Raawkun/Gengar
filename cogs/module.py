@@ -254,13 +254,7 @@ class Modules(commands.Cog):
                 print(f"Release coins: {coins}")
                 self.db.execute(f"UPDATE DailyStats SET CoinRelease = CoinRelease + {coins} WHERE Date = '{date}'")
                 self.db.commit()
-            #CoinWorldBoss
-            if "here are your rewards for the " in message.content.lower():
-                coins = message.content.split("PokeCoins earned: <:PokeCoin:666879070650236928> ")[1]
-                coins = int(coins.split()[0].replace(",",""))
-                print(f"Worldboss coins: {coins}")
-                self.db.execute(f"UPDATE DailyStats SET CoinWorldBoss = CoinWorldBoss + {coins} WHERE Date = '{date}'")
-                self.db.commit()
+            
             if (len(message.embeds)>0):
                 emb = message.embeds[0]
                 if emb.footer:
@@ -303,6 +297,13 @@ class Modules(commands.Cog):
                         coins = int(emb.title.split("**")[1].replace(",",""))
                         #print(f"Market coins: {coins}")
                         self.db.execute(f"UPDATE DailyStats SET CoinMarket = CoinMarket + {coins} WHERE Date = '{date}'")
+                        self.db.commit()
+                #CoinWorldBoss
+                    if "here are your rewards for the " in emd.title.lower():
+                        coins = emb.description.split("PokeCoins earned: <:PokeCoin:666879070650236928> ")[1]
+                        coins = int(coins.split()[0].replace(",",""))
+                        print(f"Worldboss coins: {coins}")
+                        self.db.execute(f"UPDATE DailyStats SET CoinWorldBoss = CoinWorldBoss + {coins} WHERE Date = '{date}'")
                         self.db.commit()
             
     def generate_size():
