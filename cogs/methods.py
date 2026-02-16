@@ -53,7 +53,7 @@ class Methods(commands.Cog):
                         print(stats)
                         defe = int(stats.split("`Def` **")[1].split("**")[0])
                         spdef = int(stats.split("`SpD` **")[1].split("**")[0])
-                        speed = int(stats.split("`Spe` **")[1]).split("**")[0]
+                        speed = int(stats.split("`Spe` **")[1].split("**")[0])
             image = embed.image.url
             try:
                 dex = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
