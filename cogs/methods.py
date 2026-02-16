@@ -35,9 +35,9 @@ class Methods(commands.Cog):
                     
                 if "**Pokémon Stats**" in entry.name:
                     stats = entry.value
-                    atk = int(stats.split("`Atk` : ")[1].split("\n")[0])
-                    defe = int(stats.split("`Def` : ")[1].split("\n")[0])
-                    hp = int(stats.split("`HP`\u200b: ")[1])
+                    atk = int(stats.split("`Atk` **")[1].split("**")[0])
+                    spatk = int(stats.split("`SpA` **")[1].split("**")[0])
+                    hp = int(stats.split("`HP` **")[1].split("**")[0])
                 if "\u200b" in entry.name:
                     print(entry.value)
                     if "`DEF` **  " in entry.value:
@@ -50,9 +50,9 @@ class Methods(commands.Cog):
                         evspeed=int(evspeed)
                     else:
                         stats = entry.value
-                        spatk = int(stats.split("`Sp.Atk` : ")[1].split("\n")[0])
-                        spdef = int(stats.split("`Sp.Def` : ")[1].split("\n")[0])
-                        speed = int(stats.split("`Speed`\u200b: ")[1])
+                        defe = int(stats.split("`Def` **")[1].split("**")[0])
+                        spdef = int(stats.split("`SpD` **")[1].split("**")[0])
+                        speed = int(stats.split("`Spe` **")[1]).split("**")[0]
             image = embed.image.url
             try:
                 dex = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
