@@ -44,9 +44,9 @@ class Methods(commands.Cog):
                         evs=entry.value
                         evdef=evs.split("`DEF` **  ")[1].split("**")[0]
                         evdef=int(evdef)
-                        evspdef=evs.split("`SPD` ")[1].split("**")[0]
+                        evspdef=evs.split("`SPD` **  ")[1].split("**")[0]
                         evspdef=int(evspdef)
-                        evspeed=evs.split("`SPE` ")[1].split("**")[0]
+                        evspeed=evs.split("`SPE` **  ")[1].split("**")[0]
                         evspeed=int(evspeed)
                     else:
                         stats = entry.value
