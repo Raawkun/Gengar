@@ -25,12 +25,12 @@ class Methods(commands.Cog):
                 if "**Pokémon EVs** " in entry.name:
                     evs = entry.value
                     print(evs)
-                    evatk= evs.split("`ATK` **  ")[1].split("**")[0]
+                    evatk= evs.split("`ATK` **")[1].split("**")[0].replace(" ","")
                     print(evatk)
                     evatk=int(evatk)
-                    evhp=evs.split("`HP` **  ")[1].split("**")[0]
+                    evhp=evs.split("`HP` **")[1].split("**")[0].replace(" ","")
                     evhp=int(evhp)
-                    evspatk=evs.split("`SPA` **  ")[1].split("**")[0]
+                    evspatk=evs.split("`SPA` **")[1].split("**")[0].replace(" ","")
                     evspatk=int(evspatk)
                     
                 if "**Pokémon Stats**" in entry.name:
@@ -42,11 +42,11 @@ class Methods(commands.Cog):
                     print(entry.value)
                     if "`DEF` **  " in entry.value:
                         evs=entry.value
-                        evdef=evs.split("`DEF` **  ")[1].split("**")[0]
+                        evdef=evs.split("`DEF` **")[1].split("**")[0].replace(" ","")
                         evdef=int(evdef)
-                        evspdef=evs.split("`SPD` **  ")[1].split("**")[0]
+                        evspdef=evs.split("`SPD` **")[1].split("**")[0].replace(" ","")
                         evspdef=int(evspdef)
-                        evspeed=evs.split("`SPE` **  ")[1].split("**")[0]
+                        evspeed=evs.split("`SPE` **")[1].split("**")[0].replace(" ","")
                         evspeed=int(evspeed)
                     elif ":shield:" in entry.value:
                         stats = entry.value
