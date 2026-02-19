@@ -8,7 +8,6 @@ import json
 from sqlite3 import connect
 from utility.johto.johto_checks import ChecksOfJohto
 from utility.johto.mon_cmd import Mon_Cmd
-from utility.johto.timerchecks import TimerChecks
 from utility.info_dict import regions
 from utility.embed import Custom_embed
 # from utility.cogs.promo_check import Promo_check_odds
