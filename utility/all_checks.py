@@ -7,6 +7,7 @@ import disnake
 import time
 import datetime
 from datetime import datetime, timedelta
+from utility.johto.johto_checks import ChecksOfJohto
 
 import random
 
@@ -53,9 +54,18 @@ class Basic_checker:
             return(False)
 
     async def check_station_channel(self, ctx):
-        if ctx.channel.id == 1079409997496193145:
+        if ctx.channel.id == 1207680838272294952:
             return(True)
         else:
-            await ctx.send("You can't use that in here, you must go to <#1079409997496193145>", ephemeral=True)
+            await ctx.send("You can't use that in here, you must go to <#1207680838272294952>", ephemeral=True)
             return(False)
+        
+    async def check_travel_channel(self, ctx):
+        locations = await ChecksOfJohto.travel_locations()
+        for location, numbers in locations.items():
+            if ctx.channel.id in numbers:
+                return True
+                
+        await ctx.send("This command only works in the Johto region, you have no phone reception here", ephemeral=True)
+        return False
         

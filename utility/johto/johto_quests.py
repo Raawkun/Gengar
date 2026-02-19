@@ -1,0 +1,331 @@
+import asyncio
+import datetime
+import random
+from sqlite3 import connect
+from disnake.ext import commands
+
+from utility.johto.johto_checks import ChecksOfJohto
+
+class QuestsOfJohto(commands.Cog):
+    def __init__(self, client):
+        self.client = client
+        self.db = connect("database.db")
+
+    async def newbark_quest(self, image, user, before):
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        mons_needed = await ChecksOfJohto.newbark_check()
+        region = "Johto"
+        check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
+        check_db = check_db.fetchone()
+        db_stats = self.db.execute(f"SELECT Permission FROM Ticket WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = db_stats.fetchone()
+        db_newbark = self.db.execute(f'SELECT Newbark_Quest FROM Johto Where User_ID = {user.id}')
+        db_newbark = db_newbark.fetchone()
+        current_score = db_newbark[0]
+        new_perm = 1
+        msg = ""
+        if current_score >= mons_needed or db_stats[0] != 0:
+            return
+        elif check_db[16] == region:
+            if (current_score + 1) == mons_needed:
+                self.db.execute(f"UPDATE Ticket SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
+                self.db.execute(f"UPDATE User SET tour_coins += 15 WHERE User-ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Newbark_Quest = Newbark_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+                place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
+                msg = f"{user.mention} Congratulations, you caught enough johto Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                sent_msg = await before.channel.send(msg)
+                await asyncio.sleep(5)
+                await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+            else:
+                self.db.execute(f"UPDATE Johto SET Newbark_Quest = Newbark_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+    
+    async def cherrygrove_quest(self, user, before):
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        day = datetime.datetime.today().weekday()
+        if day < 5: # Normal day rates
+            check = 450
+        else: # 5 Sat, 6 Sun.  Weekend bonus rates
+            check = 350
+        num = random.randint(1, check)
+        shoe_emote = "<:running_shoes:1233480002264236032>"
+        gear_emote= "<:pokegear:1233479856868692068>"
+        db_stats = self.db.execute(f'SELECT Permission FROM Tickets Where User_ID = {user.id} AND Region_ID = 2')
+        db_stats = db_stats.fetchone()
+        msg = ""
+        new_perm = 2
+        shoes_needed, pokegear_needed = await ChecksOfJohto.cherrygrove_check()
+        db_pallet = self.db.execute(f'SELECT Running_Shoes, Pokegear FROM Johto Where User_ID = {user.id}')
+        db_pallet = db_pallet.fetchone()
+        if num == 1 and db_stats[0] == 1:
+            if db_pallet[0] < shoes_needed:
+                if (db_pallet[0] + 1) == shoes_needed:
+                    self.db.execute(f'UPDATE Johto SET Running_Shoes = 1 WHERE User_ID = {user.id}')
+                    self.db.commit()
+                    msg = f"{user.mention} You found a pair of Running Shoes {shoe_emote}**!!!"
+                    await before.channel.send(msg)
+        if num == 2 and db_stats[0] == 1:
+            if db_pallet[1] < pokegear_needed:
+                if (db_pallet[1] + 1) == pokegear_needed:
+                    self.db.execute(f'UPDATE Johto SET Pokegear =  1 WHERE User_ID = {user.id}')
+                    self.db.commit()
+                    msg = f"{user.mention} You found a brand new Pokégear {gear_emote}**!!!"
+                    await before.channel.send(msg)
+        db_cherry = self.db.execute(f'SELECT Running_Shoes, Pokegear FROM Johto Where User_ID = {user.id}')
+        db_cherry = db_cherry.fetchone()
+        if db_cherry[0] == 1 and db_cherry[1] == 1:
+            place = list(ticket_check.keys())[list(ticket_check.values()).index(db_pallet[4] + 1)]
+            msg = f"{user.mention} Congratulations, you completed the Cherrygrove City quest by finding a Pokégear {gear_emote} and a pair of Running Shoes {shoe_emote}, you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+            sent_msg = await before.channel.send(msg)
+            self.db.execute(f'UPDATE Tickets SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2')
+            self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+            self.db.commit()
+            await asyncio.sleep(5)
+            await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+
+    async def violet_quest(self, image, user, before):
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        mons_needed = await ChecksOfJohto.violet_check()
+        type = "grass"
+        check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
+        check_db = check_db.fetchone()
+        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = db_stats.fetchone()
+        db_newbark = self.db.execute(f'SELECT Violet_Quest FROM Johto Where User_ID = {user.id}')
+        db_newbark = db_newbark.fetchone()
+        current_score = db_newbark[0]
+        new_perm = 3
+        msg = ""
+        if current_score >= mons_needed or db_stats[0] != 2:
+            return
+        elif check_db[2] == type or check_db[3] == type:
+            if (current_score + 1) == mons_needed:
+                self.db.execute(f"UPDATE Tickets SET Permissions = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
+                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Violet_Quest = Violet_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+                place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
+                msg = f"{user.mention} Congratulations, you caught enough grass Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                sent_msg = await before.channel.send(msg)
+                await asyncio.sleep(5)
+                await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+            else:
+                self.db.execute(f"UPDATE Johto SET Violet_Quest = Violet_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+                
+    async def azalea_quest(self, image, user, before):
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        mons_needed, mon_id = await ChecksOfJohto.azalea_check()
+        check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
+        check_db = check_db.fetchone()
+        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = db_stats.fetchone()
+        db_newbark = self.db.execute(f'SELECT Azalea_Quest FROM Johto Where User_ID = {user.id}')
+        db_newbark = db_newbark.fetchone()
+        current_score = db_newbark[0]
+        new_perm = 4
+        msg = ""
+        if current_score >= mons_needed or db_stats[0] != 3:
+            return
+        elif check_db[0] == mon_id:
+            if (current_score + 1) == mons_needed:
+                self.db.execute(f"UPDATE Tickets SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
+                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Azalea_Quest = Azalea_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+                place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
+                msg = f"{user.mention} Congratulations, you caught enough Slowpokes to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                sent_msg = await before.channel.send(msg)
+                await asyncio.sleep(5)
+                await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+            else:
+                self.db.execute(f"UPDATE Johto SET Azalea_Quest = Azalea_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit() 
+
+    async def goldenrod_quest(self, user, after):
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        coins_needed = await ChecksOfJohto.goldenrod_check()
+        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = db_stats.fetchone()
+        db_newbark = self.db.execute(f'SELECT Goldenrod_Quest FROM Johto Where User_ID = {user.id}')
+        db_newbark = db_newbark.fetchone()
+        coins_obtained = db_newbark[0].split(",")
+        coin_score = 0
+        if len(after.embeds) > 0:
+            _embed = after.embed[0]
+            if "You earned " in _embed.footer.text:
+                coin_score = _embed.footer.text.split("You earned ")[1]
+                coin_score = (coin_score.split(" ")[0]).replace(",", "")
+        new_perm = 5
+        msg = ""
+        if (coin_score in coins_needed and coin_score in coins_obtained) or db_stats[0] != 4:
+            return
+        elif (coin_score in coins_needed) and (coin_score not in coins_obtained) and db_stats[0] == 4:
+            coins_obtained.append(coin_score)
+            total = ','.join(coins_obtained)
+            self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = {total} WHERE User_ID = {user.id}")
+            self.db.commit()
+        if sorted(coins_obtained) == coins_needed:
+            self.db.execute(f"UPDATE Tickets SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
+            self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+            self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = {coins_needed} WHERE User_ID = {user.id}")
+            self.db.commit()
+            place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
+            msg = f"{user.mention} Congratulations, you hit the final jackpot with that catch and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+            sent_msg = await after.channel.send(msg)
+            await asyncio.sleep(5)
+            await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+
+    async def ecruteak_quest(self, image, user, before):
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        mons_needed = await ChecksOfJohto.ecruteak_check()
+        type = "fire"
+        check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
+        check_db = check_db.fetchone()
+        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = db_stats.fetchone()
+        db_newbark = self.db.execute(f'SELECT Ecruteak_Quest FROM Johto Where User_ID = {user.id}')
+        db_newbark = db_newbark.fetchone()
+        current_score = db_newbark[0]
+        new_perm = 6
+        msg = ""
+        if current_score >= mons_needed or db_stats[0] != 5:
+            return
+        elif check_db[2] == type or check_db[3] == type:
+            if (current_score + 1) == mons_needed:
+                self.db.execute(f"UPDATE Tickets SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
+                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Ecruteak_Quest = Ecruteak_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+                place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
+                msg = f"{user.mention} Congratulations, you caught enough fire Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                sent_msg = await before.channel.send(msg)
+                await asyncio.sleep(5)
+                await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+            else:
+                self.db.execute(f"UPDATE Johto SET Ecruteak_Quest = Ecruteak_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+
+    async def olivine_quest(self, image, user, before):
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        mons_needed = await ChecksOfJohto.olivine_check()
+        type = "electric"
+        check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
+        check_db = check_db.fetchone()
+        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = db_stats.fetchone()
+        db_newbark = self.db.execute(f'SELECT Olivine_Quest FROM Johto Where User_ID = {user.id}')
+        db_newbark = db_newbark.fetchone()
+        current_score = db_newbark[0]
+        new_perm = 7
+        msg = ""
+        if current_score >= mons_needed or db_stats[0] != 6:
+            return
+        elif check_db[2] == type or check_db[3] == type:
+            if (current_score + 1) == mons_needed:
+                self.db.execute(f"UPDATE Tickets SET Permission = {new_perm}, WHERE User_ID = {user.id } AND Region_ID = 2")
+                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Olivine_Quest = Olivine_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+                place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
+                msg = f"{user.mention} Congratulations, you caught enough electric Pokémon to help power the city again and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                sent_msg = await before.channel.send(msg)
+                await asyncio.sleep(5)
+                await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+            else:
+                self.db.execute(f"UPDATE Johto SET Olivine_Quest = Olivine_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+
+    async def cianwood_quest(self, image, user, before):
+        safari_mons, mons_needed = await ChecksOfJohto.cianwood_check()
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
+        check_db = check_db.fetchone()
+        db_pallet = self.db.execute(f'SELECT Permission FROM Tickets Where User_ID = {user.id} AND Region_ID = 2')
+        db_pallet = db_pallet.fetchone()
+        db_quest = self.db.execute(f"SELECT Cianwood_Quest FROM Johto WHERE User_ID = {user.id}")
+        db_quest = db_quest.fetchone()
+        current_score = db_quest[0]
+        new_perm = 8
+        msg = ""
+        if current_score >= mons_needed or db_pallet[5] != 7:
+            return
+        elif check_db[0] in safari_mons:
+            if (current_score + 1) == mons_needed:
+                self.db.execute(f"UPDATE Tickets SET Permission = {new_perm}  WHERE User_ID = {user.id} AND Region_ID = 2")
+                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Cianwood_Quest = Cianwood_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+                place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
+                msg = f"{user.mention} Congratulations, you caught enough safari pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                sent_msg = await before.channel.send(msg)
+                await asyncio.sleep(5)
+                await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+            else:
+                self.db.execute(f"UPDATE Johto SET Cianwood_Quest = Cianwood_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+
+    async def mahogany_quest(self, image, user, before):
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        mons_needed = await ChecksOfJohto.mahogany_check()
+        type = "ice"
+        check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
+        check_db = check_db.fetchone()
+        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = db_stats.fetchone()
+        db_newbark = self.db.execute(f'SELECT Mahogany_Quest FROM Johto Where User_ID = {user.id}')
+        db_newbark = db_newbark.fetchone()
+        current_score = db_newbark[0]
+        new_perm = 9
+        msg = ""
+        if current_score >= mons_needed or db_stats[0] != 8:
+            return
+        elif check_db[2] == type or check_db[3] == type:
+            if (current_score + 1) == mons_needed:
+                self.db.execute(f"UPDATE Tickets SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
+                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Mahogany_Quest = Mahogany_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+                place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
+                #NEEDS UPDATE
+                msg = f"{user.mention} Congratulations, you caught enough electric Pokémon to help power the city again and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                sent_msg = await before.channel.send(msg)
+                await asyncio.sleep(5)
+                await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+            else:
+                self.db.execute(f"UPDATE Johto SET Mahogany_Quest = Mahogany_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+
+    async def blackthorn_quest(self, user, after):
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        items_needed, boosted = await ChecksOfJohto.blackthorn_check()
+        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = db_stats.fetchone()
+        db_newbark = self.db.execute(f'SELECT Blackthorn_Quest FROM Johto Where User_ID = {user.id}')
+        db_newbark = db_newbark.fetchone()
+        current_score = db_newbark[0]
+        new_perm = 10
+        _embed = after.embeds[0]
+        item = _embed.description.split("retrieved")[1]
+        item = item.split("**")[1]
+        if item not in boosted or current_score >= items_needed or db_stats != 9:
+            return
+        elif item in boosted:
+            if (current_score + 1) == items_needed:
+                self.db.execute(f"UPDATE Tickets SET Permission = {new_perm}, Ticket = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
+                self.db.execute(f"UPDAET User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Blackthorn_Quest = Blackthorn_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+                msg = f"{user.mention} Congratulations, you managed to grab {items_needed} type boosting Items and have finished your Johto Quest!!  Unless there's secret quests you can do..? You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                sent_msg = await after.channel.send(msg)
+                await asyncio.sleep(5)
+                await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+            else:
+                self.db.execute(f"UPDATE Johto SET Blackthorn_Quest = Blackthorn_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+
+             
+
+def setup(client):
+    client.add_cog(QuestsOfJohto(client))
