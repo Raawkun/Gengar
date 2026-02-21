@@ -432,13 +432,14 @@ class Listener(commands.Cog):
         receiver_channel = receiver_channel.fetchone()
         #print(receiver_channel)
         receiver_channel = int(receiver_channel[4])
+        announce_channel = self.client.get_channel(receiver_channel)
         if message.author.id == meow:
             if message.reference:
                 ref_msg = await message.channel.fetch_message(message.reference.message_id)
                 sender = ref_msg.author
             elif message.interaction_metadata:
                 sender = message.interaction_metadata.user
-            announce_channel = self.client.get_channel(receiver_channel)
+            
     #WB Reminder for myself
             if sender.id == 352224989367369729 and "The World Boss battle will begin " in message.content:
                 stamp = int(message.content.split("<t:")[1].split(":")[0])
