@@ -441,12 +441,13 @@ class Listener(commands.Cog):
                 sender = message.interaction_metadata.user
             
     #WB Reminder for myself
-            if sender.id == 352224989367369729 and "The World Boss battle will begin " in message.content:
-                stamp = int(message.content.split("<t:")[1].split(":")[0])
-                now=int(datetime.datetime.timestamp(datetime.datetime.now()))
-                waiter = stamp-now
-                await asyncio.sleep(waiter-20)
-                await ref_msg.reply("The boss battle starts in 20 seconds!")
+            if message.reference or message.interaction_metadata:
+                if sender.id == 352224989367369729 and "The World Boss battle will begin " in message.content:
+                    stamp = int(message.content.split("<t:")[1].split(":")[0])
+                    now=int(datetime.datetime.timestamp(datetime.datetime.now()))
+                    waiter = stamp-now
+                    await asyncio.sleep(waiter-20)
+                    await ref_msg.reply("The boss battle starts in 20 seconds!")
                 
             if ", your egg is ready to hatch" in message.content.lower():
                 if "incubator" in message.content.lower():
