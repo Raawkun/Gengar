@@ -299,7 +299,7 @@ class Modules(commands.Cog):
                         self.db.execute(f"UPDATE DailyStats SET CoinMarket = CoinMarket + {coins} WHERE Date = '{date}'")
                         self.db.commit()
                 #CoinWorldBoss
-                    if "here are your rewards for the " in emd.title.lower():
+                    if "here are your rewards for the " in emb.title.lower():
                         coins = emb.description.split("PokeCoins earned: <:PokeCoin:666879070650236928> ")[1]
                         coins = int(coins.split()[0].replace(",",""))
                         print(f"Worldboss coins: {coins}")
