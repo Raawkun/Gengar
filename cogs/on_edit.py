@@ -38,7 +38,7 @@ class On_Edit(commands.Cog):
         receiver_channel = int(receiver_channel[4])
         current_time = datetime.datetime.utcnow()
         locations = await TravelChecks.travel_locations()
-        ticket_check = await TravelChecks.travel_tickets()
+        ticket_check = await TravelChecks.johto_tickets()
         timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
         if receiver_channel > 0:
             announce = self.client.get_channel(int(receiver_channel))
