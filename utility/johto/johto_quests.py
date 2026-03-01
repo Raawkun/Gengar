@@ -437,15 +437,15 @@ class QuestsOfJohto(commands.Cog):
                 chance = 1/100 * (1 + (0.01 * amulet_count))
                 roll2 = random.random()
                 if chance > roll2:
-                    self.db.execute(f"UPDATE Johto SET Johto = Johto + 5 WHERE User_ID = {user.id}")
+                    self.db.execute(f"UPDATE Johto SET Johto = Johto_Coins + 5 WHERE User_ID = {user.id}")
                     self.db.commit()
                     msg = f"{user.mention} Congratulations, you found five Johto Coins! {coin_emote * 5}"
                 else:
-                    self.db.execute(f"UPDATE Johto SET Johto = Johto + 2 WHERE User_ID = {user.id}")
+                    self.db.execute(f"UPDATE Johto SET Johto = Johto_Coins + 2 WHERE User_ID = {user.id}")
                     self.db.commit()
                     msg = f"{user.mention} Congratulations, you found two Johto Coins! {coin_emote * 2}"
             else:
-                self.db.execute(f"UPDATE Johto SET Johto = Johto + 1 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Johto_Coins = Johto_Coins + 1 WHERE User_ID = {user.id}")
                 self.db.commit()
                 msg = f"{user.mention} Congratulations, you found a Johto Coin! {coin_emote}"
             if msg:
