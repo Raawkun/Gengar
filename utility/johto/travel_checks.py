@@ -37,7 +37,7 @@ class TravelChecks(commands.Cog):
 "Olivine City",
 "Cianwood City",
 "Mahogany Town",
-"Blackthorn Island"
+"Blackthorn City"
 ]
         return roles
 
@@ -52,7 +52,7 @@ class TravelChecks(commands.Cog):
 "Olivine City" : 6,
 "Cianwood City" : 7,
 "Mahogany Town" : 8,
-"Blackthorn Island" : 9,
+"Blackthorn City" : 9,
 "Anywhere" : 10
 }
         return ticket_check
@@ -69,7 +69,7 @@ class TravelChecks(commands.Cog):
 "Olivine City" : [1211070882848444446, 1211070909742456843],
 "Cianwood City" : [1211071052055314482, 1211071069801160704],
 "Mahogany Town" : [1211071126718124032, 1211071149145063486],
-"Blackthorn Island" : [1211071221710458880],
+"Blackthorn City" : [1211071221710458880],
 "Johto" : [1227329210830553188]}
         return locations
 
