@@ -312,7 +312,7 @@ For more information use:
             self.db.commit()
             check_db = self.db.execute(f"SELECT * FROM Dex WHERE DexID={mon}")
             check_db = check_db.fetchall()
-            role = disnake.utils.get(ctx.guild.roles, name="Newbark Town")
+            role = disnake.utils.get(ctx.guild.roles, name="New Bark Town")
             await member.add_roles(role)
             response = requests.get(check_db[0][15])
             image = BytesIO(response.content)
