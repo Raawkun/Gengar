@@ -343,7 +343,7 @@ class QuestsOfJohto(commands.Cog):
             name = data[1].split("Shiny ")[1]
             data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
             data = data.fetchone()
-        #print(data[0])
+        print(data[0])
         if str(data[0]) not in mons_needed: #Check if the mon is one of the legendaries
             return
         else: #Its a Johto Legendary, so lets check further
