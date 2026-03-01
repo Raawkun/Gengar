@@ -46,10 +46,10 @@ class QuestsOfJohto(commands.Cog):
     async def cherrygrove_quest(self, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
         day = datetime.datetime.today().weekday()
-        if day < 5: # Normal day rates
-            check = 450
-        else: # 5 Sat, 6 Sun.  Weekend bonus rates
-            check = 350
+        if day < 5: # Normal day rates 450
+            check = 5
+        else: # 5 Sat, 6 Sun.  Weekend bonus rates 350
+            check = 5
         num = random.randint(1, check)
         shoe_emote = "<:running_shoes:1233480002264236032>"
         gear_emote= "<:pokegear:1233479856868692068>"

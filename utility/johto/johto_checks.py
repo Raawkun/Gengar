@@ -58,7 +58,7 @@ class ChecksOfJohto(commands.Cog):
         # return pallet_quest
 
     async def newbark_check():
-        mons_needed = 500  #Catch 500 Johto mons
+        mons_needed = 5  #Catch 500 Johto mons
         return mons_needed
     
     async def cherrygrove_check():
@@ -67,11 +67,11 @@ class ChecksOfJohto(commands.Cog):
         return shoes_needed, pokegear_needed
     
     async def violet_check():
-        mons_needed = 450 #Catch x amount of Grass mons
+        mons_needed = 4 #Catch x amount of Grass mons
         return mons_needed
 
     async def azalea_check(): #NEEDS EDIT! Not yet decided.
-        mons_needed = 69 #Catch Slowpokes
+        mons_needed = 1 #Catch Slowpokes
         mon_id = 79
         return mons_needed, mon_id
 
