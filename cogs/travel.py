@@ -272,7 +272,8 @@ For more information use:
                         for r in member.roles:
                             print(r)
                             remove = disnake.utils.get(ctx.guild.roles, name=r)
-                            if remove.name in roles:
+                            print(remove)
+                            if remove in roles:
                                 print(remove)
                                 # remove = interaction.guild.get_role(r)
                                 await member.remove_roles(remove)
