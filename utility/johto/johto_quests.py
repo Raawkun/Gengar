@@ -318,6 +318,10 @@ class QuestsOfJohto(commands.Cog):
         else:
             data = self.db.execute(f"SELECT * FROM Dex WHERE Img_Url = '{image}'")
             data = data.fetchone()
+            if data[11] == 1:
+                name = data[1].split("Shiny ")[1]
+                data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
+                data = data.fetchone()
             if data[0] in mon_id:
                 guild = user.guild
                 Cele_Hunter = disnake.utils.get(guild.roles, name="Celebi Hunter")

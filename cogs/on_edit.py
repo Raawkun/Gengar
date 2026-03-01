@@ -147,6 +147,7 @@ class On_Edit(commands.Cog):
                                 for location in locations.values():
                                     if after.channel.id in location:
                                         await QuestsOfJohto.johto_coins(self, sender, before, coin_type)
+                                        await QuestsOfJohto.secret_quest_2(self, data[15], sender, before)
                                 if "retrieved a" in _embed.description:
                                     if after.channel.id in locations["Blackthorn City"]:
                                         await QuestsOfJohto.blackthorn_quest(self, sender,before)
