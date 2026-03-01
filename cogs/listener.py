@@ -19,6 +19,9 @@ from cogs.rare_spawns import Rare_spawns
 from utility.db_config import db_config
 from cogs.methods import Methods
 
+from utility.johto.travel_checks import TravelChecks
+from utility.johto.johto_quests import QuestsOfJohto
+
 # Zeichen zum Kopieren: [ ] { }
 
 
@@ -282,6 +285,8 @@ class Listener(commands.Cog):
         
         current_time = datetime.datetime.utcnow()
         timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
+
+        locations = await TravelChecks.travel_locations()
         
         if message.author.bot and message.author.id != meow and message.author.id != karp and message.author.id != sofi and message.author.id != 1209829454667317288 and message.author.id != 865576698137673739:
             return
@@ -462,6 +467,10 @@ class Listener(commands.Cog):
             if "won the battle!" in message.content.lower():
                 if "pokecoins" in message.content.lower():
                     asyncio.create_task(Modules.dailycheck(self, message))
+                coin_type = "battle"
+                for location in locations.values():
+                    if message.channel.id in location:
+                        await QuestsOfJohto.johto_coins(self, sender, message, coin_type)
                 if self.promo_item in message.content.lower():
                     await message.reply(f"Oh wow - looks like you've found a promo item! Congratulations!")
             if "** released " in message.content.lower():
