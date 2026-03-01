@@ -879,7 +879,7 @@ Don't forget to buy your train ticket in <#1079409997496193145>"""
                 olivine_need = await ChecksOfJohto.olivine_check()
                 safari_mons, cianwood_need = await ChecksOfJohto.cianwood_check()
                 mahogany_needed = await ChecksOfJohto.mahogany_check()
-                blackthorn_needed = await ChecksOfJohto.blackthorn_check()
+                blackthorn_needed, items_unused = await ChecksOfJohto.blackthorn_check()
                 description = f"""__**Travel Stats**__
 Ticket: {db[1]} {list(ticket_check.keys())[list(ticket_check.values()).index(db[1])]}
 Permission: {db[0]} {list(ticket_check.keys())[list(ticket_check.values()).index(db[0])]}
@@ -906,7 +906,10 @@ Blackthorn: {blackthorn} / {blackthorn_needed}"""
                         self.client, title = f"Stats for {member.name}", description = description
                     ).setup_embed()
                 await ctx.send(embed=embed, delete_after = 15)
-                await ctx.message.delete()
+                try:
+                    await ctx.message.delete()
+                except:
+                    return
             except commands.CommandError:
                 pass
 
