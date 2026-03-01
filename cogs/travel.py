@@ -478,18 +478,18 @@ Have fun hunting, you will soon be able to travel further afield!"""
             await ctx.response.defer()
             ticket_check = await ChecksOfJohto.travel_tickets()
             member = ctx.guild.get_member(ctx.user.id)
-            database = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = '{member.id}' ")
+            database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{member.id}' ")
             database = database.fetchall()
             ticket = database[0][3]
             permit = database[0][4]
             kanto_coins = database[0][18]
             if permit > ticket and kanto_coins >= 25:
-                self.db.execute(f'UPDATE Travel SET Ticket = Ticket + 1, Johto_Coins = Johto_Coins - 25 WHERE User_ID = {member.id}')
+                self.db.execute(f'UPDATE Johto SET Ticket = Ticket + 1, Johto_Coins = Johto_Coins - 25 WHERE User_ID = {member.id}')
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(ticket + 1)]
                 msg = f"You purchased a ticket to travel to {place}!"
                 await ctx.edit_original_message(content=msg)
-                await QuestsOfJohto.kanto_leaderboard(self, ctx)
+                #await QuestsOfJohto.kanto_leaderboard(self, ctx)
             elif kanto_coins < 25:
                 msg = f"Sorry you only have **{kanto_coins}** Johto coin(s), you need **25** to buy a train ticket!"
                 await ctx.edit_original_message(content=msg)
@@ -509,17 +509,10 @@ Have fun hunting, you will soon be able to travel further afield!"""
         await ctx.response.defer()
 
         member = ctx.guild.get_member(ctx.user.id)
-        database = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = '{member.id}' ")
+        database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{member.id}' ")
         database = database.fetchall()
         kanto_coins = database[0][18]
-        item_database = self.db.execute(f"SELECT * FROM Profile WHERE User_ID = '{member.id}' ")
-        item_database = item_database.fetchall()
-        if item_database:
-            amulet_count = item_database[0][11]
-        else:
-            self.db.execute(f'INSERT INTO Profile (User_ID, User_Name) VALUES ({member.id}, "{member.display_name}")')
-            self.db.commit()
-            amulet_count = 0
+        amulet_count = database[0][20]
         # item_info = await ChecksOfJohto.shop_check()
         # item = item_info[item_id]
         # item_name, item_value, emoji = item
