@@ -35,22 +35,22 @@ class Starter_buttons(disnake.ui.View):
         self.client = client
         self.mon = mon
 
-    @disnake.ui.button(emoji='<:bulbasaur:1230998002257363005>', row=0)
+    @disnake.ui.button(emoji='<:chikorita:1466201537326878772>', row=0)
     async def _bulb_button(self, button, ctx):
         await ctx.response.defer()
-        self.mon = 1
+        self.mon = 152
         await Role_menu._starterselect(self, ctx = self.ctx, mon = self.mon, client = self.client)
 
-    @disnake.ui.button(emoji='<:charmander:1230997947630620682>', row=0)
+    @disnake.ui.button(emoji='<:cyndaquil:1466201550367096924>', row=0)
     async def _char_button(self, button, ctx):
         await ctx.response.defer()
-        self.mon = 4
+        self.mon = 155
         await Role_menu._starterselect(self, ctx = self.ctx, mon = self.mon, client = self.client)
 
-    @disnake.ui.button(emoji='<:squirtle:1230997895340097629>', row=0)
+    @disnake.ui.button(emoji='<:totodile:1466201564531261482>', row=0)
     async def _squir_button(self, button, ctx):
         await ctx.response.defer()
-        self.mon = 7
+        self.mon = 158
         await Role_menu._starterselect(self, ctx = self.ctx, mon = self.mon, client = self.client)
 
     @disnake.ui.button(emoji='<:pikachu:1230997848812683266>', row=0)
@@ -308,9 +308,7 @@ For more information use:
         else:
             # self.db.execute(f'INSERT INTO Travel (User_id, name, Pallet_Mon) VALUES ({member.id}, "{member.name}", {mon})')
             # self.db.commit()
-            self.db.execute(f'INSERT INTO Travel (User_ID, name, Johto_Permit, Johto_Ticket) VALUES ({member.id}, "{member.name}", 0, 0)')
-            self.db.commit()
-            self.db.execute(f'INSERT INTO Johto (User_ID, Name, Johto_Mon) VALUES ({(member.id)}, "{member.name}", {mon})')
+            self.db.execute(f'INSERT INTO Johto (User_ID, Name, Ticket, Permit, Johto_Mon) VALUES ({member.id}, "{member.name}", 0, 0, {mon})')
             self.db.commit()
             check_db = self.db.execute(f"SELECT * FROM Dex WHERE DexID={mon}")
             check_db = check_db.fetchall()
