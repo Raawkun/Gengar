@@ -12,7 +12,7 @@ class QuestsOfJohto(commands.Cog):
         self.db = connect("database.db")
 
     async def newbark_quest(self, image, user, before):
-        ticket_check = await ChecksOfJohto.travel_tickets()
+        ticket_check = await ChecksOfJohto.johto_tickets()
         mons_needed = await ChecksOfJohto.newbark_check()
         region = "Johto"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
@@ -42,7 +42,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.commit()
     
     async def cherrygrove_quest(self, user, before):
-        ticket_check = await ChecksOfJohto.travel_tickets()
+        ticket_check = await ChecksOfJohto.johto_tickets()
         day = datetime.datetime.today().weekday()
         if day < 5: # Normal day rates
             check = 450
@@ -85,7 +85,7 @@ class QuestsOfJohto(commands.Cog):
             await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
 
     async def violet_quest(self, image, user, before):
-        ticket_check = await ChecksOfJohto.travel_tickets()
+        ticket_check = await ChecksOfJohto.johto_tickets()
         mons_needed = await ChecksOfJohto.violet_check()
         type = "grass"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
@@ -115,7 +115,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.commit()
                 
     async def azalea_quest(self, image, user, before):
-        ticket_check = await ChecksOfJohto.travel_tickets()
+        ticket_check = await ChecksOfJohto.johto_tickets()
         mons_needed, mon_id = await ChecksOfJohto.azalea_check()
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
@@ -144,7 +144,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.commit() 
 
     async def goldenrod_quest(self, user, after):
-        ticket_check = await ChecksOfJohto.travel_tickets()
+        ticket_check = await ChecksOfJohto.johto_tickets()
         coins_needed = await ChecksOfJohto.goldenrod_check()
         db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
         db_stats = db_stats.fetchone()
@@ -178,7 +178,7 @@ class QuestsOfJohto(commands.Cog):
             await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
 
     async def ecruteak_quest(self, image, user, before):
-        ticket_check = await ChecksOfJohto.travel_tickets()
+        ticket_check = await ChecksOfJohto.johto_tickets()
         mons_needed = await ChecksOfJohto.ecruteak_check()
         type = "fire"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
@@ -208,7 +208,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.commit()
 
     async def olivine_quest(self, image, user, before):
-        ticket_check = await ChecksOfJohto.travel_tickets()
+        ticket_check = await ChecksOfJohto.johto_tickets()
         mons_needed = await ChecksOfJohto.olivine_check()
         type = "electric"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
@@ -239,7 +239,7 @@ class QuestsOfJohto(commands.Cog):
 
     async def cianwood_quest(self, image, user, before):
         safari_mons, mons_needed = await ChecksOfJohto.cianwood_check()
-        ticket_check = await ChecksOfJohto.travel_tickets()
+        ticket_check = await ChecksOfJohto.johto_tickets()
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
         db_pallet = self.db.execute(f'SELECT Permission FROM Tickets Where User_ID = {user.id} AND Region_ID = 2')
@@ -267,7 +267,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.commit()
 
     async def mahogany_quest(self, image, user, before):
-        ticket_check = await ChecksOfJohto.travel_tickets()
+        ticket_check = await ChecksOfJohto.johto_tickets()
         mons_needed = await ChecksOfJohto.mahogany_check()
         type = "ice"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
@@ -298,7 +298,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.commit()
 
     async def blackthorn_quest(self, user, after):
-        ticket_check = await ChecksOfJohto.travel_tickets()
+        ticket_check = await ChecksOfJohto.johto_tickets()
         items_needed, boosted = await ChecksOfJohto.blackthorn_check()
         db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
         db_stats = db_stats.fetchone()
