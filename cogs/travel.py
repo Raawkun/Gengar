@@ -944,17 +944,10 @@ Chosen Starter: Dex No. {database[19]}\n"""
         ],)
     async def _buy_item(self, ctx, item_id, amount):
         user = ctx.user
-        item_database = self.db.execute(f"SELECT * FROM Profile WHERE User_ID = '{user.id}' ")
-        item_database = item_database.fetchall()
         travel_database = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = '{user.id}' ")
         travel_database = travel_database.fetchall()
         current_coins = travel_database[0][18]
-        if item_database:
-            amulet_count = item_database[0][11]
-        else:
-            self.db.execute(f'INSERT INTO Profile (User_ID, User_Name) VALUES ({user.id}, "{user.display_name}")')
-            self.db.commit()
-            amulet_count = 0
+        amulet_count = travel_database[0][20]
         item_info = await ChecksOfJohto.shop_check()
         item = item_info[item_id]
         item_name, item_value, emoji = item
@@ -962,9 +955,7 @@ Chosen Starter: Dex No. {database[19]}\n"""
         if current_coins >= item_cost:
             if item_id == 1:
                 if amulet_count < 10:
-                    self.db.execute(f"UPDATE Travel SET Johto_Coins = Johto_Coins - {item_cost} WHERE User_ID = {user.id}")
-                    self.db.commit()
-                    self.db.execute(f"UPDATE Profile SET Johto_Charms = Johto_Charms + {amount} WHERE User_ID = {user.id}")
+                    self.db.execute(f"UPDATE Travel SET Johto_Coins = Johto_Coins - {item_cost}, Johto_Amulet = Johto_Amulet + {amount} WHERE User_ID = {user.id}")
                     self.db.commit()
                     if amount == 1:
                         await ctx.send(f"{user.mention} bought a {item_name}! {emoji}")
@@ -982,15 +973,12 @@ Chosen Starter: Dex No. {database[19]}\n"""
         # await ctx.send("This is currently under construction")
         user = ctx.user
         travel_database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{user.id}' ")
-        travel_database = travel_database.fetchall()
+        travel_database = travel_database.fetchone()
         current_coins = 0
         amulet_count = 0
         if travel_database:
-            current_coins = travel_database[0][18]
-            item_database = self.db.execute(f"SELECT * FROM Profile WHERE User_ID = '{user.id}' ")
-            item_database = item_database.fetchall()
-            if item_database:
-                amulet_count = item_database[0][11]
+            current_coins = travel_database[18]
+            amulet_count = travel_database[20]
 
         item_info = await ChecksOfJohto.shop_check()
         msg = "__**Shop Inventory**__\n"
