@@ -14,6 +14,9 @@ import random
 from utility.all_checks import Basic_checker
 from cogs.listener import Listener
 from cogs.rare_spawns import Rare_spawns
+from utility.johto.travel_checks import TravelChecks
+from utility.johto.johto_checks import ChecksOfJohto
+from utility.johto.johto_quests import QuestsOfJohto
 
 class On_Edit(commands.Cog):
 
@@ -34,6 +37,8 @@ class On_Edit(commands.Cog):
         #print(receiver_channel)
         receiver_channel = int(receiver_channel[4])
         current_time = datetime.datetime.utcnow()
+        locations = await TravelChecks.travel_locations()
+        ticket_check = await TravelChecks.travel_tickets()
         timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
         if receiver_channel > 0:
             announce = self.client.get_channel(int(receiver_channel))
@@ -104,6 +109,8 @@ class On_Edit(commands.Cog):
                                 if "pokecoins" in _embed.footer.text.lower():
                                     asyncio.create_task(Modules.dailycheck(self,after))
                                     asyncio.create_task(Modules.averagecoins(self,after))
+                                    if after.channel.id in locations["Goldenrod City"]:
+                                        await QuestsOfJohto.goldenrod_quest(self, sender, after)
                                 if data[0] == 129:
                                     asyncio.create_task(Modules.fisheventcheck(self, after,sender))
                                 types =(data[2], data[3])
@@ -116,6 +123,15 @@ class On_Edit(commands.Cog):
                                     fossil = _embed.description.split("retrieved a <:")[1]
                                     fossil = fossil.split(":")[0]
                                     await after.reply(f"``;res ex {fossil}``")
+                                if after.channel.id in locations["New Bark Town"]:
+                                    await QuestsOfJohto.newbark_quest(self, data[15],sender,before)
+                                elif after.channel.id in locations["Cherrygrove City"]:
+                                    await QuestsOfJohto.cherrygrove_quest(self, sender, before)
+                                elif after.channel.id in locations["Violet City"]:
+                                    await QuestsOfJohto.violet_quest(self, data[15], sender, before)
+                                elif after.channel.id in locations["Azalea Town"]:
+                                    await QuestsOfJohto.azalea_quest(self, data[15], sender, before)
+
                             if raremon in self.Rare_Spawns or data[0] in Listener.exclusives:
                                 #print("Theres a rare spawn.")
                                 asyncio.create_task(Rare_spawns.poke_spawn(self, after, data))
