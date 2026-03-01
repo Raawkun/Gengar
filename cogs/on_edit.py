@@ -127,7 +127,7 @@ class On_Edit(commands.Cog):
                                     fossil = fossil.split(":")[0]
                                     await after.reply(f"``;res ex {fossil}``")
                                 if after.channel.id in locations["New Bark Town"]:
-                                    print(data[16])
+                                    #print(data[16])
                                     await QuestsOfJohto.newbark_quest(self, data[15],sender,before)
                                 elif after.channel.id in locations["Cherrygrove City"]:
                                     await QuestsOfJohto.cherrygrove_quest(self, sender, before)
