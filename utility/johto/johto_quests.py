@@ -289,7 +289,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
                 #NEEDS UPDATE
-                msg = f"{user.mention} Congratulations, you caught enough electric Pokémon to help power the city again and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
+                msg = f"{user.mention} Congratulations, you caught enough ice Pokémon to help Leader Pryce and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")

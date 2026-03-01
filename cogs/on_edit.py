@@ -124,6 +124,7 @@ class On_Edit(commands.Cog):
                                     fossil = fossil.split(":")[0]
                                     await after.reply(f"``;res ex {fossil}``")
                                 if after.channel.id in locations["New Bark Town"]:
+                                    print("New Bark")
                                     await QuestsOfJohto.newbark_quest(self, data[15],sender,before)
                                 elif after.channel.id in locations["Cherrygrove City"]:
                                     await QuestsOfJohto.cherrygrove_quest(self, sender, before)
@@ -131,7 +132,17 @@ class On_Edit(commands.Cog):
                                     await QuestsOfJohto.violet_quest(self, data[15], sender, before)
                                 elif after.channel.id in locations["Azalea Town"]:
                                     await QuestsOfJohto.azalea_quest(self, data[15], sender, before)
-
+                                elif after.channel.id in locations["Ecruteak City"]:
+                                    await QuestsOfJohto.ecruteak_quest(self, data[15], sender, before)
+                                elif after.channel.id in locations["Olivine City"]:
+                                    await QuestsOfJohto.olivine_quest(self, data[15], sender, before)
+                                elif after.channel.id in locations["Cianwood City"]:
+                                    await QuestsOfJohto.cianwood_quest(self, data[15],sender,before)
+                                elif after.channel.id in locations["Mahogany Town"]:
+                                    await QuestsOfJohto.mahogany_quest(self, data[15],sender,before)
+                                if "retrieved a" in _embed.description:
+                                    if after.channel.id in locations["Blackthorn City"]:
+                                        await QuestsOfJohto.blackthorn_quest(self, sender,before)
                             if raremon in self.Rare_Spawns or data[0] in Listener.exclusives:
                                 #print("Theres a rare spawn.")
                                 asyncio.create_task(Rare_spawns.poke_spawn(self, after, data))
