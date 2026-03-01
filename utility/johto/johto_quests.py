@@ -29,11 +29,11 @@ class QuestsOfJohto(commands.Cog):
         elif check_db[16] == region:
             if (current_score + 1) == mons_needed:
                 self.db.execute(f"UPDATE Ticket SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
-                self.db.execute(f"UPDATE User SET tour_coins += 15 WHERE User-ID = {user.id}")
+                self.db.execute(f"UPDATE User SET Johto_Coins = Johto_Coins + 15 WHERE User-ID = {user.id}")
                 self.db.execute(f"UPDATE Johto SET Newbark_Quest = Newbark_Quest + 1 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough johto Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                msg = f"{user.mention} Congratulations, you caught enough johto Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -76,10 +76,10 @@ class QuestsOfJohto(commands.Cog):
         db_cherry = db_cherry.fetchone()
         if db_cherry[0] == 1 and db_cherry[1] == 1:
             place = list(ticket_check.keys())[list(ticket_check.values()).index(db_pallet[4] + 1)]
-            msg = f"{user.mention} Congratulations, you completed the Cherrygrove City quest by finding a Pokégear {gear_emote} and a pair of Running Shoes {shoe_emote}, you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+            msg = f"{user.mention} Congratulations, you completed the Cherrygrove City quest by finding a Pokégear {gear_emote} and a pair of Running Shoes {shoe_emote}, you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
             sent_msg = await before.channel.send(msg)
             self.db.execute(f'UPDATE Tickets SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2')
-            self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+            self.db.execute(f"UPDATE User SET Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
             self.db.commit()
             await asyncio.sleep(5)
             await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -102,11 +102,11 @@ class QuestsOfJohto(commands.Cog):
         elif check_db[2] == type or check_db[3] == type:
             if (current_score + 1) == mons_needed:
                 self.db.execute(f"UPDATE Tickets SET Permissions = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
-                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE User SET Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.execute(f"UPDATE Johto SET Violet_Quest = Violet_Quest + 1 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough grass Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                msg = f"{user.mention} Congratulations, you caught enough grass Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -131,11 +131,11 @@ class QuestsOfJohto(commands.Cog):
         elif check_db[0] == mon_id:
             if (current_score + 1) == mons_needed:
                 self.db.execute(f"UPDATE Tickets SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
-                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE User SET Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.execute(f"UPDATE Johto SET Azalea_Quest = Azalea_Quest + 1 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough Slowpokes to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                msg = f"{user.mention} Congratulations, you caught enough Slowpokes to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -168,11 +168,11 @@ class QuestsOfJohto(commands.Cog):
             self.db.commit()
         if sorted(coins_obtained) == coins_needed:
             self.db.execute(f"UPDATE Tickets SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
-            self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+            self.db.execute(f"UPDATE User SET Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
             self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = {coins_needed} WHERE User_ID = {user.id}")
             self.db.commit()
             place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-            msg = f"{user.mention} Congratulations, you hit the final jackpot with that catch and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+            msg = f"{user.mention} Congratulations, you hit the final jackpot with that catch and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
             sent_msg = await after.channel.send(msg)
             await asyncio.sleep(5)
             await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -195,11 +195,11 @@ class QuestsOfJohto(commands.Cog):
         elif check_db[2] == type or check_db[3] == type:
             if (current_score + 1) == mons_needed:
                 self.db.execute(f"UPDATE Tickets SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
-                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE User SET Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.execute(f"UPDATE Johto SET Ecruteak_Quest = Ecruteak_Quest + 1 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough fire Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                msg = f"{user.mention} Congratulations, you caught enough fire Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -225,11 +225,11 @@ class QuestsOfJohto(commands.Cog):
         elif check_db[2] == type or check_db[3] == type:
             if (current_score + 1) == mons_needed:
                 self.db.execute(f"UPDATE Tickets SET Permission = {new_perm}, WHERE User_ID = {user.id } AND Region_ID = 2")
-                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE User SET Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.execute(f"UPDATE Johto SET Olivine_Quest = Olivine_Quest + 1 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough electric Pokémon to help power the city again and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                msg = f"{user.mention} Congratulations, you caught enough electric Pokémon to help power the city again and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -254,11 +254,11 @@ class QuestsOfJohto(commands.Cog):
         elif check_db[0] in safari_mons:
             if (current_score + 1) == mons_needed:
                 self.db.execute(f"UPDATE Tickets SET Permission = {new_perm}  WHERE User_ID = {user.id} AND Region_ID = 2")
-                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE User SET Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.execute(f"UPDATE Johto SET Cianwood_Quest = Cianwood_Quest + 1 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough safari pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                msg = f"{user.mention} Congratulations, you caught enough safari pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -284,12 +284,12 @@ class QuestsOfJohto(commands.Cog):
         elif check_db[2] == type or check_db[3] == type:
             if (current_score + 1) == mons_needed:
                 self.db.execute(f"UPDATE Tickets SET Permission = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
-                self.db.execute(f"UPDATE User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE User SET Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.execute(f"UPDATE Johto SET Mahogany_Quest = Mahogany_Quest + 1 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
                 #NEEDS UPDATE
-                msg = f"{user.mention} Congratulations, you caught enough electric Pokémon to help power the city again and you now have permission to travel to {place}! You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                msg = f"{user.mention} Congratulations, you caught enough electric Pokémon to help power the city again and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -314,10 +314,10 @@ class QuestsOfJohto(commands.Cog):
         elif item in boosted:
             if (current_score + 1) == items_needed:
                 self.db.execute(f"UPDATE Tickets SET Permission = {new_perm}, Ticket = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
-                self.db.execute(f"UPDAET User SET tour_coins = tour_coins + 15 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDAET User SET Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.execute(f"UPDATE Johto SET Blackthorn_Quest = Blackthorn_Quest + 1 WHERE User_ID = {user.id}")
                 self.db.commit()
-                msg = f"{user.mention} Congratulations, you managed to grab {items_needed} type boosting Items and have finished your Johto Quest!!  Unless there's secret quests you can do..? You also found 15 Tour coins! <:kanto_coin:1103302418655105064>"
+                msg = f"{user.mention} Congratulations, you managed to grab {items_needed} type boosting Items and have finished your Johto Quest!!  Unless there's secret quests you can do..? You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await after.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
