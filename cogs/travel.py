@@ -256,8 +256,9 @@ For more information use:
                 # database = database.fetchall()
                 database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{member.id}' ")
                 database = database.fetchone()
-                string = database[3]
-                progress = json.loads(string)
+                strings = database[3]
+                print(strings)
+                progress = json.loads(strings)
                 if database:
                     # ticket = database[0][2]
                     ticket = progress[category_location]["ticket"]
