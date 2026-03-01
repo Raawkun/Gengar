@@ -17,7 +17,7 @@ class QuestsOfJohto(commands.Cog):
         region = "Johto"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
-        db_stats = self.db.execute(f"SELECT Permission FROM Ticket WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Newbark_Quest FROM Johto Where User_ID = {user.id}')
         db_newbark = db_newbark.fetchone()
@@ -51,7 +51,7 @@ class QuestsOfJohto(commands.Cog):
         num = random.randint(1, check)
         shoe_emote = "<:running_shoes:1233480002264236032>"
         gear_emote= "<:pokegear:1233479856868692068>"
-        db_stats = self.db.execute(f'SELECT Permission FROM Tickets Where User_ID = {user.id} AND Region_ID = 2')
+        db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         msg = ""
         new_perm = 2
@@ -90,7 +90,7 @@ class QuestsOfJohto(commands.Cog):
         type = "grass"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
-        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Violet_Quest FROM Johto Where User_ID = {user.id}')
         db_newbark = db_newbark.fetchone()
@@ -119,7 +119,7 @@ class QuestsOfJohto(commands.Cog):
         mons_needed, mon_id = await ChecksOfJohto.azalea_check()
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
-        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Azalea_Quest FROM Johto Where User_ID = {user.id}')
         db_newbark = db_newbark.fetchone()
@@ -146,7 +146,7 @@ class QuestsOfJohto(commands.Cog):
     async def goldenrod_quest(self, user, after):
         ticket_check = await ChecksOfJohto.travel_tickets()
         coins_needed = await ChecksOfJohto.goldenrod_check()
-        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Goldenrod_Quest FROM Johto Where User_ID = {user.id}')
         db_newbark = db_newbark.fetchone()
@@ -183,7 +183,7 @@ class QuestsOfJohto(commands.Cog):
         type = "fire"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
-        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Ecruteak_Quest FROM Johto Where User_ID = {user.id}')
         db_newbark = db_newbark.fetchone()
@@ -213,7 +213,7 @@ class QuestsOfJohto(commands.Cog):
         type = "electric"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
-        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Olivine_Quest FROM Johto Where User_ID = {user.id}')
         db_newbark = db_newbark.fetchone()
@@ -272,7 +272,7 @@ class QuestsOfJohto(commands.Cog):
         type = "ice"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
-        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Mahogany_Quest FROM Johto Where User_ID = {user.id}')
         db_newbark = db_newbark.fetchone()
@@ -300,7 +300,7 @@ class QuestsOfJohto(commands.Cog):
     async def blackthorn_quest(self, user, after):
         ticket_check = await ChecksOfJohto.johto_tickets()
         items_needed, boosted = await ChecksOfJohto.blackthorn_check()
-        db_stats = self.db.execute(f"SELECT Permission FROM Tickets WHERE User_ID = {user.id} AND Region_ID = 2")
+        db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Blackthorn_Quest FROM Johto Where User_ID = {user.id}')
         db_newbark = db_newbark.fetchone()
