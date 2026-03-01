@@ -117,7 +117,7 @@ class ChecksOfJohto(commands.Cog):
         #     hunt_coinodds, fish_coinodds, battle_coinodds = 200, 150, 75
         # else: # 5 Sat, 6 Sun.  Weekend bonus rates
         #     hunt_coinodds, fish_coinodds, battle_coinodds = 175, 125, 60
-        hunt_coinodds, fish_coinodds, battle_coinodds = 1, 120, 55
+        hunt_coinodds, fish_coinodds, battle_coinodds = 170, 120, 55
         return hunt_coinodds, fish_coinodds, battle_coinodds
 
     async def shop_check():
