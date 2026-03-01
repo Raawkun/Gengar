@@ -9,14 +9,14 @@ class Mon_Cmd(commands.Cog):
         self.db = connect("database.db")
 
     async def mon_overview(self, ctx, member):
-        db = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = {member.id}")
+        db = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = {member.id}")
         db = db.fetchone()
         if db:
             msg = f"""
 __**Ticket Overview for {member.name}**__
-Tour coins: {db[3]}
+Johto coins: {db[18]}
 Region: Ticket | Permissions
-Johto: {db[6]} | {db[7]}"""
+Johto: {db[3]} | {db[4]}"""
             await ctx.message.reply(msg, delete_after = 15)
             await ctx.message.delete()
         else:

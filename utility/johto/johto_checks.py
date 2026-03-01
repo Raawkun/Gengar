@@ -62,7 +62,7 @@ class ChecksOfJohto(commands.Cog):
         return mons_needed
     
     async def cherrygrove_check():
-        shoes_needed = 1 #NEEDS EDIT! Get the Running Shoes & Map
+        shoes_needed = 1 #Get the Running Shoes & Map
         pokegear_needed = 1
         return shoes_needed, pokegear_needed
     

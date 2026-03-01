@@ -612,44 +612,43 @@ Johto Amulet(s): **{amulet_count}** <:JohtoAmulet:1474149802441707612>
         try:
             await ctx.response.defer()
             user = ctx.author
-            database = self.db.execute(f'SELECT * FROM Travel Where User_ID = {user.id}')
-            database = database.fetchall()
+            database = self.db.execute(f'SELECT * FROM Johto Where User_ID = {user.id}')
+            database = database.fetchone()
 
-            permit = database[0][4]
-            ticket = database[0][3]
+            permit = database[4]
+            ticket = database[3]
 
-            pallet_count = database[0][6]
-            pallet_needed = await ChecksOfJohto.pallet_check()
+            newbark_count = database[5]
+            newbark_needed = await ChecksOfJohto.newbark_check()
 
-            viridian_count = database[0][7]
-            viridian_needed = await ChecksOfJohto.viridian_check()
+            running_shoes = database[6]
+            pokegear = database[7]
+            shoe_need, gear_need = await ChecksOfJohto.cherrygrove_check()
 
-            pewter_count = 0
-            if database[0][8] is not None:
-                pewter_count = eval(database[0][8])
-                pewter_count = len(pewter_count)
-            pewter_needed = await ChecksOfJohto.pewter_check()
+            violet_count = database[8]
+            violet_needed = await ChecksOfJohto.violet_check()
 
-            cerulean_count = database[0][9]
-            rarity_points, cerulean_needed = await ChecksOfJohto.cerulean_check()
+            azalea_count = database[9]
+            azalea_needed, azalea_mon = await ChecksOfJohto.azalea_check()
 
-            vermilion_count = database[0][10]
-            vermilion_needed = await ChecksOfJohto.vermilion_check()
+            goldenrod_count = len(database[10].split(","))
+            goldenrod_needed = await ChecksOfJohto.goldenrod_check()
+            goldenrod_needed = len(goldenrod_needed)
 
-            lavendar_count = database[0][11]
-            lavendar_needed = await ChecksOfJohto.lavender_check()
+            ecruteak_count = database[11]
+            ecruteak_needed = await ChecksOfJohto.ecruteak_check()
 
-            celadon_count = database[0][12]
-            celadon_needed = await ChecksOfJohto.celadon_check()
+            olivine_count = database[12]
+            olivine_needed = await ChecksOfJohto.olivine_check()
 
-            fuchsia_count = database[0][13]
-            safari_mons, fuchsia_needed = await ChecksOfJohto.fuchsia_check()
+            cianwood_count = database[13]
+            cianwood_mons, cianwood_needed = await ChecksOfJohto.cianwood_check()
 
-            saffron_count = database[0][14]
-            saffron_needed = await ChecksOfJohto.saffron_check()
+            mahogany_count = database[14]
+            mahogany_needed = await ChecksOfJohto.mahogany_check()
 
-            cinnabar_count = database[0][15]
-            cinnabar_needed = await ChecksOfJohto.cinnabar_check()
+            blackthorn_count = database[15]
+            blackthorn_needed, blackthorn_items = await ChecksOfJohto.blackthorn_check()
 
             embed = await Custom_embed(
                     self.client, 
@@ -659,65 +658,72 @@ Johto Amulet(s): **{amulet_count}** <:JohtoAmulet:1474149802441707612>
             icon_url = "https://raw.githubusercontent.com/Pr1nc3St4r/ff_images/main/misc/oak_author.png")
             if permit == ticket:
                 if permit == 0:
-                    score = pallet_count / pallet_needed
+                    score = newbark_count / newbark_needed
                     comment = await self.oak_comment(score)
                     embed.description = f"""Hi {user.display_name}! So kind of you to call.
 
-Nothing is better than having a best buddy along with you on your journey. Try bonding with your chosen Pokémon! I'm sure you'll be best buds in no time!
+Grateful you're helping me explore the Johto region! Try to catch some more of the regions Pokémon for me!
 
 {comment}"""
                 elif permit == 1:
-                    score = viridian_count / viridian_needed
+                    if shoe_need > running_shoes:
+                        shoe_score = 0
+                    else:
+                        shoe_score = 0.5
+                    if gear_need > pokegear:
+                        gear_score = 0
+                    else:
+                        gear_score = 0.5
+                    score = shoe_score + gear_score
                     comment = await self.oak_comment(score)
                     embed.description = f"""Hi {user.display_name}! How are you?
                 
-Now that you've taken the first steps on your Pokémon adventure, it's time to gather some equipment.  A couple of PokéBalls might come in handy? check back in when you found some!
+Now that you've taken the first steps on your Pokémon adventure, it's time to gather some equipment.  The Running Shoes and the Pokegear should come in handy!
 
 {comment}"""
                 elif permit == 2:
-                    score = pewter_count / pewter_needed
+                    score = violet_count / violet_needed
                     comment = await self.oak_comment(score)
                     embed.description = f"""Hi {user.display_name}! It's great to hear from you!
                 
-You're really proving yourself to be a natural Pokémon trainer.  Your Pokédex looks a little empty though, you might want to fill that up a notch?
+You're really proving yourself to be a natural Pokémon trainer. This regions <:grasstype:854350473556525077> Pokémon seem to be different than those in Kanto...
 
 {comment}"""
                 elif permit == 3:
-                    score = cerulean_count / cerulean_needed
+                    score = azalea_count / azalea_needed
                     comment = await self.oak_comment(score)
                     embed.description = f"""Hi {user.display_name}!
                 
-Why don't you try catching a few rarer Pokémon? Common ones are still great too of course!
+Did you know that Slowpoke can evolve into a different Pokémon here?! We should investigate this!
 
 {comment}"""
                 elif permit == 4:
-                    score = vermilion_count / vermilion_needed
+                    score = goldenrod_count / goldenrod_needed
                     comment = await self.oak_comment(score)
                     embed.description = f"""Hi {user.display_name}! Great work so far!
                 
-Vermilion is known for its port, I bet there's plenty of water Pokémon around here!
-
-*Does that truck look suspicious to you?*
+Goldenrod City is known for its game corner, and while I condone gambling in any form, I wonder if we can get some lucky numbers while catching?
 
 {comment}"""
                 elif permit == 5:
-                    score = lavendar_count / lavendar_needed
+                    score = ecruteak_count / ecruteak_needed
                     comment = await self.oak_comment(score)
-                    embed.description = f"""Hi {user.display_name}! Did you enjoy your time at the beach?
+                    embed.description = f"""Hi {user.display_name}! Did you enjoy your time in Johto so far?
                 
-Lavender Town is home to the Pokémon Tower, watch out for ghost Pokémon!
+Ecruteak City once had the Brass Tower standing tall before it **caught fire**.
+*It's alao said that Ho-oh once resided here.*
 
 {comment}"""
                 elif permit == 6:
-                    score = celadon_count / celadon_needed
+                    score = olivine_count / olivine_needed
                     comment = await self.oak_comment(score)
                     embed.description = f"""Hi {user.display_name}! 
                 
-Haha, did Lavender scare you? I hope not! To prevent that in the future, you might want to be more familiar with the Pokémon world.  A bit of extra experience wouldn't hurt, right?
+Wow, what a coastline here in Olivine City! Just weird that the Lighthouse seems to be **out of power**...
 
 {comment}"""
                 elif permit == 7:
-                    score = fuchsia_count / fuchsia_needed
+                    score = cianwood_count / cianwood_needed
                     comment = await self.oak_comment(score)
                     embed.description = f"""Hi {user.display_name}!
                 
@@ -725,19 +731,19 @@ It looks like you made it to the Safari Zone, amazing!  It seems like a specific
 
 {comment}"""
                 elif permit == 8:
-                    score = saffron_count / saffron_needed
+                    score = mahogany_count / mahogany_needed
                     comment = await self.oak_comment(score)
                     embed.description = f"""Hi {user.display_name}!
                 
-Silph Co. heard about your journey in the Johto region!  They asked me if you could help them out a bit?  They're researching pokemon that are holding items!
+Mahogany's Gym Leader Pryce is an old friend of mine and a true Ice-type Pokémon connaisseur! Maybe he will grant you the badge if you show him a lot!
 
 {comment}"""
                 elif permit == 9:
-                    score = cinnabar_count / cinnabar_needed
+                    score = blackthorn_count / blackthorn_needed
                     comment = await self.oak_comment(score)
                     embed.description = f"""Hi {user.display_name}!
                 
-Remember that Pokémon isn't just a solo adventure, why don't you help out your clan a little by catching more mons?
+Wow, did you know that the Dragon's Den is used by Ace Trainers to enhance their Pokémons? Maybe they don't know about Type-boosting items yet?!
 
 {comment}"""
                 else:
@@ -759,7 +765,7 @@ Don't forget to buy your train ticket in <#1079409997496193145>"""
     async def admin_kanto(self, ctx):
         try:
             await ctx.response.defer()
-            database = self.db.execute(f"SELECT * FROM Travel")
+            database = self.db.execute(f"SELECT * FROM Johto")
             database = database.fetchall()
             msg = "__**Johto Progress Check**__\n"
             for row in database:
@@ -775,7 +781,7 @@ Don't forget to buy your train ticket in <#1079409997496193145>"""
     async def admin_kanto_coins(self, ctx):
         try:
             await ctx.response.defer()
-            database = self.db.execute(f"SELECT * FROM Travel")
+            database = self.db.execute(f"SELECT * FROM Johto")
             database = database.fetchall()
             msg = "__**Johto Coin Check**__\n"
             for row in database:
@@ -791,7 +797,7 @@ Don't forget to buy your train ticket in <#1079409997496193145>"""
     async def compensation(self, ctx):
         try:
             await ctx.response.defer()
-            db_pallet = self.db.execute(f'SELECT * FROM Travel')
+            db_pallet = self.db.execute(f'SELECT * FROM Johto')
             db_pallet = db_pallet.fetchall()
             self.db.execute(f"UPDATE Travel SET Johto_Coins = Johto_Coins + 5 WHERE Permit = 1")
             self.db.commit()
@@ -819,96 +825,93 @@ Don't forget to buy your train ticket in <#1079409997496193145>"""
             if database is None:
                 await ctx.send(f"{user.display_name} has not begun their Johto adventure so can't receive Johto Coins.")
             else:
-                self.db.execute(f"UPDATE Travel SET Johto_Coins = Johto_Coins + {coins} WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Johto_Coins = Johto_Coins + {coins} WHERE User_ID = {user.id}")
                 self.db.commit()
                 await ctx.send(f"{user.display_name} was given **{coins}** Johto Coins <:JohtoCoin:1474149692454731818>")
 
 
     @commands.has_permissions(administrator=True)
     @commands.command()
-    async def mon(self, ctx, region = None, user: disnake.Member = None):
-        dev_cat = 1228612793297670184
-        region_list = ["kanto", "johto", "hoenn"]
+    async def mon(self, ctx, user: disnake.Member = None):
+        dev_cat = 1101147200718917652
         if ctx.channel.category_id == dev_cat:
             if user is None:
                 member = ctx.guild.get_member(ctx.author.id)
             else:
                 member = ctx.guild.get_member(user.id)
-            if region == None:
-                await asyncio.create_task(Mon_Cmd.mon_overview(self, ctx, member))
-            elif region.lower() in region_list:
-                cities = regions[region.lower()]
-                try:
-                    database = self.db.execute(f"SELECT * FROM {region.capitalize()} WHERE User_ID = '{member.id}' ")
-                    database = database.fetchone()
-                    if database == None:
-                        await ctx.send(f"Region '{region.capitalize()}' not yet started for {member.name}",delete_after = 15)
-                        await asyncio.sleep(15)
-                        await ctx.message.delete()
-                        return
-                    db = self.db.execute(f"SELECT {region.capitalize()}_Permit, {region.capitalize()}_Ticket FROM Travel WHERE User_ID = {member.id}")
-                    db = db.fetchone()
-                    checks, ticket_check = await asyncio.create_task(Mon_Cmd.mon_region_checker(self, ctx, region.lower()))
-                    # if database:
-                    #     if database[5] is not None:
-                    #         pewter_count = eval(database[5])
-                    #         pewter_count = len(pewter_count)
-                    #     else:
-                    #         pewter_count = 0
-                        # if database[0][17] is not None:
-                        #     other_2_count = eval(database[0][17])
-                        #     other_2_count = len(other_2_count)
-                        # else:
-                        #     other_2_count = 0
-                    # Handling Other 2 count
-                    #     if database[14] is not None:
-                    #         other_2_count = len(json.loads(database[14]))
-                    #     else:
-                    #         other_2_count = 0
+            await asyncio.create_task(Mon_Cmd.mon_overview(self, ctx, member))
+            try:
+                database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{member.id}' ")
+                database = database.fetchone()
+                if database == None:
+                    await ctx.send(f"Region 'Johto' not yet started for {member.name}",delete_after = 15)
+                    await asyncio.sleep(15)
+                    await ctx.message.delete()
+                    return
+                db = self.db.execute(f"SELECT Permit, Ticket FROM Johto WHERE User_ID = {member.id}")
+                db = db.fetchone()
+                checks, ticket_check = await asyncio.create_task(Mon_Cmd.mon_region_checker(self, ctx, "johto"))
+                # if database:
+                #     if database[5] is not None:
+                #         pewter_count = eval(database[5])
+                #         pewter_count = len(pewter_count)
+                #     else:
+                #         pewter_count = 0
+                    # if database[0][17] is not None:
+                    #     other_2_count = eval(database[0][17])
+                    #     other_2_count = len(other_2_count)
                     # else:
-                    #     return
+                    #     other_2_count = 0
+                # Handling Other 2 count
+                #     if database[14] is not None:
+                #         other_2_count = len(json.loads(database[14]))
+                #     else:
+                #         other_2_count = 0
+                # else:
+                #     return
 
-                    # pallet_needed = await ChecksOfJohto.pallet_check()
-                    # viridian_needed = await ChecksOfJohto.viridian_check()
-                    # pewter_needed = await ChecksOfJohto.pewter_check()
-                    # rarity_points, cerulean_needed = await ChecksOfJohto.cerulean_check()
-                    # vermilion_needed = await ChecksOfJohto.vermilion_check()
-                    # lavendar_needed = await ChecksOfJohto.lavender_check()
-                    # celadon_needed = await ChecksOfJohto.celadon_check()
-                    # safari_mons, fuchsia_needed = await ChecksOfJohto.fuchsia_check()
-                    # saffron_needed = await ChecksOfJohto.saffron_check()
-                    # cinnabar_needed = await ChecksOfJohto.cinnabar_check()
-                    description = f"""__**Travel Stats**__
-    Ticket: {db[1]} {list(ticket_check.keys())[list(ticket_check.values()).index(db[1])]}
-    Permission: {db[0]} {list(ticket_check.keys())[list(ticket_check.values()).index(db[0])]}
+                # pallet_needed = await ChecksOfJohto.pallet_check()
+                # viridian_needed = await ChecksOfJohto.viridian_check()
+                # pewter_needed = await ChecksOfJohto.pewter_check()
+                # rarity_points, cerulean_needed = await ChecksOfJohto.cerulean_check()
+                # vermilion_needed = await ChecksOfJohto.vermilion_check()
+                # lavendar_needed = await ChecksOfJohto.lavender_check()
+                # celadon_needed = await ChecksOfJohto.celadon_check()
+                # safari_mons, fuchsia_needed = await ChecksOfJohto.fuchsia_check()
+                # saffron_needed = await ChecksOfJohto.saffron_check()
+                # cinnabar_needed = await ChecksOfJohto.cinnabar_check()
+                description = f"""__**Travel Stats**__
+Ticket: {db[1]} {list(ticket_check.keys())[list(ticket_check.values()).index(db[1])]}
+Permission: {db[0]} {list(ticket_check.keys())[list(ticket_check.values()).index(db[0])]}
 
 __**Quest Stats**__
-    Chosen Starter: Dex No. {database[2]}\n"""
-                    i = 3
-                    x = 0
-                    print(cities)
-                    amount = len(database) - 5
-                    print (f"{x} and {amount}, {x-amount}")
-                    while x < amount:
-                        msg = f"    {cities[x].capitalize()} count: {database[i]} /{checks[x]}\n"
-                        if cities[x] == "pewter":
-                            pewter_count = eval(database[5])
-                            pewter_count = len(pewter_count)
-                            print(pewter_count)
-                            msg = f"    {cities[x].capitalize()} count: {pewter_count} /{checks[x]}\n"
-                        description += msg
-                        i = i+1
-                        x = x+1
-                    database = self.db.execute(f"SELECT Secret_Quest_1, Secret_Quest_2 FROM {region.capitalize()} WHERE User_ID = {member.id}")
-                    database = database.fetchone()
-                    description +=f"\n    Other 1 count: {database[0]}\n    Other 2 count: {database[1]}"
-                    embed = await Custom_embed(
-                            self.client, title = f"Stats for {member.name}", description = description
-                        ).setup_embed()
-                    await ctx.send(embed=embed, delete_after = 15)
-                    await ctx.message.delete()
-                except commands.CommandError:
-                    pass
+Chosen Starter: Dex No. {database[19]}\n"""
+                i = 3
+                x = 0
+                cities = regions["johto"]
+                print(cities)
+                amount = len(database) - 5
+                print (f"{x} and {amount}, {x-amount}")
+                while x < amount:
+                    msg = f"    {cities[x].capitalize()} count: {database[i]} /{checks[x]}\n"
+                    if cities[x] == "pewter":
+                        pewter_count = eval(database[5])
+                        pewter_count = len(pewter_count)
+                        print(pewter_count)
+                        msg = f"    {cities[x].capitalize()} count: {pewter_count} /{checks[x]}\n"
+                    description += msg
+                    i = i+1
+                    x = x+1
+                database = self.db.execute(f"SELECT Secret_Quest_1, Secret_Quest_2 FROM Johto WHERE User_ID = {member.id}")
+                database = database.fetchone()
+                description +=f"\n    Other 1 count: {database[0]}\n    Other 2 count: {database[1]}"
+                embed = await Custom_embed(
+                        self.client, title = f"Stats for {member.name}", description = description
+                    ).setup_embed()
+                await ctx.send(embed=embed, delete_after = 15)
+                await ctx.message.delete()
+            except commands.CommandError:
+                pass
 
     # @commands.check(Basic_checker().check_management)
     # @commands.command()
@@ -978,7 +981,7 @@ __**Quest Stats**__
     async def _view_shop(self, ctx):
         # await ctx.send("This is currently under construction")
         user = ctx.user
-        travel_database = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = '{user.id}' ")
+        travel_database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{user.id}' ")
         travel_database = travel_database.fetchall()
         current_coins = 0
         amulet_count = 0
