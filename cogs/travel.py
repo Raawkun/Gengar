@@ -261,6 +261,7 @@ For more information use:
                 database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{member.id}' ")
                 database = database.fetchone()
                 ticket = database[3]
+                print(tickets[role])
                 #print(strings)
                 #progress = json.loads(strings)
                 print("Button role wasnt in Member Roles")
@@ -269,11 +270,10 @@ For more information use:
                     # ticket = progress[category_location]["ticket"]
                     if ticket >= tickets[role]: #if current ticket is higher or equal the ticket of the pressed Button
                         print(roles)
-                        for r in member.roles:
+                        for r in roles:
                             print(r)
-                            remove = disnake.utils.get(ctx.guild.roles, name=r)
-                            print(remove)
-                            if remove in roles:
+                            if r in member.roles:
+                                remove = disnake.utils.get(ctx.guild.roles, name=r)
                                 print(remove)
                                 # remove = interaction.guild.get_role(r)
                                 await member.remove_roles(remove)
