@@ -435,11 +435,11 @@ Have fun hunting, you will soon be able to travel further afield!"""
             category_name = ctx.channel.category.name
             # channel_location = channel_name.split("-")[0].split("丨")[1]
             category_location = category_name.split(" ")[0].lower()
-            print(category_location)
+            #print(category_location)
             # roles = await ChecksOfJohto.travel_roles()
             roles, tickets, region_id = await TravelChecks.check_gather(category_location)
             # database = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = '{ctx.author.id}' ")
-            database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = ? AND Region_ID = ?", (ctx.author.id, region_id))
+            database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = ?", (ctx.author.id))
             database = database.fetchone()
             print(database)
             role = ""
