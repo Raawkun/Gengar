@@ -269,10 +269,10 @@ For more information use:
                     # ticket = progress[category_location]["ticket"]
                     if ticket >= tickets[role]: #if current ticket is higher or equal the ticket of the pressed Button
                         print(roles)
-                        for r in roles:
+                        for r in member.roles:
                             print(r)
-                            if r != role:
-                                print(role)
+                            if r in roles:
+                                print(r)
                                 remove = disnake.utils.get(ctx.guild.roles, name=r)
                                 print(remove)
                                 # remove = interaction.guild.get_role(r)
