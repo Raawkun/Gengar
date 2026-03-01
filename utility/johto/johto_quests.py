@@ -45,9 +45,9 @@ class QuestsOfJohto(commands.Cog):
         ticket_check = await ChecksOfJohto.travel_tickets()
         day = datetime.datetime.today().weekday()
         if day < 5: # Normal day rates 450
-            check = 5
+            check = 450
         else: # 5 Sat, 6 Sun.  Weekend bonus rates 350
-            check = 5
+            check = 350
         num = random.randint(1, check)
         shoe_emote = "<:running_shoes:1233480002264236032>"
         gear_emote= "<:pokegear:1233479856868692068>"
