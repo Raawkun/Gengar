@@ -343,15 +343,15 @@ class QuestsOfJohto(commands.Cog):
             name = data[1].split("Shiny ")[1]
             data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
             data = data.fetchone()
-        print(data[0])
-        if str(data[0]) not in mons_needed: #Check if the mon is one of the legendaries
+        #print(data[0])
+        if data[0] not in mon_ids: #Check if the mon is one of the legendaries
             return
         else: #Its a Johto Legendary, so lets check further
             user_list = db_mons[1].split(",")
             if len(user_list) == len(mons_needed): #Are we already done???
                 return
             else:
-                if str(data[0]) in mon_ids: #Did we already catch it?
+                if data[0] in user_list: #Did we already catch it?
                     return
                 else:
                     mon_ids.append(data[0]).sort()
