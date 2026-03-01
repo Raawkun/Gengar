@@ -247,12 +247,14 @@ For more information use:
         print(role)
         print(ticket)
         button_role = disnake.utils.get(ctx.guild.roles, name=role)
+        print(button_role)
         # roles = await ChecksOfJohto.travel_roles()
         # ticket_check = await ChecksOfJohto.travel_tickets()
         if role:
             #button_role = disnake.utils.get(ctx.guild.roles, name=role)
             if button_role in member.roles:
                 msg = f"You are currently in **{role}**!"
+                print(msg)
             else:
                 # database = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = '{member.id}' ")
                 # database = database.fetchall()
@@ -261,14 +263,18 @@ For more information use:
                 ticket = database[3]
                 #print(strings)
                 #progress = json.loads(strings)
-                
+                print("Button role wasnt in Member Roles")
                 if database:
                     # ticket = database[0][2]
                     # ticket = progress[category_location]["ticket"]
                     if ticket >= tickets[role]: #if current ticket is higher or equal the ticket of the pressed Button
+                        print(roles)
                         for r in roles:
+                            print(r)
                             if r != role:
+                                print(role)
                                 remove = disnake.utils.get(ctx.guild.roles, name=r)
+                                print(remove)
                                 # remove = interaction.guild.get_role(r)
                                 await member.remove_roles(remove)
                                 msg = f"{member.display_name} travelled to **{role}**!"
