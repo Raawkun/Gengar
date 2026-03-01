@@ -111,6 +111,9 @@ class On_Edit(commands.Cog):
                                     asyncio.create_task(Modules.averagecoins(self,after))
                                     if after.channel.id in locations["Goldenrod City"]:
                                         await QuestsOfJohto.goldenrod_quest(self, sender, after)
+                                    coin_type = "hunt"
+                                else:
+                                    coin_type = "fish"
                                 if data[0] == 129:
                                     asyncio.create_task(Modules.fisheventcheck(self, after,sender))
                                 types =(data[2], data[3])
@@ -124,7 +127,7 @@ class On_Edit(commands.Cog):
                                     fossil = fossil.split(":")[0]
                                     await after.reply(f"``;res ex {fossil}``")
                                 if after.channel.id in locations["New Bark Town"]:
-                                    print("New Bark")
+                                    print(data[16])
                                     await QuestsOfJohto.newbark_quest(self, data[15],sender,before)
                                 elif after.channel.id in locations["Cherrygrove City"]:
                                     await QuestsOfJohto.cherrygrove_quest(self, sender, before)
@@ -132,6 +135,7 @@ class On_Edit(commands.Cog):
                                     await QuestsOfJohto.violet_quest(self, data[15], sender, before)
                                 elif after.channel.id in locations["Azalea Town"]:
                                     await QuestsOfJohto.azalea_quest(self, data[15], sender, before)
+                                    await QuestsOfJohto.secret_quest_1(self, data[15], sender, before)
                                 elif after.channel.id in locations["Ecruteak City"]:
                                     await QuestsOfJohto.ecruteak_quest(self, data[15], sender, before)
                                 elif after.channel.id in locations["Olivine City"]:
@@ -140,6 +144,9 @@ class On_Edit(commands.Cog):
                                     await QuestsOfJohto.cianwood_quest(self, data[15],sender,before)
                                 elif after.channel.id in locations["Mahogany Town"]:
                                     await QuestsOfJohto.mahogany_quest(self, data[15],sender,before)
+                                for location in locations.values():
+                                    if after.channel.id in location:
+                                        await QuestsOfJohto.johto_coins(self, sender, before, coin_type)
                                 if "retrieved a" in _embed.description:
                                     if after.channel.id in locations["Blackthorn City"]:
                                         await QuestsOfJohto.blackthorn_quest(self, sender,before)

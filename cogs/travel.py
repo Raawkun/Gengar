@@ -317,7 +317,7 @@ For more information use:
             filename = os.path.basename(check_db[0][15])
             msg = f"""Welcome to the Johto Region! Your journey begins in <#1211070035729322024> with {check_db[0][1]}!
 Have fun hunting, you will soon be able to travel further afield!"""
-            emb = await disnake.Embed(description=msg,color=disnake.colour.Color.green,image=check_db[0][15])
+            emb = disnake.Embed(description=msg,color=disnake.colour.Color.green,image=check_db[0][15])
             await ctx.edit_original_message(content=None, embed = emb, view=None)
             return
 

@@ -101,6 +101,11 @@ class ChecksOfJohto(commands.Cog):
         boosting = ["black belt", "black glasses", "charcoal", "dragon fang", "hard stone", "magnet", "metal coat", "miracle seed", "mystic water", "nevermeltice", "poison barb", "sharp beak", "silk scarf", "silver powder", "soft sand," "spell tag", "twisted spoon"]
         return items_needed, boosting
     
+    async def secret_1_check():
+        celebi = [251, 1251]
+        mon_needed = 1
+        return celebi, mon_needed
+    
     async def secret_2_check():
         johto_legends = [243, 244, 245, 249, 250] #Raikou, Entei, Suicune, Lugia, Ho-oh
         mon_needed = len(johto_legends)
@@ -112,7 +117,7 @@ class ChecksOfJohto(commands.Cog):
         #     hunt_coinodds, fish_coinodds, battle_coinodds = 200, 150, 75
         # else: # 5 Sat, 6 Sun.  Weekend bonus rates
         #     hunt_coinodds, fish_coinodds, battle_coinodds = 175, 125, 60
-        hunt_coinodds, fish_coinodds, battle_coinodds = 170, 120, 55
+        hunt_coinodds, fish_coinodds, battle_coinodds = 1, 120, 55
         return hunt_coinodds, fish_coinodds, battle_coinodds
 
     async def shop_check():

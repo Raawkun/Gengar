@@ -3,8 +3,10 @@ import datetime
 import random
 from sqlite3 import connect
 from disnake.ext import commands
+import disnake
 
 from utility.johto.johto_checks import ChecksOfJohto
+from utility.johto.travel_checks import TravelChecks
 
 class QuestsOfJohto(commands.Cog):
     def __init__(self, client):
@@ -101,9 +103,7 @@ class QuestsOfJohto(commands.Cog):
             return
         elif check_db[2] == type or check_db[3] == type:
             if (current_score + 1) == mons_needed:
-                self.db.execute(f"UPDATE Tickets SET Permissions = {new_perm} WHERE User_ID = {user.id} AND Region_ID = 2")
-                self.db.execute(f"UPDATE User SET Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
-                self.db.execute(f"UPDATE Johto SET Violet_Quest = Violet_Quest + 1 WHERE User_ID = {user.id}")
+                self.db.execute(f"UPDATE Johto SET Violet_Quest = Violet_Quest + 1, Johto_Coins = Johto_Coins + 15, Permit = {new_perm} WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
                 msg = f"{user.mention} Congratulations, you caught enough grass Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
@@ -298,7 +298,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.commit()
 
     async def blackthorn_quest(self, user, after):
-        ticket_check = await ChecksOfJohto.johto_tickets()
+        ticket_check = await ChecksOfJohto.travel_tickets()
         items_needed, boosted = await ChecksOfJohto.blackthorn_check()
         db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
@@ -325,6 +325,131 @@ class QuestsOfJohto(commands.Cog):
                 self.db.execute(f"UPDATE Johto SET Blackthorn_Quest = Blackthorn_Quest + 1 WHERE User_ID = {user.id}")
                 self.db.commit()
 
+    async def secret_quest_1(self, image, user, before): #Celebi Quest
+        ticket_check = await ChecksOfJohto.travel_tickets()
+        mon_id, mons_needed = await ChecksOfJohto.secret_1_check()
+        db_celebi = self.db.execute(f"SELECT Secret_1 FROM Johto WHERE User_ID = {user.id}")
+        db_celebi = db_celebi.fetchone()
+        if db_celebi[0] == 1:
+            return
+        else:
+            data = self.db.execute(f"SELECT * FROM Dex WHERE Img_Url = '{image}'")
+            data = data.fetchone()
+            if data[0] in mon_id:
+                guild = user.guild
+                Cele_Hunter = disnake.utils.get(guild.roles, name="Celebi Hunter")
+                self.db.execute(f"UPDATE Johto SET Secret_1 = 1, Johto_Coins = Johto_Coins + 100 WHERE User_ID = {user.id}")
+                self.db.commit()
+                await user.add_roles(Cele_Hunter)
+                msg = "You placed the GS Ball into the shrine within Ilex Forest and found the mythical Celebi! You are awarded 100 Johto Coins <:JohtoCoin:1474149692454731818>!"
+                emb = disnake.Embed(description=msg, color=disnake.colour.Color.green,title="Ancient Shrine")
+                emb.set_image(url="https://github.com/Raawkun/Discord-Bot-Files/blob/main/pics/HGSS_Ilex_Forest-Night.png")
+                await before.channel.send(content=f"{user.mention}",embed=emb,delete_after=10)
+
+    async def secret_quest_2(self, image, user, before): #Legendaries
+        mon_ids, mons_needed = await ChecksOfJohto.secret_2_check()
+        db_mons = self.db.execute(f"SELECT Secret_2, Secret_2_List FROM Johto WHERE User-ID = {user.id}")
+        db_mons = db_mons.fetchone()
+        user_list = db_mons[1].split(",")
+        if len(user_list) == len(mons_needed):
+            return
+        else:
+            data = self.db.execute(f"SELECT * FROM Dex WHERE Img_Url = '{image}'")
+            data = data.fetchone()
+            if data[11] == 1:
+                name = data[1].split("Shiny ")[1]
+                data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
+                data = data.fetchone()
+            if data[0] not in mons_needed:
+                return
+            else:
+                if data[0] in mon_ids:
+                    return
+                else:
+                    mon_ids.append(data[0]).sort()
+                    user_list_new = ",".join(mon_ids)
+                    if mon_ids == mons_needed:
+                        self.db.execute(f"UPDATE Johto SET Secret_2 = 1, Secret_2_List = '{user_list_new}', Johto_Coins = Johto_Coins + 100 WHERE User_ID = {user.id}")
+                        self.db.commit()
+                        guild = user.guild
+                        Johto_dex = disnake.utils.get(guild.roles, "Johto Dexxer")
+                        try:
+                            await user.add_roles(Johto_dex)
+                        except:
+                            print(f"Couldnt add {Johto_dex.name()} to {user.display_name()}.")
+                        msg = "Wow! You managed to catch all Johto's legendaries! That's impressive! Here, take 100 Johto Coins <:JohtoCoin:1474149692454731818> for your effort!"
+                        emb = disnake.Embed(description=msg, color=disnake.colour.Color.green,title="Legendary Catcher")
+                        await before.channel.send(content=f"{user.mention}", embed=emb, delete_after=10)
+                    else:
+                        self.db.execute(f"UPDATE Johto SET Secret_2_List = '{user_list_new}' WHERE User_ID = {user.id}")
+                        self.db.commit()
+
+
+
+
+
+
+
+    async def johto_coins(self, user, before, coin_type):
+        hunt_coinodds, fish_coinodds, battle_coinodds = await ChecksOfJohto.coin_check()
+        item_database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{user.id}' ")
+        item_database = item_database.fetchall()
+        bonus_city = None
+        bonus_increase = 5
+        if item_database:
+            amulet_count = item_database[0][20]
+        else:
+            amulet_count = 0
+        locations = await TravelChecks.travel_locations()
+        day = datetime.datetime.today().weekday()
+        hunt_coinodds = 1 / (hunt_coinodds * (1 - (0.01 * amulet_count)))
+        fish_coinodds = 1 / (fish_coinodds * (1 - (0.01 * amulet_count)))
+        battle_coinodds = 1 / (battle_coinodds * (1 - (0.01 * amulet_count)))
+        # hunt_coinodds = ((1/hunt_coinodds) * (1 + (0.01 * amulet_count)))
+        # fish_coinodds = ((1/fish_coinodds) * (1 + (0.01 * amulet_count)))
+        # battle_coinodds = ((1/battle_coinodds) * (1 + (0.01 * amulet_count)))
+        odds = 0
+        if coin_type == "hunt":
+            odds = hunt_coinodds
+        elif coin_type == "fish":
+            odds = fish_coinodds
+        elif coin_type == "battle":
+            odds = battle_coinodds
+        roll = random.random()
+        if bonus_city:
+            if before.channel.id in locations["Viridian City"]:
+                odds = int(odds * (1 + (bonus_increase/100)))
+        if odds > roll:
+            if day < 5: # Normal weekday rates
+                multi_coin = 100
+            else: # 5 Sat, 6 Sun.  Weekend bonus rates
+                multi_coin = 95
+            coin_emote = "<:JohtoCoin:1474149692454731818>"
+
+            # multi_coin = ((1/multi_coin) * (1 + (0.01 * amulet_count)))
+            multi_coin = 1 / (multi_coin * (1 - (0.01 * amulet_count)))
+            # if before.channel.id in locations["Viridian City"]:
+                # multi_coin = int(multi_coin * 1.1)
+
+            msg = ""
+            roll = random.random()
+            if multi_coin > roll:
+                chance = 1/100 * (1 + (0.01 * amulet_count))
+                roll2 = random.random()
+                if chance > roll2:
+                    self.db.execute(f"UPDATE Johto SET Johto = Johto + 5 WHERE User_ID = {user.id}")
+                    self.db.commit()
+                    msg = f"{user.mention} Congratulations, you found five Johto Coins! {coin_emote * 5}"
+                else:
+                    self.db.execute(f"UPDATE Johto SET Johto = Johto + 2 WHERE User_ID = {user.id}")
+                    self.db.commit()
+                    msg = f"{user.mention} Congratulations, you found two Johto Coins! {coin_emote * 2}"
+            else:
+                self.db.execute(f"UPDATE Johto SET Johto = Johto + 1 WHERE User_ID = {user.id}")
+                self.db.commit()
+                msg = f"{user.mention} Congratulations, you found a Johto Coin! {coin_emote}"
+            if msg:
+                await before.channel.send(msg)
              
 
 def setup(client):
