@@ -335,7 +335,7 @@ class QuestsOfJohto(commands.Cog):
 
     async def secret_quest_2(self, image, user, before): #Legendaries
         mon_ids, mons_needed = await ChecksOfJohto.secret_2_check()
-        db_mons = self.db.execute(f"SELECT Secret_2, Secret_Quest_2 FROM Johto WHERE User-ID = {user.id}")
+        db_mons = self.db.execute(f"SELECT Secret_2, Secret_Quest_2 FROM Johto WHERE User_ID = {user.id}")
         db_mons = db_mons.fetchone()
         user_list = db_mons[1].split(",")
         if len(user_list) == len(mons_needed):
