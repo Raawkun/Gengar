@@ -470,7 +470,11 @@ class Listener(commands.Cog):
                 coin_type = "battle"
                 for location in locations.values():
                     if message.channel.id in location:
-                        await QuestsOfJohto.johto_coins(self, sender, message, coin_type)
+                        match = re.search(r'\*\*(.+?)\*\* won the battle', message.content)
+                        player = match.group(1)
+                        user = message.guild.get_member_named(player)
+                        print(user)
+                        await QuestsOfJohto.johto_coins(self, user, message, coin_type)
                 if self.promo_item in message.content.lower():
                     await message.reply(f"Oh wow - looks like you've found a promo item! Congratulations!")
             if "** released " in message.content.lower():
