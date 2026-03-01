@@ -258,8 +258,9 @@ For more information use:
                 database = database.fetchone()
                 strings = database[3]
                 print(strings)
-                progress = json.loads(strings)
                 print(tickets[ctx.channel.name])
+                progress = json.loads(strings)
+                
                 if database:
                     # ticket = database[0][2]
                     ticket = progress[category_location]["ticket"]
