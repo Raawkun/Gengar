@@ -232,7 +232,7 @@ class Role_menu(commands.Cog):
     async def _roleselect(self, ctx, role, ticket, client):
         category_name = ctx.channel.category.name
         # channel_location = channel_name.split("-")[0].split("丨")[1]
-        category_location = category_name[1:].lower()
+        category_location = category_name.split(" ")[0].lower()
         # roles = await ChecksOfJohto.travel_roles()
         roles, tickets, region_id = await TravelChecks.check_gather(category_location)
         embed = await Custom_embed(
@@ -254,9 +254,9 @@ For more information use:
             else:
                 # database = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = '{member.id}' ")
                 # database = database.fetchall()
-                database = self.db.execute(f"SELECT * FROM Travel_test WHERE User_ID = '{member.id}' ")
+                database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{member.id}' ")
                 database = database.fetchone()
-                string = database[0][2]
+                string = database[3]
                 progress = json.loads(string)
                 if database:
                     # ticket = database[0][2]
