@@ -439,18 +439,9 @@ Have fun hunting, you will soon be able to travel further afield!"""
             # roles = await ChecksOfJohto.travel_roles()
             roles, tickets, region_id = await TravelChecks.check_gather(category_location)
             # database = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = '{ctx.author.id}' ")
-            database = self.db.execute(f"SELECT * FROM Tickets WHERE User_ID = ? AND Region_ID = ?", (ctx.author.id, region_id))
+            database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = ? AND Region_ID = ?", (ctx.author.id, region_id))
             database = database.fetchone()
-            # string = database[0][1].replace('\\', '')
-            # string = string.strip("'")
-            # print(string)
-            # try:
-            #     progress = json.loads(string)
-            # except Exception as e:
-            #     await ctx.send(f" Error: {e}")
-            #     return
-            # # print(database)
-            # await ctx.send(progress)
+            print(database)
             role = ""
             if database:
                 ticket = database[0][2]
