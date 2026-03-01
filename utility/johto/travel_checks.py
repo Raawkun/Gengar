@@ -19,7 +19,9 @@ class TravelChecks(commands.Cog):
     async def check_gather(location):
         if location == "johto":
             roles = await TravelChecks.johto_roles()
+            print(roles)
             tickets = await TravelChecks.johto_tickets()
+            print(tickets)
             region_id = 1
         return roles, tickets, region_id
 
