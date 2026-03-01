@@ -444,7 +444,7 @@ Have fun hunting, you will soon be able to travel further afield!"""
             print(database)
             role = ""
             if database:
-                ticket = database[0][2]
+                ticket = database[0][3]
                 # ticket = progress[channel_location]["ticket"]
                 # print(f"Ticket: {ticket}")
                 for r in roles:
