@@ -258,13 +258,13 @@ For more information use:
                 database = database.fetchone()
                 strings = database[3]
                 print(strings)
-                print(tickets[ctx.channel.name])
-                progress = json.loads(strings)
+                #progress = json.loads(strings)
                 
                 if database:
                     # ticket = database[0][2]
-                    ticket = progress[category_location]["ticket"]
-                    if ticket >= tickets[ctx.channel.id]:
+                    # ticket = progress[category_location]["ticket"]
+                    ticket = tickets[database[3]]
+                    if ticket >= tickets[role]:
                         for r in roles:
                             if r != role:
                                 remove = disnake.utils.get(ctx.guild.roles, name=r)
