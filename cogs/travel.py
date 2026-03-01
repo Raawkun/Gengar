@@ -792,7 +792,7 @@ Don't forget to buy your train ticket in <#1079409997496193145>"""
             await ctx.response.defer()
             db_pallet = self.db.execute(f'SELECT * FROM Johto')
             db_pallet = db_pallet.fetchall()
-            self.db.execute(f"UPDATE Travel SET Johto_Coins = Johto_Coins + 5 WHERE Permit = 1")
+            self.db.execute(f"UPDATE Johto SET Johto_Coins = Johto_Coins + 5 WHERE Permit = 1")
             self.db.commit()
             names = "The following people have received +5 Johto coins <:JohtoCoin:1474149692454731818>\n"
             for row in db_pallet:
@@ -812,7 +812,7 @@ Don't forget to buy your train ticket in <#1079409997496193145>"""
             await ctx.send("Sorry, you can't send coins to bots.")
         else:
             # Check if entry exists for the user
-            database = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = {user.id}")
+            database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = {user.id}")
             database = database.fetchone()
 
             if database is None:
