@@ -344,37 +344,36 @@ class QuestsOfJohto(commands.Cog):
             data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
             data = data.fetchone()
         print(data[0])
-        if str(data[0]) not in mons_needed: #Check if the mon is one of the legendaries
-            return
-        else: #Its a Johto Legendary, so lets check further
-            user_list = db_mons[1].split(",")
-            if len(user_list) == len(mons_needed): #Are we already done???
-                return
-            else:
-                if str(data[0]) in mon_ids: #Did we already catch it?
+        for entries in mons_needed: #Check if the mon is one of the legendaries
+            if entries == data[0]:
+                user_list = db_mons[1].split(",")
+                if len(user_list) == len(mons_needed): #Are we already done???
                     return
                 else:
-                    mon_ids.append(data[0]).sort()
-                    user_list_new = ",".join(mon_ids)
-                    if mon_ids == mons_needed:
-                        self.db.execute(f"UPDATE Johto SET Secret_2 = 1, Secret_Quest_2 = '{user_list_new}', Johto_Coins = Johto_Coins + 100 WHERE User_ID = {user.id}")
-                        self.db.commit()
-                        guild = user.guild
-                        Johto_dex = disnake.utils.get(guild.roles, "Johto Dexxer")
-                        try:
-                            await user.add_roles(Johto_dex)
-                        except:
-                            print(f"Couldnt add {Johto_dex.name()} to {user.display_name()}.")
-                        msg = "Wow! You managed to catch all Johto's legendaries! That's impressive! Here, take 100 Johto Coins <:JohtoCoin:1474149692454731818> for your effort!"
-                        emb = disnake.Embed(description=msg, color=disnake.Colour.brand_green(),title="Legendary Catcher")
-                        await before.channel.send(content=f"{user.mention}", embed=emb, delete_after=10)
-                    else:
-                        self.db.execute(f"UPDATE Johto SET Secret_Quest_2 = '{user_list_new}' WHERE User_ID = {user.id}")
-                        self.db.commit()
-
-
-
-
+                    for entry in mon_ids:
+                        if entry == data[0]:#Did we already catch it?
+                            return
+                        else:
+                            mon_ids.append(data[0]).sort()
+                            user_list_new = ",".join(mon_ids)
+                            if mon_ids == mons_needed:
+                                self.db.execute(f"UPDATE Johto SET Secret_2 = 1, Secret_Quest_2 = '{user_list_new}', Johto_Coins = Johto_Coins + 100 WHERE User_ID = {user.id}")
+                                self.db.commit()
+                                guild = user.guild
+                                Johto_dex = disnake.utils.get(guild.roles, "Johto Dexxer")
+                                try:
+                                    await user.add_roles(Johto_dex)
+                                except:
+                                    print(f"Couldnt add {Johto_dex.name()} to {user.display_name()}.")
+                                msg = "Wow! You managed to catch all Johto's legendaries! That's impressive! Here, take 100 Johto Coins <:JohtoCoin:1474149692454731818> for your effort!"
+                                emb = disnake.Embed(description=msg, color=disnake.Colour.brand_green(),title="Legendary Catcher")
+                                await before.channel.send(content=f"{user.mention}", embed=emb, delete_after=10)
+                            else:
+                                self.db.execute(f"UPDATE Johto SET Secret_Quest_2 = '{user_list_new}' WHERE User_ID = {user.id}")
+                                self.db.commit()
+                            break
+            else:
+                return
 
 
 
