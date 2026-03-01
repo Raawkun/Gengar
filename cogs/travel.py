@@ -331,8 +331,8 @@ Have fun hunting, you will soon be able to travel further afield!"""
                 #return(False)
 
     async def oak_comment(self, score):
-        bar_full = "<:bar_full:1234593320957906974>"
-        bar_empty = "<:bar_empty:1234593190825426956>"
+        bar_full = "<:bar_full:1123545047825141772>"
+        bar_empty = "<:bar_empty:1123545044926865508>"
         msg = ""
         # if score < 0.25:
         #     msg = "*You've only just begun your current task, keep at it!*"
