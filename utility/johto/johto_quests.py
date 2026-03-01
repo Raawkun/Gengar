@@ -337,20 +337,20 @@ class QuestsOfJohto(commands.Cog):
         mon_ids, mons_needed = await ChecksOfJohto.secret_2_check()
         db_mons = self.db.execute(f"SELECT Secret_2, Secret_Quest_2 FROM Johto WHERE User_ID = {user.id}")
         db_mons = db_mons.fetchone()
-        user_list = db_mons[1].split(",")
-        if len(user_list) == len(mons_needed):
-            return
-        else:
-            data = self.db.execute(f"SELECT * FROM Dex WHERE Img_Url = '{image}'")
+        data = self.db.execute(f"SELECT * FROM Dex WHERE Img_Url = '{image}'")
+        data = data.fetchone()
+        if data[11] == 1: #If shiny, convert to non-shiny version
+            name = data[1].split("Shiny ")[1]
+            data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
             data = data.fetchone()
-            if data[11] == 1:
-                name = data[1].split("Shiny ")[1]
-                data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
-                data = data.fetchone()
-            if data[0] not in mons_needed:
+        if data[0] not in mons_needed: #Check if the mon is one of the legendaries
+            return
+        else: #Its a Johto Legendary, so lets check further
+            user_list = db_mons[1].split(",")
+            if len(user_list) == len(mons_needed): #Are we already done???
                 return
             else:
-                if data[0] in mon_ids:
+                if data[0] in mon_ids: #Did we already catch it?
                     return
                 else:
                     mon_ids.append(data[0]).sort()
