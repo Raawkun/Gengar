@@ -870,39 +870,36 @@ Don't forget to buy your train ticket in <#1079409997496193145>"""
                 # else:
                 #     return
 
-                # pallet_needed = await ChecksOfJohto.pallet_check()
-                # viridian_needed = await ChecksOfJohto.viridian_check()
-                # pewter_needed = await ChecksOfJohto.pewter_check()
-                # rarity_points, cerulean_needed = await ChecksOfJohto.cerulean_check()
-                # vermilion_needed = await ChecksOfJohto.vermilion_check()
-                # lavendar_needed = await ChecksOfJohto.lavender_check()
-                # celadon_needed = await ChecksOfJohto.celadon_check()
-                # safari_mons, fuchsia_needed = await ChecksOfJohto.fuchsia_check()
-                # saffron_needed = await ChecksOfJohto.saffron_check()
-                # cinnabar_needed = await ChecksOfJohto.cinnabar_check()
+                newbark_need = await ChecksOfJohto.newbark_check()
+                shoe_need, gear_need = await ChecksOfJohto.cherrygrove_check()
+                violet_need = await ChecksOfJohto.violet_check()
+                azalea_need, catch_id = await ChecksOfJohto.azalea_check()
+                goldenrod_need = await ChecksOfJohto.goldenrod_check()
+                ecruteak_need = await ChecksOfJohto.ecruteak_check()
+                olivine_need = await ChecksOfJohto.olivine_check()
+                safari_mons, cianwood_need = await ChecksOfJohto.cianwood_check()
+                mahogany_needed = await ChecksOfJohto.mahogany_check()
+                blackthorn_needed = await ChecksOfJohto.blackthorn_check()
                 description = f"""__**Travel Stats**__
 Ticket: {db[1]} {list(ticket_check.keys())[list(ticket_check.values()).index(db[1])]}
 Permission: {db[0]} {list(ticket_check.keys())[list(ticket_check.values()).index(db[0])]}
 
 __**Quest Stats**__
 Chosen Starter: Dex No. {database[19]}\n"""
-                i = 3
-                x = 0
-                cities = regions["johto"]
-                print(cities)
-                amount = len(database) - 5
-                print (f"{x} and {amount}, {x-amount}")
-                while x < amount:
-                    msg = f"    {cities[x].capitalize()} count: {database[i]} /{checks[x]}\n"
-                    if cities[x] == "pewter":
-                        pewter_count = eval(database[5])
-                        pewter_count = len(pewter_count)
-                        print(pewter_count)
-                        msg = f"    {cities[x].capitalize()} count: {pewter_count} /{checks[x]}\n"
-                    description += msg
-                    i = i+1
-                    x = x+1
-                database = self.db.execute(f"SELECT Secret_Quest_1, Secret_Quest_2 FROM Johto WHERE User_ID = {member.id}")
+                database = self.db.execute(f"SELECT Newbark_Quest,Running_Shoes,Pokegear,Violet_Quest,Azalea_Quest,Goldenrod_Quest,Ecruteak_Quest,Olivine_Quest,Cianwood_Quest,Mahogany_Quest,Blackthorn_Quest FROM Johto WHERE User_ID = {member.id}")
+                database = database.fetchone()
+                newbark, shoes, gear, violet, azalea, goldenrod, ecruteak, olivine, cianwood, mahogany, blackthorn = database
+                description += f"""Newbark: {newbark} / {newbark_need}
+Cherrygrove: Shoes {shoes} / {shoe_need}, Gear {gear} / {gear_need}
+Violet: {violet} / {violet_need}
+Azalea: {azalea} / {azalea_need}
+Goldenrod: {goldenrod} / {goldenrod_need}
+Ecruteak: {ecruteak} / {ecruteak_need}
+Olivine: {olivine} / {olivine_need}
+Cianwood: {cianwood} / {cianwood_need}
+Mahogany: {mahogany} / {mahogany_needed}
+Blackthorn: {blackthorn} / {blackthorn_needed}"""
+                database = self.db.execute(f"SELECT Secret_1, Secret_2 FROM Johto WHERE User_ID = {member.id}")
                 database = database.fetchone()
                 description +=f"\n    Other 1 count: {database[0]}\n    Other 2 count: {database[1]}"
                 embed = await Custom_embed(
