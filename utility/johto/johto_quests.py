@@ -325,7 +325,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.commit()
                 await user.add_roles(Cele_Hunter)
                 msg = "You placed the GS Ball into the shrine within Ilex Forest and found the mythical Celebi! You are awarded 100 Johto Coins <:JohtoCoin:1474149692454731818>!"
-                emb = disnake.Embed(description=msg, color=disnake.Color.green,title="Ancient Shrine")
+                emb = disnake.Embed(description=msg, color=disnake.Colour.green,title="Ancient Shrine")
                 emb.set_image(url="https://github.com/Raawkun/Discord-Bot-Files/blob/main/pics/HGSS_Ilex_Forest-Night.png")
                 await before.channel.send(content=f"{user.mention}",embed=emb,delete_after=10)
 
@@ -361,7 +361,7 @@ class QuestsOfJohto(commands.Cog):
                         except:
                             print(f"Couldnt add {Johto_dex.name()} to {user.display_name()}.")
                         msg = "Wow! You managed to catch all Johto's legendaries! That's impressive! Here, take 100 Johto Coins <:JohtoCoin:1474149692454731818> for your effort!"
-                        emb = disnake.Embed(description=msg, color=disnake.Color.green,title="Legendary Catcher")
+                        emb = disnake.Embed(description=msg, color=disnake.Colour.green,title="Legendary Catcher")
                         await before.channel.send(content=f"{user.mention}", embed=emb, delete_after=10)
                     else:
                         self.db.execute(f"UPDATE Johto SET Secret_2_List = '{user_list_new}' WHERE User_ID = {user.id}")
