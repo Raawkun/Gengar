@@ -314,12 +314,11 @@ For more information use:
             check_db = check_db.fetchall()
             role = disnake.utils.get(ctx.guild.roles, name="New Bark Town")
             await member.add_roles(role)
-            response = requests.get(check_db[0][15])
-            image = BytesIO(response.content)
             filename = os.path.basename(check_db[0][15])
-            msg = f"""Welcome to the Johto Region! Your journey begins in <#1227344686809743496> with {check_db[0][1]}!
+            msg = f"""Welcome to the Johto Region! Your journey begins in <#1211070035729322024> with {check_db[0][1]}!
 Have fun hunting, you will soon be able to travel further afield!"""
-            await ctx.edit_original_message(content=msg, embed = None, view=None, file=disnake.File(image, filename))
+            emb = await disnake.Embed(description=msg,color=disnake.colour.Color.green,image=check_db[0][15])
+            await ctx.edit_original_message(content=None, embed = emb, view=None)
             return
 
     #async def check_travel_channel(ctx):
