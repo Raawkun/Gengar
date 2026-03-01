@@ -335,7 +335,7 @@ class QuestsOfJohto(commands.Cog):
 
     async def secret_quest_2(self, image, user, before): #Legendaries
         mon_ids, mons_needed = await ChecksOfJohto.secret_2_check()
-        db_mons = self.db.execute(f"SELECT Secret_2, Secret_2_List FROM Johto WHERE User-ID = {user.id}")
+        db_mons = self.db.execute(f"SELECT Secret_2, Secret_Quest_2 FROM Johto WHERE User-ID = {user.id}")
         db_mons = db_mons.fetchone()
         user_list = db_mons[1].split(",")
         if len(user_list) == len(mons_needed):
@@ -356,7 +356,7 @@ class QuestsOfJohto(commands.Cog):
                     mon_ids.append(data[0]).sort()
                     user_list_new = ",".join(mon_ids)
                     if mon_ids == mons_needed:
-                        self.db.execute(f"UPDATE Johto SET Secret_2 = 1, Secret_2_List = '{user_list_new}', Johto_Coins = Johto_Coins + 100 WHERE User_ID = {user.id}")
+                        self.db.execute(f"UPDATE Johto SET Secret_2 = 1, Secret_Quest_2 = '{user_list_new}', Johto_Coins = Johto_Coins + 100 WHERE User_ID = {user.id}")
                         self.db.commit()
                         guild = user.guild
                         Johto_dex = disnake.utils.get(guild.roles, "Johto Dexxer")
@@ -368,7 +368,7 @@ class QuestsOfJohto(commands.Cog):
                         emb = disnake.Embed(description=msg, color=disnake.Colour.brand_green(),title="Legendary Catcher")
                         await before.channel.send(content=f"{user.mention}", embed=emb, delete_after=10)
                     else:
-                        self.db.execute(f"UPDATE Johto SET Secret_2_List = '{user_list_new}' WHERE User_ID = {user.id}")
+                        self.db.execute(f"UPDATE Johto SET Secret_Quest_2 = '{user_list_new}' WHERE User_ID = {user.id}")
                         self.db.commit()
 
 

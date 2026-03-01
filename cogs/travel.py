@@ -904,7 +904,7 @@ Olivine: {olivine} / {olivine_need}
 Cianwood: {cianwood} / {cianwood_need}
 Mahogany: {mahogany} / {mahogany_needed}
 Blackthorn: {blackthorn} / {blackthorn_needed}"""
-                database = self.db.execute(f"SELECT Secret_1, Secret_2 FROM Johto WHERE User_ID = {member.id}")
+                database = self.db.execute(f"SELECT Secret_1, Secret_Quest_2 FROM Johto WHERE User_ID = {member.id}")
                 database = database.fetchone()
                 description +=f"\n    Other 1 count: {database[0]}\n    Other 2 count: {database[1]}"
                 embed = await Custom_embed(
