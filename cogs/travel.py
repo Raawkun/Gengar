@@ -256,14 +256,13 @@ For more information use:
                 # database = database.fetchall()
                 database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{member.id}' ")
                 database = database.fetchone()
-                strings = database[3]
-                print(strings)
+                ticket = database[3]
+                #print(strings)
                 #progress = json.loads(strings)
                 
                 if database:
                     # ticket = database[0][2]
                     # ticket = progress[category_location]["ticket"]
-                    ticket = tickets[database[3]]
                     if ticket >= tickets[role]:
                         for r in roles:
                             if r != role:
