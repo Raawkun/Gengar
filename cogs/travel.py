@@ -244,11 +244,13 @@ For more information use:
         embed.set_image(url = "https://raw.githubusercontent.com/Pr1nc3St4r/ff_images/main/misc/poke_train.gif")
         msg = ""
         member = ctx.guild.get_member(ctx.user.id)
-        button_role = None
+        print(role)
+        print(ticket)
+        button_role = disnake.utils.get(ctx.guild.roles, name=role)
         # roles = await ChecksOfJohto.travel_roles()
         # ticket_check = await ChecksOfJohto.travel_tickets()
         if role:
-            button_role = disnake.utils.get(ctx.guild.roles, name=role)
+            #button_role = disnake.utils.get(ctx.guild.roles, name=role)
             if button_role in member.roles:
                 msg = f"You are currently in **{role}**!"
             else:
@@ -263,7 +265,7 @@ For more information use:
                 if database:
                     # ticket = database[0][2]
                     # ticket = progress[category_location]["ticket"]
-                    if ticket >= tickets[role]:
+                    if ticket >= tickets[role]: #if current ticket is higher or equal the ticket of the pressed Button
                         for r in roles:
                             if r != role:
                                 remove = disnake.utils.get(ctx.guild.roles, name=r)
