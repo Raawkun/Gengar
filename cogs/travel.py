@@ -241,7 +241,7 @@ class Role_menu(commands.Cog):
 For more information use:
 </info:1080872068012326932> -> `kanto`"""
                 ).setup_embed()
-        embed.set_image(url = "https://raw.githubusercontent.com/Pr1nc3St4r/ff_images/main/misc/poke_train.gif")
+        embed.set_image(url = "https://raw.githubusercontent.com/Raawkun/Discord-Bot-Files/refs/heads/main/pics/IMG_2940.jpeg")
         msg = ""
         member = ctx.guild.get_member(ctx.user.id)
         #print(role)
@@ -661,7 +661,7 @@ Johto Amulet(s): **{amulet_count}** <:JohtoAmulet:1474149802441707612>
             embed = await Custom_embed(
                     self.client, 
                 ).setup_embed()
-            embed.set_image(url = "https://raw.githubusercontent.com/Pr1nc3St4r/ff_images/main/misc/proff_oak.png")
+            embed.set_image(url = "https://raw.githubusercontent.com/Raawkun/Discord-Bot-Files/refs/heads/main/pics/Gold_Silver_Professor_Elm.png")
             embed.set_author(name= "You rang Professor Elm!",
             icon_url = "https://raw.githubusercontent.com/Pr1nc3St4r/ff_images/main/misc/oak_author.png")
             if permit == ticket:
