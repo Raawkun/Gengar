@@ -611,8 +611,8 @@ Johto Amulet(s): **{amulet_count}** <:JohtoAmulet:1474149802441707612>
 
     @commands.check(Basic_checker().check_travel_channel)
     @commands.slash_command(
-        name="oak",
-        description="Ring Professor Oak to ask for some advice on how to progress.")
+        name="elm",
+        description="Ring Professor Elm to ask for some advice on how to progress.")
     async def oak(self, ctx):
         try:
             await ctx.response.defer()
@@ -662,7 +662,7 @@ Johto Amulet(s): **{amulet_count}** <:JohtoAmulet:1474149802441707612>
                     self.client, 
                 ).setup_embed()
             embed.set_image(url = "https://raw.githubusercontent.com/Pr1nc3St4r/ff_images/main/misc/proff_oak.png")
-            embed.set_author(name= "You rang Professor Oak!",
+            embed.set_author(name= "You rang Professor Elm!",
             icon_url = "https://raw.githubusercontent.com/Pr1nc3St4r/ff_images/main/misc/oak_author.png")
             if permit == ticket:
                 if permit == 0:
