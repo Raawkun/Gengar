@@ -33,7 +33,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.execute(f"UPDATE Johto SET Newbark_Quest = Newbark_Quest + 1, Permit = {new_perm},Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough Johto Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
+                msg = f"{user.mention} Congratulations, you caught enough Johto Pokémon to help Prof Elm with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -103,7 +103,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.execute(f"UPDATE Johto SET Violet_Quest = Violet_Quest + 1, Johto_Coins = Johto_Coins + 15, Permit = {new_perm} WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough grass Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
+                msg = f"{user.mention} Congratulations, you caught enough grass Pokémon to help Prof Elm with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -130,7 +130,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.execute(f"UPDATE Johto SET Azalea_Quest = Azalea_Quest + 1, Permit = {new_perm}, Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough Slowpokes to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
+                msg = f"{user.mention} Congratulations, you caught enough Slowpokes to help Prof Elm with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -190,7 +190,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.execute(f"UPDATE Johto SET Ecruteak_Quest = Ecruteak_Quest + 1, Permit = {new_perm}, Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough fire Pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
+                msg = f"{user.mention} Congratulations, you caught enough fire Pokémon to help Prof Elm with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
@@ -245,7 +245,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.execute(f"UPDATE Johto SET Cianwood_Quest = Cianwood_Quest + 1, Permit = {new_perm}, Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
-                msg = f"{user.mention} Congratulations, you caught enough safari pokémon to help Prof Oak with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
+                msg = f"{user.mention} Congratulations, you caught enough safari pokémon to help Prof Elm with his research and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
                 sent_msg = await before.channel.send(msg)
                 await asyncio.sleep(5)
                 await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
