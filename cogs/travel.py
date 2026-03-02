@@ -636,7 +636,10 @@ Johto Amulet(s): **{amulet_count}** <:JohtoAmulet:1474149802441707612>
             azalea_count = database[9]
             azalea_needed, azalea_mon = await ChecksOfJohto.azalea_check()
 
-            goldenrod_count = len(database[10].split(","))
+            try:
+                goldenrod_count = len(database[10].split(","))
+            except:
+                goldenrod_count = 0
             goldenrod_needed = await ChecksOfJohto.goldenrod_check()
             goldenrod_needed = len(goldenrod_needed)
 
