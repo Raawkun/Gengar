@@ -1025,6 +1025,17 @@ You currently have **{current_coins}** Johto coins.
         embed.set_thumbnail(url="https://raw.githubusercontent.com/Pr1nc3St4r/ff_images/main/misc/pokemart.png")
         await ctx.send(embed=embed)
 
+    @commands.has_permissions(administrator=True)
+    @commands.command()
+    async def debug(self, ctx, mode = None):
+        if mode == None:
+            await ctx.reply(f"Debug mode is: ")
+        elif mode.lower() == "true" or mode.lower() == "on":
+            await ctx.reply("Debug mode is turned on now. Database has been copied & debug actions wont be saved.")
+        elif mode.lower() == "false" or mode.lower() == "off":
+            await ctx.reply("Debug mode is turned off now. Old Database has been restored and debug changed are deleted.")
+        else:
+            await ctx.reply("Sorry, I didnt hear you... did you mean ``òn``` or ```off```?")
 
 
 def setup(client):

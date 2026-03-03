@@ -72,15 +72,15 @@ class Listener(commands.Cog):
         print(f"Loaded exclusives: {Listener.exclusives}")
 
     async def load_sofi(self):
-        print(self)
+        #print(self)
         with connect("database.db") as db:
             cursor = db.cursor()
             rems = cursor.execute("SELECT * FROM Sofi ORDER BY Timestamp ASC")
             rems = rems.fetchall()
             for entry in rems:
                 now = entry[3]-int(datetime.datetime.now().timestamp())
-                print(entry[3])
-                print(now)
+                #print(entry[3])
+                #print(now)
                 if now > 0:
                     Reminders.create_tracked_task(self, Listener.sofi_rem(self,entry[0],entry[1],entry[2],now))
                 else:
@@ -99,7 +99,7 @@ class Listener(commands.Cog):
         elif mode == "series":
             print(f"Waiting for a series drop for {wait} seconds....")
             await asyncio.sleep(wait)
-            print("Waiting is over...")
+            #print("Waiting is over...")
             await channel.send(f"<@{user_id}> ``SSeriesDrop`` is ready")
             self.db.execute(f"DELETE FROM Sofi WHERE User_ID = {user_id} AND Mode = 'series'")
             self.db.commit()
@@ -381,10 +381,10 @@ class Listener(commands.Cog):
                 user = user.split(">")[0]
                 self.db.execute(f"INSERT INTO Sofi VALUES ({int(user)},{message.channel.id},'card',{int(message.created_at.timestamp())+480})")
                 self.db.commit()
-                print(self)
+                #print(self)
                 Reminders.create_tracked_task(self, Listener.sofi_rem(self, int(user),message.channel.id,"card",480))
             elif "is dropping series" in message.content.lower():
-                print("Sofi series drop")
+                #print("Sofi series drop")
                 user = message.content.split("<@")[1]
                 user = user.split(">")[0]
                 self.db.execute(f"INSERT INTO Sofi VALUES ({int(user)},{message.channel.id},'series',{int(message.created_at.timestamp())+86400})")
