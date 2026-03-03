@@ -57,6 +57,21 @@ class TravelChecks(commands.Cog):
 }
         return ticket_check
     
+    async def ticket_johto():
+        ticket_number = {
+0 : "New Bark Town",
+1 : "Cherrygrove City",
+2 : "Violet City",
+3 : "Azalea Town",
+4 : "Goldenrod City",
+5 : "Ecruteak City",
+6 : "Olivine City",
+7 : "Cianwood City",
+8 : "Mahogany Town",
+9 : "Blackthorn City",
+10 : "Anywhere"
+        }
+    
     async def travel_locations():
         locations = {
 "Chat" : [1209176219317440512],

@@ -8,15 +8,19 @@ import disnake
 from utility.johto.johto_checks import ChecksOfJohto
 from utility.johto.travel_checks import TravelChecks
 
+debug = connect('database.db').execute(f"SELECT Johto_Debug FROM Meow_Temps")
+debug = debug.fetchone()
+
 class QuestsOfJohto(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.db = connect("database.db")
 
+    
+
     async def newbark_quest(self, image, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
-        mons_needed = await ChecksOfJohto.newbark_check()
-        region = "Johto"
+        mons_needed = await ChecksOfJohto.newbark_check(debug)
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
         db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
@@ -26,10 +30,11 @@ class QuestsOfJohto(commands.Cog):
         current_score = db_newbark[0]
         new_perm = 1
         msg = ""
-        if current_score >= mons_needed or db_stats[0] != 0:
+        if current_score >= mons_needed and db_stats[0] != 0:
+            #print("Score is overrrrr")
             return
-        elif check_db[16] == region:
-            if (current_score + 1) == mons_needed:
+        elif check_db[16] == "Johto":
+            if (current_score + 1) >= mons_needed:
                 self.db.execute(f"UPDATE Johto SET Newbark_Quest = Newbark_Quest + 1, Permit = {new_perm},Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
@@ -44,10 +49,13 @@ class QuestsOfJohto(commands.Cog):
     async def cherrygrove_quest(self, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
         day = datetime.datetime.today().weekday()
-        if day < 5: # Normal day rates 450
-            check = 450
-        else: # 5 Sat, 6 Sun.  Weekend bonus rates 350
-            check = 350
+        if debug == 0:
+            if day < 5: # Normal day rates 450
+                check = 450
+            else: # 5 Sat, 6 Sun.  Weekend bonus rates 350
+                check = 350
+        else:
+            check = 5
         num = random.randint(1, check)
         shoe_emote = "<:running_shoes:1233480002264236032>"
         gear_emote= "<:pokegear:1233479856868692068>"
@@ -75,7 +83,7 @@ class QuestsOfJohto(commands.Cog):
         db_cherry = self.db.execute(f'SELECT Running_Shoes, Pokegear FROM Johto Where User_ID = {user.id}')
         db_cherry = db_cherry.fetchone()
         if db_cherry[0] == 1 and db_cherry[1] == 1:
-            place = list(ticket_check.keys())[list(ticket_check.values()).index(db_pallet[4] + 1)]
+            place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
             msg = f"{user.mention} Congratulations, you completed the Cherrygrove City quest by finding a Pokégear {gear_emote} and a pair of Running Shoes {shoe_emote}, you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
             sent_msg = await before.channel.send(msg)
             self.db.execute(f"UPDATE Johto SET Permit = {new_perm}, Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
@@ -85,8 +93,8 @@ class QuestsOfJohto(commands.Cog):
 
     async def violet_quest(self, image, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
-        mons_needed = await ChecksOfJohto.violet_check()
-        type = "grass"
+        mons_needed = await ChecksOfJohto.violet_check(debug)
+        type = "grasstype"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
         db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
@@ -113,7 +121,7 @@ class QuestsOfJohto(commands.Cog):
                 
     async def azalea_quest(self, image, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
-        mons_needed, mon_id = await ChecksOfJohto.azalea_check()
+        mons_needed, mon_id = await ChecksOfJohto.azalea_check(debug)
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
         db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
@@ -154,6 +162,9 @@ class QuestsOfJohto(commands.Cog):
                 coin_score = (coin_score.split(" ")[0]).replace(",", "")
         new_perm = 5
         msg = ""
+        if debug == 1:
+            coins_needed = []
+            coins_needed.append(coin_score)
         if (coin_score in coins_needed and coin_score in coins_obtained) or db_stats[0] != 4:
             return
         elif (coin_score in coins_needed) and (coin_score not in coins_obtained) and db_stats[0] == 4:
@@ -172,7 +183,7 @@ class QuestsOfJohto(commands.Cog):
 
     async def ecruteak_quest(self, image, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
-        mons_needed = await ChecksOfJohto.ecruteak_check()
+        mons_needed = await ChecksOfJohto.ecruteak_check(debug)
         type = "fire"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
@@ -200,7 +211,7 @@ class QuestsOfJohto(commands.Cog):
 
     async def olivine_quest(self, image, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
-        mons_needed = await ChecksOfJohto.olivine_check()
+        mons_needed = await ChecksOfJohto.olivine_check(debug)
         type = "electric"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
@@ -227,7 +238,7 @@ class QuestsOfJohto(commands.Cog):
                 self.db.commit()
 
     async def cianwood_quest(self, image, user, before):
-        safari_mons, mons_needed = await ChecksOfJohto.cianwood_check()
+        safari_mons, mons_needed = await ChecksOfJohto.cianwood_check(debug)
         ticket_check = await ChecksOfJohto.travel_tickets()
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
@@ -255,7 +266,7 @@ class QuestsOfJohto(commands.Cog):
 
     async def mahogany_quest(self, image, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
-        mons_needed = await ChecksOfJohto.mahogany_check()
+        mons_needed = await ChecksOfJohto.mahogany_check(debug)
         type = "ice"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
@@ -284,7 +295,7 @@ class QuestsOfJohto(commands.Cog):
 
     async def blackthorn_quest(self, user, after):
         ticket_check = await ChecksOfJohto.travel_tickets()
-        items_needed, boosted = await ChecksOfJohto.blackthorn_check()
+        items_needed, boosted = await ChecksOfJohto.blackthorn_check(debug)
         db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Blackthorn_Quest FROM Johto Where User_ID = {user.id}')
@@ -294,6 +305,9 @@ class QuestsOfJohto(commands.Cog):
         _embed = after.embeds[0]
         item = _embed.description.split("retrieved")[1]
         item = item.split("**")[1]
+        if debug == 1:
+            boosted = []
+            boosted.append(item)
         if item not in boosted or current_score >= items_needed or db_stats != 9:
             return
         elif item in boosted:
@@ -379,7 +393,7 @@ class QuestsOfJohto(commands.Cog):
 
 
     async def johto_coins(self, user, before, coin_type):
-        hunt_coinodds, fish_coinodds, battle_coinodds = await ChecksOfJohto.coin_check()
+        hunt_coinodds, fish_coinodds, battle_coinodds = await ChecksOfJohto.coin_check(debug)
         item_database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{user.id}' ")
         item_database = item_database.fetchall()
         bonus_city = None
@@ -425,11 +439,11 @@ class QuestsOfJohto(commands.Cog):
                 chance = 1/100 * (1 + (0.01 * amulet_count))
                 roll2 = random.random()
                 if chance > roll2:
-                    self.db.execute(f"UPDATE Johto SET Johto = Johto_Coins + 5 WHERE User_ID = {user.id}")
+                    self.db.execute(f"UPDATE Johto SET Johto_Coins = Johto_Coins + 5 WHERE User_ID = {user.id}")
                     self.db.commit()
                     msg = f"{user.mention} Congratulations, you found five Johto Coins! {coin_emote * 5}"
                 else:
-                    self.db.execute(f"UPDATE Johto SET Johto = Johto_Coins + 2 WHERE User_ID = {user.id}")
+                    self.db.execute(f"UPDATE Johto SET Johto_Coins = Johto_Coins + 2 WHERE User_ID = {user.id}")
                     self.db.commit()
                     msg = f"{user.mention} Congratulations, you found two Johto Coins! {coin_emote * 2}"
             else:

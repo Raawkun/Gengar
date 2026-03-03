@@ -45,30 +45,22 @@ class Listener(commands.Cog):
     has_pulled = False
 
     
-    async def get_db_connection(self):
-        return await aiomysql.connect(host=db_config["host"],user=db_config["user"],password=db_config["password"],db=db_config["db"])
-    
     async def load_promo(self):
-        conn = await Listener.get_db_connection(self)
-        async with conn.cursor() as cursor:
-            await cursor.execute("SELECT Current_Item FROM Stuff")
-            #print("We're in")
-            result = await cursor.fetchone()
-            await conn.ensure_closed()
-        #print(result)
+        result = self.db.execute(f"SELECT Promo_Item FROM Meow_Temps")
+        result = result.fetchone()
         self.promo_item = result[0]
         print(f"Loaded promo item: {self.promo_item}")
         
     async def load_excl(self):
-        conn = await Listener.get_db_connection(self)
-        async with conn.cursor() as cursor:
-            await cursor.execute("SELECT ID FROM Exclusives")
-            result = await cursor.fetchall()
-            await conn.ensure_closed()
+        result = self.db.execute(f"SELECT Exclusives FROM Meow_Temps")
+        result = result.fetchone()
+        #print(result)
+        result = result[0].split(",")
+        #print(result)
         if len(Listener.exclusives)>0:
             Listener.exclusives.clear()
         for entry in result:
-            Listener.exclusives.append(entry[0])
+            Listener.exclusives.append(int(entry))
         print(f"Loaded exclusives: {Listener.exclusives}")
 
     async def load_sofi(self):
@@ -89,7 +81,7 @@ class Listener(commands.Cog):
         print("Loaded sofi reminders.")
 
     async def sofi_rem(self, user_id, channel_id, mode, wait):
-        print(mode)
+        #print(mode)
         channel = self.client.get_channel(channel_id)
         if mode == "card":
             await asyncio.sleep(wait)
@@ -105,8 +97,8 @@ class Listener(commands.Cog):
             self.db.commit()
     
     async def dawndusk(self):
-        print(self)
-        print(self.client)
+        #print(self)
+        #print(self.client)
         rem_channel = self.client.get_channel(827306503866155008)
         east = pytz.timezone("America/New_York")
     
@@ -171,7 +163,7 @@ class Listener(commands.Cog):
         Reminders.create_tracked_task(self, Reminders.load_reminder(self))
         Reminders.create_tracked_task(self, Modules.load_type(self))
         Reminders.create_tracked_task(self, Listener.load_sofi(self))
-        print("Time do to ghost stuff!")
+        print("Time do to ghost stuff! Hehehe")
         
     async def logerror(self, error: Exception, context: str = "Unspecified"):
         import traceback
@@ -598,11 +590,9 @@ class Listener(commands.Cog):
                             if item != self.promo_item:
                                 print(f"New Promo Item: {item}")
                                 self.promo_item = item
-                                conn = await self.get_db_connection()
-                                async with conn.cursor() as cursor:
-                                    await cursor.execute(f"UPDATE Stuff SET Current_Item = '{item}'")
-                                    await conn.commit()
-                                    await conn.ensure_closed()
+                                self.db.execute(f"UPDATE Meow_Temps SET Promo_Item = '{item}'")
+                                self.db.commit()
+                                await Listener.load_promo()
                         except Exception as e:
                             print(f";Promo Error: {e}")
                             print(Exception.args)
@@ -1024,23 +1014,28 @@ class Listener(commands.Cog):
                 
                 if _embed.footer.text:
                     if "current event ends: " in _embed.footer.text.lower():
-                        for field in _embed.fields:
-                            if "event-exclusives" in field.name.lower():
+                        if _embed.description:
+                            if "event-exclusives" in _embed.description.lower():
                                 #print(field)
-                                mons = field.value.split("\n")
-                                names = {}
+                                mons = _embed.description.split("obtained)\n")[1].replace("```","")
+                                #print(mons)
+                                mons = mons.split("\n")
+                                names = []
                                 for entry in mons:
                                     name = entry.split(" ")[1]
                                     id = entry.split(":")[1]
-                                    names.update({id:name})
-                                conn = await self.get_db_connection()
-                                async with conn.cursor() as cursor:
-                                    await cursor.execute("DELETE FROM Exclusives")
-                                    await conn.commit()
-                                    for entry in names:
-                                        await cursor.execute(f"INSERT INTO Exclusives VALUES ({entry},'{names[entry]}')")
-                                    await conn.commit()
-                                    await conn.ensure_closed()
+                                    names.append(id)
+                                names = ", ".join(names)
+                                self.db.execute(f"UPDATE Meow_Temps SET Exclusives = '{names}'")
+                                self.db.commit()
+                                # conn = await self.get_db_connection()
+                                # async with conn.cursor() as cursor:
+                                #     await cursor.execute("DELETE FROM Exclusives")
+                                #     await conn.commit()
+                                #     for entry in names:
+                                #         await cursor.execute(f"INSERT INTO Exclusives VALUES ({entry},'{names[entry]}')")
+                                #     await conn.commit()
+                                #     await conn.ensure_closed()
                                 await self.load_excl()
                     if "battle starts in" in _embed.footer.text.lower():
                         asyncio.create_task(Modules.dailycheck(self,message))

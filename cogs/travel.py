@@ -241,7 +241,7 @@ class Role_menu(commands.Cog):
 For more information use:
 </info:1080872068012326932> -> `kanto`"""
                 ).setup_embed()
-        embed.set_image(url = "https://raw.githubusercontent.com/Raawkun/Discord-Bot-Files/refs/heads/main/pics/IMG_2940.jpeg")
+        embed.set_image(url = "https://raw.githubusercontent.com/Pr1nc3St4r/ff_images/main/misc/poke_train.gif")
         msg = ""
         member = ctx.guild.get_member(ctx.user.id)
         #print(role)
@@ -312,7 +312,7 @@ For more information use:
         embed = await Custom_embed(
                 self.client, title = f"Johto", description = f"""Welcome to Johto! Please select your starter mon so your adventure can begin!"""
             ).setup_embed()
-        embed.set_image(url = "https://raw.githubusercontent.com/Pr1nc3St4r/ff_images/main/misc/prof_oak.gif")
+        embed.set_image(url = "https://raw.githubusercontent.com/Raawkun/Discord-Bot-Files/refs/heads/main/pics/IMG_2940.jpeg")
         member = ctx.guild.get_member(ctx.user.id)
         if mon is None:
             await ctx.edit_original_message(embed = embed, view=Starter_buttons(ctx, mon, client))
@@ -619,22 +619,24 @@ Johto Amulet(s): **{amulet_count}** <:JohtoAmulet:1474149802441707612>
             user = ctx.author
             database = self.db.execute(f'SELECT * FROM Johto Where User_ID = {user.id}')
             database = database.fetchone()
+            debug = self.db.execute(f"SELECT Johto_Debug FROM Meow_Temps")
+            debug = debug.fetchone()[0]
 
             permit = database[4]
             ticket = database[3]
 
             newbark_count = database[5]
-            newbark_needed = await ChecksOfJohto.newbark_check()
+            newbark_needed = await ChecksOfJohto.newbark_check(debug)
 
             running_shoes = database[6]
             pokegear = database[7]
             shoe_need, gear_need = await ChecksOfJohto.cherrygrove_check()
 
             violet_count = database[8]
-            violet_needed = await ChecksOfJohto.violet_check()
+            violet_needed = await ChecksOfJohto.violet_check(debug)
 
             azalea_count = database[9]
-            azalea_needed, azalea_mon = await ChecksOfJohto.azalea_check()
+            azalea_needed, azalea_mon = await ChecksOfJohto.azalea_check(debug)
 
             try:
                 goldenrod_count = len(database[10].split(","))
@@ -644,19 +646,19 @@ Johto Amulet(s): **{amulet_count}** <:JohtoAmulet:1474149802441707612>
             goldenrod_needed = len(goldenrod_needed)
 
             ecruteak_count = database[11]
-            ecruteak_needed = await ChecksOfJohto.ecruteak_check()
+            ecruteak_needed = await ChecksOfJohto.ecruteak_check(debug)
 
             olivine_count = database[12]
-            olivine_needed = await ChecksOfJohto.olivine_check()
+            olivine_needed = await ChecksOfJohto.olivine_check(debug)
 
             cianwood_count = database[13]
-            cianwood_mons, cianwood_needed = await ChecksOfJohto.cianwood_check()
+            cianwood_mons, cianwood_needed = await ChecksOfJohto.cianwood_check(debug)
 
             mahogany_count = database[14]
-            mahogany_needed = await ChecksOfJohto.mahogany_check()
+            mahogany_needed = await ChecksOfJohto.mahogany_check(debug)
 
             blackthorn_count = database[15]
-            blackthorn_needed, blackthorn_items = await ChecksOfJohto.blackthorn_check()
+            blackthorn_needed, blackthorn_items = await ChecksOfJohto.blackthorn_check(debug)
 
             embed = await Custom_embed(
                     self.client, 
@@ -841,6 +843,8 @@ Don't forget to buy your train ticket in <#1079409997496193145>"""
     @commands.has_permissions(administrator=True)
     @commands.command()
     async def mon(self, ctx, user: disnake.Member = None):
+        debug = self.db.execute(f"SELECT Johto_Debug FROM Meow_Temps")
+        debug = debug.fetchone()[0]
         dev_cat = 1101147200718917652
         if ctx.channel.category_id == dev_cat:
             if user is None:
@@ -878,16 +882,16 @@ Don't forget to buy your train ticket in <#1079409997496193145>"""
                 # else:
                 #     return
 
-                newbark_need = await ChecksOfJohto.newbark_check()
+                newbark_need = await ChecksOfJohto.newbark_check(debug)
                 shoe_need, gear_need = await ChecksOfJohto.cherrygrove_check()
-                violet_need = await ChecksOfJohto.violet_check()
-                azalea_need, catch_id = await ChecksOfJohto.azalea_check()
+                violet_need = await ChecksOfJohto.violet_check(debug)
+                azalea_need, catch_id = await ChecksOfJohto.azalea_check(debug)
                 goldenrod_need = await ChecksOfJohto.goldenrod_check()
-                ecruteak_need = await ChecksOfJohto.ecruteak_check()
-                olivine_need = await ChecksOfJohto.olivine_check()
-                safari_mons, cianwood_need = await ChecksOfJohto.cianwood_check()
-                mahogany_needed = await ChecksOfJohto.mahogany_check()
-                blackthorn_needed, items_unused = await ChecksOfJohto.blackthorn_check()
+                ecruteak_need = await ChecksOfJohto.ecruteak_check(debug)
+                olivine_need = await ChecksOfJohto.olivine_check(debug)
+                safari_mons, cianwood_need = await ChecksOfJohto.cianwood_check(debug)
+                mahogany_needed = await ChecksOfJohto.mahogany_check(debug)
+                blackthorn_needed, items_unused = await ChecksOfJohto.blackthorn_check(debug)
                 description = f"""__**Travel Stats**__
 Ticket: {db[1]} {list(ticket_check.keys())[list(ticket_check.values()).index(db[1])]}
 Permission: {db[0]} {list(ticket_check.keys())[list(ticket_check.values()).index(db[0])]}
@@ -952,7 +956,7 @@ Blackthorn: {blackthorn} / {blackthorn_needed}"""
         ],)
     async def _buy_item(self, ctx, item_id, amount):
         user = ctx.user
-        travel_database = self.db.execute(f"SELECT * FROM Travel WHERE User_ID = '{user.id}' ")
+        travel_database = self.db.execute(f"SELECT * FROM Johto WHERE User_ID = '{user.id}' ")
         travel_database = travel_database.fetchall()
         current_coins = travel_database[0][18]
         amulet_count = travel_database[0][20]
@@ -963,7 +967,7 @@ Blackthorn: {blackthorn} / {blackthorn_needed}"""
         if current_coins >= item_cost:
             if item_id == 1:
                 if amulet_count < 10:
-                    self.db.execute(f"UPDATE Travel SET Johto_Coins = Johto_Coins - {item_cost}, Johto_Amulet = Johto_Amulet + {amount} WHERE User_ID = {user.id}")
+                    self.db.execute(f"UPDATE Johto SET Johto_Coins = Johto_Coins - {item_cost}, Johto_Amulet = Johto_Amulet + {amount} WHERE User_ID = {user.id}")
                     self.db.commit()
                     if amount == 1:
                         await ctx.send(f"{user.mention} bought a {item_name}! {emoji}")
@@ -1028,12 +1032,47 @@ You currently have **{current_coins}** Johto coins.
     @commands.has_permissions(administrator=True)
     @commands.command()
     async def debug(self, ctx, mode = None):
+        debug = self.db.execute(f"SELECT Johto_Debug FROM Meow_Temps")
+        debug = debug.fetchone()[0]
         if mode == None:
-            await ctx.reply(f"Debug mode is: ")
+            await ctx.reply(f"Debug mode is: {debug}")
         elif mode.lower() == "true" or mode.lower() == "on":
-            await ctx.reply("Debug mode is turned on now. Database has been copied & debug actions wont be saved.")
+            if debug == 0:
+                self.db.execute(f"INSERT INTO Johto_Debug SELECT * FROM Johto")
+                self.db.commit()
+                self.db.execute(f"UPDATE Meow_Temps SET Johto_Debug = 1")
+                self.db.commit()
+                self.db.execute(f"UPDATE Johto SET Johto_Coins = 500, Johto_Amulet = 3")
+                self.db.commit()
+                await ctx.reply("Debug mode is turned on now. Database has been copied & debug actions wont be saved.")
+            else:
+                await ctx.reply("Debug mode is already on... did you mean ``òff```?")
         elif mode.lower() == "false" or mode.lower() == "off":
-            await ctx.reply("Debug mode is turned off now. Old Database has been restored and debug changed are deleted.")
+            if debug == 1:
+                self.db.execute(f"DELETE * FROM Johto")
+                self.db.commit()
+                self.db.execute(f"INSERT INTO Johto SELECT * FROM Johto_Debug")
+                self.db.commit()
+                self.db.execute(f"UPDATE Meow_Temps SET Johto_Debug = 0")
+                self.db.commit()
+                await ctx.reply("Debug mode is turned off now. Old Database has been restored and debug changed are deleted.")
+                users = self.db.execute(f"SELECT User_ID, Ticket FROM Johto")
+                users = users.fetchall()
+                johto_roles, tickets, region_id = await TravelChecks.check_gather("johto")
+                for entry in users:
+                    user_id, user_ticket = entry
+                    member = ctx.guild.get_member(user_id)
+                    roles = member.roles
+                #Check for Johto Roles in User Roles
+                    for serverrole in roles:
+                        if serverrole in johto_roles:
+                            if user_ticket != tickets[serverrole]:
+                                remove = disnake.utils.get(ctx.guild.roles, name=serverrole)
+                                await member.remove_roles(remove)
+                                add = disnake.utils.get(ctx.guild.roles, name=await TravelChecks.ticket_johto(user_ticket))
+                                await member.add_role(add)
+            else:
+                await ctx.reply(f"Debug mode is not active... did you mean ``òn```?")
         else:
             await ctx.reply("Sorry, I didnt hear you... did you mean ``òn``` or ```off```?")
 

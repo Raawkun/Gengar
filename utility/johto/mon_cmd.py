@@ -24,28 +24,30 @@ Johto: {db[3]} | {db[4]}"""
             await ctx.message.delete()
 
     async def mon_region_checker(self, ctx, region):
+        debug = self.db.execute(f"SELECT Johto_Debug FROM Meow_Temps")
+        debug = debug.fetchone()[0]
         checks = []
         if  region.lower() == "johto":
             ticket_check = await ChecksOfJohto.travel_tickets()
-            one = await ChecksOfJohto.newbark_check()
+            one = await ChecksOfJohto.newbark_check(debug)
             checks.append(one)
             two = await ChecksOfJohto.cherrygrove_check()
             checks.append(two)
-            three = await ChecksOfJohto.violet_check()
+            three = await ChecksOfJohto.violet_check(debug)
             checks.append(three)
-            useless, four = await ChecksOfJohto.azalea_check()
+            useless, four = await ChecksOfJohto.azalea_check(debug)
             checks.append(four)
             five = await ChecksOfJohto.goldenrod_check()
             checks.append(five)
-            six = await ChecksOfJohto.ecruteak_check()
+            six = await ChecksOfJohto.ecruteak_check(debug)
             checks.append(six)
-            seven = await ChecksOfJohto.olivine_check()
+            seven = await ChecksOfJohto.olivine_check(debug)
             checks.append(seven)
-            useless, eight = await ChecksOfJohto.cianwood_check()
+            useless, eight = await ChecksOfJohto.cianwood_check(debug)
             checks.append(eight)
-            nine = await ChecksOfJohto.mahogany_check()
+            nine = await ChecksOfJohto.mahogany_check(debug)
             checks.append(nine)
-            ten = await ChecksOfJohto.blackthorn_check()
+            ten = await ChecksOfJohto.blackthorn_check(debug)
             checks.append(ten)
         return (checks, ticket_check)
 

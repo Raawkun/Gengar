@@ -1,6 +1,7 @@
 from disnake.ext import commands
 from sqlite3 import connect
 
+
 class ChecksOfJohto(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -57,8 +58,11 @@ class ChecksOfJohto(commands.Cog):
         # pallet_quest = [1, 4, 7, 25]
         # return pallet_quest
 
-    async def newbark_check():
-        mons_needed = 500  #Catch 500 Johto mons
+    async def newbark_check(debug):
+        if debug == 0:
+            mons_needed = 500  #Catch 500 Johto mons
+        else:
+            mons_needed = 5
         return mons_needed
     
     async def cherrygrove_check():
@@ -66,12 +70,18 @@ class ChecksOfJohto(commands.Cog):
         pokegear_needed = 1
         return shoes_needed, pokegear_needed
     
-    async def violet_check():
-        mons_needed = 450 #Catch 450 amount of Grass mons
+    async def violet_check(debug):
+        if debug == 0:
+            mons_needed = 450 #Catch 450 amount of Grass mons
+        else:
+            mons_needed = 5
         return mons_needed
 
-    async def azalea_check(): #NEEDS EDIT! Not yet decided.
-        mons_needed = 69 #Catch Slowpokes 69
+    async def azalea_check(debug): #NEEDS EDIT! Not yet decided.
+        if debug == 0:
+            mons_needed = 69 #Catch Slowpokes 69
+        else:
+            mons_needed = 1
         mon_id = 79
         return mons_needed, mon_id
 
@@ -79,25 +89,40 @@ class ChecksOfJohto(commands.Cog):
         coins_needed = [222, 333, 444, 555, 666, 777, 888, 999] #Get 777 coins from a single catch
         return coins_needed
 
-    async def ecruteak_check(): #NEEDS EDIT! 
-        mons_needed = 250 #Catch Fire Mons
+    async def ecruteak_check(debug): #NEEDS EDIT! 
+        if debug == 0:
+            mons_needed = 250 #Catch Fire Mons
+        else:
+            mons_needed = 2
         return mons_needed
 
-    async def olivine_check(): #Catch x amount of electric mons
-        mons_needed = 450
+    async def olivine_check(debug): #Catch x amount of electric mons
+        if debug == 0:
+            mons_needed = 450
+        else:
+            mons_needed = 2
         return mons_needed
 
-    async def cianwood_check(): #SAFARI ZONE 2 - Sentret Line 161 162, 179 Mareep, 183 Marill, (Hoppip Line) 187 188 189,  Sunkern 191, Wooper line 194 195, Murkrow 198, Misdreavus 200,  Wobbuffet 202,  Girafarig 203, Shuckle 213, Houndour 228 229, Stantler 234 , Smeargle 235 , Larvitar 246 
+    async def cianwood_check(debug): #SAFARI ZONE 2 - Sentret Line 161 162, 179 Mareep, 183 Marill, (Hoppip Line) 187 188 189,  Sunkern 191, Wooper line 194 195, Murkrow 198, Misdreavus 200,  Wobbuffet 202,  Girafarig 203, Shuckle 213, Houndour 228 229, Stantler 234 , Smeargle 235 , Larvitar 246 
         safari_mons = [161, 162, 179, 183, 187, 188, 189, 191, 194, 195, 198, 200, 202, 203, 213, 228, 229, 234, 235, 246] 
-        mons_needed = 200
+        if debug == 0:
+            mons_needed = 200
+        else:
+            mons_needed = 3
         return safari_mons, mons_needed
 
-    async def mahogany_check(): #Catch Ice-Types
-        mons_needed = 450
+    async def mahogany_check(debug): #Catch Ice-Types
+        if debug == 0:
+            mons_needed = 450
+        else:
+            mons_needed = 3
         return mons_needed
 
-    async def blackthorn_check(): #Catch x amount of type boosting items!
-        items_needed = 15
+    async def blackthorn_check(debug): #Catch x amount of type boosting items!
+        if debug == 0:
+            items_needed = 15
+        else:
+            items_needed = 1
         boosting = ["black belt", "black glasses", "charcoal", "dragon fang", "hard stone", "magnet", "metal coat", "miracle seed", "mystic water", "nevermeltice", "poison barb", "sharp beak", "silk scarf", "silver powder", "soft sand," "spell tag", "twisted spoon"]
         return items_needed, boosting
     
@@ -111,13 +136,16 @@ class ChecksOfJohto(commands.Cog):
         mon_needed = len(johto_legends)
         return johto_legends, mon_needed
     
-    async def coin_check():
+    async def coin_check(debug):
         # day = datetime.datetime.today().weekday()
         # if day < 5: # Normal weekday rates
         #     hunt_coinodds, fish_coinodds, battle_coinodds = 200, 150, 75
         # else: # 5 Sat, 6 Sun.  Weekend bonus rates
         #     hunt_coinodds, fish_coinodds, battle_coinodds = 175, 125, 60
-        hunt_coinodds, fish_coinodds, battle_coinodds = 170, 120, 55
+        if debug == 0:
+            hunt_coinodds, fish_coinodds, battle_coinodds = 170, 120, 55
+        else:
+            hunt_coinodds, fish_coinodds, battle_coinodds = 5, 5, 5
         return hunt_coinodds, fish_coinodds, battle_coinodds
 
     async def shop_check():
