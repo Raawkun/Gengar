@@ -161,6 +161,7 @@ class QuestsOfJohto(commands.Cog):
                 coins_obtained.append(db_newbark[0])
             except:
                 coins_obtained = []
+        print(coins_obtained)
         coin_score = 0
         if len(after.embeds) > 0:
             _embed = after.embeds[0]
@@ -172,6 +173,7 @@ class QuestsOfJohto(commands.Cog):
         if debug == 1:
             coins_needed = []
             coins_needed.append(coin_score)
+            print(coins_needed)
         if (coin_score in coins_needed and coin_score in coins_obtained) or db_stats[0] != 4:
             return
         elif (coin_score in coins_needed) and (coin_score not in coins_obtained) and db_stats[0] == 4:
