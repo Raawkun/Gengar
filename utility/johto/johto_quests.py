@@ -163,7 +163,7 @@ class QuestsOfJohto(commands.Cog):
                 coins_obtained = []
         coin_score = 0
         if len(after.embeds) > 0:
-            _embed = after.embed[0]
+            _embed = after.embeds[0]
             if "You earned " in _embed.footer.text:
                 coin_score = _embed.footer.text.split("You earned ")[1]
                 coin_score = (coin_score.split(" ")[0]).replace(",", "")
