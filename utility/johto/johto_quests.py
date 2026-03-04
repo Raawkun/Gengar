@@ -204,7 +204,7 @@ class QuestsOfJohto(commands.Cog):
     async def ecruteak_quest(self, image, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
         mons_needed = await ChecksOfJohto.ecruteak_check(debug)
-        type = "fire"
+        type = "firetype"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
         db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
@@ -232,7 +232,7 @@ class QuestsOfJohto(commands.Cog):
     async def olivine_quest(self, image, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
         mons_needed = await ChecksOfJohto.olivine_check(debug)
-        type = "electric"
+        type = "electrictype"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
         db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
@@ -287,7 +287,7 @@ class QuestsOfJohto(commands.Cog):
     async def mahogany_quest(self, image, user, before):
         ticket_check = await ChecksOfJohto.travel_tickets()
         mons_needed = await ChecksOfJohto.mahogany_check(debug)
-        type = "ice"
+        type = "icetype"
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
         db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
