@@ -157,7 +157,11 @@ class QuestsOfJohto(commands.Cog):
         try:
             coins_obtained = db_newbark[0].split(",")
         except:
-            coins_obtained = ['0']
+            print(db_newbark)
+            if db_newbark[0] != None:
+                coins_obtained = db_newbark[0]
+            else:
+                coins_obtained = []
         print(coins_obtained)
         coin_score = 0
         if len(after.embeds) > 0:
@@ -180,7 +184,10 @@ class QuestsOfJohto(commands.Cog):
         elif (coin_score in coins_needed) and (coin_score not in coins_obtained) and db_stats[0] == 4:
             coins_obtained.append(coin_score)
             print(coins_obtained)
-            total = ','.join(coins_obtained)
+            try:
+                total = ','.join(coins_obtained)
+            except:
+                total = coins_obtained[0]
             print(total)
             self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = '{total}' WHERE User_ID = {user.id}")
             self.db.commit()
