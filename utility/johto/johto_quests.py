@@ -193,7 +193,7 @@ class QuestsOfJohto(commands.Cog):
             print(sorted(coins_obtained))
             print(sorted(coins_needed))
         if sorted(coins_obtained) == sorted(coins_needed):
-            self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = '{coins_needed}', Permit = {new_perm}, Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
+            self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = '{total}', Permit = {new_perm}, Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
             self.db.commit()
             place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
             msg = f"{user.mention} Congratulations, you hit the final jackpot with that catch and you now have permission to travel to {place}! You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
