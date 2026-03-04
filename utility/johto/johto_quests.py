@@ -276,7 +276,7 @@ class QuestsOfJohto(commands.Cog):
             current_score += 1
         else:
             return
-        if current_score >= mons_needed or db_pallet[0] != 7:
+        if current_score+1 > mons_needed or db_pallet[0] != 7:
             return
         elif check_db[0] in safari_mons:
             if current_score == mons_needed:
