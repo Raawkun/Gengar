@@ -181,8 +181,8 @@ class QuestsOfJohto(commands.Cog):
             coins_obtained.append(coin_score)
             print(coins_obtained)
             total = ','.join(coins_obtained)
-            
-            self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = {total} WHERE User_ID = {user.id}")
+            print(total)
+            self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = '{total}' WHERE User_ID = {user.id}")
             self.db.commit()
         if sorted(coins_obtained) == coins_needed:
             self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = {coins_needed}, Permit = {new_perm}, Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
