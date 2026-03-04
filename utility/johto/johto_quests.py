@@ -174,8 +174,7 @@ class QuestsOfJohto(commands.Cog):
         msg = ""
         if debug == 1:
             print("Debug mode: Goldenrod")
-            print(coins_obtained)
-            coins_needed = coins_obtained
+            coins_needed = coins_obtained.copy()
             coins_needed.append(coin_score)
             print(f"Needed: {coins_needed}")
             print(f"Obtained: {coins_obtained}")
