@@ -270,10 +270,16 @@ class QuestsOfJohto(commands.Cog):
         current_score = db_quest[0]
         new_perm = 8
         msg = ""
+        if check_db[0] in safari_mons:
+            if debug == 1:
+                await before.reply("Thats one we need")
+            current_score += 1
+        else:
+            return
         if current_score >= mons_needed or db_pallet[5] != 7:
             return
         elif check_db[0] in safari_mons:
-            if (current_score + 1) == mons_needed:
+            if current_score == mons_needed:
                 self.db.execute(f"UPDATE Johto SET Cianwood_Quest = Cianwood_Quest + 1, Permit = {new_perm}, Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
