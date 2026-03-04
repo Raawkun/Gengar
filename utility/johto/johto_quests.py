@@ -157,7 +157,7 @@ class QuestsOfJohto(commands.Cog):
         try:
             coins_obtained = db_newbark[0].split(",")
         except:
-            coins_obtained = [0]
+            coins_obtained = ['0']
         print(coins_obtained)
         coin_score = 0
         if len(after.embeds) > 0:
