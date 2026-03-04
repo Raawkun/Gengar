@@ -191,7 +191,9 @@ class QuestsOfJohto(commands.Cog):
             print(total)
             self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = '{total}' WHERE User_ID = {user.id}")
             self.db.commit()
-        if sorted(coins_obtained) == coins_needed:
+            print(sorted(coins_obtained))
+            print(sorted(coins_needed))
+        if sorted(coins_obtained) == sorted(coins_needed):
             self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = {coins_needed}, Permit = {new_perm}, Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
             self.db.commit()
             place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
