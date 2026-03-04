@@ -149,6 +149,7 @@ class QuestsOfJohto(commands.Cog):
     async def goldenrod_quest(self, user, after):
         ticket_check = await ChecksOfJohto.travel_tickets()
         coins_needed = await ChecksOfJohto.goldenrod_check()
+        print(coins_needed)
         db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Goldenrod_Quest FROM Johto Where User_ID = {user.id}')
@@ -168,9 +169,12 @@ class QuestsOfJohto(commands.Cog):
             if "You earned " in _embed.footer.text:
                 coin_score = _embed.footer.text.split("You earned ")[1]
                 coin_score = (coin_score.split(" ")[0]).replace(",", "")
+                print(coin_score)
         new_perm = 5
         msg = ""
+        print(f"Perm: {db_stats[0]}")
         if debug == 1:
+            print("Debug mode: Goldenrod")
             coins_needed = []
             coins_needed.append(coin_score)
             print(coins_needed)
