@@ -57,8 +57,8 @@ class QuestsOfJohto(commands.Cog):
         else:
             check = 5
         num = random.randint(1, check)
-        shoe_emote = "<:running_shoes:1233480002264236032>"
-        gear_emote= "<:pokegear:1233479856868692068>"
+        shoe_emote = "<:running_shoes:1478852498633785444>"
+        gear_emote= "<:pokegear:1478852583660589117>"
         db_stats = self.db.execute(f"SELECT Permit FROM Johto WHERE User_ID = {user.id}")
         db_stats = db_stats.fetchone()
         msg = ""

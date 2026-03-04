@@ -721,7 +721,7 @@ Goldenrod City is known for its game corner, and while I condone gambling in any
                     embed.description = f"""Hi {user.display_name}! Did you enjoy your time in Johto so far?
                 
 Ecruteak City once had the Brass Tower standing tall before it **caught fire**.
-*It's alao said that Ho-oh once resided here.*
+*It's also said that Ho-oh once resided here.*
 
 {comment}"""
                 elif permit == 6:
