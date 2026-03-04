@@ -9,7 +9,7 @@ from utility.johto.johto_checks import ChecksOfJohto
 from utility.johto.travel_checks import TravelChecks
 
 debug = connect('database.db').execute(f"SELECT Johto_Debug FROM Meow_Temps")
-debug = debug.fetchone()
+debug = debug.fetchone()[0]
 
 class QuestsOfJohto(commands.Cog):
     def __init__(self, client):
