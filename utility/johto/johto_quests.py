@@ -214,10 +214,11 @@ class QuestsOfJohto(commands.Cog):
         current_score = db_newbark[0]
         new_perm = 6
         msg = ""
+        print(f"{check_db[2]}|{check_db[3]}")
         if current_score >= mons_needed or db_stats[0] != 5:
             return
         elif check_db[2] == type or check_db[3] == type:
-            if (current_score + 1) == mons_needed:
+            if (current_score + 1) >= mons_needed:
                 self.db.execute(f"UPDATE Johto SET Ecruteak_Quest = Ecruteak_Quest + 1, Permit = {new_perm}, Johto_Coins = Johto_Coins + 15 WHERE User_ID = {user.id}")
                 self.db.commit()
                 place = list(ticket_check.keys())[list(ticket_check.values()).index(new_perm)]
