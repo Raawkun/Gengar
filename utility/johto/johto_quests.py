@@ -172,10 +172,9 @@ class QuestsOfJohto(commands.Cog):
                 print(coin_score)
         new_perm = 5
         msg = ""
-        print(f"Perm: {db_stats[0]}")
-        print(debug)
         if debug == 1:
             print("Debug mode: Goldenrod")
+            print(coins_obtained)
             coins_needed = coins_obtained
             coins_needed.append(coin_score)
             print(f"Needed: {coins_needed}")
