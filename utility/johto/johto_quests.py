@@ -263,7 +263,7 @@ class QuestsOfJohto(commands.Cog):
         ticket_check = await ChecksOfJohto.travel_tickets()
         check_db = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
         check_db = check_db.fetchone()
-        db_pallet = self.db.execute(f'SELECT Permission FROM Tickets Where User_ID = {user.id} AND Region_ID = 2')
+        db_pallet = self.db.execute(f'SELECT Permit FROM Johto Where User_ID = {user.id}')
         db_pallet = db_pallet.fetchone()
         db_quest = self.db.execute(f"SELECT Cianwood_Quest FROM Johto WHERE User_ID = {user.id}")
         db_quest = db_quest.fetchone()
@@ -276,7 +276,7 @@ class QuestsOfJohto(commands.Cog):
             current_score += 1
         else:
             return
-        if current_score >= mons_needed or db_pallet[5] != 7:
+        if current_score >= mons_needed or db_pallet[0] != 7:
             return
         elif check_db[0] in safari_mons:
             if current_score == mons_needed:
