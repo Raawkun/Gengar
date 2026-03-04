@@ -178,8 +178,8 @@ class QuestsOfJohto(commands.Cog):
             print("Debug mode: Goldenrod")
             coins_needed = coins_obtained
             coins_needed.append(coin_score)
-            print(coins_needed)
-            print(coins_obtained)
+            print(f"Needed: {coins_needed}")
+            print(f"Obtained: {coins_obtained}")
         if (coin_score in coins_needed and coin_score in coins_obtained) or db_stats[0] != 4:
             return
         elif (coin_score in coins_needed) and (coin_score not in coins_obtained) and db_stats[0] == 4:
