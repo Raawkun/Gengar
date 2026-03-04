@@ -153,7 +153,14 @@ class QuestsOfJohto(commands.Cog):
         db_stats = db_stats.fetchone()
         db_newbark = self.db.execute(f'SELECT Goldenrod_Quest FROM Johto Where User_ID = {user.id}')
         db_newbark = db_newbark.fetchone()
-        coins_obtained = db_newbark[0].split(",")
+        try:
+            coins_obtained = db_newbark[0].split(",")
+        except:
+            coins_obtained = []
+            try:
+                coins_obtained.append(db_newbark[0])
+            except:
+                coins_obtained = []
         coin_score = 0
         if len(after.embeds) > 0:
             _embed = after.embed[0]
