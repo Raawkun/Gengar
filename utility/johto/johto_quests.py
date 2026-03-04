@@ -179,6 +179,7 @@ class QuestsOfJohto(commands.Cog):
             return
         elif (coin_score in coins_needed) and (coin_score not in coins_obtained) and db_stats[0] == 4:
             coins_obtained.append(coin_score)
+            print(coins_obtained)
             total = ','.join(coins_obtained)
             
             self.db.execute(f"UPDATE Johto SET Goldenrod_Quest = {total} WHERE User_ID = {user.id}")
