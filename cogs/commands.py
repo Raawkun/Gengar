@@ -677,7 +677,7 @@ class Coms(commands.Cog):
                             await overseen.channel.send("It seems this Pokémon is not in my database - could you please add it with checking its ``/pokedex entry``?")
                             return
                 
-                    if raremon in Rare_Spawns or data[0] in Listener.exclusives or _embed.color.contains('ea260b'):
+                    if raremon in Rare_Spawns or data[0] in Listener.exclusives or _embed.color == disnake.Color(0xea260b):
                         asyncio.create_task(Rare_spawns.poke_spawn(self, overseen, data))
                     else:
                         await ctx.send(f'{data[0]} is not rare enough to be posted. If you think this is wrong, ping Blue Flame.')
