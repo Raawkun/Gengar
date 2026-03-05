@@ -30,6 +30,8 @@ class QuestsOfJohto(commands.Cog):
         current_score = db_newbark[0]
         new_perm = 1
         msg = ""
+        print(mons_needed)
+        print(debug)
         if current_score >= mons_needed and db_stats[0] != 0:
             #print("Score is overrrrr")
             return
