@@ -121,9 +121,9 @@ class Coms(commands.Cog):
         channel = ctx.channel
         lounge = disnake.utils.get(ctx.guild.roles, name="Lounge Bot")
         try:
-            await channel.set_permission(lounge, overwrite=None)
+            await channel.set_permissions(lounge, overwrite=None)
             await asyncio.sleep(2)
-            await channel.set_permission(lounge, view_channel=True)
+            await channel.set_permissions(lounge, view_channel=True)
         except Exception as e:
             print(e)
     
