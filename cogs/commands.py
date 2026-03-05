@@ -115,7 +115,7 @@ class Coms(commands.Cog):
         print(data)
         await ctx.reply(data)
             
-    @commands.check(Basic_checker.check().check_management)
+    @commands.check(Basic_checker().check_management)
     @commands.command()
     async def loungefix(self, ctx):
         channel = ctx.channel
