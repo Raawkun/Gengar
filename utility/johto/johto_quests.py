@@ -331,28 +331,29 @@ class QuestsOfJohto(commands.Cog):
         new_perm = 10
         _embed = after.embeds[0]
         if after.embeds != []:
-            print(_embed.description)
-            item = _embed.description.split("retrieved")[1]
-            item = item.split("**")[1]
-            print(item)
-            if debug == 1:
-                boosted = []
-                boosted.append(item)
-                probt(boosted)
-            if item not in boosted or current_score >= items_needed or db_stats != 9:
-                return
-            elif item in boosted:
-                print('item is in boosted')
-                if (current_score + 1) == items_needed:
-                    self.db.execute(f"UPDATE Johto SET Blackthorn_Quest = Blackthorn_Quest + 1, Permit = {new_perm}, Johto_Coins = Johto_Coins + 15, Ticket = {new_perm} WHERE User_ID = {user.id}")
-                    self.db.commit()
-                    msg = f"{user.mention} Congratulations, you managed to grab {items_needed} type boosting Items and have finished your Johto Quest!!  Unless there's secret quests you can do..? You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
-                    sent_msg = await after.channel.send(msg)
-                    await asyncio.sleep(5)
-                    await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
-                else:
-                    self.db.execute(f"UPDATE Johto SET Blackthorn_Quest = Blackthorn_Quest + 1 WHERE User_ID = {user.id}")
-                    self.db.commit()
+            if 'retrieved' in _embed.description:
+                print(_embed.description)
+                item = _embed.description.split("retrieved")[1]
+                item = item.split("**")[1]
+                print(item)
+                if debug == 1:
+                    boosted = []
+                    boosted.append(item)
+                    probt(boosted)
+                if item not in boosted or current_score >= items_needed or db_stats != 9:
+                    return
+                elif item in boosted:
+                    print('item is in boosted')
+                    if (current_score + 1) == items_needed:
+                        self.db.execute(f"UPDATE Johto SET Blackthorn_Quest = Blackthorn_Quest + 1, Permit = {new_perm}, Johto_Coins = Johto_Coins + 15, Ticket = {new_perm} WHERE User_ID = {user.id}")
+                        self.db.commit()
+                        msg = f"{user.mention} Congratulations, you managed to grab {items_needed} type boosting Items and have finished your Johto Quest!!  Unless there's secret quests you can do..? You also found 15 Johto coins! <:JohtoCoin:1474149692454731818>"
+                        sent_msg = await after.channel.send(msg)
+                        await asyncio.sleep(5)
+                        await sent_msg.edit(content=f"{user.mention} Congrats on passing the quest!")
+                    else:
+                        self.db.execute(f"UPDATE Johto SET Blackthorn_Quest = Blackthorn_Quest + 1 WHERE User_ID = {user.id}")
+                        self.db.commit()
 
     async def secret_quest_1(self, image, user, before): #Celebi Quest
         ticket_check = await ChecksOfJohto.travel_tickets()
