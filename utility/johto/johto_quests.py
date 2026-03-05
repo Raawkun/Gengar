@@ -330,6 +330,7 @@ class QuestsOfJohto(commands.Cog):
         current_score = db_newbark[0]
         new_perm = 10
         _embed = after.embeds[0]
+        print(_embed.title)
         if 'retrieved' in _embed.description:
             print(_embed.description)
             item = _embed.description.split("retrieved")[1]
