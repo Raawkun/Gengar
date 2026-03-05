@@ -333,11 +333,18 @@ class QuestsOfJohto(commands.Cog):
         item = _embed.description.split("retrieved")[1]
         item = item.split("**")[1]
         print(item)
+        print(current_score)
         if debug == 1:
             boosted = []
             boosted.append(item)
             print(boosted)
-        if item not in boosted or current_score >= items_needed or db_stats != 9:
+        if item not in boosted or current_score >= items_needed or db_stats[0] != 9:
+            if item not in boosted:
+                print('not boosted')
+            elif current_score >= items_needed:
+                print('score too high')
+            elif db_stats != 9:
+                print(db_stats[0])
             return
         elif item in boosted:
             print('item is in boosted')
