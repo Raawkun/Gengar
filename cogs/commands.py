@@ -971,8 +971,8 @@ class Coms(commands.Cog):
 
     @commands.check(Basic_checker().check_if_it_is_me)
     @commands.command()
-    async def db_alt(self, ctx, alt = args*)
-        self.db.execute(alt)
+    async def db_alt(self, ctx, alt = **kwargs)
+        self.db.execute(f"{alt}")
         self.db.commit()
         await ctx.reply("Done")
 
