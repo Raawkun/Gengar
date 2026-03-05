@@ -1049,7 +1049,7 @@ You currently have **{current_coins}** Johto coins.
                 await ctx.reply("Debug mode is already on... did you mean ``òff```?")
         elif mode.lower() == "false" or mode.lower() == "off":
             if debug == 1:
-                self.db.execute(f"DELETE * FROM Johto")
+                self.db.execute(f"DELETE FROM Johto")
                 self.db.commit()
                 self.db.execute(f"INSERT INTO Johto SELECT * FROM Johto_Debug")
                 self.db.commit()
