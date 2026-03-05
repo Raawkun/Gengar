@@ -151,8 +151,9 @@ class On_Edit(commands.Cog):
                                 if "retrieved a" in _embed.description:
                                     if after.channel.id in locations["Blackthorn City"]:
                                         await QuestsOfJohto.blackthorn_quest(self, sender,before)
-                            if raremon in self.Rare_Spawns or data[0] in Listener.exclusives:
-                                #print("Theres a rare spawn.")
+                            if raremon in self.Rare_Spawns or data[0] in Listener.exclusives or _embed.color.contains('ea260b'):
+                                print(f"Theres a rare spawn: {data[0]} {data[1]}")
+                            
                                 asyncio.create_task(Rare_spawns.poke_spawn(self, after, data))
 
             if ":map: Map:" in before.content:
