@@ -115,7 +115,19 @@ class Coms(commands.Cog):
         print(data)
         await ctx.reply(data)
             
-            
+    @commands.check(Basic_checker.check().check_management)
+    @commands.command()
+    async def loungefix(self, ctx):
+        channel = ctx.channel
+        lounge = disnake.utils.get(ctx.guild.roles, name="Lounge Bot")
+        try:
+            await channel.set_permission(lounge, overwrite=None)
+            await asyncio.sleep(2)
+            await channel.set_permission(lounge, view_channel=True)
+        except Exception as e:
+            print(e)
+    
+    
     @commands.command()
     async def dm(self, ctx, userid, *args):
         try:
