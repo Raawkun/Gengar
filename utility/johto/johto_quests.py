@@ -401,16 +401,23 @@ class QuestsOfJohto(commands.Cog):
         if data[0] not in mon_ids: #Check if the mon is one of the legendaries
             return
         else: #Its a Johto Legendary, so lets check further
-            user_list = db_mons[1].split(",")
+            try:
+                user_list = db_mons[1].split(",")
+            except:
+                if db_mons != None:
+                    user_list = db_mons[1]
+                else:
+                    user_list = []
             if len(user_list) == len(mons_needed): #Are we already done???
                 return
             else:
                 if data[0] in user_list: #Did we already catch it?
                     return
                 else:
-                    mon_ids.append(data[0]).sort()
+                    print(data[1])
+                    user_list.append(data[0]).sort()
                     user_list_new = ",".join(mon_ids)
-                    if mon_ids == mons_needed:
+                    if sorted(user_list) == sorted(mons_needed):
                         self.db.execute(f"UPDATE Johto SET Secret_2 = 1, Secret_Quest_2 = '{user_list_new}', Johto_Coins = Johto_Coins + 100 WHERE User_ID = {user.id}")
                         self.db.commit()
                         guild = user.guild
