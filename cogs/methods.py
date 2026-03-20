@@ -20,7 +20,7 @@ class Methods(commands.Cog):
             #print(name)
             name = name[2]
             #Get Stats from Embed
-            nature = embed.description.split("**Nature: ")[1].split(" ")[0]
+            nature = embed.description.split("Nature**: ")[1].split(" ")[0]
             level = int(embed.description.split("**Level**: ")[1].split("\n")[0])
             for entry in embed.fields:
                 if "**Pokémon EVs** " in entry.name:
