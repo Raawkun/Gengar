@@ -20,6 +20,7 @@ class Methods(commands.Cog):
             #print(name)
             name = name[2]
             #Get Stats from Embed
+            nature = embed.description.split("**Nature: ")[1].split(" ")[0]
             level = int(embed.description.split("**Level**: ")[1].split("\n")[0])
             for entry in embed.fields:
                 if "**Pokémon EVs** " in entry.name:
@@ -36,7 +37,15 @@ class Methods(commands.Cog):
                 if "**Pokémon Stats**" in entry.name:
                     stats = entry.value
                     atk = int(stats.split("`Atk` **")[1].split("**")[0])
+                    if nature in ["Lonely", "Brave", "Adamant", "Naughty"]:
+                        atk = int(atk*0.9)
+                    elif nature in ["Bold", "Timid", "Modest", "Calm"]:
+                        atk = int(atk*1.1)
                     spatk = int(stats.split("`SpA` **")[1].split("**")[0])
+                    if nature in ["Modest", "Mild", "Quiet", "Rash"]:
+                        spatk = int(spatk*0.9)
+                    elif nature in ["Adamant", "Impish", "Jolly", "Careful"]:
+                        spatk = int(spatk*1.1)
                     hp = int(stats.split("`HP` **")[1].split("**")[0])
                 if "\u200b" in entry.name:
                     print(entry.value)
@@ -52,8 +61,20 @@ class Methods(commands.Cog):
                         stats = entry.value
                         print(stats)
                         defe = int(stats.split("`Def` **")[1].split("**")[0])
+                        if nature in ["Bold", "Relaxed", "Impish", "Lax"]:
+                            defe = int(defe*0.9)
+                        elif nature in ["Lonely", "Hasty", "Mild", "Gentle"]:
+                            defe = int(defe*1.1)
                         spdef = int(stats.split("`SpD` **")[1].split("**")[0])
+                        if nature in ["Calm", "Gentle", "Sassy", "Careful"]:
+                            spdef = int(spdef*0.9)
+                        elif nature in ["Naughty", "Lax", "Naive", "Rash"]:
+                            spdef = int(spdef*1.1)
                         speed = int(stats.split("`Spe` **")[1].split("**")[0])
+                        if nature in ["Timid", "Hasty", "Jolly", "Naive"]:
+                            speed = int(speed*0.9)
+                        elif nature in ["Brave", "Relaxed", "Quiet", "Sassy"]:
+                            speed = int(speed*1.1)
             image = embed.image.url
             try:
                 dex = self.db.execute(f"SELECT * FROM Dex WHERE Img_url='{image}'")
