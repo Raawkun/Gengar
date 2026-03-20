@@ -139,7 +139,7 @@ class Methods(commands.Cog):
                 
 
                 embed = await Custom_embed(
-                    self.client, title = f"__Calculated IV's__", description = f"""Your IV progress is: **{progress}%**\n*Please note, this is not accurate for low levels*"""
+                    self.client, title = f"__Calculated IV's__", description = f"""Your IV progress is: **{progress}%**\n*Please note, this is not accurate for low levels & due to natures being added.*"""
                 ).setup_embed()
                 embed.set_author(name=f"{name}", icon_url=f"{pic}")
                 embed.add_field(name="⠀", value=f'⚔ Atk: `{atk_iv}`\n🛡 Def: `{def_iv}`', inline=True)
