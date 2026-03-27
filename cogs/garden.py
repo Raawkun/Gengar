@@ -21,7 +21,23 @@ class Garden(commands.Cog):
                         return
                     else:
                         pass
-                
+                        
+                        
+    async def user_check(userid, message):
+        check = self.db.execute(f"SELECT Garden, Emotes, Ping FROM Toggles WHERE User_ID = {userid}")
+        check = check.fetchone()
+        if (check == None) or (check[0] == 0):
+            return
+        else:
+            emb = message.embeds[0]
+            pots = emb.description.split("Slot ")
+            for entry in pots:
+                if "Next stage" in entry:
+                    number = entry.split("**")[0]
+                    stamp = entry.split("<t:")[1].split(":R>")[0]
+                else:
+                    continue
+            #msg = await asyncio.create_task(Garden.garden_check(
 
 def setup(client):
     client.add_cog(Garden(client))
