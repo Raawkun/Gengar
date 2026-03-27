@@ -11,6 +11,9 @@ class Garden(commands.Cog):
         self.client = client
         self.db = connect("database.db")
 
+    async def garden_check(userid, slot, timestamp):
+        check = self.db.execute(f"SELECT * FROM Garden WHERE User_ID = {userid}")
+        check = check.fetchall()
                 
 
 def setup(client):
