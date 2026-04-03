@@ -303,11 +303,13 @@ class Listener(commands.Cog):
         
         #squirtle code
         role_name = "Clan Owner"
-        for role in message.author.roles:
-            if role.name == role_name:
-                if message.content.lower() == "ft":
-                    await message.channel.send("<#825817765432131615> <#890255606219431946>")
-
+        try:
+            for role in message.author.roles:
+                if role.name == role_name:
+                    if message.content.lower() == "ft":
+                        await message.channel.send("<#825817765432131615> <#890255606219431946>")
+        except:
+            pass
         
         channel_ids = [827551577698730015, 1035256982485094530, 1079569286235959296, 920260648045273088, 1028441789448867880, 955100117902442496, 825826678986637352, 825922247608500224]
         if message.channel.id in channel_ids:
