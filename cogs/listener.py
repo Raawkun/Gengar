@@ -477,10 +477,10 @@ class Listener(commands.Cog):
                     user = message.guild.get_member_named(player)
         
                     id = message.content.split("reward: <:")[1]
-                    id = id.split("> <:")[1]
-                    id = id.split(":")[0]
-                    if id != "201_" and id != "201":
-                        asyncio.create_task(Rare_spawns.unown_spawn(self, message, id, user))
+                    if "Shiny" in id:
+                        id = id.split("> <:")[1]
+                        id = id.split(":")[0]              
+                            asyncio.create_task(Rare_spawns.unown_spawn(self, message, id, user))
             if "** released " in message.content.lower():
                 asyncio.create_task(Modules.dailycheck(self,message))
             
