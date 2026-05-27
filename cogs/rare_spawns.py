@@ -97,18 +97,13 @@ class Rare_spawns(commands.Cog):
         except Exception as e:
             print(f"{message.jump_url} - \n{e}")
 
-    async def unown_spawn(self, message, id):
+    async def unown_spawn(self, message, id, sender):
         receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
         receiver_channel = receiver_channel.fetchone()
         receiver_channel = int(receiver_channel[4])
         if receiver_channel > 0:
             receiver_channel = self.client.get_channel(int(receiver_channel))
-        if message.reference:
-            ref_msg = await message.channel.fetch_message(message.reference.message_id)
-            sender = ref_msg.author
-        elif message.interaction_metadata:
-            ref_msg = message.interaction_metadata.user
-            sender = ref_msg
+        
         _embed = message.embeds[0]
         color = _embed.color
         description_text = " "
