@@ -115,7 +115,7 @@ class Rare_spawns(commands.Cog):
         description_text += f"Original message: [Click here]({message.jump_url})\n"
         embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=color,description=description_text)
         embed.set_author(name=author, icon_url=_embed.author.icon_url)
-        embed.set_image(data[13])
+        embed.set_image(f"{data[13]}")
         embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
         await receiver_channel.send(embed=embed)
         emoji = '🔔'
