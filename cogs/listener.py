@@ -472,10 +472,14 @@ class Listener(commands.Cog):
                 if self.promo_item in message.content.lower():
                     await message.reply(f"Oh wow - looks like you've found a promo item! Congratulations!")
                 if "unown ruins reward" in message.content.lower():
+                    match = re.search(r'\*\*(.+?)\*\* won the battle', message.content)
+                    player = match.group(1)
+                    user = message.guild.get_member_named(player)
+        
                     id = message.content.split("reward: <:")[1]
                     id = id.split(":")[0]
                     if id != "201_" and id != "201":
-                        asyncio.create_task(Rare_spawns.unown_spawn(self, message, id))
+                        asyncio.create_task(Rare_spawns.unown_spawn(self, message, id, user))
             if "** released " in message.content.lower():
                 asyncio.create_task(Modules.dailycheck(self,message))
             
