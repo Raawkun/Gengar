@@ -471,6 +471,11 @@ class Listener(commands.Cog):
                         await QuestsOfJohto.johto_coins(self, user, message, coin_type)
                 if self.promo_item in message.content.lower():
                     await message.reply(f"Oh wow - looks like you've found a promo item! Congratulations!")
+                if "unown ruins reward" in message.content.lower():
+                    id = message.content.split("reward: <:")[1]
+                    id = id.split(":")[0]
+                    if id != "201":
+                        asyncio.create_task(Rare_spawns.rare_spawn(self, message))
             if "** released " in message.content.lower():
                 asyncio.create_task(Modules.dailycheck(self,message))
             
