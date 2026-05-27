@@ -112,7 +112,7 @@ class Rare_spawns(commands.Cog):
         _embed = message.embeds[0]
         color = _embed.color
         description_text = " "
-        data = self.db.execute(f"SELECT * FROM Dex WHERE Dex_ID = '{id}'")
+        data = self.db.execute(f"SELECT * FROM Dex WHERE DexID = '{id}'")
         data = data.fetchone()
         author = sender.display_name+" was lucky in the Ruins:"
         raremon = poke_rarity[(data[14])]
