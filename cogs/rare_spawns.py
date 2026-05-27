@@ -114,6 +114,18 @@ class Rare_spawns(commands.Cog):
         description_text = " "
         data = self.db.execute(f"SELECT * FROM Dex WHERE Dex_ID = '{id}'")
         data = data.fetchone()
+        author = sender.display_name+" was lucky in the Ruins:"
+        raremon = poke_rarity[(data[14])]
+        timestamp = await Rare_spawns.set_time(self)
+        description_text += f"Original message: [Click here]({message.jump_url})\n"
+        embed = disnake.Embed(title=raremon+" **"+data[1]+"** \nDex: #"+str(data[0]), color=color,description=description_text)
+        embed.set_author(name=author, icon_url=_embed.author.icon_url)
+        embed.set_image(_embed.image.url)
+        embed.set_footer(text=(f'{self.client.user.display_name}'+" | at UTC "f'{timestamp}'), icon_url=f'{self.client.user.avatar}')
+        await receiver_channel.send(embed=embed)
+        emoji = '🔔'
+        await message.add_reaction(emoji)
+        return
 
     async def poke_spawn(self, message,data):
         receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
