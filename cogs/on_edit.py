@@ -151,7 +151,7 @@ class On_Edit(commands.Cog):
                                 if "retrieved a" in _embed.description:
                                     if after.channel.id in locations["Blackthorn City"]:
                                         await QuestsOfJohto.blackthorn_quest(self, sender,after)
-                            if raremon in self.Rare_Spawns or data[0] in Listener.exclusives or _embed.color == disnake.Color(0xea260b):
+                            if raremon in self.Rare_Spawns or data[0] in Listener.exclusives or _embed.color == disnake.Color(0xea260b) or "Vivillon-" in data[1]:
                                 print(f"Theres a rare spawn: {data[0]} {data[1]}")
                             
                                 asyncio.create_task(Rare_spawns.poke_spawn(self, after, data))
