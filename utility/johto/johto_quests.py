@@ -400,7 +400,7 @@ class QuestsOfJohto(commands.Cog):
             data = data.fetchone()
         #print(data[0])
         if data[0] not in mon_ids: #Check if the mon is one of the legendaries
-            print(f{data[1]} is not a johto legendary")
+            print(f"{data[1]} is not a johto legendary")
             return
         else: #Its a Johto Legendary, so lets check further
             print("Secret_2 Spawn!")
