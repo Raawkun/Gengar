@@ -1034,8 +1034,8 @@ class Listener(commands.Cog):
                     if "current event ends: " in _embed.footer.text.lower():
                         if _embed.description:
                             if "event-exclusives" in _embed.description.lower():
-                                #print(field)
-                                mons = _embed.description.split("obtained)\n")[1].replace("```","")
+                                mons = _embed.description.split("-exclusives (")[1].replace("```","")
+                                #mons = _embed.description.split("obtained)\n")[1].replace("```","")
                                 #print(mons)
                                 mons = mons.split("\n")
                                 names = []
