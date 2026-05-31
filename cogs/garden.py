@@ -88,6 +88,7 @@ class Garden(commands.Cog):
                 cslot = f"{planted}:{rate}:{stamp}"
                 self.db.execute(f"UPDATE Garden SET Slot_{slot} = '{cslot}' WHERE User_ID = {userid}")
                 self.db.commit()
+                return reply
             else:
                 old_stamp = cslot.split(":")[2]
                 berry = cslot.split(":")[0]
@@ -100,7 +101,7 @@ class Garden(commands.Cog):
                     else:
                         type = "water"
                     asyncio.create_task(Garden.garden_reminder(self,userid,type,slot,stamp,message))
-                    reply = f"Added a reminder for slot {slot}"
+                    reply += f"Added a reminder for slot {slot}\n"
                     return reply
 
         
