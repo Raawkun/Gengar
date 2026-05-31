@@ -125,11 +125,11 @@ class Garden(commands.Cog):
                 slot = entry.split("**")[0]
                 print(entry)
                 if"Ready to harvest" in entry:
-                    commands += await self.harvest_check(Garden, slot, message)
+                    commands += await seGardenlf.harvest_check(self, slot, message)
                 elif "Needs watering" in entry:
-                    commands += await self.harvest_check(Garden, slot, message)
+                    commands += await Garden.harvest_check(self, slot, message)
                 elif "Next stage" in entry:
-                    reply += await self.garden_check(Garden, userid, entry, message)
+                    reply += await Garden.garden_check(self, userid, entry, message)
                 elif ":lock" in entry:
                     pass
                 else:
