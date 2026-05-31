@@ -74,7 +74,7 @@ class Garden(commands.Cog):
         slot = entry.split("**")[0]
         stamp = entry.split("<t:")[1].split(":R>")[0]
         stage = entry.split("STAGE ")[1].split("/")[0]
-        planted = entry.split(":>")[1].split(" Berry")[0]
+        planted = entry.split("> ")[1].split(" Berry")[0]
         rate = berry_times[planted]
         check = self.db.execute(f"SELECT * FROM Garden WHERE User_ID = {userid}")
         check = check.fetchone()
