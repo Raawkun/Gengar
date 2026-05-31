@@ -70,7 +70,7 @@ class Modules(commands.Cog):
                     i = 1
                     for entry in mon:
                         if entry == 'question':
-                            pass
+                            exit
                         dex = self.db.execute(f'SELECT DexID, Name, Type_1, Type_2 FROM Dex WHERE DexID = {entry}')
                         dex = dex.fetchone()
     #                     #print(dex)
