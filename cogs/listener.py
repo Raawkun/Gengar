@@ -641,8 +641,8 @@ class Listener(commands.Cog):
                         except Exception as e:
                             print(f"Research Lab Error: {e}")
                     if "Berry Garden" in _embed.author.name:
-                        print(f"{sender.id} is taking a nice garden strol...")
-                        await asyncio.create_task(Garden.user_check(self, sender, message))
+                        print(f"{sender} is taking a nice garden strol...")
+                        await asyncio.create_task(Garden.user_check(self, sender.id, message))
                     if "Global Market " in _embed.author.name:
                         #print("Market going on")
                         try:
