@@ -63,9 +63,9 @@ class Garden(commands.Cog):
                 slot = entry.split("**")[0]
                 print(entry)
                 if"Ready to harvest" in entry:
-                    asyncio.create_task(Garden.harvest_check(self, userid, slot, message))
+                    asyncio.create_task(Garden.harvest_check(self, slot, message))
                 elif "Needs watering" in entry:
-                    asyncio.create_task(Garden.harvest_check(self, userid, slot, message))
+                    asyncio.create_task(Garden.harvest_check(self, slot, message))
                 elif "Next stage" in entry:
                     reply += await self.garden_check(self, userid, entry)
                 elif ":lock" in entry:
