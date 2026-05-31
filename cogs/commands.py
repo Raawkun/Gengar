@@ -925,7 +925,7 @@ class Coms(commands.Cog):
             self.db.execute(f"INSERT or REPLACE INTO Garden (User_ID, Can) VALUES ('{spray}',{ctx.author.id})")
             self.db.commit()
             if spray.lower() != "psyduck":
-                desc = "\n-# *Tip: You should consider getting the Psyduck can for 25 Voute coins!*"
+                desc = "\n-# *Tip: You should consider getting the Psyduck can for 500 Vote coins!*"
             else:
                 desc = ""
             await ctx.reply(f"Thanks for updating me on you using the ``{spray.upper()}`` can in your garden.{desc}")
