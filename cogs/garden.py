@@ -13,7 +13,7 @@ class Garden(commands.Cog):
         self.client = client
         self.db = connect("database.db")
 
-    current_time = datetime.datetime.utcnow()
+    current_time = datetime.utcnow()
     timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
 
         #DB STYLE:
