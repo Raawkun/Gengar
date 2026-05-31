@@ -874,51 +874,61 @@ class Coms(commands.Cog):
             ref_msg = await ctx.channel.fetch_message(mid)
             desc = f"Name:{ref_msg.author.display_name}\nID: {ref_msg.author.id}\n"
             if ref_msg.content != None:
-                desc +=(f"Content: \n```{ref_msg.content}\n```")
+                desc +=(f"Content: \n```{ref_msg.content} \n```")
             if mode == "embed":
                 conty = ""
                 if (len(ref_msg.embeds) > 0):
                     _embed = ref_msg.embeds[0]
-                    #print("Its an embed...")
                     if ref_msg.content != None:
                         if _embed.description != None:
                             desc +=("```Desc:\nCheck Attachment below.```")
                             conty +=("```Desc:\n")
-                            conty +=(f"{_embed.description}```\n")
-                            #print("with a description....")
+                            conty +=(f"{_embed.description} ```\n")
                         if _embed.footer != None:
                             conty +=("```Footer:\n")
-                            conty +=(f"{_embed.footer.text}```\n")
-                            #print("with a footer....")
+                            conty +=(f"{_embed.footer.text} ```\n")
                         if _embed.title != None:
                             conty +=("```Title:")
-                            conty +=(f"{_embed.title}```\n")
+                            conty +=(f"{_embed.title} ```\n")
                             #print("with a title...")
                         if _embed.fields != None:
                             conty +=("```Fields:")
-                            conty +=(f"{_embed.fields}```\n")
+                            conty +=(f"{_embed.fields} ```\n")
                             #print("with fields...")
                         if _embed.image != None:
                             conty +=("```Image:")
-                            conty +=(f"{_embed.image.url}```\n")
+                            conty +=(f"{_embed.image.url} ```\n")
                             #print("with an image...")
                         if _embed.thumbnail.url != None:
                             conty +=("```Thumb:")
-                            conty +=(f"{_embed.thumbnail.url}```\n")
+                            conty +=(f"{_embed.thumbnail.url} ```\n")
                             #print("with a thumb...")
                         if _embed.author.name != None:
                             conty +=("```Author:")
-                            conty +=(f"{_embed.author.name}\n")
-                            conty +=(f"{_embed.author.icon_url}```\n")
+                            conty +=(f"{_embed.author.name} \n")
+                            conty +=(f"{_embed.author.icon_url} ```\n")
                             #print("with an author...")
                         if _embed.color != None:
                             conty +=(f"```Color:\n")
-                            conty +=(f"{_embed.color}```")
+                            conty +=(f"{_embed.color} ```")
                             #print("with a color.")
             txt_file = io.StringIO(conty)
             txt_file.name = "embed_content.txt"
             await ctx.reply(desc, file = disnake.File(txt_file, txt_file.name))
             
+    @commands.command()
+    async def can(self, ctx, spray):
+        cans = ["wailmer", "lotad", "psyduck"]
+        if spray.lower() not in cans:
+            await ctx.reply(f"Please only use ``wailmer``, ``lotad`` or ``psyduck``.")
+        else:
+            self.db.execute(f"UPDATE Garden SET Can = '{spray}' WHERE User_ID = {ctx.author.id}")
+            self.db.commit()
+            if spray.lower() is not "psyduck":
+                desc = "\n-# *Tip: You should consider getting the Psyduck can for 25 Voute coins!*"
+            else:
+                desc = ""
+            await ctx.reply(f"Thanks for updating me on you using the ``{spray.upper()}`` can in your garden.{desc}")
 
     @commands.command()
     async def invite(self, ctx):

@@ -18,6 +18,7 @@ from cogs.resuming import Resuming
 from cogs.rare_spawns import Rare_spawns
 from utility.db_config import db_config
 from cogs.methods import Methods
+from cogs.garden import Garden
 
 from utility.johto.travel_checks import TravelChecks
 from utility.johto.johto_quests import QuestsOfJohto
@@ -573,7 +574,9 @@ class Listener(commands.Cog):
                             #desc = desc[::-1]
                         else:
                             desc = f'{rem_emotes["remind"]} - <@{sender.id}> {rem_emotes["egg"]}'
-                        await message.channel.send(desc)           
+                        await message.channel.send(desc)         
+             
+            #EMBEDS STARTING HERE 
             if (len(message.embeds) > 0):
                 log_channel = 1164544776985653319
                 _embed = message.embeds[0]
@@ -637,6 +640,9 @@ class Listener(commands.Cog):
                             await message.reply(embed=embed)
                         except Exception as e:
                             print(f"Research Lab Error: {e}")
+                    if "Berry Garden" in _embed.author.name:
+                        print(f"{sender} is taking a nice garden strol...")
+                        await asyncio.create_task(Garden.user_check(self, sender, message))
                     if "Global Market " in _embed.author.name:
                         #print("Market going on")
                         try:
