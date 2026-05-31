@@ -642,7 +642,7 @@ class Listener(commands.Cog):
                             print(f"Research Lab Error: {e}")
                     if "Berry Garden" in _embed.author.name:
                         print(f"{sender} is taking a nice garden strol...")
-                        await asyncio.create_task(Garden.user_check(Garden, sender.id, message))
+                        await asyncio.create_task(Garden.user_check(self, sender.id, message))
                     if "Global Market " in _embed.author.name:
                         #print("Market going on")
                         try:
