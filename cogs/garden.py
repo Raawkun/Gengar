@@ -54,7 +54,7 @@ class Garden(commands.Cog):
             return
         else:
             emb = message.embeds[0]
-            desc = emb.descrioption
+            desc = emb.description
             if "Tip:" in desc:
                 desc = desc.split("Tip:")[1]
             pots = desc.split("**Slot ")
