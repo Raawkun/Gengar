@@ -82,7 +82,7 @@ class Garden(commands.Cog):
         if check == None:
             reply = f"What a nice garden you have there! Would you mind telling me which watering can you use?\nPlease use ``mcan wailmer/lotad/psyduck``so I can determine when to ping you for watering/harvesting!"
             return reply
-        if check is not None:
+        else:
             cslot = check[int(slot)+1]
             if cslot is None:
                 cslot = f"{planted}:{rate}:{stamp}"
