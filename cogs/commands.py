@@ -922,7 +922,7 @@ class Coms(commands.Cog):
         if spray.lower() not in cans:
             await ctx.reply(f"Please only use ``wailmer``, ``lotad`` or ``psyduck``.")
         else:
-            self.db.execute(f"UPDATE Garden SET Can = '{spray}' WHERE User_ID = {ctx.author.id}")
+            self.db.execute(f"INSERT or REPLACE INTO Garden (User_ID, Can) VALUES ('{spray}',{ctx.author.id})")
             self.db.commit()
             if spray.lower() != "psyduck":
                 desc = "\n-# *Tip: You should consider getting the Psyduck can for 25 Voute coins!*"
