@@ -78,7 +78,7 @@ class Garden(commands.Cog):
         rate = berry_times[planted]
         check = self.db.execute(f"SELECT * FROM Garden WHERE User_ID = {userid}")
         check = check.fetchone()
-        reply == ""
+        reply = ""
         if check == None:
             reply = f"What a nice garden you have there! Would you mind telling me which watering can you use?\nPlease use ``mcan wailmer/lotad/psyduck``so I can determine when to ping you for watering/harvesting!"
             return reply
