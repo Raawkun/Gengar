@@ -36,7 +36,7 @@ class Garden(commands.Cog):
                 cslot = f"{planted}:{rate}:{stamp}"
                 self.db.execute(f"UPDATE Garden SET Slot_{slot} = '{cslot}' WHERE User_ID = {userid}")
                 self.db.commit()
-                
+
         
     async def harvest_check(self, slot, message):
         reply = f"``;berry harvest {slot}``"
@@ -48,7 +48,7 @@ class Garden(commands.Cog):
                         
                         
     async def user_check(self, userid, message):
-        check = self.db.execute(f"SELECT Garden, Emotes, Ping FROM Toggles WHERE User_ID = {userid}")
+        check = self.db.execute(f"SELECT Garden, Emotes, Ping FROM Toggle WHERE User_ID = {userid}")
         check = check.fetchone()
         if (check == None) or (check[0] == 0):
             return
