@@ -83,7 +83,7 @@ class Garden(commands.Cog):
             reply = f"What a nice garden you have there! Would you mind telling me which watering can you use?\nPlease use ``mcan wailmer/lotad/psyduck``so I can determine when to ping you for watering/harvesting!"
             return reply
         if check is not None:
-            cslot = check[slot+1]
+            cslot = check[int(slot)+1]
             if cslot is None:
                 cslot = f"{planted}:{rate}:{stamp}"
                 self.db.execute(f"UPDATE Garden SET Slot_{slot} = '{cslot}' WHERE User_ID = {userid}")
