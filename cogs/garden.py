@@ -95,7 +95,13 @@ class Garden(commands.Cog):
                     cslot = f"{planted}:{rate}:{stamp}"
                     self.db.execute(f"UPDATE Garden SET Slot_{slot} = '{cslot}' WHERE User_ID = {userid}")
                     self.db.commit()
-                    asyncio.create_task(Garden.garden_reminder())
+                    if check[1] == "psyduck":
+                        type = "harvest"
+                    else:
+                        type = "water"
+                    asyncio.create_task(Garden.garden_reminder(self,userid,type,slot,stamp,message))
+                    reply = f"Added a reminder for slot {slot}"
+                    return reply
 
         
     def harvest_check(self, slot):
