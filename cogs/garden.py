@@ -38,13 +38,13 @@ class Garden(commands.Cog):
                 self.db.commit()
 
         
-    async def harvest_check(self, slot, message):
+    def harvest_check(self, slot, message):
         reply = f"``;berry harvest {slot}``"
-        await message.channel.send(reply)
+        return reply
 
-    async def water_check(self, slot, message):
+    def water_check(self, slot, message):
         reply = f"``;berry water {slot}``"
-        await message.channel.send(reply)
+        return reply
                         
                         
     async def user_check(self, userid, message):
@@ -59,20 +59,23 @@ class Garden(commands.Cog):
                 desc = desc.split("Tip:")[1]
             pots = desc.split("**Slot ")
             print(pots)
+            reply = ""
+            commands = f"Suggested commands are:\n"
             for entry in pots:
                 slot = entry.split("**")[0]
                 print(entry)
                 if"Ready to harvest" in entry:
-                    asyncio.create_task(Garden.harvest_check(self, slot, message))
+                    commands += await self.harvest_check(self, slot, message)
                 elif "Needs watering" in entry:
-                    asyncio.create_task(Garden.harvest_check(self, slot, message))
+                    commands += await self.harvest_check(self, slot, message)
                 elif "Next stage" in entry:
                     reply += await self.garden_check(self, userid, entry)
                 elif ":lock" in entry:
                     pass
                 else:
                     continue
-            #msg = await asyncio.create_task(Garden.garden_check(
+            reply += "\n"+commands
+            await message.reply(reply)
 
 def setup(client):
     client.add_cog(Garden(client))
