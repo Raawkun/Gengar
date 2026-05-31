@@ -924,7 +924,7 @@ class Coms(commands.Cog):
         else:
             self.db.execute(f"UPDATE Garden SET Can = '{spray}' WHERE User_ID = {ctx.author.id}")
             self.db.commit()
-            if spray.lower() is not "psyduck":
+            if spray.lower() != "psyduck":
                 desc = "\n-# *Tip: You should consider getting the Psyduck can for 25 Voute coins!*"
             else:
                 desc = ""
