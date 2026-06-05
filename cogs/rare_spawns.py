@@ -220,10 +220,12 @@ class Rare_spawns(commands.Cog):
         receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
         receiver_channel = receiver_channel.fetchone()
         receiver_channel = int(receiver_channel[4])
+        _emb = message.embeds[1]
         if receiver_channel > 0:
             receiver_channel = self.client.get_channel(int(receiver_channel))
         asyncio.create_task(Modules.dailycheck(self, message))
-        iconname = message.content.split("unlocked ")[1]
+        iconname = _emb.description.split("unlocked ")[1]
+        iconname = iconname.aplit("> **")
         icon = iconname.split(":")[2]
         icon = icon.split(">")[0]
         iconname = iconname.split(":")[1]
