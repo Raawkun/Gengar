@@ -523,8 +523,7 @@ class Listener(commands.Cog):
                     else:
                         await message.channel.send(desc)
                     
-            if "s** trainer icon!" in message.content:
-                asyncio.create_task(Rare_spawns.icon_spawn(self, message))
+            
             if "from completing challenge" in message.content:
                 print(f'{sender.display_name} won a chamber.')
                 asyncio.create_task(Rare_spawns.chamber_claim(self, message))
@@ -586,7 +585,9 @@ class Listener(commands.Cog):
                 if _embed.footer:
                     if "information on buddies" in _embed.footer.text:
                         asyncio.create_task(Methods.iv_check(self, sender, message))
-                
+                if _embed.description;
+                    if "s** trainer icon!" in _emb.description:
+                        asyncio.create_task(Rare_spawns.icon_spawn(self, message))
                 if _embed.title:
                     #print(_embed)
                     #print(_embed.title)
