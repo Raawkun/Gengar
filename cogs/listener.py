@@ -586,7 +586,7 @@ class Listener(commands.Cog):
                     if "information on buddies" in _embed.footer.text:
                         asyncio.create_task(Methods.iv_check(self, sender, message))
                 if _embed.description:
-                    if "s** trainer icon!" in _emb.description:
+                    if "s** trainer icon!" in _embed.description:
                         asyncio.create_task(Rare_spawns.icon_spawn(self, message))
                 if _embed.title:
                     #print(_embed)
