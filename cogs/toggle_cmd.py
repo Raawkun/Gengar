@@ -6,7 +6,9 @@ from disnake.ext import commands
 
 toggles = ["Grazz","Repel","Starter","Linked","Emotes","ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","Ping","IV"]
 functions = ["Grazz", "Repel","Starter","Linked","Emotes","Ping", "IV"]
-reminders = ["ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers"]
+reminders = ["ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","ToggleGarden"]
+rems = {"ToggleSpawn":"Spawning","ToggleFish":"Fishing","ToggleBattle":"Battling","ToggleQuest":";Quest","ToggleQuestTimer":"New Quest","ToggleOthers":"Others","ToggleGarden":"Garden"}
+smer = {"Spawning":"ToggleSpawn","Fishing":"ToggleFish","Battling":"ToggleBattle",";Quest":"ToggleQuest","New Quest":"ToggleQuestTimer","Others":"ToggleOthers","Garden":"ToggleGarden"}
 #Reminder Buttons
 class Remd_Buttons(disnake.ui.Button):
     def __init__(self, user_id):
@@ -19,13 +21,14 @@ class Remd_Buttons(disnake.ui.Button):
             await interaction.response.defer()
             if interaction.user.id != self.user_id:
                 exit
-            data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers FROM Toggle WHERE User_ID = {self.user_id}")
+            data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers,ToggleGarden FROM Toggle WHERE User_ID = {self.user_id}")
             data = data.fetchone()
             view = ReminderView(self.user_id)
             i = 0
             for item in view.children:
                 if isinstance(item, disnake.ui.Button):
                     if item.label in reminders:
+                        item.label = rems[item.label]
                         if data[i] == 1:
                             item.style = disnake.ButtonStyle.green
                         else:
@@ -47,14 +50,14 @@ class RemButton(disnake.ui.Button):
             await interaction.response.defer()
             if interaction.user.id != self.user_id:
                 exit
-            data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers FROM Toggle WHERE User_ID = {self.user_id}")
+            data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers,ToggleGarden FROM Toggle WHERE User_ID = {self.user_id}")
             data = data.fetchone()
             i=0
             if interaction.component.custom_id == self.custom_id:
                 view = ReminderView(self.user_id)
                 for item in view.children:
                     if isinstance(item, disnake.ui.Button):
-                        if item.label in reminders:
+                        if item.label in smer:
                             if data[i] == 1:
                                 item.style = disnake.ButtonStyle.green
                             else:
