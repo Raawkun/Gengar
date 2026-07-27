@@ -24,7 +24,7 @@ class Garden(commands.Cog):
         if slot != "all":
             og_slot=slot
             slot = numbers[slot]
-        data = self.db.execute(f"SELECT Garden, Ping, Emote FROM Toggle WHERE User_ID = {userid}")
+        data = self.db.execute(f"SELECT ToggleGarden, Ping, Emote FROM Toggle WHERE User_ID = {userid}")
         data = data.fetchone()
         if data[0] == 0:
             exit
@@ -115,7 +115,7 @@ class Garden(commands.Cog):
                         
                         
     async def user_check(self, userid, message):
-        check = self.db.execute(f"SELECT Garden, Emotes, Ping FROM Toggle WHERE User_ID = {userid}")
+        check = self.db.execute(f"SELECT ToggleGarden, Emotes, Ping FROM Toggle WHERE User_ID = {userid}")
         check = check.fetchone()
         if (check == None) or (check[0] == 0):
             return
