@@ -54,6 +54,7 @@ class Garden(commands.Cog):
     async def garden_reminder(self, userid, type, slot, stamp,message):
         slots = self.db.execute(f"SELECT * FROM Garden WHERE User_ID = {userid}")
         slots = slots.fetchone()
+        print(slots)
         slots = slots.pop(0).pop(0)
         timers = []
         for entry in slots:
