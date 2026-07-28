@@ -29,6 +29,7 @@ class Remd_Buttons(disnake.ui.Button):
                 if isinstance(item, disnake.ui.Button):
                     if item.label in reminders:
                         item.label = rems[item.label]
+                        print(item)
                         if data[i] == 1:
                             item.style = disnake.ButtonStyle.green
                         else:
@@ -189,7 +190,7 @@ class ReminderView(disnake.ui.View):
             if i > 3:
                 row +=1
                 i = 1
-            self.add_item(RemButton(user_id,entry,row))
+            self.add_item(RemButton(user_id,rems[entry],row))
             i+=1
 
 class FunctionView(disnake.ui.View):
