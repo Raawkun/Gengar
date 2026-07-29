@@ -132,7 +132,7 @@ class ChecksOfJohto(commands.Cog):
         return celebi, mon_needed
     
     async def secret_2_check():
-        johto_legends = ["243", "244", "245", "249", "250"] #Raikou, Entei, Suicune, Lugia, Ho-oh
+        johto_legends = [243, 244, 245, 249, 250] #Raikou, Entei, Suicune, Lugia, Ho-oh
         mon_needed = len(johto_legends)
         return johto_legends, mon_needed
     
