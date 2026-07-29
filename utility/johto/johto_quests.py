@@ -415,7 +415,7 @@ class QuestsOfJohto(commands.Cog):
                 else:
                     user_list = []
                 print(user_list)
-            if len(user_list) == len(mons_needed): #Are we already done???
+            if len(user_list) == mons_needed: #Are we already done???
                 return
             else:
                 if data[0] in user_list: #Did we already catch it?
