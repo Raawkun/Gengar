@@ -394,12 +394,12 @@ class QuestsOfJohto(commands.Cog):
         data = self.db.execute(f"SELECT * FROM Dex WHERE Img_Url = '{image}'")
         data = data.fetchone()
         print(f"checking for johto legendary: {data[0]} {data[1]}")
-        if data[11] == 1: #If shiny, convert to non-shiny version
+        if int(data[11]) == 1: #If shiny, convert to non-shiny version
             name = data[1].split("Shiny ")[1]
             data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{name}'")
             data = data.fetchone()
         #print(data[0])
-        if data[0] not in mon_ids: #Check if the mon is one of the legendaries
+        if int(data[0]) not in mon_ids: #Check if the mon is one of the legendaries
             print(f"{data[1]} is not a johto legendary")
             return
         else: #Its a Johto Legendary, so lets check further
