@@ -17,7 +17,7 @@ class Garden(commands.Cog):
     timestamp = current_time.strftime('%Y-%m-%d %H:%M:%S')
 
         #DB STYLE:
-        #USER_ID, Can, Slot_1, Slot_2, Slot_3, Slot_4, Slot_5, Slot_6 {berry, hourly, next_stage}
+        #USER_ID, Can, Slot_1, timestamp, Slot_3, Slot_4, Slot_5, Slot_6 {berry, hourly, next_stage}
 
     async def garden_ping(self, message, userid, type, stamp, slot):
         numbers = {"1":"one", "2":"two","3":"three","4":"four","5":"five","6":"six"}
@@ -45,10 +45,10 @@ class Garden(commands.Cog):
             else:
                 await message.channel.send(desc)
             if slot == "all":
-                self.db.execute(f"UPDATE Garden SET Slot_1 = None, Slot_2 = None, Slot_3 = None, Slot_4 = None, Slot_5 = None, Slot_6 = None WHERE User_ID = {userid}")
+                self.db.execute(f"UPDATE Garden SET Slot_1 = None, timestamp = None WHERE User_ID = {userid}")
                 self.db.commit()
             else:
-                self.db.execute(f"UPDATE Garden SET Slot_{og_slot} = None WHERE User_ID = {userid}")
+                self.db.execute(f"UPDATE Garden SET Slot_1 = None, timestamp = None WHERE User_ID = {userid}")
                 self.db.commit()
 
     async def garden_reminder(self, userid, type, slot, stamp,message):
