@@ -4,7 +4,7 @@ import disnake
 from disnake import Option, OptionChoice
 from disnake.ext import commands
 
-toggles = ["Grazz","Repel","Starter","Linked","Emotes","ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","Ping","IV"]
+toggles = ["Grazz","Repel","Starter","Linked","Emotes","ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","Ping","IV","ToggleGarden"]
 functions = ["Grazz", "Repel","Starter","Linked","Emotes","Ping", "IV"]
 reminders = ["ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","ToggleGarden"]
 rems = {"ToggleSpawn":"Spawning","ToggleFish":"Fishing","ToggleBattle":"Battling","ToggleQuest":";Quest","ToggleQuestTimer":"New Quest","ToggleOthers":"Others","ToggleGarden":"Garden"}
@@ -28,10 +28,8 @@ class Remd_Buttons(disnake.ui.Button):
             for item in view.children:
                 print(item)
                 if isinstance(item, disnake.ui.Button):
-                    if item.label in reminders:
-                        print(f"{item.label} --> {rems[item.label]}")
-                        item.label = rems[item.label]
-                        print(item)
+                    if item.label in smer:
+                        print(f"{item.label} --> {smer[item.label]}")
                         if data[i] == 1:
                             item.style = disnake.ButtonStyle.green
                         else:
