@@ -26,6 +26,7 @@ class Remd_Buttons(disnake.ui.Button):
             view = ReminderView(self.user_id)
             i = 0
             for item in view.children:
+                print(item)
                 if isinstance(item, disnake.ui.Button):
                     if item.label in reminders:
                         print(f"{item.label} --> {rems[item.label]}")
