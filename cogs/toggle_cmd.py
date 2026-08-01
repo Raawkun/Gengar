@@ -26,10 +26,8 @@ class Remd_Buttons(disnake.ui.Button):
             view = ReminderView(self.user_id)
             i = 0
             for item in view.children:
-                print(item)
                 if isinstance(item, disnake.ui.Button):
                     if item.label in smer:
-                        print(f"{item.label} --> {smer[item.label]}")
                         if data[i] == 1:
                             item.style = disnake.ButtonStyle.green
                         else:
@@ -57,6 +55,7 @@ class RemButton(disnake.ui.Button):
             if interaction.component.custom_id == self.custom_id:
                 print(f"{self.entry} with id {self.custom_id} as {rems[self.entry]}")
                 view = ReminderView(self.user_id)
+                print(view.children)
                 for item in view.children:
                     if isinstance(item, disnake.ui.Button):
                         if item.label in smer:
@@ -64,10 +63,14 @@ class RemButton(disnake.ui.Button):
                                 item.style = disnake.ButtonStyle.green
                             else:
                                 item.style = disnake.ButtonStyle.red
+                            print(item.style)
                             i+=1
                         if item.custom_id == self.custom_id:
+                            print(item.custom_id)
                             if item.style == disnake.ButtonStyle.green:
                                 item.style = disnake.ButtonStyle.red
+                                print(rems[self.label])
+                                print(self.entry)
                                 self.db.execute(f"UPDATE Toggle SET {rems[self.entry]} == 0 WHERE User_ID = {self.user_id}")
                                 if self.entry == "Linked":
                                     msg = f"Deactivated linked slash commands in the notification."
