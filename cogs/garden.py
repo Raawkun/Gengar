@@ -19,40 +19,12 @@ class Garden(commands.Cog):
         #DB STYLE:
         #USER_ID, Can, Slot_1, timestamp, Slot_3, Slot_4, Slot_5, Slot_6 {berry, hourly, next_stage}
 
-    async def garden_ping(self, message, userid, check):
-        slot = check[2]
-        berry = check[4]
-        timestamp = int(check[3])
-        can = check[1]
-        data = connect("database.db").execute(f"SELECT ToggleGarden, Ping, Emote FROM Toggle WHERE User_ID = {userid}")
-        data = data.fetchone()
-        if data[0] == 0:
-            exit
-        else:
-            if data[2] == 0:
-                if type == "water":
-                    desc = f"<@{userid}> - 🍓 :{slot}: 💧"
-                else:
-                    desc = f"<@{userid}> - 🍓 :{slot}: ✅"
-            else:
-                if type == "water":
-                    desc = f"<@{userid}> - your {berry} Berry at garden slot {slot} needs water!"
-                else:
-                    desc = f"<@{userid}> - your {berry} Berry at garden slot {slot} is ready to be harvested!"
-            await asyncio.sleep(int(self.current_time.timestamp())-timestamp)
-            if data[1] == 0:
-                await message.channel.send(desc, allowed_mentions=disnake.AllowedMentions(users=False))
-            else:
-                await message.channel.send(desc)
-
-            self.db.execute(f"UPDATE Garden SET Slot = None, timestamp = None, Berry = None WHERE User_ID = {userid}")
-            self.db.commit()
 
     async def garden_reminder(self, userid, message):
         check = self.db.execute(f"SELECT * FROM Garden WHERE User_ID = {userid}")
         check = check.fetchone()
         if check != None:
-            asyncio.create_task(Reminders.create_tracked_task(self, Garden.garden_ping(Garden,message,userid, check)))
+            asyncio.create_task(Reminders.create_tracked_task(self, Reminders.garden_ping(Garden,message,userid, check)))
         
 
 
@@ -82,7 +54,7 @@ class Garden(commands.Cog):
             print(f"There was an error: {e}")
 
         if int(check[3]) <= best_entry["finish"]:
-            return
+            return reply
         else:
             self.db.execute(f"UPDATE Garden SET Slot = {best_key}, timestamp = {best_entry['finish']}, Berry = '{growing[best_key]['name']}' WHERE User_ID = {userid}")
             self.db.commit()

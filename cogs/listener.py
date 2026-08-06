@@ -164,6 +164,7 @@ class Listener(commands.Cog):
         Reminders.create_tracked_task(self, Reminders.load_reminder(self))
         Reminders.create_tracked_task(self, Modules.load_type(self))
         Reminders.create_tracked_task(self, Listener.load_sofi(self))
+        Reminders.create_tracked_task(self, Reminders.load_garden(self))
         print("Time do to ghost stuff! Hehehe")
         
     async def logerror(self, error: Exception, context: str = "Unspecified"):
