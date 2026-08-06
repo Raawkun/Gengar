@@ -70,7 +70,7 @@ class RemButton(disnake.ui.Button):
                             i+=1
                         if item.custom_id == self.custom_id:
                             print(item.custom_id)
-                            if item.style == disnake.ButtonStyle.green:
+                            if item.style == disnake.ButtonStyle.green or item.style == disnake.ButtonStyle.success:
                                 item.style = disnake.ButtonStyle.red
                                 print(rems[self.label])
                                 print(self.entry)
