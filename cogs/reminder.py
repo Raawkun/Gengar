@@ -16,7 +16,7 @@ class Reminders(commands.Cog):
         berry = check[4]
         timestamp = int(check[3])
         channel = self.client.get_channel(check[5])
-        data = connect("database.db").execute(f"SELECT ToggleGarden, Ping, Emote FROM Toggle WHERE User_ID = {userid}")
+        data = connect("database.db").execute(f"SELECT ToggleGarden, Ping, Emotes FROM Toggle WHERE User_ID = {userid}")
         data = data.fetchone()
         if data[0] == 0:
             exit
