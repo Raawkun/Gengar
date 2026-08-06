@@ -24,7 +24,7 @@ class Garden(commands.Cog):
         berry = check[4]
         timestamp = int(check[3])
         can = check[1]
-        data = self.db.execute(f"SELECT ToggleGarden, Ping, Emote FROM Toggle WHERE User_ID = {userid}")
+        data = connect("database.db").execute(f"SELECT ToggleGarden, Ping, Emote FROM Toggle WHERE User_ID = {userid}")
         data = data.fetchone()
         if data[0] == 0:
             exit
