@@ -52,6 +52,8 @@ class RemButton(disnake.ui.Button):
             data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers,ToggleGarden FROM Toggle WHERE User_ID = {self.user_id}")
             data = data.fetchone()
             i=0
+            print(interaction.component.custom_id)
+            print(self.custom_id)
             if interaction.component.custom_id == self.custom_id:
                 print(f"{self.entry} with id {self.custom_id} as {rems[self.entry]}")
                 view = ReminderView(self.user_id)
