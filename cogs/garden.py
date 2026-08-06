@@ -82,7 +82,7 @@ class Garden(commands.Cog):
         if check[3] >= best_entry:
             return
         else:
-            self.db.execute(f"UPDATE Garden SET Slot = {best_key}, timestamp = {best_entry}, Berry = {growing[best_key]["name"]} WHERE User_ID = {userid}")
+            self.db.execute(f"UPDATE Garden SET Slot = {best_key}, timestamp = {best_entry}, Berry = {growing[best_key]['name']} WHERE User_ID = {userid}")
             self.db.commit()
             if check[1] == "psyduck":
                 type = "harvest"
