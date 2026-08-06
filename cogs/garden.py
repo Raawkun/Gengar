@@ -71,7 +71,7 @@ class Garden(commands.Cog):
                 stagetime = berry_times[name]
                 current_stage = entry.split("STAGE ")[1].split("/")[0]
                 n_stamp = entry.split("t:")[1].split(":")[0]
-                finishtime = int(n_stamp)+(4-(current_stage)*(stagetime*60*60))
+                finishtime = int(n_stamp)+(4-(int(current_stage))*(int(stagetime)*60*60))
                 growing[slot] = {"name":name,"finish":finishtime}
 
         try:
