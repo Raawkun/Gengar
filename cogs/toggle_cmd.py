@@ -73,9 +73,9 @@ class RemButton(disnake.ui.Button):
                             print(item.custom_id)
                             if item.style == disnake.ButtonStyle.green or item.style == disnake.ButtonStyle.success:
                                 item.style = disnake.ButtonStyle.red
-                                print(rems[self.label])
+                                print(smer[self.label])
                                 print(self.entry)
-                                self.db.execute(f"UPDATE Toggle SET {rems[self.label]} == 0 WHERE User_ID = {self.user_id}")
+                                self.db.execute(f"UPDATE Toggle SET {smer[self.label]} == 0 WHERE User_ID = {self.user_id}")
                                 if self.entry == "Linked":
                                     msg = f"Deactivated linked slash commands in the notification."
                                 elif self.entry == "Emotes":
@@ -84,7 +84,7 @@ class RemButton(disnake.ui.Button):
                                     msg = f"Deactivated that notification."
                             else:
                                 item.style = disnake.ButtonStyle.green
-                                self.db.execute(f"UPDATE Toggle SET {rems[self.label]} == 1 WHERE User_ID = {self.user_id}")
+                                self.db.execute(f"UPDATE Toggle SET {smer[self.label]} == 1 WHERE User_ID = {self.user_id}")
                                 if self.entry == "Linked":
                                     msg = f"Activated linked slash commands in the notification."
                                 elif self.entry == "Emotes":
