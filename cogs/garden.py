@@ -62,10 +62,12 @@ class Garden(commands.Cog):
         reply = ""
         pots = desc.split("\n**Stage ")
         growing = {}
+        print(pots)
         for entry in pots:
             if "Next stage" in entry:
                 slot = entry.split("**")[0]
-                name = entry.split("> ")[1].split(" Berry")[0]
+                name = entry.split(" Berry")[0].split("> ")[1]
+                print(name)
                 stagetime = berry_times[name]
                 current_stage = entry.split("STAGE ")[1].split("/")[0]
                 n_stamp = entry.split("t:")[1].split(":")[0]
