@@ -81,10 +81,10 @@ class Garden(commands.Cog):
         except Exception as e:
             print(f"There was an error: {e}")
 
-        if check[3] >= best_entry:
+        if check[3] >= best_entry["finish"]:
             return
         else:
-            self.db.execute(f"UPDATE Garden SET Slot = {best_key}, timestamp = {best_entry}, Berry = {growing[best_key]['name']} WHERE User_ID = {userid}")
+            self.db.execute(f"UPDATE Garden SET Slot = {best_key}, timestamp = {best_entry['finish']}, Berry = {growing[best_key]['name']} WHERE User_ID = {userid}")
             self.db.commit()
             if check[1] == "psyduck":
                 type = "harvest"
