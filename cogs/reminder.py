@@ -41,7 +41,7 @@ class Reminders(commands.Cog):
             self.db.commit()
 
     async def load_garden(self):
-        check = self.db.execute(f"SELECT * FROM Garden WHERE timestamp > 0 ODER BY timestamp ASC")
+        check = self.db.execute(f"SELECT * FROM Garden WHERE timestamp > 0 ORDER BY timestamp ASC")
         check = check.fetchall()
         for row in check:
             await asyncio.create_task(Reminders.garden_ping(self, row[0], check))
