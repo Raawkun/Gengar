@@ -55,7 +55,7 @@ class RemButton(disnake.ui.Button):
             #print(interaction.component.custom_id)
             #print(self.custom_id)
             if interaction.component.custom_id == self.custom_id:
-                print(f"{self.entry} with id {self.custom_id} as {rems[self.label]}")
+                print(self.entry)
                 view = ReminderView(self.user_id)
                 print(view.children)
                 for item in view.children:
