@@ -94,7 +94,7 @@ class RemButton(disnake.ui.Button):
                             self.db.commit()
             await interaction.edit_original_response(msg,view=view)
         except Exception as e:
-            print(e)
+            print(f"There has been an error: {e}")
 
 #Function Buttons
 class Fnct_Buttons(disnake.ui.Button):
