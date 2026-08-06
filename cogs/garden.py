@@ -60,7 +60,7 @@ class Garden(commands.Cog):
         check = self.db.execute(f"SELECT * FROM Garden WHERE User_ID = {userid}")
         check = check.fetchone()
         reply = ""
-        pots = desc.split("\n**Stage ")
+        pots = desc.split("\n**Slot ")
         growing = {}
         print(pots)
         for entry in pots:
