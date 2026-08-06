@@ -11,6 +11,8 @@ class Reminders(commands.Cog):
         self.client = client
         self.db = connect("database.db")
 
+    current_time = datetime.utcnow()
+
     async def garden_ping(self, userid, check):
         slot = check[2]
         berry = check[4]
@@ -31,7 +33,7 @@ class Reminders(commands.Cog):
                     desc = f"<@{userid}> - your {berry} Berry at garden slot {slot} needs water!"
                 else:
                     desc = f"<@{userid}> - your {berry} Berry at garden slot {slot} is ready to be harvested!"
-            await asyncio.sleep(int(datetime.current_time.timestamp())-timestamp)
+            await asyncio.sleep(int(Reminders.current_time.timestamp())-timestamp)
             if data[1] == 0:
                 await channel.send(desc, allowed_mentions=disnake.AllowedMentions(users=False))
             else:
