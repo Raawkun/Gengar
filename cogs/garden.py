@@ -31,6 +31,9 @@ class Garden(commands.Cog):
     def garden_check(self, userid, desc, message):
         check = self.db.execute(f"SELECT * FROM Garden WHERE User_ID = {userid}")
         check = check.fetchone()
+        if int(check[3])<int(current_time.timestamp()):
+            self.db.execute(f"UPDATE Garden SET Slot = 0, Berry = 0, timestamp = 0, Channel = 0 WHERE User_ID = {userid}")
+            self.db.commit()
         reply = ""
         pots = desc.split("\n**Slot ")
         growing = {}
