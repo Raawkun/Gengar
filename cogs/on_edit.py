@@ -126,6 +126,10 @@ class On_Edit(commands.Cog):
                                     fossil = _embed.description.split("retrieved a <:")[1]
                                     fossil = fossil.split(":")[0]
                                     await after.reply(f"``;res ex {fossil}``")
+                                if "retrieved an <:unidentified" in _embed.description:
+                                    unint = _embed.description.split("retrieved ")[1]
+                                    unint = unint.split("**")[1]
+                                    await after.reply(f"You've found a ``{unint}``, head to ``;research`` to research it!")
                                 if after.channel.id in locations["New Bark Town"]:
                                     #print(data[16])
                                     await QuestsOfJohto.newbark_quest(self, data[15],sender,before)
