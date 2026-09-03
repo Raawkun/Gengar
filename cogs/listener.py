@@ -660,21 +660,26 @@ class Listener(commands.Cog):
                                     if "there are currently 0 " in _embed.description.lower():
                                         return
                                         
-                                    if "amount for sale" in _embed.description.lower():
-                                        price = _embed.description.split("PokeCoin")[2]
-                                        lowprice = price.split(" ")[1]
-                                        lowprice = int(lowprice.replace(",", ""))
-                                        amount = int(price.split(" ")[5])
                                     else:
-                                        for entry in _embed.fields:
-                                            if entry.name == "Price each":
-                                                #print(entry.value)
-                                                price = entry.value.split("`")[1]
-                                                #print(price)
-                                                lowprice = int(price.replace(",", ""))
-                                            if entry.name == "Amount Remaining":
-                                                amount = entry.value.split("`")[1]
-                                                amount = int((amount.split(" ")[0]).replace(",", ""))
+                                        price = _embed.description.split("in your box.")[1]
+                                        if "🔴" in price:
+                                            price = price.split("🔴")[1]
+                                            price = price.split("PokeCoin")[1]
+                                            lowprice = price.split(" ")[1]
+                                            lowprice = int(lowprice.replace(",", ""))
+                                            amount = int(price.split("⌛")[1].split(" ")[1].replace(",", ""))
+                                        else:
+                                            return
+                                    # else:
+                                    #     for entry in _embed.fields:
+                                    #         if entry.name == "Price each":
+                                    #             #print(entry.value)
+                                    #             price = entry.value.split("`")[1]
+                                    #             #print(price)
+                                    #             lowprice = int(price.replace(",", ""))
+                                    #         if entry.name == "Amount Remaining":
+                                    #             amount = entry.value.split("`")[1]
+                                    #             amount = int((amount.split(" ")[0]).replace(",", ""))
                                     #print(lowprice)
                                     #print(amount)
                                     self.db.execute(f'UPDATE Dex Set LowestVal = {lowprice}, UpdateTime = {current_time}, Amount = {amount} WHERE DexID = {datdex[0]}')
