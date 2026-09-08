@@ -4,11 +4,11 @@ import disnake
 from disnake import Option, OptionChoice
 from disnake.ext import commands
 
-toggles = ["Grazz","Repel","Starter","Linked","Emotes","ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","Ping","IV","ToggleGarden"]
+toggles = ["Grazz","Repel","Starter","Linked","Emotes","ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","Ping","IV"]
 functions = ["Grazz", "Repel","Starter","Linked","Emotes","Ping", "IV"]
-reminders = ["ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","ToggleGarden"]
-rems = {"ToggleSpawn":"Spawning","ToggleFish":"Fishing","ToggleBattle":"Battling","ToggleQuest":";Quest","ToggleQuestTimer":"New Quest","ToggleOthers":"Others","ToggleGarden":"Garden"}
-smer = {"Spawning":"ToggleSpawn","Fishing":"ToggleFish","Battling":"ToggleBattle",";Quest":"ToggleQuest","New Quest":"ToggleQuestTimer","Others":"ToggleOthers","Garden":"ToggleGarden"}
+reminders = ["ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers"]
+rems = {"ToggleSpawn":"Spawning","ToggleFish":"Fishing","ToggleBattle":"Battling","ToggleQuest":";Quest","ToggleQuestTimer":"New Quest","ToggleOthers":"Others"}
+smer = {"Spawning":"ToggleSpawn","Fishing":"ToggleFish","Battling":"ToggleBattle",";Quest":"ToggleQuest","New Quest":"ToggleQuestTimer","Others":"ToggleOthers"}
 #Reminder Buttons
 class Remd_Buttons(disnake.ui.Button):
     def __init__(self, user_id):
@@ -21,7 +21,7 @@ class Remd_Buttons(disnake.ui.Button):
             await interaction.response.defer()
             if interaction.user.id != self.user_id:
                 exit
-            data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers,ToggleGarden FROM Toggle WHERE User_ID = {self.user_id}")
+            data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers FROM Toggle WHERE User_ID = {self.user_id}")
             data = data.fetchone()
             view = ReminderView(self.user_id)
             i = 0
@@ -49,7 +49,7 @@ class RemButton(disnake.ui.Button):
             await interaction.response.defer()
             if interaction.user.id != self.user_id:
                 exit
-            data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers,ToggleGarden FROM Toggle WHERE User_ID = {self.user_id}")
+            data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers FROM Toggle WHERE User_ID = {self.user_id}")
             data = data.fetchone()
             i=0
             #print(interaction.component.custom_id)
