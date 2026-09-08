@@ -18,7 +18,6 @@ from cogs.resuming import Resuming
 from cogs.rare_spawns import Rare_spawns
 from utility.db_config import db_config
 from cogs.methods import Methods
-from cogs.garden import Garden
 
 from utility.johto.travel_checks import TravelChecks
 from utility.johto.johto_quests import QuestsOfJohto
@@ -164,7 +163,6 @@ class Listener(commands.Cog):
         Reminders.create_tracked_task(self, Reminders.load_reminder(self))
         Reminders.create_tracked_task(self, Modules.load_type(self))
         Reminders.create_tracked_task(self, Listener.load_sofi(self))
-        Reminders.create_tracked_task(self, Reminders.load_garden(self))
         print("Time do to ghost stuff! Hehehe")
         
     async def logerror(self, error: Exception, context: str = "Unspecified"):
@@ -629,9 +627,7 @@ class Listener(commands.Cog):
                             await message.reply(embed=embed)
                         except Exception as e:
                             print(f"Research Lab Error: {e}")
-                    if "Berry Garden" in _embed.author.name:
-                        print(f"{sender} is taking a nice garden strol...")
-                        await asyncio.create_task(Garden.user_check(self, sender.id, message))
+                    
                     if "Global Market " in _embed.author.name:
                         #print("Market going on")
                         try:
