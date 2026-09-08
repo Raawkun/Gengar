@@ -1033,7 +1033,7 @@ class Listener(commands.Cog):
                                     name = entry.split(" ")[1]
                                     id = entry.split(":")[1]
                                     if len(id) == 3 and "shiny" in name.lower():
-                                        id = int(id)+1000
+                                        id = str(int(id)+1000)
                                     names.append(id)
                                 names = ", ".join(names)
                                 self.db.execute(f"UPDATE Meow_Temps SET Exclusives = '{names}'")
