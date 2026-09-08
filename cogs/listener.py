@@ -1032,7 +1032,7 @@ class Listener(commands.Cog):
                                 for entry in mons:
                                     name = entry.split(" ")[1]
                                     id = entry.split(":")[1]
-                                    if id.length == 3 and "shiny" in name.lower():
+                                    if len(id) == 3 and "shiny" in name.lower():
                                         id = int(id)+1000
                                     names.append(id)
                                 names = ", ".join(names)
