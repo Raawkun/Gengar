@@ -220,7 +220,7 @@ class Rare_spawns(commands.Cog):
         receiver_channel = self.db.execute(f'SELECT * FROM Admin WHERE Server_ID = {message.guild.id}')
         receiver_channel = receiver_channel.fetchone()
         receiver_channel = int(receiver_channel[4])
-        _emb = message.embeds[1]
+        _emb = message.embeds[0]
         if receiver_channel > 0:
             receiver_channel = self.client.get_channel(int(receiver_channel))
         asyncio.create_task(Modules.dailycheck(self, message))
