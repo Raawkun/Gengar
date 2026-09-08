@@ -13,40 +13,7 @@ class Reminders(commands.Cog):
 
     current_time = datetime.utcnow()
 
-    async def garden_ping(self, userid, check):
-        slot = check[2]
-        berry = check[4]
-        timestamp = int(check[3])
-        channel = self.client.get_channel(check[5])
-        data = connect("database.db").execute(f"SELECT ToggleGarden, Ping, Emotes FROM Toggle WHERE User_ID = {userid}")
-        data = data.fetchone()
-        if data[0] == 0:
-            exit
-        else:
-            if data[2] == 0:
-                if type == "water":
-                    desc = f"<@{userid}> - 🍓 :{slot}: 💧"
-                else:
-                    desc = f"<@{userid}> - 🍓 :{slot}: ✅"
-            else:
-                if type == "water":
-                    desc = f"<@{userid}> - your {berry} Berry at garden slot {slot} needs water!"
-                else:
-                    desc = f"<@{userid}> - your {berry} Berry at garden slot {slot} is ready to be harvested!"
-            await asyncio.sleep(int(Reminders.current_time.timestamp())-timestamp)
-            if data[1] == 0:
-                await channel.send(desc, allowed_mentions=disnake.AllowedMentions(users=False))
-            else:
-                await channel.send(desc)
 
-            self.db.execute(f"UPDATE Garden SET Slot = None, timestamp = None, Berry = None WHERE User_ID = {userid}")
-            self.db.commit()
-
-    async def load_garden(self):
-        check = self.db.execute(f"SELECT * FROM Garden WHERE timestamp > 0 ORDER BY timestamp ASC")
-        check = check.fetchall()
-        for row in check:
-            await asyncio.create_task(Reminders.garden_ping(self, row[0], row))
 
 
     async def load_reminder(self):
