@@ -916,20 +916,7 @@ class Coms(commands.Cog):
             txt_file.name = "embed_content.txt"
             await ctx.reply(desc, file = disnake.File(txt_file, txt_file.name))
             
-    @commands.command()
-    async def can(self, ctx, spray):
-        cans = ["wailmer", "lotad", "psyduck"]
-        if spray.lower() not in cans:
-            await ctx.reply(f"Please only use ``wailmer``, ``lotad`` or ``psyduck``.")
-        else:
-            self.db.execute(f"INSERT or REPLACE INTO Garden (User_ID, Can) VALUES ({ctx.author.id},'{spray}')")
-            self.db.commit()
-            if spray.lower() != "psyduck":
-                desc = "\n-# *Tip: You should consider getting the Psyduck can for 500 Vote coins!*"
-            else:
-                desc = ""
-            await ctx.reply(f"Thanks for updating me on you using the ``{spray.upper()}`` can in your garden.{desc}")
-
+   
     @commands.command()
     async def invite(self, ctx):
         user = ctx.author
