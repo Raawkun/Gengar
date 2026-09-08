@@ -369,6 +369,10 @@ class Listener(commands.Cog):
 
         if message.content.lower() == "lol":
             await message.reply("Rofl.", allowed_mentions = disnake.AllowedMentions(replied_user=False))
+            
+        if "Please wait ⏱️" in message.content:
+            emote = self.client.get_emoji(1546963665662771282)
+            await message.add_reaction(emote)
 
         if message.author.id == sofi:
             if "is **dropping** cards" in message.content.lower():
