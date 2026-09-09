@@ -23,7 +23,7 @@ class Catchlist(commands.Cog):
                     self.db.execute(f"INSERT or REPLACE INTO Monthly_Catchlist VALUES ({mon_id}, '{ball}', '{method}')")
                     self.db.commit()
                     data = data+" "+mon_id
-                    print(mon_id)
+                    print(f"{mon_id}, {ball}, {method}")
         print(data)
             
         
