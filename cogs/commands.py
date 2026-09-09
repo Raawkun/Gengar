@@ -109,14 +109,17 @@ class Coms(commands.Cog):
         catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist")
         catchlist = catchlist.fetchall()
         print(catchlist)
+        catchlist = catchlist.join(", ")
         msg = "Current catchlist ids: "+catchlist
+        await ctx.reply(msg)
         try:
             data = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid}")
             data = data.fetchone()[0]
-            msg = msg+"\nCaught so far: "+data
+            msg = "Caught so far: "+data
+            await ctx.send(msg)
         except:
             print(e)
-        await ctx.reply(msg)
+        
         
     @commands.command()
     async def checkdex(self, ctx, *args):
