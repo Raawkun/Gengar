@@ -866,7 +866,7 @@ class Listener(commands.Cog):
                                     else:
                                         desc=f'{rem_emotes["remind"]} - <@{sender.id}> {rem_emotes["honey"]}'
                                     await message.channel.send(desc)
-                                await asyncio.create_task(Catchlist.check_catchlist(self, message, ";p"))
+                                await asyncio.create_task(Catchlist.check_catchlist(self, message, sender.id, ";p"))
 
                     
                         await asyncio.sleep(9.2)
