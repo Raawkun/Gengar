@@ -1060,7 +1060,7 @@ class Listener(commands.Cog):
                         #print("Aha, battling.")
                         if "alph scientist** to a battle" in _embed.description.lower():
                             asyncio.create_task(Modules.adamannpc(self, message))
-                        asyncio.create_task(Modules.darktest(self, message))
+                        #asyncio.create_task(Modules.darktest(self, message))
                         await asyncio.sleep(59)
                         datarem = self.db.execute(f'SELECT * FROM Toggle WHERE User_ID = {sender.id}')
                         datarem = datarem.fetchone()
