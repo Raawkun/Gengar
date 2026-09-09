@@ -40,7 +40,7 @@ class Catchlist(commands.Cog):
         data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Img_url = '{emb.image.url}'")
         data = data.fetchone()
         print(data[1])
-        catchy = self.db.execute(f"SELECT * FROM Monthly_Catchlist WHERE Mon_ID = {int(DexID)}")
+        catchy = self.db.execute(f"SELECT * FROM Monthly_Catchlist WHERE Mon_ID = {int(data[0])}")
         catchy = catchy.fetchone()
         if catchy:
             if catchy[2] == method:
