@@ -221,7 +221,8 @@ class On_Edit(commands.Cog):
                         print(data[1])
                         await asyncio.create_task(Catchlist.check_catchlist(self, after, sender, ";safarizone"))
                 if "Caught <:" in after.content:
-                    mon = after.content.split("
+                    mon = after.content.split("caught <:")[1].split(":")[0]
+                    print(mon)
                     print("Caught smth in the safari zone...")
                     await asyncio.create_task(Catchlist.sz_caught(self, before, sender))
                         
