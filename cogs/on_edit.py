@@ -14,6 +14,7 @@ import random
 from utility.all_checks import Basic_checker
 from cogs.listener import Listener
 from cogs.rare_spawns import Rare_spawns
+from cogs.catchlist import Catchlist
 from utility.johto.travel_checks import TravelChecks
 from utility.johto.johto_checks import ChecksOfJohto
 from utility.johto.johto_quests import QuestsOfJohto
@@ -83,6 +84,8 @@ class On_Edit(commands.Cog):
                             elif data[12]:
                                 await before.channel.send("Watch out! This one is a <:gold:1165319370801692786> Pokémon!")
                     if _embed.footer.text:
+                        if "Sort: Activity (;p, ;f, ;sz)" in _embed.footer.text and "Catchlist " in _embed.title:
+                            await asyncio.create_task(Catchlist.update_catchlist(self, after)
                         if "pokemon roll" in _embed.footer.text.lower():
                             #print("There's been a roll")
                             try:
