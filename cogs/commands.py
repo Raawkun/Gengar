@@ -112,7 +112,7 @@ class Coms(commands.Cog):
         print(catchlist)
         for entry in catchlist:
             print(entry)
-            newlist.append(entry)
+            newlist.append(entry[0])
         
         print(newlist)
         msg = "Current catchlist ids: "+catchlist
