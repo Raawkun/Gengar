@@ -16,24 +16,21 @@ class Catchlist(commands.Cog):
         data = ""
         #print(emb.fields)
         for entry in emb.fields:
-            print(entry.name)
-            if not "month" or "rank" in entry.name:
-                print(entry.name)
-                if " from " in entry.value:
-                    #print(entry.value)
-                    try:
-                        method = entry.value.split("`")[1]
-                        mon_id = int(entry.value.split(":")[1])
-                        ball = entry.value.split("**")[1]
-                        print(f"{mon_id}, {ball}, {method}")
-                    except Exception as e:
-                        print(e) 
-                    try:
-                        self.db.execute(f"INSERT or REPLACE INTO Monthly_Catchlist VALUES ({mon_id}, '{ball}', '{method}')")
-                        self.db.commit()
-                    except Exception as e:
-                        print(e)
-                    data = data+" "+mon_id
+            if " from " in entry.value:
+                #print(entry.value)
+                try:
+                    method = entry.value.split("`")[1]
+                    mon_id = int(entry.value.split(":")[1])
+                    ball = entry.value.split("**")[1]
+                    print(f"{mon_id}, {ball}, {method}")
+                except Exception as e:
+                    print(e) 
+                try:
+                    self.db.execute(f"INSERT or REPLACE INTO Monthly_Catchlist VALUES ({mon_id}, '{ball}', '{method}')")
+                    self.db.commit()
+                except Exception as e:
+                    print(e)
+                data = data+" "+mon_id
                     
         print(data)
             
