@@ -14,8 +14,9 @@ class Catchlist(commands.Cog):
     async def update_catchlist(self, message):
         emb = message.embeds[0]
         data = ""
-        print(emb.fields)
+        #print(emb.fields)
         for entry in emb.fields:
+            print(entry.name)
             if "u200b" in entry.name:
                 print(entry.name)
                 if " from " in entry.value:
