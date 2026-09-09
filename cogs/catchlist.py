@@ -45,9 +45,34 @@ class Catchlist(commands.Cog):
         if catchy:
             print(catchy)
             if catchy[2] == method:
-                await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
+                check = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {sender.id}")
+                check = check.fetchone()
+                if check:
+                    check = check[0].split(", ")
+                    if catchy[0] in check:
+                        return
+                    else:
+                        await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
+                else:
+                    await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
                 
-        
+    async def catch_catchlist(self, message, sender):
+        emb = message.embeds[0]
+        data = data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Img_url = '{emb.image.url}'")
+        data = data.fetchone()
+        check = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {sender.id}")
+        check = check.fetchone()
+        if check:
+            check = check[0].split(", ")
+            if data[0] in check:
+                return
+            else:
+                check.append(data[0])
+                check = check.join(", ")
+        else:
+            check = str(data[0])+", "
+        self.db.execute(f"INSERT or REPLACE INTO User_Catchlist VALUES ({sender.id}, '{check}')")
+        self.db.commit()
  
             
             
