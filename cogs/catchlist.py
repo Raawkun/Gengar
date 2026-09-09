@@ -11,6 +11,11 @@ class Catchlist(commands.Cog):
         self.client = client
         self.db = connect("database.db")
     
+    async def catchlist_update(self, message):
+        pass
+        
+    astnc def catchlist_check(self, message):
+        pass
     
 
 
