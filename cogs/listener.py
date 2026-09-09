@@ -577,7 +577,7 @@ class Listener(commands.Cog):
                         asyncio.create_task(Rare_spawns.icon_spawn(self, message))
                 if _embed.title:
                     if "Catchlist • " in _embed.title and "Sort: Activity (;p, ;f, ;sz)" in _embed.footer.text:
-                        await asyncio.create_task(Catchlist.update_catchlist(self, message)
+                        await asyncio.create_task(Catchlist.update_catchlist(self, message))
                     #print(_embed)
                     #print(_embed.title)
                     if "from all of your offers" in _embed.title:
@@ -866,6 +866,7 @@ class Listener(commands.Cog):
                                     else:
                                         desc=f'{rem_emotes["remind"]} - <@{sender.id}> {rem_emotes["honey"]}'
                                     await message.channel.send(desc)
+                                await asyncio.create_task(Catchlist.check_catchlist(self, message, ";p"))
 
                     
                         await asyncio.sleep(9.2)
