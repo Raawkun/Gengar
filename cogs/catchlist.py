@@ -54,7 +54,7 @@ class Catchlist(commands.Cog):
             data = data.fetchone()[0]
             msg = msg+"\nCaught so far: "+data
         except:
-            return
+            continue
         await ctx.reply(msg)
             
             
