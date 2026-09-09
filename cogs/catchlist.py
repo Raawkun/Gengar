@@ -16,7 +16,7 @@ class Catchlist(commands.Cog):
         
     astnc def check_catchlist(self, message, method):
         emb = message.embeds[0]
-        data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Image_url = '{emb.image.url}')
+        data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Image_url = '{emb.image.url}'")
         data = data.fetchone()
         print(data[1])
     
