@@ -41,8 +41,11 @@ class Catchlist(commands.Cog):
         data = data.fetchone()
         print(data[1])
     
-
-
-
+    @commands.command
+    async def clist(self, int userid=None):
+        if userid == None:
+            userid = 
+            
+            
 def setup(client):
     client.add_cog(Catchlist(client))
