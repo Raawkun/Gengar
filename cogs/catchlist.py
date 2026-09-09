@@ -45,15 +45,8 @@ class Catchlist(commands.Cog):
         if catchy:
             print(catchy)
             if catchy[2] == method:
-                caught = self.db.execute (f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid}")
-                caught = caught.fetchone()
-                if caught:
-                    if str(catchy) in caught[0]:
-                        return
-                    else:
-                        await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
-                else:
-                    await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
+                await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
+                
         
  
             
