@@ -49,6 +49,12 @@ class On_Edit(commands.Cog):
             if before.pinned != after.pinned:
                 return
             if before.pinned == after.pinned:
+                if after.reference:
+                    ref_msg = await after.channel.fetch_message(before.reference.message_id)
+                    sender = ref_msg.author
+                elif after.interaction_metadata:
+                    ref_msg = after.interaction_metadata.user
+                    sender = ref_msg
                 ##### Rare Spawn #####
                 #Rare_Spawns = ["Event", "Legendary", "Shiny", "Rare", "SuperRare","Golden"]
                 if (len(before.embeds) > 0):
@@ -83,13 +89,8 @@ class On_Edit(commands.Cog):
                                 await before.channel.send("Watch out! This one is a <:shin:1165314036909494344> Pokémon!")
                             elif data[12]:
                                 await before.channel.send("Watch out! This one is a <:gold:1165319370801692786> Pokémon!")
-                            if after.reference:
-                                ref_msg = await after.channel.fetch_message(before.reference.message_id)
-                                sender = ref_msg.author
-                            elif after.interaction_metadata:
-                                ref_msg = after.interaction_metadata.user
-                                sender = ref_msg
-                            await asyncio.create_task(Catchlist.check_catchlist(self, message, sender.id,  ";f"))
+                            
+                            await asyncio.create_task(Catchlist.check_catchlist(self, message, sender.id, ";f"))
                     if _embed.footer.text:
                         if "Sort: Activity (;p, ;f, ;sz)" in _embed.footer.text and "Catchlist " in _embed.title:
                             await asyncio.create_task(Catchlist.update_catchlist(self, after))
