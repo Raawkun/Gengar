@@ -12,7 +12,15 @@ class Catchlist(commands.Cog):
         self.db = connect("database.db")
     
     async def update_catchlist(self, message):
-        pass
+        emb = message.embeds[0]
+        for entry in emb.fields:
+            if "u200b" in entry.name:
+                if " from " in entry.value:
+                    method = entry.value.split("`")[1]
+                    mon_id = int(entry.value.split(":")[1]
+                    ball = entry.value.split("**")[1]
+                    self.db.execute(f"UPDATE or INSERT INTO Monthly_Catchlist VALUES ({mon_id}, '{ball}', '{method}')")
+                    self.db.commit()
         
     async def check_catchlist(self, message, method):
         emb = message.embeds[0]
