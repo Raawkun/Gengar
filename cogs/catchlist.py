@@ -17,7 +17,7 @@ class Catchlist(commands.Cog):
             if "u200b" in entry.name:
                 if " from " in entry.value:
                     method = entry.value.split("`")[1]
-                    mon_id = int(entry.value.split(":")[1]
+                    mon_id = int(entry.value.split(":")[1])
                     ball = entry.value.split("**")[1]
                     self.db.execute(f"UPDATE or INSERT INTO Monthly_Catchlist VALUES ({mon_id}, '{ball}', '{method}')")
                     self.db.commit()
