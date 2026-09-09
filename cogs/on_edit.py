@@ -72,7 +72,7 @@ class On_Edit(commands.Cog):
                     else:
                         return
                     if _embed.description:
-                        if "fished out a" in _embed.description:
+                        if "fished a" in _embed.description:
                             #print("Fishyyyy")
                             try:
                                 data = self.db.execute(f'SELECT * FROM Dex WHERE Img_url = "{_embed.image.url}"')
