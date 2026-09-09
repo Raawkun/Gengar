@@ -18,6 +18,7 @@ from cogs.resuming import Resuming
 from cogs.rare_spawns import Rare_spawns
 from utility.db_config import db_config
 from cogs.methods import Methods
+from cogs.catchlist import Catchlist
 
 from utility.johto.travel_checks import TravelChecks
 from utility.johto.johto_quests import QuestsOfJohto
