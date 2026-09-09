@@ -125,6 +125,7 @@ class On_Edit(commands.Cog):
                                     coin_type = "hunt"
                                 else:
                                     coin_type = "fish"
+                                await asyncio.create_task(Catchlist.catch_catchlist(self, after, sender))
                                 if data[0] == 129:
                                     asyncio.create_task(Modules.fisheventcheck(self, after,sender))
                                 types =(data[2], data[3])
