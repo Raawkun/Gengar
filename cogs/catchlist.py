@@ -83,7 +83,7 @@ class Catchlist(commands.Cog):
         return
                 
                 
-        async def sz_catchlist(self, message, sender):
+    async def sz_catchlist(self, message, sender):
         emb = message.embeds[0]
         method=";safarizone"
         ballused = "safariball"
