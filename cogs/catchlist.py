@@ -20,7 +20,7 @@ class Catchlist(commands.Cog):
                     method = entry.value.split("`")[1]
                     mon_id = int(entry.value.split(":")[1])
                     ball = entry.value.split("**")[1]
-                    self.db.execute(f"UPDATE or INSERT INTO Monthly_Catchlist VALUES ({mon_id}, '{ball}', '{method}')")
+                    self.db.execute(f"INSERT or REPLACE INTO Monthly_Catchlist VALUES ({mon_id}, '{ball}', '{method}')")
                     self.db.commit()
                     data = data+" "+mon_id
         print(data)
