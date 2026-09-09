@@ -100,6 +100,22 @@ class Coms(commands.Cog):
                 await ctx.reply(f"I've removed PokéMeow rare spawn updates from this server.")
             else:
                 await ctx.reply()
+                
+     @commands.command()
+    async def clist(self, ctx, userid:int = None):
+        if userid == None:
+            userid = ctx.author.id
+        catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist ORDER ASC")
+        catchlist = catchlist.fetchall()
+        print(catchlist)
+        msg = "Current catchlist ids: "+catchlist
+        try:
+            data = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid}")
+            data = data.fetchone()[0]
+            msg = msg+"\nCaught so far: "+data
+        except:
+            print(e)
+        await ctx.reply(msg)
         
     @commands.command()
     async def checkdex(self, ctx, *args):
