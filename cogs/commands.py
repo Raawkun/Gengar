@@ -103,6 +103,7 @@ class Coms(commands.Cog):
                 
     @commands.command()
     async def clist(self, ctx, userid:int = None):
+        print("clist")
         if userid == None:
             userid = ctx.author.id
         catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist ORDER ASC")
