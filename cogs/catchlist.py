@@ -45,7 +45,7 @@ class Catchlist(commands.Cog):
         if catchy:
             print(catchy)
             if catchy[2] == method:
-                check = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {sender.id}")
+                check = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid.id}")
                 check = check.fetchone()
                 if check:
                     check = check[0].split(", ")
