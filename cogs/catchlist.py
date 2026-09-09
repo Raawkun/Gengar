@@ -41,7 +41,7 @@ class Catchlist(commands.Cog):
         data = data.fetchone()
         print(data[1])
     
-    @commands.command
+    @commands.command()
     async def clist(self, ctx, userid=None):
         if userid == None:
             userid = ctx.author.id
