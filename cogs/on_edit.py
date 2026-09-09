@@ -206,21 +206,20 @@ class On_Edit(commands.Cog):
 
             if "steps left:" in after.content.lower():
                 print("Safari steps")
+                if after.reference:
+                    ref_msg = await after.channel.fetch_message(before.reference.message_id)
+                    sender = ref_msg.author
+                elif after.interaction_metadata:
+                    ref_msg = after.interaction_metadata.user
+                    sender = ref_msg
                 if len(after.embeds)>0:
                     emb=after.embeds[0]
-                    if after.reference:
-                        ref_msg = await after.channel.fetch_message(before.reference.message_id)
-                        sender = ref_msg.author
-                    elif after.interaction_metadata:
-                        ref_msg = after.interaction_metadata.user
-                        sender = ref_msg
-                        
                     if "a wild" in emb.description.lower():
                         data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Img_url = '{emb.image.url}'")
                         data = data.fetchone()
                         print(data[1])
                         await asyncio.create_task(Catchlist.check_catchlist(self, after, sender, ";safarizone"))
-                if "Caught <:" in after.content:
+                if "with a" in after.content.lower():
                     mon = after.content.split("caught <:")[1].split(":")[0]
                     print(mon)
                     print("Caught smth in the safari zone...")
