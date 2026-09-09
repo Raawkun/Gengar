@@ -83,6 +83,7 @@ class On_Edit(commands.Cog):
                                 await before.channel.send("Watch out! This one is a <:shin:1165314036909494344> Pokémon!")
                             elif data[12]:
                                 await before.channel.send("Watch out! This one is a <:gold:1165319370801692786> Pokémon!")
+                            await asyncio.create_task(Catchlist.check_catchlist(self, message, ";f"))
                     if _embed.footer.text:
                         if "Sort: Activity (;p, ;f, ;sz)" in _embed.footer.text and "Catchlist " in _embed.title:
                             await asyncio.create_task(Catchlist.update_catchlist(self, after)
