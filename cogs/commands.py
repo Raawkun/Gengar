@@ -101,7 +101,7 @@ class Coms(commands.Cog):
             else:
                 await ctx.reply()
                 
-     @commands.command()
+    @commands.command()
     async def clist(self, ctx, userid:int = None):
         if userid == None:
             userid = ctx.author.id
