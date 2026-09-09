@@ -35,12 +35,23 @@ class Catchlist(commands.Cog):
         print(data)
             
         
-    async def check_catchlist(self, message, method):
+    async def check_catchlist(self, message, userid, method):
         emb = message.embeds[0]
         data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Img_url = '{emb.image.url}'")
         data = data.fetchone()
         print(data[1])
-    
+        catchy = self.db.execute(f"SELECT * FROM Monthly_Catchlist WHERE Mon_ID = {int(DexID)}")
+        catchy = catchy.fetchone()
+        if catchy:
+            if catchy[2] == method:
+                caught = self.db.execute (f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid}")
+                caught = caught.fetchone()[0]
+                if caught:
+                    if str(catchy) in caught:
+                        return
+                    else:
+                        await message.reply(f"Monthly Catchlist: ")
+        
  
             
             
