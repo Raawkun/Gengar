@@ -205,7 +205,7 @@ class On_Edit(commands.Cog):
                                     
 
             if "steps left:" in after.content.lower():
-                print("Safari steps")
+                #print("Safari steps")
                 if after.reference:
                     ref_msg = await after.channel.fetch_message(before.reference.message_id)
                     sender = ref_msg.author
