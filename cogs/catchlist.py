@@ -42,11 +42,12 @@ class Catchlist(commands.Cog):
         print(data[1])
     
     @commands.command()
-    async def clist(self, ctx, userid=None):
+    async def clist(self, ctx, userid:int = None):
         if userid == None:
             userid = ctx.author.id
         catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist ORDER ASC")
         catchlist = catchlist.fetchall()
+        print(catchlist)
         msg = "Current catchlist ids: "+catchlist
         try:
             data = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid}")
