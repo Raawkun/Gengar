@@ -108,9 +108,12 @@ class Coms(commands.Cog):
             userid = ctx.author.id
         catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist")
         catchlist = catchlist.fetchall()
+        newlist = ()
+        for entry in catchlist:
+            print(entry)
+            newlist.append(entry)
         
-        catchlist = catchlist.join(", ")
-        print(catchlist)
+        print(newlist)
         msg = "Current catchlist ids: "+catchlist
         await ctx.reply(msg)
         try:
