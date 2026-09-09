@@ -21,7 +21,7 @@ class Catchlist(commands.Cog):
                 try:
                     method = entry.value.split("`")[1]
                     mon_id = int(entry.value.split(":")[1])
-                    ball = entry.value.split("`\n<:")[1].split(":")[0]
+                    ball = entry.value.split("<:")[3].split(":")[0]
                     print(f"{mon_id}, {ball}, {method}")
                 except Exception as e:
                     print(e) 
