@@ -452,7 +452,7 @@ class Listener(commands.Cog):
                     waiter = stamp-now
                     await asyncio.sleep(waiter-20)
                     await ref_msg.reply("The boss battle starts in 20 seconds!")
-                
+
             if ", your egg is ready to hatch" in message.content.lower():
                 if "incubator" in message.content.lower():
                     await message.reply(f"</egg hatch-incubator:1015311084594405485>")
@@ -576,6 +576,8 @@ class Listener(commands.Cog):
                     if "s** trainer icon!" in _embed.description:
                         asyncio.create_task(Rare_spawns.icon_spawn(self, message))
                 if _embed.title:
+                    if "Catchlist • " in _embed.title and "Sort: Activity (;p, ;f, ;sz)" in _embed.footer.text:
+                        await asyncio.create_task(Catchlist.update_catchlist(self, message)
                     #print(_embed)
                     #print(_embed.title)
                     if "from all of your offers" in _embed.title:
