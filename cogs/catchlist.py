@@ -68,7 +68,7 @@ class Catchlist(commands.Cog):
     
         if checklist:
             if checklist[2]==method:
-                if ballused == checklist[1]
+                if ballused == checklist[1]:
                     if checkuser:
                         check = check[0].split(", ")
                         if data[0] in check:
