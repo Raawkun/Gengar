@@ -16,7 +16,7 @@ class Catchlist(commands.Cog):
         
     async def check_catchlist(self, message, method):
         emb = message.embeds[0]
-        data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Image_Url = '{emb.image.url}'")
+        data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Img_url = '{emb.image.url}'")
         data = data.fetchone()
         print(data[1])
     
