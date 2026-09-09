@@ -109,6 +109,7 @@ class Coms(commands.Cog):
         catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist")
         catchlist = catchlist.fetchall()
         newlist = ()
+        print(catchlist)
         for entry in catchlist:
             print(entry)
             newlist.append(entry)
