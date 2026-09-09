@@ -83,7 +83,32 @@ class Catchlist(commands.Cog):
         return
                 
                 
-            
+        async def sz_catchlist(self, message, sender):
+        emb = message.embeds[0]
+        method=";safarizone"
+        ballused = "safariball"
+        data = data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Img_url = '{emb.image.url}'")
+        data = data.fetchone()
+        checklist = self.db.execute(f"SELECT * FROM Monthly_Catchlist WHERE Mon_ID = {data[0]}")
+        checklist = checklist.fetchone()
+        checkuser = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {sender.id}")
+        checkuser = checkuser.fetchone()
+    
+        if checklist:
+            if checklist[2]==method:
+                if ballused == checklist[1]:
+                    if checkuser:
+                        check = check[0].split(", ")
+                        if data[0] in check:
+                            return
+                        else:
+                            check.append(data[0])
+                            check = check.join(", ")
+                    else:
+                        check = str(data[0])+", "
+                    self.db.execute(f"INSERT or REPLACE INTO User_Catchlist VALUES ({sender.id}, '{check}')")
+                    self.db.commit()
+        return
             
  
             
