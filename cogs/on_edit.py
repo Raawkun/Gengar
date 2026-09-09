@@ -219,7 +219,7 @@ class On_Edit(commands.Cog):
                         data = data.fetchone()
                         await asyncio.create_task(Catchlist.check_catchlist(self, after, sender, ";safarizone"))
                 if "caught " in after.content.lower():
-                    await asyncio.create_task(Catchlist.sz_caught(self, after, sender)
+                    await asyncio.create_task(Catchlist.sz_caught(self, after, sender))
                         
 
 
