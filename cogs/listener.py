@@ -576,7 +576,7 @@ class Listener(commands.Cog):
                     if "s** trainer icon!" in _embed.description:
                         asyncio.create_task(Rare_spawns.icon_spawn(self, message))
                 if _embed.title:
-                    if "Catchlist • " in _embed.title and "Sort: Activity (" in _embed.footer.text:
+                    if "catchlist " in _embed.title.lower() and "Sort: Activity (" in _embed.footer.text:
                         await asyncio.create_task(Catchlist.update_catchlist(self, message))
                     #print(_embed)
                     #print(_embed.title)
