@@ -14,7 +14,7 @@ class Catchlist(commands.Cog):
     async def update_catchlist(self, message):
         pass
         
-    astnc def check_catchlist(self, message, method):
+    async def check_catchlist(self, message, method):
         emb = message.embeds[0]
         data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Image_url = '{emb.image.url}'")
         data = data.fetchone()
