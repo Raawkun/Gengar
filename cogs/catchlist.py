@@ -50,7 +50,7 @@ class Catchlist(commands.Cog):
                     if str(catchy) in caught:
                         return
                     else:
-                        await message.reply(f"Monthly Catchlist: ")
+                        await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
         
  
             
