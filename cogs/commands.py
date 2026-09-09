@@ -106,7 +106,7 @@ class Coms(commands.Cog):
         print("clist")
         if userid == None:
             userid = ctx.author.id
-        catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist ORDER ASC")
+        catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist")
         catchlist = catchlist.fetchall()
         print(catchlist)
         msg = "Current catchlist ids: "+catchlist
