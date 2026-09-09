@@ -30,7 +30,7 @@ class Catchlist(commands.Cog):
                     self.db.commit()
                 except Exception as e:
                     print(e)
-                data = data+" "+mon_id
+                data = data+" "+str(mon_id)
                     
         print(data)
             
