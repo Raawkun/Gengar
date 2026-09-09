@@ -215,13 +215,14 @@ class On_Edit(commands.Cog):
                         ref_msg = after.interaction_metadata.user
                         sender = ref_msg
                         
-                    if "a wild" in emb.description:
+                    if "a wild" in emb.description.lower():
                         data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Img_url = '{emb.image.url}'")
                         data = data.fetchone()
                         print(data[1])
                         await asyncio.create_task(Catchlist.check_catchlist(self, after, sender, ";safarizone"))
-                if "caught " in after.content.lower():
-                    print("Caught smth in th safari zone...")
+                if "Caught <:" in after.content:
+                    mon = after.content.split("
+                    print("Caught smth in the safari zone...")
                     await asyncio.create_task(Catchlist.sz_caught(self, before, sender))
                         
 
