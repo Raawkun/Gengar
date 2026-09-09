@@ -43,6 +43,7 @@ class Catchlist(commands.Cog):
         catchy = self.db.execute(f"SELECT * FROM Monthly_Catchlist WHERE Mon_ID = {int(data[0])}")
         catchy = catchy.fetchone()
         if catchy:
+            print(catchy)
             if catchy[2] == method:
                 caught = self.db.execute (f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid}")
                 caught = caught.fetchone()[0]
