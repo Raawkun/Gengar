@@ -123,9 +123,11 @@ class On_Edit(commands.Cog):
                                     if after.channel.id in locations["Goldenrod City"]:
                                         await QuestsOfJohto.goldenrod_quest(self, sender, after)
                                     coin_type = "hunt"
+                                    method = ";p"
                                 else:
                                     coin_type = "fish"
-                                await asyncio.create_task(Catchlist.catch_catchlist(self, after, sender))
+                                    method = ";fish"
+                                await asyncio.create_task(Catchlist.catch_catchlist(self, after, sender, method))
                                 if data[0] == 129:
                                     asyncio.create_task(Modules.fisheventcheck(self, after,sender))
                                 types =(data[2], data[3])
