@@ -52,6 +52,8 @@ class Catchlist(commands.Cog):
                         return
                     else:
                         await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
+                else:
+                    await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
         
  
             
