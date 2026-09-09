@@ -56,23 +56,33 @@ class Catchlist(commands.Cog):
                 else:
                     await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
                 
-    async def catch_catchlist(self, message, sender):
+    async def catch_catchlist(self, message, sender, method):
         emb = message.embeds[0]
+        ballused = emb.description.split("with a")[1].split(":")[1]
         data = data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Img_url = '{emb.image.url}'")
         data = data.fetchone()
-        check = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {sender.id}")
-        check = check.fetchone()
-        if check:
-            check = check[0].split(", ")
-            if data[0] in check:
-                return
-            else:
-                check.append(data[0])
-                check = check.join(", ")
-        else:
-            check = str(data[0])+", "
-        self.db.execute(f"INSERT or REPLACE INTO User_Catchlist VALUES ({sender.id}, '{check}')")
-        self.db.commit()
+        checklist = self.db.execute(f"SELECT * FROM Monthly_Catchlist WHERE Mon_ID = {data[0]}")
+        checklist = checklist.fetchone()
+        checkuser = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {sender.id}")
+        checkuser = checkuser.fetchone()
+    
+        if checklist:
+            if checklist[2]==method:
+                if ballused == checklist[1]
+                    if checkuser:
+                        check = check[0].split(", ")
+                        if data[0] in check:
+                            return
+                        else:
+                            check.append(data[0])
+                            check = check.join(", ")
+                    else:
+                        check = str(data[0])+", "
+                    self.db.execute(f"INSERT or REPLACE INTO User_Catchlist VALUES ({sender.id}, '{check}')")
+                    self.db.commit()
+                
+            
+            
  
             
             
