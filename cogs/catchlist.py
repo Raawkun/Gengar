@@ -23,10 +23,14 @@ class Catchlist(commands.Cog):
                     method = entry.value.split("`")[1]
                     mon_id = int(entry.value.split(":")[1])
                     ball = entry.value.split("**")[1]
-                    self.db.execute(f"INSERT or REPLACE INTO Monthly_Catchlist VALUES ({mon_id}, '{ball}', '{method}')")
-                    self.db.commit()
-                    data = data+" "+mon_id
                     print(f"{mon_id}, {ball}, {method}")
+                    try:
+                        self.db.execute(f"INSERT or REPLACE INTO Monthly_Catchlist VALUES ({mon_id}, '{ball}', '{method}')")
+                        self.db.commit()
+                    except Exception as e:
+                        print(e)
+                    data = data+" "+mon_id
+                    
         print(data)
             
         
