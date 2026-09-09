@@ -17,7 +17,7 @@ class Catchlist(commands.Cog):
         #print(emb.fields)
         for entry in emb.fields:
             print(entry.name)
-            if "u200b" in entry.name:
+            if not "month" or "rank" in entry.name:
                 print(entry.name)
                 if " from " in entry.value:
                     #print(entry.value)
