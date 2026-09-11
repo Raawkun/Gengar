@@ -74,7 +74,7 @@ class Rare_spawns(commands.Cog):
         except Exception as e:
             print(f"{message.jump_url} - \n{e}")
     
-    async def lab_egg(self, message):
+    async def lab_hatch(self, message):
         try:
             
             data = self.db.execute(f"SELECT * FROM Dex WHERE Img_url = '{message.embeds[0].image.url}'")
