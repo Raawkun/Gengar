@@ -75,7 +75,7 @@ class Catchlist(commands.Cog):
                             return
                         else:
                             check.append(data[0])
-                            check = check.join(", ")
+                            check = ", ".join(check)
                     else:
                         check = str(data[0])+", "
                     self.db.execute(f"INSERT or REPLACE INTO User_Catchlist VALUES ({sender.id}, '{check}')")
