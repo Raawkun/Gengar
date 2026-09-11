@@ -577,7 +577,7 @@ class Listener(commands.Cog):
                         asyncio.create_task(Rare_spawns.icon_spawn(self, message))
                 if _embed.title:
                     if "catchlist " in _embed.title.lower() and "Sort: Activity (" in _embed.footer.text:
-                        await asyncio.create_task(Catchlist.update_catchlist(self, message))
+                        await asyncio.create_task(Catchlist.update_catchlist(self, message, sender))
                     #print(_embed)
                     #print(_embed.title)
                     if "from all of your offers" in _embed.title:
