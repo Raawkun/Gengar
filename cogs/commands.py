@@ -107,19 +107,20 @@ class Coms(commands.Cog):
         if userid == None:
             userid = ctx.author.id
         catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist")
-        catchlist = catchlist.fetchall()
-        newlist = ()
+        catchlist = catchlist.fetchall()[0]
+        newlist = []
         print(catchlist)
         for entry in catchlist:
             print(entry)
             newlist.append(entry[0])
-        
+        newlist =", ".join(newlist)
         print(newlist)
-        msg = "Current catchlist ids: "+catchlist
+        msg = "Current catchlist ids: "+newlist
         await ctx.reply(msg)
         try:
             data = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid}")
             data = data.fetchone()[0]
+            data=", ".join(data)
             msg = "Caught so far: "+data
             await ctx.send(msg)
         except:
