@@ -108,6 +108,7 @@ class Catchlist(commands.Cog):
                         check = str(data[0])+", "
                     self.db.execute(f"INSERT or REPLACE INTO User_Catchlist VALUES ({sender.id}, '{check}')")
                     self.db.commit()
+                await nessage.add_reaction('✅')
         return
             
  
