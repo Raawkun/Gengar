@@ -3,7 +3,7 @@ from disnake.ext import commands
 import sqlite3, math
 from sqlite3 import connect
 
-
+#update
 class Catchlist(commands.Cog):
 
 
