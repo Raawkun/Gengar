@@ -14,7 +14,7 @@ class Catchlist(commands.Cog):
     async def update_catchlist(self, message, sender):
         emb = message.embeds[0]
         data = ""
-        caught = ()
+        caught = []
         #print(emb.fields)
         for entry in emb.fields:
             if " from " in entry.value:
