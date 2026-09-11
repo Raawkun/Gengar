@@ -74,7 +74,7 @@ class Catchlist(commands.Cog):
                         if data[0] in check:
                             return
                         else:
-                            check.append(data[0])
+                            check.append(str(data[0]))
                             check = ", ".join(check)
                     else:
                         check = str(data[0])+", "
