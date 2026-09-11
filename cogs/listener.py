@@ -1128,6 +1128,8 @@ class Listener(commands.Cog):
                             asyncio.create_task(Rare_spawns.multi_egg(self, message))
                         if "just hatched a " in message.content:
                             asyncio.create_task(Rare_spawns.one_egg(self, message))
+                        if "Lab Incubator" in _embed.description:
+                            asyncio.create_task(Rare_spawns.lab_hatch(self,message))
 
                         
 
