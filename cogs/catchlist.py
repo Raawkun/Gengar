@@ -62,7 +62,7 @@ class Catchlist(commands.Cog):
                 if check:
                     check = check[0].split(", ")
                     print(check)
-                    if catchy[0] in check:
+                    if str(catchy[0]) in check:
                         print(f"{catchy[0]} already caught, not needed to send")
                         return
                     else:
