@@ -113,6 +113,7 @@ class Coms(commands.Cog):
         for entry in catchlist:
             #print(entry)
             newlist.append(entry[0])
+            print(newlist)
         newlist =", ".join(newlist)
         print(newlist)
         msg = "Current catchlist ids: "+newlist
