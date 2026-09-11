@@ -103,30 +103,32 @@ class Coms(commands.Cog):
                 
     @commands.command()
     async def clist(self, ctx, userid:int = None):
-        print("clist")
-        if userid == None:
-            userid = ctx.author.id
-        catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist")
-        catchlist = catchlist.fetchall()
-        newlist = []
-        print(catchlist)
-        for entry in catchlist:
-            #print(entry)
-            newlist.append(entry[0])
-            print(newlist)
-        newlist =", ".join(newlist)
-        print(newlist)
-        msg = "Current catchlist ids: "+newlist
-        await ctx.reply(msg)
         try:
-            data = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid}")
-            data = data.fetchone()[0]
-            data=", ".join(data)
-            msg = "Caught so far: "+data
-            await ctx.send(msg)
-        except:
+            print("clist")
+            if userid == None:
+                userid = ctx.author.id
+            catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist")
+            catchlist = catchlist.fetchall()
+            newlist = []
+            print(catchlist)
+            for entry in catchlist:
+                #print(entry)
+                newlist.append(entry[0])
+                print(newlist)
+            newlist =", ".join(newlist)
+            print(newlist)
+            msg = f"Current catchlist ids: {newlist}"
+            await ctx.reply(msg)
+            try:
+                data = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid}")
+                data = data.fetchone()[0]
+                data=", ".join(data)
+                msg = "Caught so far: "+data
+                await ctx.send(msg)
+            except:
+                print(e)
+        except Exception as e:
             print(e)
-        
         
     @commands.command()
     async def checkdex(self, ctx, *args):
