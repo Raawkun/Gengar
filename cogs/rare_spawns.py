@@ -73,6 +73,18 @@ class Rare_spawns(commands.Cog):
                 asyncio.create_task(Rare_spawns.egg_spawn(self, message, data))
         except Exception as e:
             print(f"{message.jump_url} - \n{e}")
+    
+    async def lab_egg(self, message):
+        try:
+            
+            data = self.db.execute(f"SELECT * FROM Dex WHERE Img_url = '{message.embeds[0].image.url}'")
+            data = data.fetchone()
+            self.db.execute(f"UPDATE DailyStats SET Eggs = Eggs + 1 WHERE Date = '{date}'")
+            self.db.commit()
+            if data[14] in Rare_spawns.Rare_Spawned or str(data[0]) in eggexcl:
+                asyncio.create_task(Rare_spawns.egg_spawn(self, message, data))
+        except Exception as e:
+            print(f"{message.jump_url} - \n{e}")
 
     async def multi_egg(self, message):
         try:
