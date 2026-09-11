@@ -11,9 +11,10 @@ class Catchlist(commands.Cog):
         self.client = client
         self.db = connect("database.db")
     
-    async def update_catchlist(self, message):
+    async def update_catchlist(self, message, sender):
         emb = message.embeds[0]
         data = ""
+        caught = ()
         #print(emb.fields)
         for entry in emb.fields:
             if " from " in entry.value:
@@ -23,11 +24,22 @@ class Catchlist(commands.Cog):
                     mon_id = int(entry.value.split(":")[1])
                     ball = entry.value.split("<:")[3].split(":")[0]
                     print(f"{mon_id}, {ball}, {method}")
+                    if '✅' in entry.value:
+                        caught.append(str(mon_id))
                 except Exception as e:
                     print(e) 
                 try:
                     self.db.execute(f"INSERT or REPLACE INTO Monthly_Catchlist VALUES ({mon_id}, '{ball}', '{method}')")
                     self.db.commit()
+                    if len(caught)>0:
+                        mons = self.db.execute(f"SELECT Mon_ID from User_Catchlist WHERE User_ID = {sender.id}")
+                        mons = mons.fetchone()
+                        if mons:
+                            mons = mons[0].split(", ")
+                            mons = list(set(mons + caught))
+                        mons = ", ".join(mons)
+                        self.db.execute(f"UPDATE User_Catchlist SET Mon_ID = '{mons}' WHERE User_ID = {sender.id}")
+                        self.db.commit() 
                 except Exception as e:
                     print(e)
                 data = data+" "+str(mon_id)
