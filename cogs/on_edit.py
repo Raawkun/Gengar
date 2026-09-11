@@ -93,7 +93,7 @@ class On_Edit(commands.Cog):
                             await asyncio.create_task(Catchlist.check_catchlist(self, after, sender, ";fish"))
                     if _embed.footer.text:
                         if "Sort: Activity (" in _embed.footer.text and "catchlist " in _embed.title.lower():
-                            await asyncio.create_task(Catchlist.update_catchlist(self, after))
+                            await asyncio.create_task(Catchlist.update_catchlist(self, after, sender))
                         if "pokemon roll" in _embed.footer.text.lower():
                             #print("There's been a roll")
                             try:
