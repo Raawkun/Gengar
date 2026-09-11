@@ -107,11 +107,11 @@ class Coms(commands.Cog):
         if userid == None:
             userid = ctx.author.id
         catchlist = self.db.execute(f"SELECT Mon_ID FROM Monthly_Catchlist")
-        catchlist = catchlist.fetchall()[0]
+        catchlist = catchlist.fetchall()
         newlist = []
         print(catchlist)
         for entry in catchlist:
-            print(entry)
+            #print(entry)
             newlist.append(entry[0])
         newlist =", ".join(newlist)
         print(newlist)
