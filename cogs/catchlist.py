@@ -61,7 +61,9 @@ class Catchlist(commands.Cog):
                 check = check.fetchone()
                 if check:
                     check = check[0].split(", ")
+                    print(check)
                     if catchy[0] in check:
+                        print(f"{catchy[0]} already caught, not needed to send")
                         return
                     else:
                         await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
@@ -84,6 +86,7 @@ class Catchlist(commands.Cog):
                     if checkuser:
                         check = checkuser[0].split(", ")
                         if data[0] in check:
+                            print(f"{data[0]} already caught")
                             return
                         else:
                             check.append(str(data[0]))
