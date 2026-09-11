@@ -122,8 +122,8 @@ class Coms(commands.Cog):
             try:
                 data = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {userid}")
                 data = data.fetchone()[0]
-                data=", ".join(data)
-                msg = "Caught so far: "+data
+                print(data)
+                msg = f"Caught so far: {data}"
                 await ctx.send(msg)
             except:
                 print(e)
