@@ -6,3 +6,6 @@ berry_times = {"Oran":2,"Cheri":2,"Rawst":2,"Pecha":2,"Aspear":2,"Sitrus":2,
                "Chesto":3,"Persim":3,"Pomeg":4,"Kelpsy":4,"Quakot":4,"Hondew":4,"Grepa":4,"Tamato":4,
                "Lum":5,"Occa":5,"Yache":5,"Shuca":5,
                "Salac":6,"Chople":6,"Wacan":6,"Rindo":6,"Passho":6,"Liechi":6,"Petaya":6}
+ball_list = {'pokeball':'1208620272249217116', 'greatball':'1548301937244381365', 'ultraball':'1548302970779865158', 'premierball':'1548303188007063643', 'masterball':'1548303367514755072', 'beastball':'1548303587669446756', 'diveball':'1548303833384493106',
+               'netball':'1548304046031507546', 'lureball':'1548304201942306929', 'fastball':'1548304412232126534', 'quickball':'1548304820908204133', 'heavyball':'1548304999765909614', 'moonball':'1548305144498749564', 'loveball':'1548305349625380906', 
+               'friendball':'1548305514969038938', 'duskball':'1548305682347069480', 'luxuryball':'1548305866090881024', 'ancient_ball':'1548306023972864221'}
