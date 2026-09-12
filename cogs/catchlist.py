@@ -2,6 +2,7 @@ import disnake, asyncio
 from disnake.ext import commands
 import sqlite3, math
 from sqlite3 import connect
+from utility.id_lists import ball_list
 
 #update
 class Catchlist(commands.Cog):
@@ -66,7 +67,7 @@ class Catchlist(commands.Cog):
                         print(f"{catchy[0]} already caught, not needed to send")
                         return
                     else:
-                        await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
+                        await message.reply(f"Monthly Catchlist: {data[1]} with <:{catchy[1]}:{ball_list['{catchy[1]}']}> **{catchy[1]}**")
                 else:
                     await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
                 
