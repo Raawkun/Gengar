@@ -50,8 +50,17 @@ class Catchlist(commands.Cog):
         
     async def check_catchlist(self, message, userid, method):
         emb = message.embeds[0]
-        data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Img_url = '{emb.image.url}'")
-        data = data.fetchone()
+        try:
+            data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Img_url = '{emb.image.url}'")
+            data = data.fetchone()
+            catchy = self.db.execute(f"SELECT * FROM Monthly_Catchlist WHERE Mon_ID = {int(data[0])}")
+            catchy = catchy.fetchone()
+        except:
+            nameo = emb.description.split("found a")[1].split("**")[1]
+            data = self.db.execute(f"SELECT DexID, Name FROM Dex WHERE Name = '{nameo}'")
+            data = data.fetchone()
+            catchy = self.db.execute(f"SELECT * FROM Monthly_Catchlist WHERE Mon_ID = {int(data[0])}")
+            catchy = catchy.fetchone()
         print(data[1])
         catchy = self.db.execute(f"SELECT * FROM Monthly_Catchlist WHERE Mon_ID = {int(data[0])}")
         catchy = catchy.fetchone()
