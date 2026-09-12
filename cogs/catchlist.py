@@ -67,7 +67,9 @@ class Catchlist(commands.Cog):
                         print(f"{catchy[0]} already caught, not needed to send")
                         return
                     else:
-                        await message.reply(f"Monthly Catchlist: {data[1]} with <:{catchy[1]}:{ball_list[{catchy[1]}]}> **{catchy[1]}**")
+                        ball = ball_list[f"{catchy[1]}"]
+                        print(ball)
+                        await message.reply(f"Monthly Catchlist: {data[1]} with <:{catchy[1]}:{ball}> **{catchy[1]}**")
                 else:
                     await message.reply(f"Monthly Catchlist: {data[1]} with **{catchy[1]}**")
                 
