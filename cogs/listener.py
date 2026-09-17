@@ -584,7 +584,7 @@ class Listener(commands.Cog):
                                         if "<:" in stuff:
                                             id = stuff.split("<:")[1].split(":")[0]
                                             print(id)
-                                            if id in eq_user:
+                                            if int(id) in eq_user:
                                                 enemies.append(id)
                                                 print(enemies)
                                     if len(enemies)>0:
