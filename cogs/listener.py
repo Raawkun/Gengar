@@ -582,11 +582,12 @@ class Listener(commands.Cog):
                                     splitter = entry.value.split("Lvl.")
                                     for stuff in splitter:
                                         if "<:" in stuff:
-                                            id = stuff.split("<:")[1].split(":")[0]
-                                            print(id)
-                                            if int(id) in eq_user:
-                                                enemies.append(id)
-                                                print(enemies)
+                                            if "fnt" not in stuff:
+                                                id = stuff.split("<:")[1].split(":")[0]
+                                                print(id)
+                                                if int(id) in eq_user:
+                                                    enemies.append(id)
+                                                    print(enemies)
                                     if len(enemies)>0:
                                         await message.reply(f"<@{sender.id}> the following mons are hard hitters: {enemies}")
                 if _embed.description:
