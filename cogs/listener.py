@@ -572,6 +572,19 @@ class Listener(commands.Cog):
                 if _embed.footer:
                     if "information on buddies" in _embed.footer.text:
                         asyncio.create_task(Methods.iv_check(self, sender, message))
+                    if "Mode: " and "Luck: " in _embed.footer:
+                        enemies = []
+                        if "appeared" or "What will" in _embed.description:
+                            for entry in _embed.fields:
+                                if "Enemy" in entry.name:
+                                    splitter = entry.value.split("Lvl.")
+                                    for stuff in splitter:
+                                        if "<:" in stuff:
+                                            id = stuff.split("<:")[1].split(":")[0]
+                                            if id in eq_user:
+                                                enemies.append(id)
+                                    if len(enemies)>0:
+                                        await message.reply(f"<@{sender.id}> the following mons are hard hitters: {enemies}")
                 if _embed.description:
                     if "s** trainer icon!" in _embed.description:
                         asyncio.create_task(Rare_spawns.icon_spawn(self, message))
