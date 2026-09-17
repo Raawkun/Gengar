@@ -17,6 +17,7 @@ from cogs.reminder import Reminders
 from cogs.resuming import Resuming
 from cogs.rare_spawns import Rare_spawns
 from utility.db_config import db_config
+from utility.id_lists import eq_user
 from cogs.methods import Methods
 from cogs.catchlist import Catchlist
 
