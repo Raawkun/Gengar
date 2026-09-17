@@ -575,7 +575,7 @@ class Listener(commands.Cog):
                         asyncio.create_task(Methods.iv_check(self, sender, message))
                     if "Mode: " and "Luck: " in _embed.footer.text:
                         enemies = []
-                        if "appeared" or "What will" in _embed.description:
+                        if "appeared!**" or "What will" or "has appeared" in _embed.description:
                             print("New round in mr")
                             for entry in _embed.fields:
                                 if "Enemy" in entry.name:
