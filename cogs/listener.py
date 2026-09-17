@@ -576,14 +576,17 @@ class Listener(commands.Cog):
                     if "Mode: " and "Luck: " in _embed.footer.text:
                         enemies = []
                         if "appeared" or "What will" in _embed.description:
+                            print("New round in mr")
                             for entry in _embed.fields:
                                 if "Enemy" in entry.name:
                                     splitter = entry.value.split("Lvl.")
                                     for stuff in splitter:
                                         if "<:" in stuff:
                                             id = stuff.split("<:")[1].split(":")[0]
+                                            print(id)
                                             if id in eq_user:
                                                 enemies.append(id)
+                                                print(enemies)
                                     if len(enemies)>0:
                                         await message.reply(f"<@{sender.id}> the following mons are hard hitters: {enemies}")
                 if _embed.description:
