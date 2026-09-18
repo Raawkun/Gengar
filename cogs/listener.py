@@ -571,7 +571,7 @@ class Listener(commands.Cog):
                 #print(_embed.author.name)
                 Rare_Spawned = ["Event", "Legendary", "Shiny", "Golden"]
                 if _embed.footer:
-                    if "information on buddies" in _embed.footer.text:
+                    if "Level:" and "Total EXP:" in _embed.footer.text:
                         asyncio.create_task(Methods.iv_check(self, sender, message))
                     if "Mode: " and "Luck: " in _embed.footer.text:
                         enemies = []
@@ -580,14 +580,16 @@ class Listener(commands.Cog):
                             for entry in _embed.fields:
                                 if "Enemy" in entry.name:
                                     splitter = entry.value.split("Lvl.")
+                                    print(splitter)
                                     for stuff in splitter:
                                         if "<:" in stuff:
                                             if "fnt" not in stuff:
+                                                print(stuff)
                                                 id = stuff.split("<:")[1].split(":")[0]
                                                 print(id)
                                                 if int(id) in eq_user:
                                                     enemies.append(id)
-                                                    print(enemies)
+                                    print(enemies)
                                     if len(enemies)>0:
                                         await message.reply(f"<@{sender.id}> the following mons are hard hitters: {enemies}")
                 if _embed.description:
