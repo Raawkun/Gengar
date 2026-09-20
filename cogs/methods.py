@@ -10,6 +10,16 @@ class Methods(commands.Cog):
         self.client = client
         self.db = connect("database.db")
 
+    async def rogue_hp(self, sender, message):
+        emb = message.embeds[0]
+        mon = emb.fields[0].value.split("**")[1]
+        mon = mon.split("•")[1].split("/")
+        current = int(mon[0].replace(",","").replace(" ",""))
+        max_hp = int(mon[1].replace(",","").replace(" ",""))
+        if current =< max_hp*0,3:
+            await message.channel.send(f"<@{sender.id}>, your attacker's HP are **below 30%!!!**")
+        return
+        
     async def iv_check(self, sender, message):
         sender = sender.id
         toggle = self.db.execute(f"SELECT IV FROM Toggle WHERE User_ID = {sender}")
