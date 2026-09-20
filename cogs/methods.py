@@ -15,7 +15,7 @@ class Methods(commands.Cog):
         mon = emb.fields[0].value.split("**")[1]
         mon = mon.split("•")[1].split("/")
         current = int(mon[0].replace(",","").replace(" ",""))
-        max_hp = int(mon[1].replace(",","").replace(" ",""))
+        max_hp = int(mon[1][:-2].replace(",","").replace(" ",""))
         if current <= max_hp*0.3:
             await message.channel.send(f"<@{sender.id}>, your attacker's HP are **below 30%!!!**")
         return
