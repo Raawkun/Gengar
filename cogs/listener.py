@@ -1369,7 +1369,7 @@ class Listener(commands.Cog):
                         print(e)
                 
                     try:
-                        if "_locked" in _embed.description or "_unlocked" in _embed.description:
+                        if "_locked" in _embed.description or "_unlocked" or ":pokedex" in _embed.description:
                             _embed=message.embeds[0]
                             dex=_embed.author.name.split("#")[1]
                             #print(dex)
