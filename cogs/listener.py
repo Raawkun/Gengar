@@ -1298,6 +1298,8 @@ class Listener(commands.Cog):
                                     region = field.value.split("> ")[1]
                                     print(region)
                                     region = region.split(" ")[0]
+                                    if region == '':
+                                        region = "None"
                                     #print(region)
                                 if field.name == "Type":
                                     type1= field.value.split()[0]
@@ -1360,7 +1362,7 @@ class Listener(commands.Cog):
                                 #print(imageurl)
                             self.db.execute(f'INSERT or REPLACE INTO Dex VALUES ({dex},"{name}","{type1_semi}","{type2_semi}",{b_hp},{b_atk},{b_def},{b_spatk},{b_spdef},{b_spd},{legendary},{shiny},{golden},{mega},"{rarity}","{imageurl}","{region}",{val},{time},{amount})')
                             self.db.commit()
-                            message.add_reaction('✅')
+                            await message.add_reaction('✅')
                             #print(f"{dex} Its in the dex now")
                     except Exception as e: 
                         print(f"Dex for db: {message.jump_url}")
