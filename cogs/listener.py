@@ -1275,11 +1275,11 @@ class Listener(commands.Cog):
                 if _embed.description:
                     try:
                         if "_locked" in _embed.description or "_unlocked" in _embed.description or ":pokedex" in _embed.description:
-                            #print("Version in it")
+                            print("Dex entry found")
                             dex=_embed.author.name.split(" #")[1]
-                            #print(dex)
+                            print(dex)
                             name=_embed.author.name.split(" #")[0]
-                            #print(name)
+                            print(name)
                             try:
                                 data = self.db.execute(f'SELECT * FROM Dex WHERE DexID = {dex}')
                                 data = data.fetchone()
@@ -1294,14 +1294,14 @@ class Listener(commands.Cog):
                                 amount = 0
                             for field in _embed.fields:
                                 if field.name == "Dex Number":
-                                    #print(field.value)
+                                    print(field.value)
                                     region = field.value.split("> ")[1]
-                                    #print(region)
+                                    print(region)
                                     region = region.split(" ")[0]
                                     #print(region)
                                 if field.name == "Type":
                                     type1= field.value.split()[0]
-                                    #print(type1)
+                                    print(type1)
                                     type1_semi = type1.split(":")[1]
                                     #print(type1_semi)
                                     try:
@@ -1314,6 +1314,7 @@ class Listener(commands.Cog):
                                     b_atk = field.value.split(" ")[1]
                                     b_def = field.value.split(" ")[3]
                                     b_hp = field.value.split(" ")[5]
+                                    print(f"{b_atk} {b_def} {b_hp}")
                                 #if field.name == "Base Attack":
                                     #b_atk = field.value.split()[1]
                                     #print(b_atk)
@@ -1327,6 +1328,7 @@ class Listener(commands.Cog):
                                     b_spatk = field.value.split(" ")[1]
                                     b_spdef = field.value.split(" ")[3]
                                     b_spd = field.value.split(" ")[5]
+                                    print(f"{b_spatk} {b_spdef} {b_spd}")
                                 #if field.name == "Base Sp. Atk":
                                     #b_spatk = field.value.split()[1]
                                     #print(b_spatk)
@@ -1338,7 +1340,7 @@ class Listener(commands.Cog):
                                     #print(b_spd)
                                 if field.name == "Rarity":
                                     rarity = field.value.split(":")[1]
-                                    #print(rarity)
+                                    print(rarity)
                                     if rarity.lower() == "legendary":
                                         legendary = 1
                                     else: legendary = 0
@@ -1358,7 +1360,8 @@ class Listener(commands.Cog):
                                 #print(imageurl)
                             self.db.execute(f'INSERT or REPLACE INTO Dex VALUES ({dex},"{name}","{type1_semi}","{type2_semi}",{b_hp},{b_atk},{b_def},{b_spatk},{b_spdef},{b_spd},{legendary},{shiny},{golden},{mega},"{rarity}","{imageurl}","{region}",{val},{time},{amount})')
                             self.db.commit()
-                            #print("Its in the dex now")
+                            message.add_reaction('✅')
+                            #print(f"{dex} Its in the dex now")
                     except Exception as e: 
                         print(f"Dex for db: {message.jump_url}")
                         print(e)
