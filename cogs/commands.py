@@ -108,6 +108,7 @@ class Coms(commands.Cog):
         else:
             data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{id}'")
         data = data.fetchone()
+        print(data)
         if data:
             await ctx.reply(f"{data[0]}: {data[1]}")
         else:
