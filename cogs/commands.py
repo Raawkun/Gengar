@@ -101,19 +101,7 @@ class Coms(commands.Cog):
             else:
                 await ctx.reply()
             
-    @commands.command()
-    async def dex(self, ctx, id):
-        if int(id)==True:
-            data = self.db.execute(f"SELECT * FROM Dex WHERE DexID = {int(id)}")
-        else:
-            data = self.db.execute(f"SELECT * FROM Dex WHERE Name = '{id}'")
-        data = data.fetchone()
-        print(data)
-        if data:
-            await ctx.reply(f"{data[0]}: {data[1]}")
-        else:
-            await ctx.reply("Pokemon not found")
-                
+    
     @commands.command()
     async def clist(self, ctx, userid:int = None):
         try:
