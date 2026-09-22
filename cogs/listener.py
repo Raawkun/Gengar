@@ -1440,23 +1440,25 @@ class Listener(commands.Cog):
                         await message.channel.send("Thumbnail:")
                         await message.channel.send(f"```{_embed.thumbnail}```")
                     for field in _embed.fields:
-                        if field.name == "Base Attack":
-                            b_atk = field.value.split()[1]
+                        if field.name == "Atk Def HP":
+                            b_atk = field.value.split(" ")[1]
+                            b_def = field.value.split(" ")[3]
+                            b_hp = field.value.split(" ")[5]
+                            
                             await message.channel.send(b_atk)
-                        if field.name == "Base Defense":
-                            b_def = field.value.split()[1]
+            
                             await message.channel.send(b_def)
-                        if field.name == "Base HP":
-                            b_hp = field.value.split()[1]
+                        
                             await message.channel.send(b_hp)
-                        if field.name == "Base Sp. Atk":
-                            b_spatk = field.value.split()[1]
+                        if field.name == "SpA SpD SPE":
+                            b_spatk = field.value.split(" ")[1]
+                            b_spdef = field.value.split(" ")[3]
+                            b_spd = field.value.split(" ")[5]
+                            
                             await message.channel.send(b_spatk)
-                        if field.name == "Base Sp. Def":
-                            b_spdef = field.value.split()[1]
+                        
                             await message.channel.send(b_spdef)
-                        if field.name == "Base Speed":
-                            b_spd = field.value.split()[1]
+                        
                             await message.channel.send(b_spd)
                     
 
