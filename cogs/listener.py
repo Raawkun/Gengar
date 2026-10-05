@@ -1273,8 +1273,9 @@ class Listener(commands.Cog):
                         ref_msg = message.interaction_metadata #Command with /
                         sender = ref_msg.user
                 if _embed.description:
+                    dex_text = ["_locked", "_unlocked", ":pokedex"]
                     try:
-                        if "_locked" in _embed.description or "_unlocked" in _embed.description or ":pokedex" in _embed.description:
+                        if any(x in _embed.description for x in dex_text):
                             print("Dex entry found")
                             dex=_embed.author.name.split(" #")[1]
                             print(dex)
@@ -1369,7 +1370,8 @@ class Listener(commands.Cog):
                         print(e)
                 
                     try:
-                        if "_locked" in _embed.description or "_unlocked" or ":pokedex" in _embed.description:
+                        
+                        if any(x in _embed.description for x in dex_text):
                             _embed=message.embeds[0]
                             dex=_embed.author.name.split("#")[1]
                             #print(dex)
