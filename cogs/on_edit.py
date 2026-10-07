@@ -55,8 +55,8 @@ class On_Edit(commands.Cog):
                 elif after.interaction_metadata:
                     ref_msg = after.interaction_metadata.user
                     sender = ref_msg
-                if sender.id == 352224989367369729:
-                    await after.channel.send(after.edited_at.timestamp())
+                #if sender.id == 352224989367369729:
+                    #await after.channel.send(after.edited_at.timestamp())
                 ##### Rare Spawn #####
                 #Rare_Spawns = ["Event", "Legendary", "Shiny", "Rare", "SuperRare","Golden"]
                 if (len(before.embeds) > 0):
