@@ -1062,8 +1062,10 @@ class Listener(commands.Cog):
                         asyncio.create_task(Modules.dailycheck(self,message))
                         #print("Aha, battling.")
                         if "alph scientist** to a battle" in _embed.description.lower():
+                            print("Alph scientist battle")
                             asyncio.create_task(Modules.adamannpc(self, message))
                         if "lusamine** to a battle" in _embed.description.lower():
+                            print("Lusamine battle")
                             asyncio.create_task(Modules.eventnpc(self, message))
                         #asyncio.create_task(Modules.darktest(self, message))
                         await asyncio.sleep(59)
