@@ -45,6 +45,17 @@ class Modules(commands.Cog):
         await asyncio.sleep(300)
         await message.channel.send(f"<@{sender.id}> - Trainer **Alph Scientist** ``970`` is ready for the next battle.\n**Don't forget to set the right team!!!** <:493:1213076751559819294>\n``;b npc 970``")
 
+    async def eventnpc(self, message):
+        if message.reference:
+            ref = await message.channel.fetch_message(message.reference.message_id)
+            sender = ref.author
+        elif message.interaction_metadata:
+            sender = message.interaction_metadata.user
+        await asyncio.sleep(1800)
+        await message.channel.send(f"<@{sender.id}> - Trainer **Lusamine** ``963`` is ready for the next battle.\n**Don't forget to set the right team!!!** <:493:1213076751559819294>\n``;battle npc 963``")
+
+
+
     async def darktest(self, message):
         if message.reference:
             ref_msg = await message.channel.fetch_message(message.reference.message_id)
