@@ -56,7 +56,7 @@ class On_Edit(commands.Cog):
                     ref_msg = after.interaction_metadata.user
                     sender = ref_msg
                     
-            for reaction in after.reaction:
+            for reaction in after.reactions:
                 if str(reaction.emoji) == "☑️":
                     if reaction.me:
                         return
