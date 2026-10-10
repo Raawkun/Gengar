@@ -57,7 +57,7 @@ class On_Edit(commands.Cog):
                     sender = ref_msg
                     
             for reaction in after.reaction:
-                if str(reaction.emoji) == "☑️"
+                if str(reaction.emoji) == "☑️":
                     if reaction.me:
                         return
                 #if sender.id == 352224989367369729:
