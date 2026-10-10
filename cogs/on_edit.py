@@ -57,11 +57,10 @@ class On_Edit(commands.Cog):
                     sender = ref_msg
                     
             for reaction in after.reactions:
-                if str(reaction.emoji) == "☑️":
-                    if reaction.me:
-                        print("Reacted by me already..")
-                        print(reaction.me)
-                        return
+                if reaction.me:
+                    print("Reacted by me already..")
+                    print(reaction.me)
+                    return
                 #if sender.id == 352224989367369729:
                     #await after.channel.send(after.edited_at.timestamp())
                 ##### Rare Spawn #####
