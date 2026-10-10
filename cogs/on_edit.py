@@ -57,11 +57,10 @@ class On_Edit(commands.Cog):
                     sender = ref_msg
                     
             for reaction in after.reactions:
-                if str(reaction.emoji) == "☑️":
-                    if reaction.me:
-                        print("Reacted by me already..")
-                        print(reaction.me)
-                        return
+                if reaction.me:
+                    print("Reacted by me already..")
+                    print(reaction.me)
+                    return
                 #if sender.id == 352224989367369729:
                     #await after.channel.send(after.edited_at.timestamp())
                 ##### Rare Spawn #####
@@ -126,7 +125,8 @@ class On_Edit(commands.Cog):
                                 ref_msg = before.interaction_metadata.user
                                 sender = ref_msg
                             if "caught a" in _embed.description:
-                                await after.add_reaction("☑️")
+                                emoji = '☑️'
+                                await after.add_reaction(emoji)
                                 if "pokecoins" in _embed.footer.text.lower():
                                     asyncio.create_task(Modules.dailycheck(self,after))
                                     asyncio.create_task(Modules.averagecoins(self,after))
@@ -181,7 +181,8 @@ class On_Edit(commands.Cog):
                                     if after.channel.id in locations["Blackthorn City"]:
                                         await QuestsOfJohto.blackthorn_quest(self, sender,after)
                             elif "fleed" or "broke" in _embed.description:
-                                await after.add_reaction("☑️")
+                                emoji = '❌'
+                                await after.add_reaction(emoji)
                             if raremon in self.Rare_Spawns or data[0] in Listener.exclusives or _embed.color == disnake.Color(0xea260b) or "Vivillon-" in data[1]:
                                 print(f"Theres a rare spawn: {data[0]} {data[1]}")
                             
