@@ -55,6 +55,11 @@ class On_Edit(commands.Cog):
                 elif after.interaction_metadata:
                     ref_msg = after.interaction_metadata.user
                     sender = ref_msg
+                    
+            for reaction in after.reaction:
+                if str(reaction.emoji) == "☑️"
+                    if reaction.me:
+                        return
                 #if sender.id == 352224989367369729:
                     #await after.channel.send(after.edited_at.timestamp())
                 ##### Rare Spawn #####
