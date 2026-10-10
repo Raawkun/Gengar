@@ -4,11 +4,11 @@ import disnake
 from disnake import Option, OptionChoice
 from disnake.ext import commands
 
-toggles = ["Grazz","Repel","Starter","Linked","Emotes","ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","Ping","IV"]
+toggles = ["Grazz","Repel","Starter","Linked","Emotes","ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","Ping","IV","ToggleCatchlist"]
 functions = ["Grazz", "Repel","Starter","Linked","Emotes","Ping", "IV"]
-reminders = ["ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers"]
-rems = {"ToggleSpawn":"Spawning","ToggleFish":"Fishing","ToggleBattle":"Battling","ToggleQuest":";Quest","ToggleQuestTimer":"New Quest","ToggleOthers":"Others"}
-smer = {"Spawning":"ToggleSpawn","Fishing":"ToggleFish","Battling":"ToggleBattle",";Quest":"ToggleQuest","New Quest":"ToggleQuestTimer","Others":"ToggleOthers"}
+reminders = ["ToggleSpawn","ToggleFish","ToggleBattle","ToggleQuest","ToggleQuestTimer","ToggleOthers","ToggleCatchlist"]
+rems = {"ToggleSpawn":"Spawning","ToggleFish":"Fishing","ToggleBattle":"Battling","ToggleQuest":";Quest","ToggleQuestTimer":"New Quest","ToggleOthers":"Others","ToggleCatchlist":"Catchlist"}
+smer = {"Spawning":"ToggleSpawn","Fishing":"ToggleFish","Battling":"ToggleBattle",";Quest":"ToggleQuest","New Quest":"ToggleQuestTimer","Others":"ToggleOthers","Catchlist":"ToggleCatchlist"}
 #Reminder Buttons
 class Remd_Buttons(disnake.ui.Button):
     def __init__(self, user_id):
@@ -49,7 +49,7 @@ class RemButton(disnake.ui.Button):
             await interaction.response.defer()
             if interaction.user.id != self.user_id:
                 exit
-            data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers FROM Toggle WHERE User_ID = {self.user_id}")
+            data = self.db.execute(f"SELECT ToggleSpawn,ToggleFish,ToggleBattle,ToggleQuest,ToggleQuestTimer,ToggleOthers,ToggleCatchlist FROM Toggle WHERE User_ID = {self.user_id}")
             data = data.fetchone()
             i=0
             #print(interaction.component.custom_id)
