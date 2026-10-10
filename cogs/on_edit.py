@@ -119,6 +119,7 @@ class On_Edit(commands.Cog):
                                 ref_msg = before.interaction_metadata.user
                                 sender = ref_msg
                             if "caught a" in _embed.description:
+                                await after.add_emoji("☑️")
                                 if "pokecoins" in _embed.footer.text.lower():
                                     asyncio.create_task(Modules.dailycheck(self,after))
                                     asyncio.create_task(Modules.averagecoins(self,after))
@@ -172,6 +173,8 @@ class On_Edit(commands.Cog):
                                 if "retrieved a" in _embed.description:
                                     if after.channel.id in locations["Blackthorn City"]:
                                         await QuestsOfJohto.blackthorn_quest(self, sender,after)
+                            elif "fleed" or "broke" in _embed.description:
+                                await after.add_emoji("☑️")
                             if raremon in self.Rare_Spawns or data[0] in Listener.exclusives or _embed.color == disnake.Color(0xea260b) or "Vivillon-" in data[1]:
                                 print(f"Theres a rare spawn: {data[0]} {data[1]}")
                             
