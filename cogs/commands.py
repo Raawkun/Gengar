@@ -907,6 +907,12 @@ class Coms(commands.Cog):
                 desc +=(f"Content: \n```{ref_msg.content} \n```")
             if mode == "embed":
                 conty = ""
+                comps = "Buttons:\n"
+                for row in ref_msg.components:
+                    for comp in row.children:
+                        if isinstance(component, disnake.ui.Button):
+                            comps += (f"Label: {comp.label}, ID: {comp.custom_id}\n")
+                            
                 if (len(ref_msg.embeds) > 0):
                     _embed = ref_msg.embeds[0]
                     if ref_msg.content != None:
@@ -942,6 +948,7 @@ class Coms(commands.Cog):
                             conty +=(f"```Color:\n")
                             conty +=(f"{_embed.color} ```")
                             #print("with a color.")
+                conty += comps
             txt_file = io.StringIO(conty)
             txt_file.name = "embed_content.txt"
             await ctx.reply(desc, file = disnake.File(txt_file, txt_file.name))
