@@ -908,13 +908,9 @@ class Coms(commands.Cog):
                     desc +=(f"Content: \n```{ref_msg.content} \n```")
                 if mode == "embed":
                     conty = ""
-                    comps = "Buttons:\n"
-                    for row in ref_msg.components:
-                        print(ref_msg.components)
-                        for comp in row.children:
-                            if isinstance(comp, disnake.ui.Button):
-                                comps += (f"Label: {comp.label}, ID: {comp.custom_id}\n")
-                                
+                    comps = "\nButtons:\n"
+                    if ref_msg.components:
+                        comps += ref_msg.components
                     if (len(ref_msg.embeds) > 0):
                         _embed = ref_msg.embeds[0]
                         if ref_msg.content != None:
