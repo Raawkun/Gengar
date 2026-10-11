@@ -912,7 +912,7 @@ class Coms(commands.Cog):
                     for row in ref_msg.components:
                         print(ref_msg.components)
                         for comp in row.children:
-                            if isinstance(component, disnake.ui.Button):
+                            if isinstance(comp, disnake.ui.Button):
                                 comps += (f"Label: {comp.label}, ID: {comp.custom_id}\n")
                                 
                     if (len(ref_msg.embeds) > 0):
