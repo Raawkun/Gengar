@@ -53,8 +53,8 @@ class On_Edit(commands.Cog):
                     ref_msg = await after.channel.fetch_message(before.reference.message_id)
                     sender = ref_msg.author
                 elif after.interaction_metadata:
-                    ref_msg = after.interaction_metadata.user
-                    sender = ref_msg
+                    ref_msg = after.interaction_metadata
+                    sender = ref_msg.user
             if ref_msg.components:
                 for comp in ref_msg.components:
                     if 'claim' in comp.label.lower():
