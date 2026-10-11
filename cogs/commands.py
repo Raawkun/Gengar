@@ -910,7 +910,7 @@ class Coms(commands.Cog):
                     conty = ""
                     comps = "\nButtons:\n"
                     if ref_msg.components:
-                        comps += " ".join(ref_msg.components)
+                        comps += f"{ref_msg.components}"
                     if (len(ref_msg.embeds) > 0):
                         _embed = ref_msg.embeds[0]
                         if ref_msg.content != None:
