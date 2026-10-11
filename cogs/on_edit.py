@@ -55,7 +55,7 @@ class On_Edit(commands.Cog):
                 elif after.interaction_metadata:
                     ref_msg = after.interaction_metadata.user
                     sender = ref_msg
-                    
+            print(after.reactions)
             for reaction in after.reactions:
                 if reaction.me:
                     print("Reacted by me already..")
