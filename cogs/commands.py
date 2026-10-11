@@ -900,60 +900,62 @@ class Coms(commands.Cog):
                 await ctx.send("Please use a message ID or answer to a message.")
                 checker = 0
         if checker == 1:
-            desc_check = 0
-            ref_msg = await ctx.channel.fetch_message(mid)
-            desc = f"Name:{ref_msg.author.display_name}\nID: {ref_msg.author.id}\n"
-            if ref_msg.content != None:
-                desc +=(f"Content: \n```{ref_msg.content} \n```")
-            if mode == "embed":
-                conty = ""
-                comps = "Buttons:\n"
-                for row in ref_msg.components:
-                    print(ref_msg.components)
-                    for comp in row.children:
-                        if isinstance(component, disnake.ui.Button):
-                            comps += (f"Label: {comp.label}, ID: {comp.custom_id}\n")
-                            
-                if (len(ref_msg.embeds) > 0):
-                    _embed = ref_msg.embeds[0]
-                    if ref_msg.content != None:
-                        if _embed.description != None:
-                            desc +=("```Desc:\nCheck Attachment below.```")
-                            conty +=("```Desc:\n")
-                            conty +=(f"{_embed.description} ```\n")
-                        if _embed.footer != None:
-                            conty +=("```Footer:\n")
-                            conty +=(f"{_embed.footer.text} ```\n")
-                        if _embed.title != None:
-                            conty +=("```Title:")
-                            conty +=(f"{_embed.title} ```\n")
-                            #print("with a title...")
-                        if _embed.fields != None:
-                            conty +=("```Fields:")
-                            conty +=(f"{_embed.fields} ```\n")
-                            #print("with fields...")
-                        if _embed.image != None:
-                            conty +=("```Image:")
-                            conty +=(f"{_embed.image.url} ```\n")
-                            #print("with an image...")
-                        if _embed.thumbnail.url != None:
-                            conty +=("```Thumb:")
-                            conty +=(f"{_embed.thumbnail.url} ```\n")
-                            #print("with a thumb...")
-                        if _embed.author.name != None:
-                            conty +=("```Author:")
-                            conty +=(f"{_embed.author.name} \n")
-                            conty +=(f"{_embed.author.icon_url} ```\n")
-                            #print("with an author...")
-                        if _embed.color != None:
-                            conty +=(f"```Color:\n")
-                            conty +=(f"{_embed.color} ```")
-                            #print("with a color.")
-                conty += comps
-            txt_file = io.StringIO(conty)
-            txt_file.name = "embed_content.txt"
-            await ctx.reply(desc, file = disnake.File(txt_file, txt_file.name))
-            
+            try:
+                desc_check = 0
+                ref_msg = await ctx.channel.fetch_message(mid)
+                desc = f"Name:{ref_msg.author.display_name}\nID: {ref_msg.author.id}\n"
+                if ref_msg.content != None:
+                    desc +=(f"Content: \n```{ref_msg.content} \n```")
+                if mode == "embed":
+                    conty = ""
+                    comps = "Buttons:\n"
+                    for row in ref_msg.components:
+                        print(ref_msg.components)
+                        for comp in row.children:
+                            if isinstance(component, disnake.ui.Button):
+                                comps += (f"Label: {comp.label}, ID: {comp.custom_id}\n")
+                                
+                    if (len(ref_msg.embeds) > 0):
+                        _embed = ref_msg.embeds[0]
+                        if ref_msg.content != None:
+                            if _embed.description != None:
+                                desc +=("```Desc:\nCheck Attachment below.```")
+                                conty +=("```Desc:\n")
+                                conty +=(f"{_embed.description} ```\n")
+                            if _embed.footer != None:
+                                conty +=("```Footer:\n")
+                                conty +=(f"{_embed.footer.text} ```\n")
+                            if _embed.title != None:
+                                conty +=("```Title:")
+                                conty +=(f"{_embed.title} ```\n")
+                                #print("with a title...")
+                            if _embed.fields != None:
+                                conty +=("```Fields:")
+                                conty +=(f"{_embed.fields} ```\n")
+                                #print("with fields...")
+                            if _embed.image != None:
+                                conty +=("```Image:")
+                                conty +=(f"{_embed.image.url} ```\n")
+                                #print("with an image...")
+                            if _embed.thumbnail.url != None:
+                                conty +=("```Thumb:")
+                                conty +=(f"{_embed.thumbnail.url} ```\n")
+                                #print("with a thumb...")
+                            if _embed.author.name != None:
+                                conty +=("```Author:")
+                                conty +=(f"{_embed.author.name} \n")
+                                conty +=(f"{_embed.author.icon_url} ```\n")
+                                #print("with an author...")
+                            if _embed.color != None:
+                                conty +=(f"```Color:\n")
+                                conty +=(f"{_embed.color} ```")
+                                #print("with a color.")
+                    conty += comps
+                txt_file = io.StringIO(conty)
+                txt_file.name = "embed_content.txt"
+                await ctx.reply(desc, file = disnake.File(txt_file, txt_file.name))
+            except Exception as e:
+                print(f"Readout error: {e}")
    
     @commands.command()
     async def invite(self, ctx):
