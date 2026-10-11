@@ -55,6 +55,10 @@ class On_Edit(commands.Cog):
                 elif after.interaction_metadata:
                     ref_msg = after.interaction_metadata.user
                     sender = ref_msg
+            if ref_msg.components:
+                for comp in ref_msg.components:
+                    if 'claim' in comp.label.lower():
+                        await ref_msg.reply("There's something to claim here! **Quick!!!**")
             
             print(after.reactions)
             for reaction in ref_msg.reactions:
