@@ -59,7 +59,7 @@ class On_Edit(commands.Cog):
                     
             
             if after.components:
-                for comp in after.components:
+                for comp in after.components.children:
                     if 'claim' in comp.label.lower():
                         await after.reply("There's something to claim here! **Quick!!!**")
             
