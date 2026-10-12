@@ -55,14 +55,16 @@ class On_Edit(commands.Cog):
                 elif after.interaction_metadata:
                     ref_msg = await after.channel.fetch_message(before.interaction_metadata.id)
                     sender = ref_msg.user
+                else:
+                    
             
             if after.components:
-                for comp in ref_msg.components:
+                for comp in after.components:
                     if 'claim' in comp.label.lower():
-                        await ref_msg.reply("There's something to claim here! **Quick!!!**")
+                        await after.reply("There's something to claim here! **Quick!!!**")
             
             print(after.reactions)
-            for reaction in ref_msg.reactions:
+            for reaction in after.reactions:
                 if reaction.me:
                     print("Reacted by me already..")
                     print(reaction.me)
@@ -132,7 +134,7 @@ class On_Edit(commands.Cog):
                                 sender = ref_msg
                             if "caught a" in _embed.description:
                                 emoji = '☑️'
-                                await ref_msg.add_reaction(emoji)
+                                await after.add_reaction(emoji)
                                 if "pokecoins" in _embed.footer.text.lower():
                                     asyncio.create_task(Modules.dailycheck(self,after))
                                     asyncio.create_task(Modules.averagecoins(self,after))
@@ -188,7 +190,7 @@ class On_Edit(commands.Cog):
                                         await QuestsOfJohto.blackthorn_quest(self, sender,after)
                             elif "fleed" or "broke" in _embed.description:
                                 emoji = '❌'
-                                await ref_msg.add_reaction(emoji)
+                                await after.add_reaction(emoji)
                             if raremon in self.Rare_Spawns or data[0] in Listener.exclusives or _embed.color == disnake.Color(0xea260b) or "Vivillon-" in data[1]:
                                 print(f"Theres a rare spawn: {data[0]} {data[1]}")
                             
