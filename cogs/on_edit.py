@@ -132,12 +132,12 @@ class On_Edit(commands.Cog):
                                 emoji = '☑️'
                                 await after.add_reaction(emoji)
                                 if after.components:
-                                for comp in after.components:
-                                    print(comp.children)
-                                    for buttonss in comp.children:
-                                        if buttonss.label:
-                                            if 'claim' in buttonss.label.lower():
-                                                await after.reply("There's something to claim here! **Quick!!!**")
+                                    for comp in after.components:
+                                        #print(comp.children)
+                                        for buttonss in comp.children:
+                                            if buttonss.label:
+                                                if 'claim' in buttonss.label.lower():
+                                                    await after.reply("There's something to claim here! **Quick!!!**")
             
                                 if "pokecoins" in _embed.footer.text.lower():
                                     asyncio.create_task(Modules.dailycheck(self,after))
