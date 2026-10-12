@@ -62,8 +62,9 @@ class On_Edit(commands.Cog):
                 for comp in after.components:
                     print(comp.children)
                     for buttonss in comp.children:
-                        if 'claim' in buttonss.label.lower():
-                            await after.reply("There's something to claim here! **Quick!!!**")
+                        if buttonss.label:
+                            if 'claim' in buttonss.label.lower():
+                                await after.reply("There's something to claim here! **Quick!!!**")
             
             print(after.reactions)
             for reaction in after.reactions:
