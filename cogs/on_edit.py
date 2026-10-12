@@ -59,12 +59,12 @@ class On_Edit(commands.Cog):
                     
             
             
-            print(after.reactions)
-            for reaction in after.reactions:
-                if reaction.me:
-                    print("Reacted by me already..")
-                    print(reaction.me)
-                    return
+                print(after.reactions)
+                for reaction in after.reactions:
+                    if reaction.me:
+                        print("Reacted by me already..")
+                        print(reaction.me)
+                        return
                 #if sender.id == 352224989367369729:
                     #await after.channel.send(after.edited_at.timestamp())
                 ##### Rare Spawn #####
