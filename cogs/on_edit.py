@@ -55,7 +55,7 @@ class On_Edit(commands.Cog):
                 elif after.interaction_metadata:
                     ref_msg = await after.channel.fetch_message(before.interaction_metadata.id)
                     sender = ref_msg.user
-                else:
+                
                     
             
             if after.components:
