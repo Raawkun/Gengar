@@ -237,7 +237,7 @@ class Rare_spawns(commands.Cog):
             receiver_channel = self.client.get_channel(int(receiver_channel))
         asyncio.create_task(Modules.dailycheck(self, message))
         iconname = _emb.description.split("unlocked ")[1]
-        iconname = iconname.aplit("> **")
+        iconname = iconname.split("> **")
         icon = iconname.split(":")[2]
         icon = icon.split(">")[0]
         iconname = iconname.split(":")[1]
