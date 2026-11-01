@@ -168,6 +168,17 @@ class Modules(commands.Cog):
                     self.db.execute(f"INSERT INTO DailyStats VALUES ('{date_tmr}',0,0,0,0,0,0,0,0,0,0,0,0,0)")
                     self.db.commit()
                 reset_time += timedelta(days=1)
+                #Monthly User Catchlist reset activation
+                check = self.db.execute(f"SELECT Month FROM Meow_Temps")
+                check = check.fetchone()[0]
+                print(check)
+                if check is None or (check != int(now.month)):
+                    print(f"New month: {now.month}")
+                    self.db.execute(f"UPDATE Meow_Temps SET Month = {now.month}")
+                    self.db.execute(f"DELETE FROM User_Catchlist")
+                    self.db.commit()
+                    print(f"User Catchlist got wiped. good luck")
+                
             
             sleep_duration = (reset_time - now).total_seconds()
             print(f"Sleep duration until next Daily Stat Reset: {sleep_duration / 3600} hours.")
