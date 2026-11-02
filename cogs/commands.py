@@ -127,6 +127,8 @@ class Coms(commands.Cog):
             else:
                 desc = "This mon is not on the monthly catchlist."
             await ctx.reply(desc)
+        except Exception as e:
+            print(e)
     
     @commands.command()
     async def clist(self, ctx, userid:int = None):
