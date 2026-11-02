@@ -121,9 +121,12 @@ class Coms(commands.Cog):
                 if mon in ids:
                     desc = "You already caught this mon, theres no need to add it manually."
                 else:
-                    self.db.execute(f"UPDATE User_Catchlist SET Mon_ID = Mon_ID + ', {mon}' WHERE User_ID = {ctx.author.id}")
-                    self.db.commit()
-                    desc = "Successfully added."
+                    if mc == ball:
+                        self.db.execute(f"UPDATE User_Catchlist SET Mon_ID = Mon_ID + ', {mon}' WHERE User_ID = {ctx.author.id}")
+                        self.db.commit()
+                        desc = "Successfully added."
+                    else:
+                        desc = "You didnt use the right type of ball."
             else:
                 desc = "This mon is not on the monthly catchlist."
             await ctx.reply(desc)
