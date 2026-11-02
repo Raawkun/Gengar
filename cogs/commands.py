@@ -103,6 +103,32 @@ class Coms(commands.Cog):
             
     
     @commands.command()
+    async def cadd(self, ctx):
+        try:
+            reply = cty.reference()
+            emb = reply.embeds[0]
+            mon = emb.description.split("caught a  <:")[1]
+            mon = int(mon.split(":")[0])
+            ball = emb.description.split("with a <:")[1]
+            ball = ball.split(":")[0]
+            mcl = self.db.execute(f"SELECT Ball FROM Monthly_Catchlist WHERE Mon_ID = {mon}")
+            mcl = mcl.fetchone()
+            if mcl:
+                ucl = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {ctx.author.id}")
+                ucl = ucl.fetchone()
+                ids = [int(i) for i in ucl.split(", ")]
+                
+                if mon in ids:
+                    desc = "You already caught this mon, theres no need to add it manually."
+                else:
+                    self.db.execute(f"UPDATE User_Catchlist SET Mon_ID = Mon_ID + ', {mon}' WHERE User_ID = {ctx.author.id}")
+                    self.db.commit()
+                    desc = "Successfully added."
+            else:
+                desc = "This mon is not on the monthly catchlist."
+            await ctx.reply(desc)
+    
+    @commands.command()
     async def clist(self, ctx, userid:int = None):
         try:
             print("clist")
