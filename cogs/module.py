@@ -176,6 +176,7 @@ class Modules(commands.Cog):
                     print(f"New month: {now.month}")
                     self.db.execute(f"UPDATE Meow_Temps SET Month = {now.month}")
                     self.db.execute(f"DELETE FROM User_Catchlist")
+                    self.db.execute(f"DELETE FROM Monthly_Catchlist")
                     self.db.commit()
                     print(f"User Catchlist got wiped. good luck")
                 
