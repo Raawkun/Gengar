@@ -113,9 +113,11 @@ class Coms(commands.Cog):
             ball = ball.split(":")[0]
             mcl = self.db.execute(f"SELECT Ball FROM Monthly_Catchlist WHERE Mon_ID = {mon}")
             mcl = mcl.fetchone()
+            print(mcl)
             if mcl:
                 ucl = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {ctx.author.id}")
-                ucl = ucl.fetchone()
+                ucl = ucl.fetchone()[0]
+                print(ucl)
                 ids = [int(i) for i in ucl.split(", ")]
                 
                 if mon in ids:
