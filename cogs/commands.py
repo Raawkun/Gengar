@@ -105,7 +105,7 @@ class Coms(commands.Cog):
     @commands.command()
     async def cadd(self, ctx):
         try:
-            reply = ctx.message.reference()
+            reply = await ctx.channel.fetch_message(ctx.message.reference.message_id)
             emb = reply.embeds[0]
             mon = emb.description.split("caught a  <:")[1]
             mon = int(mon.split(":")[0])
