@@ -119,7 +119,7 @@ class Coms(commands.Cog):
                 ucl = ucl.fetchone()[0]
                 print(ucl)
                 ucl = ucl.split(", ")
-                ucl = ucl[:-1]
+                ucl = ucl.pop(0)
                 print(ucl)
                 ids = [int(i) for i in ucl]
                 
