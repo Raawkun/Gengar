@@ -112,7 +112,7 @@ class Coms(commands.Cog):
             ball = emb.description.split("with a <:")[1]
             ball = ball.split(":")[0]
             mcl = self.db.execute(f"SELECT Ball FROM Monthly_Catchlist WHERE Mon_ID = {mon}")
-            mcl = mcl.fetchone()
+            mcl = mcl.fetchone()[0]
             print(mcl)
             if mcl:
                 ucl = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {ctx.author.id}")
@@ -126,7 +126,7 @@ class Coms(commands.Cog):
                 if mon in ids:
                     desc = "You already caught this mon, theres no need to add it manually."
                 else:
-                    if mc == ball:
+                    if mcl == ball:
                         self.db.execute(f"UPDATE User_Catchlist SET Mon_ID = Mon_ID + ', {mon}' WHERE User_ID = {ctx.author.id}")
                         self.db.commit()
                         desc = "Successfully added."
