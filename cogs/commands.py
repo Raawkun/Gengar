@@ -118,7 +118,9 @@ class Coms(commands.Cog):
                 ucl = self.db.execute(f"SELECT Mon_ID FROM User_Catchlist WHERE User_ID = {ctx.author.id}")
                 ucl = ucl.fetchone()[0]
                 print(ucl)
-                ids = [int(i) for i in ucl.split(", ")]
+                ucl = ucl.split(", ")
+                ucl = ucl[:-1]
+                ids = [int(i) for i in ucl]
                 
                 if mon in ids:
                     desc = "You already caught this mon, theres no need to add it manually."
