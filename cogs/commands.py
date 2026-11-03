@@ -120,6 +120,7 @@ class Coms(commands.Cog):
                 print(ucl)
                 ucl = ucl.split(", ")
                 ucl = ucl[:-1]
+                print(ucl)
                 ids = [int(i) for i in ucl]
                 
                 if mon in ids:
